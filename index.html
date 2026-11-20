@@ -4,7 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>Сметная мастерская АСД</title>
+<title>Римора — Академия Сметного Дела</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2080%2080%22%3E%3Cg%20transform%3D%22rotate%28-90%2040%2040%29%22%3E%3Ccircle%20cx%3D%2240%22%20cy%3D%2240%22%20r%3D%2230%22%20fill%3D%22none%22%20stroke%3D%22%230EA5A4%22%20stroke-width%3D%2212%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%2264%20124.5%22/%3E%3Ccircle%20cx%3D%2240%22%20cy%3D%2240%22%20r%3D%2230%22%20fill%3D%22none%22%20stroke%3D%22%23F2A93B%22%20stroke-width%3D%2212%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%2244%20144.5%22%20stroke-dashoffset%3D%22-79.5%22/%3E%3Ccircle%20cx%3D%2240%22%20cy%3D%2240%22%20r%3D%2230%22%20fill%3D%22none%22%20stroke%3D%22%237C6CF0%22%20stroke-width%3D%2212%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%2234%20154.5%22%20stroke-dashoffset%3D%22-139%22/%3E%3C/g%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -368,6 +369,18 @@ body.cat-off .catalog .ph .n{display:none}
 .catalog .ph .cbtn:hover{background:var(--surface2);color:var(--ink)}
 .catalog .ph .cbtn svg{width:16px;height:16px}
 body.cat-off .catalog .ph .cbtn{margin:0;transform:rotate(180deg)}
+/* правая карточка позиции сворачивается вправо, как каталог влево */
+body.insp-off .work{grid-template-columns:300px minmax(0,1fr) 46px}
+body.cat-off.insp-off .work{grid-template-columns:46px minmax(0,1fr) 46px}
+body.insp-off #insp>*:not(.ph){display:none}
+body.insp-off #insp>.ph~.ph{display:none}
+body.insp-off #insp{overflow:hidden;cursor:pointer}
+body.insp-off #insp>.ph{writing-mode:vertical-rl;padding:12px 0;justify-content:flex-start;align-items:center;height:100%;gap:10px}
+body.insp-off #insp>.ph>:not(.cbtn):not(.pt){display:none}
+#insp>.ph .cbtn{margin-left:auto;width:26px;height:26px;border-radius:7px;display:grid;place-items:center;color:var(--muted);flex:none}
+#insp>.ph .cbtn:hover{background:var(--surface2);color:var(--ink)}
+#insp>.ph .cbtn svg{width:16px;height:16px}
+body.insp-off #insp>.ph .cbtn{margin:0;order:-1}
 .cgrp>summary .gn,.sec>summary .nm{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .tbl>summary span:nth-child(2){display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .tiles{display:flex;gap:8px}
@@ -387,7 +400,8 @@ body.cat-off .catalog .ph .cbtn{margin:0;transform:rotate(180deg)}
 <body data-theme="light">
 <div id="gate" style="position:fixed;inset:0;z-index:99999;display:grid;place-items:center;background:#EDF0F4;font-family:Inter,system-ui,sans-serif">
  <form id="gateF" style="background:#fff;border-radius:18px;box-shadow:0 10px 40px rgba(18,26,36,.12);padding:34px 36px;width:min(380px,calc(100vw - 32px));box-sizing:border-box">
-  <div style="font-size:20px;font-weight:700;color:#121A24;margin-bottom:6px">Сметная мастерская АСД</div>
+  <div style="display:flex;align-items:center;gap:10px;font-size:22px;font-weight:700;color:#121A24;margin-bottom:2px"><svg width="30" height="30" viewBox="0 0 80 80" aria-hidden="true"><g transform="rotate(-90 40 40)"><circle cx="40" cy="40" r="30" fill="none" stroke="#0EA5A4" stroke-width="12" stroke-linecap="round" stroke-dasharray="64 124.5"/><circle cx="40" cy="40" r="30" fill="none" stroke="#F2A93B" stroke-width="12" stroke-linecap="round" stroke-dasharray="44 144.5" stroke-dashoffset="-79.5"/><circle cx="40" cy="40" r="30" fill="none" stroke="#7C6CF0" stroke-width="12" stroke-linecap="round" stroke-dasharray="34 154.5" stroke-dashoffset="-139"/></g></svg>Римора</div>
+  <div style="font-size:12px;color:#6B7787;margin:0 0 14px 40px">Академия Сметного Дела</div>
   <div style="font-size:14px;color:#465366;margin-bottom:20px">Введите код доступа, который вам прислали</div>
   <input id="gateC" type="password" autocomplete="off" placeholder="Код доступа" style="width:100%;box-sizing:border-box;font:inherit;font-size:15px;padding:11px 13px;border:1px solid #CBD3DD;border-radius:10px;outline:none">
   <div id="gateE" style="display:none;color:#C0392B;font-size:13px;margin-top:8px">Код не подошёл. Проверьте и попробуйте ещё раз.</div>
@@ -395,17 +409,17 @@ body.cat-off .catalog .ph .cbtn{margin:0;transform:rotate(180deg)}
  </form>
 </div>
 <script>
-(function(){var H='a26ee1a2c24ccc5c09cef7a15c100caeea326dea6eccf79b92e920abd05c98e3',K='sm_gate',g=document.getElementById('gate');
+(function(){var HS=['a26ee1a2c24ccc5c09cef7a15c100caeea326dea6eccf79b92e920abd05c98e3','09b79eefca2ce7ab13800e3a96718508d0ac40568142d39f53e01c466116a731'],K='sm_gate',g=document.getElementById('gate');
  function ok(){g.remove()}
- try{if(localStorage.getItem(K)===H.slice(0,16)){ok();return}}catch(e){}
+ try{var m=localStorage.getItem(K);if(m&&HS.some(function(x){return x.slice(0,16)===m})){ok();return}}catch(e){}
  document.documentElement.style.overflow='hidden';
  setTimeout(function(){var c=document.getElementById('gateC');if(c)c.focus()},50);
  document.getElementById('gateF').onsubmit=function(e){e.preventDefault();
   var v=document.getElementById('gateC').value.trim();
   crypto.subtle.digest('SHA-256',new TextEncoder().encode(v)).then(function(b){
    var h=Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,'0')}).join('');
-   if(h!==H){document.getElementById('gateE').style.display='block';return}
-   try{localStorage.setItem(K,H.slice(0,16))}catch(e){}
+   if(HS.indexOf(h)<0){document.getElementById('gateE').style.display='block';return}
+   try{localStorage.setItem(K,h.slice(0,16))}catch(e){}
    document.documentElement.style.overflow='';ok()})}
 })();
 </script>
@@ -443,6 +457,8 @@ body.cat-off .catalog .ph .cbtn{margin:0;transform:rotate(180deg)}
 <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14" /> <path d="M12 5v14" /></symbol>
 <symbol id="i-catoff" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2" /> <path d="M9 3v18" /> <path d="m16 15-3-3 3-3" /></symbol>
 <symbol id="i-caton" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2" /> <path d="M9 3v18" /> <path d="m14 9 3 3-3 3" /></symbol>
+<symbol id="i-inspoff" viewBox="0 0 24 24"><g transform="matrix(-1 0 0 1 24 0)"><rect width="18" height="18" x="3" y="3" rx="2" /> <path d="M9 3v18" /> <path d="m16 15-3-3 3-3" /></g></symbol>
+<symbol id="i-inspon" viewBox="0 0 24 24"><g transform="matrix(-1 0 0 1 24 0)"><rect width="18" height="18" x="3" y="3" rx="2" /> <path d="M9 3v18" /> <path d="m14 9 3 3-3 3" /></g></symbol>
 <symbol id="i-book" viewBox="0 0 24 24"><path d="M12 5v16" /> <path d="M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z" /></symbol>
 <symbol id="i-sheet" viewBox="0 0 64 64"><rect x="10" y="8" width="44" height="48" rx="8" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M20 22h24M20 32h24M20 42h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><circle cx="46" cy="46" r="10" fill="var(--brand)" stroke="var(--surface)" stroke-width="3"/><path d="M46 41v10M41 46h10" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></symbol>
 <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#14C2B8"/><stop offset="1" stop-color="#6F63F0"/></linearGradient>
@@ -451,12 +467,12 @@ body.cat-off .catalog .ph .cbtn{margin:0;transform:rotate(180deg)}
 <div id="app">
   <header class="titlebar">
     <div class="logo">
-      <svg width="34" height="34" viewBox="0 0 34 34"><rect width="34" height="34" rx="10" fill="url(#lg)"/><path d="M22 10.5H12l6 6.5-6 6.5h10" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <div>Сметная мастерская<small>Академия Сметного Дела</small></div>
+      <svg width="30" height="30" viewBox="0 0 80 80" aria-hidden="true"><g transform="rotate(-90 40 40)"><circle cx="40" cy="40" r="30" fill="none" stroke="#0EA5A4" stroke-width="12" stroke-linecap="round" stroke-dasharray="64 124.5"/><circle cx="40" cy="40" r="30" fill="none" stroke="#F2A93B" stroke-width="12" stroke-linecap="round" stroke-dasharray="44 144.5" stroke-dashoffset="-79.5"/><circle cx="40" cy="40" r="30" fill="none" stroke="#7C6CF0" stroke-width="12" stroke-linecap="round" stroke-dasharray="34 154.5" stroke-dashoffset="-139"/></g></svg>
+      <div>Римора<small>Академия Сметного Дела</small></div>
     </div>
     <div class="doc"><input id="docname" value="Новая смета" aria-label="Название сметы"><span class="chip" id="savechip"><span class="dot"></span><span id="savetxt">Сохранено</span></span></div>
     <div class="modes">
-      <button class="on">Мастерская</button>
+      <button class="on">Составление</button>
       <button disabled>Заказы<em>скоро</em></button>
       <button disabled>Ревизия<em>скоро</em></button>
       <button disabled>Допуск<em>скоро</em></button>
@@ -774,7 +790,7 @@ function importDocFile(){const inp=document.createElement('input');inp.type='fil
   inp.onchange=async()=>{const f=inp.files&&inp.files[0];if(!f)return;try{const j=JSON.parse(await f.text()),n=j&&j.doc?j.doc:j;
       if(!n||!Array.isArray(n.pos))throw new Error('format');n.docId=newId();n.created=Date.now();n.name=n.name||f.name.replace(/\.smeta\.json$|\.json$/,'');
       await loadDoc(n,true);storeDoc(true);$('#dlgbg').classList.remove('on');toast('Открыто из файла и добавлено в «Мои сметы»: '+S.name)}
-    catch(e){toast('Это не файл сметы Мастерской (.smeta.json)')}};inp.click()}
+    catch(e){toast('Это не файл сметы Риморы (.smeta.json)')}};inp.click()}
 function storeUsed(){let b=0;try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k.startsWith('sm_'))b+=(k.length+(localStorage.getItem(k)||'').length)*2}}catch(e){}return b}
 let docQ='';
 function openDocs(){dlg(`<div class="dch"><h3>${ic('open')} Мои сметы</h3><button class="x" onclick="document.getElementById('dlgbg').classList.remove('on')" aria-label="Закрыть">×</button></div><div id="docsw"></div>`);$('#dlg').className='dlg docs';renderDocs()}
@@ -810,7 +826,7 @@ function toggleTheme(){const d=document.body.dataset.theme==='dark';document.bod
 function toggleCompact(){compact=!compact;$('#sheet').classList.toggle('compact',compact);toast(compact?'Краткий вид':'Полный вид')}
 function catShow(on){document.body.classList.toggle('cat-off',!on);const b=$('#catbtn');if(b){b.title=on?'Свернуть каталог':'Развернуть каталог';$('use',b).setAttribute('href',on?'#i-catoff':'#i-caton')}try{localStorage.setItem('sm_cat_off',on?'':'1')}catch(e){}}
 function focusCat(){if(document.body.classList.contains('cat-off'))catShow(true);$('#catq').focus();$('#catq').select()}
-function about(){dlg(`<h3>Сметная мастерская АСД</h3><p>Учебный тренажёр: составляйте локальные сметы, смотрите, как посчитан каждый рубль, и не бойтесь ошибаться.</p><p>База «ФСНБ-2022»: сметные нормы ГЭСН и цены ФСБЦ из открытых данных ФГИС ЦС, текущие цены и индексы ФГИС ЦС (Волгоградская область, 3 квартал 2026 г.). Источник: ФАУ «Главгосэкспертиза России», fgiscs.minstroyrf.ru. «Учебная база» выдумана для упражнений.</p><p>Это учебная программа: для смет по реальным объектам её расчёт не предназначен.</p><p class="u">Версия 1.0, ноябрь 2026.</p><div class="ac"><button class="btn pri" onclick="document.getElementById('dlgbg').classList.remove('on')">Понятно</button></div>`)}
+function about(){dlg(`<h3>Римора</h3><p class="u" style="margin-top:-6px">Академия Сметного Дела</p><p>Учебный тренажёр: составляйте локальные сметы, смотрите, как посчитан каждый рубль, и не бойтесь ошибаться.</p><p>База «ФСНБ-2022»: сметные нормы ГЭСН и цены ФСБЦ из открытых данных ФГИС ЦС, текущие цены и индексы ФГИС ЦС (Волгоградская область, 3 квартал 2026 г.). Источник: ФАУ «Главгосэкспертиза России», fgiscs.minstroyrf.ru. «Учебная база» выдумана для упражнений.</p><p>Это учебная программа: для смет по реальным объектам её расчёт не предназначен.</p><p class="u">Версия 1.0, ноябрь 2026.</p><div class="ac"><button class="btn pri" onclick="document.getElementById('dlgbg').classList.remove('on')">Понятно</button></div>`)}
 function keys(){dlg(`<h3>Горячие клавиши</h3><p><span class="kbd">Ctrl</span> <span class="kbd">K</span> — найти команду или расценку</p><p><span class="kbd">/</span> — поиск в каталоге</p><p><span class="kbd">Ctrl</span> <span class="kbd">Z</span> / <span class="kbd">Y</span> — отменить и вернуть</p><p><span class="kbd">Del</span> — удалить выбранную строку</p><p><span class="kbd">↑</span> <span class="kbd">↓</span> — переход по строкам</p><p><span class="kbd">Ctrl</span> <span class="kbd">S</span> — сохранить, <span class="kbd">Ctrl</span> <span class="kbd">P</span> — печать</p><div class="ac"><button class="btn pri" onclick="document.getElementById('dlgbg').classList.remove('on')">Закрыть</button></div>`)}
 /* ---------- Помощь ИИ: объясняет, подбирает и проверяет; все числа считает программа, ИИ только объясняет (локальный сервер ai/server.mjs) */
 // помощник ИИ запущен только на Mac рядом с программой; на странице в интернете работает режим без ИИ
@@ -995,7 +1011,12 @@ function renderObj(){
   ${S.nds?`<tr><td></td><td>НДС ${B.nds}%</td><td></td><td class="r num">${fmt(T.nds)}</td></tr><tr class="sc"><td></td><td>Всего с НДС</td><td></td><td class="r num">${fmt(T.all)}</td></tr>`:''}</tbody></table></div>`;
 }
 
-function renderInsp(){
+function inspShow(on){document.body.classList.toggle('insp-off',!on);inspBtn();try{localStorage.setItem('sm_insp_off',on?'':'1')}catch(e){}}
+function inspBtn(){const el=$('#insp');if(!el)return;let ph=el.querySelector(':scope>.ph');if(!ph){el.insertAdjacentHTML('afterbegin','<div class="ph">Карточка позиции</div>');ph=el.querySelector(':scope>.ph')}
+  const on=!document.body.classList.contains('insp-off');let b=ph.querySelector('.cbtn');if(!b){ph.insertAdjacentHTML('beforeend','<button class="cbtn" id="inspbtn"><svg class="i"><use href="#i-inspoff"/></svg></button>');b=ph.querySelector('.cbtn')}
+  b.title=on?'Свернуть карточку вправо':'Развернуть карточку';b.querySelector('use').setAttribute('href',on?'#i-inspoff':'#i-inspon')}
+function renderInsp(){_renderInsp();inspBtn()}
+function _renderInsp(){
   const p=S.pos.find(x=>x.id===sel);const el=$('#insp');
   if(!p||p.sec!==undefined){
     el.innerHTML=`<div class="ph">Карточка позиции</div><div class="insp-empty">${ic('rate','')}<p>Выберите строку в таблице, и здесь покажем, как посчитан каждый рубль.</p></div>`;return}
@@ -1053,7 +1074,7 @@ function renderInspReal(p,c){const el=$('#insp'),R=c.R,I=c.I;
   $$('.kr .switch',el).forEach(s=>{s.onclick=()=>toggleK(p.id,s.dataset.k);s.onkeydown=e=>{if(e.key===' '||e.key==='Enter'){e.preventDefault();toggleK(p.id,s.dataset.k)}}});
 }
 /* ---------- выходные формы: ЛСР по приложению 3 к 421/пр (Excel .xlsx и печать из одной модели) ---------- */
-const APPV='Сметная мастерская АСД 1.0 (ноябрь 2026)';
+const APPV='Римора 1.0 (Академия Сметного Дела, ноябрь 2026)';
 const reqDef=()=>({stroyka:'Учебная стройка: гараж на одну машину',obj:'Гараж',num:'ЛС-02-01-01',works:S.name||'',osn:'Учебное задание (проектная документация условная)',sost:'',prov:''});
 const req=()=>({...reqDef(),...(S.req||{})});
 const tr2=x=>Math.round(x*100)/100;
@@ -1919,7 +1940,8 @@ function renderInspTR(p,c){const el=$('#insp'),t=p.tr,T=c.T;
   $('#trcls').onchange=e=>up('cls',+e.target.value);
   $('#trkm').onchange=e=>up('km',Math.max(0,Math.round(+String(e.target.value).replace(',','.')||0)));
 }
-function setBase(v){if((S.base||'fsnb')===v)return;S.base=v;commit();toast(v==='ucheb'?'Работаем в учебной базе АСД':'Работаем в ФСНБ-2022')}
+function setBase(v){if((S.base||'fsnb')===v)return;S.base=v;commit();const n=S.pos.filter(p=>p.code&&UCH.comp&&(UCH.comp[p.code]||UADD[p.code])).length;
+  toast(v==='ucheb'?'Учебная база: '+(Object.keys(UCH.comp||{}).length+Object.keys(UADD).length)+' расценок курса считаются по нормам учебной базы, остальные как в ФСНБ-2022'+(n?'. В этой смете таких позиций: '+n:'. В этой смете таких позиций нет, суммы не изменятся'):'Работаем в ФСНБ-2022'+(n?'. Позиций с другими нормами: '+n:''))}
 function setLevel(v){S.level=v;S.nrsp=v==='q2025'?'old':'new';commit();toast('Цены: '+PSET[v]+'. НР и СП: '+(S.nrsp==='old'?'до 20.10.2026':'с 20.10.2026'))}
 async function sampleLesson(){const list=[['01-01-018-05',63.45],['01-01-022-23',217.96],['01-02-057-02',9.08]];
   try{await ensureReal(list.map(x=>x[0]))}catch(e){return toast('Не удалось загрузить данные примера')}
@@ -2173,6 +2195,8 @@ $('#palbg').onclick=e=>{if(e.target.id==='palbg')palClose()};
 $('#themebtn').onclick=toggleTheme;themeIcon();
 $('#catph').addEventListener('click',e=>{if(e.target.closest('#catbtn')){e.stopPropagation();catShow(document.body.classList.contains('cat-off'));return}if(document.body.classList.contains('cat-off'))catShow(true)});
 try{if(localStorage.getItem('sm_cat_off'))catShow(false)}catch(e){}
+$('#insp').addEventListener('click',e=>{if(e.target.closest('#inspbtn')){e.stopPropagation();inspShow(document.body.classList.contains('insp-off'));return}if(document.body.classList.contains('insp-off')){e.stopPropagation();inspShow(true)}},true);
+try{if(localStorage.getItem('sm_insp_off'))inspShow(false)}catch(e){}
 $('#docname').addEventListener('change',e=>{S.name=e.target.value||'Без названия';markDirty()});
 $('#savechip').addEventListener('click',()=>S.docId?openDocs():save());$('#savechip').style.cursor='pointer';
 window.addEventListener('beforeunload',e=>{if(saved)return;if(S.docId){storeDoc(true);return}if(S.pos.length){e.preventDefault();e.returnValue=''}});
