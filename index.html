@@ -538,6 +538,10 @@ const ic=(n,cls='')=>`<svg class="i ${cls}"><use href="#i-${n}"/></svg>`;
 const TYC={ОТ:'var(--ot)',ЭМ:'var(--em)',М:'var(--m)',ТР:'var(--sp)'};
 /* ---------- настоящая ФСНБ-2022: каталог, ресурсы, РИМ ---------- */
 const RI=window.REAL_IDX, RR=window.REAL_RES, RN=window.REAL_NRSP;
+/* расценки уроков курса, которых нет в ФСНБ-2022 (доп. № 19), но есть в учебной базе ГРАНД-Сметы: ставим в каталог рядом с соседкой по таблице */
+const UADD=(window.UCHEB&&window.UCHEB.add)||{};
+for(const [c,a] of Object.entries(UADD)){const j=RI.r.findIndex(r=>r[0]===a.like);if(j<0)continue;const s=RI.r[j],gn=String(RI.g[s[2]]||'').trim();
+  RI.r.splice(c<a.like?j:j+1,0,[c,s[1],s[2],gn&&a.name.startsWith(gn)?a.name.slice(gn.length).trim():a.name,a.unit])}
 const isReal=c=>/^(?:мр|м|р|п)?\d\d-\d\d-\d{3}-\d\d$/.test(c);
 /* сборник: '01' ГЭСН, 'м08' ГЭСНм, 'мр01' ГЭСНмр, 'п01' ГЭСНп, 'р69' ГЭСНр; файл данных латиницей */
 const ccOf=c=>c.match(/^\D*\d\d/)[0],ccFile=cc=>({'':'','м':'m','мр':'mr','п':'p','р':'r'})[cc.replace(/\d/g,'')]+cc.replace(/\D/g,'');
@@ -552,8 +556,8 @@ const RCNT={};RI.r.forEach(r=>{const k=ccOf(r[0]);RCNT[k]=(RCNT[k]||0)+1});
 function parseUnit(u){const m=String(u).match(/^(\d+(?:[.,]\d+)?)\s*(.*)$/);return m&&m[2]?{mult:parseFloat(m[1].replace(',','.')),nat:m[2]}:{mult:1,nat:u}}
 const loaded={};
 function loadChunk(cc){return new Promise((ok,bad)=>{if(loaded[cc])return ok();const sc=document.createElement('script');sc.src='data/real_'+ccFile(cc)+'.js';sc.onload=()=>{loaded[cc]=1;ok()};sc.onerror=()=>bad(new Error('нет данных '+cc));document.head.appendChild(sc)})}
-function buildRate(c){const d=window.REAL_CH[ccOf(c)][c],i=RPOS.get(c),u=parseUnit(RI.r[i][4]);
-  B.rates[c]={real:1,name:RFULL[i],unit:RI.r[i][4],mult:u.mult,nat:u.nat,sec:ccOf(c),comp:d.r,content:d.c,abs:d.a,nk:d.n,sk:d.s}}
+function buildRate(c){const d=(window.REAL_CH[ccOf(c)]||{})[c]||UADD[c],i=RPOS.get(c),u=parseUnit(RI.r[i][4]);
+  B.rates[c]={real:1,uonly:!!UADD[c]&&!(window.REAL_CH[ccOf(c)]||{})[c],name:RFULL[i],unit:RI.r[i][4],mult:u.mult,nat:u.nat,sec:ccOf(c),comp:d.r,content:d.c,abs:d.a,nk:d.n,sk:d.s}}
 async function ensureReal(codes){const cs=new Set();for(const c of codes)if(isReal(c)&&!B.rates[c])cs.add(ccOf(c));
   await Promise.all([...cs].map(loadChunk));for(const c of codes)if(isReal(c)&&!B.rates[c])buildRate(c)}
 /* коэффициенты: приложение 10 к Методике 421/пр (ред. 30.01.2026). prod — снижение производительности (складываются дробные части), pay — повышенная оплата труда */
@@ -595,7 +599,10 @@ function calcReal(p,R){
   kprod=Math.round(kprod*1e7)/1e7;kpay=Math.round(kpay*1e7)/1e7;
   const kl=kprod*klab*(rem?1.15:1),km=kprod*(rem?1.25:1);
   let ot=0,otm=0,emN=0,mat=0,zt=0,ztm=0;const lines=[],warn=[];
-  for(const [rc,n0] of R.comp){const r=B.res[rc];if(!r)continue;const n=n0==='П'?n0:ucNorm(p.code,rc,n0);
+  // в учебной базе состав и нормы расценок курса берутся из выгрузки ГРАНД-Сметы целиком; F0 — нормы ФСНБ для сравнения
+  const COMP=S.base==='ucheb'&&UCH.comp&&UCH.comp[p.code]||R.comp,F0=COMP!==R.comp?new Map(R.comp):null;
+  if(R.uonly&&S.base!=='ucheb')warn.push('расценки нет в ФСНБ-2022 (доп. № 19), она есть только в учебной базе');
+  for(const [rc,c0] of COMP){const r=B.res[rc];if(!r)continue;const n0=F0?(F0.has(rc)?F0.get(rc):null):c0;const n=c0==='П'?c0:F0?c0:ucNorm(p.code,rc,c0);
     if(r.t==='ТР'){lines.push({rc,t:'ТР',name:r.name,unit:r.unit,norm:n,qty:null,price:null,sum:null});continue}
     const pr=rp(rc);
     if(n==='П'){warn.push('расход «П» (по проекту): '+r.name);lines.push({rc,t:r.t,name:r.name,unit:r.unit,norm:'П',qty:null,price:pr.price,src:pr.src,sum:null});continue}
@@ -662,7 +669,7 @@ function totals(){
 let catSrc='real',RLOW=null;
 // строку поиска по 56 тыс. расценок готовим заранее, пока окно простаивает, чтобы первый поиск был мгновенным
 (window.requestIdleCallback||(f=>setTimeout(f,300)))(()=>{if(!RLOW)RLOW=RFULL.map((t,i)=>('гэсн'+RI.r[i][0]+' '+t).toLowerCase().replace(/ё/g,'е'))},{timeout:2000});
-const rateHtml=i=>{const r=RI.r[i];return `<div class="rate" data-c="${r[0]}"><div class="rc"><span class="mono">ГЭСН${r[0]}</span>${S.base==='ucheb'&&UCH.norms[r[0]]?'<span class="chip warn" title="В учебной базе нормы отличаются от ФСНБ-2022">уч.</span>':''}<span class="ru">${pu(r[4])}</span></div><div class="rn">${esc(RFULL[i])}</div><button class="add" title="Добавить в смету">${ic('plus')}</button></div>`};
+const rateHtml=i=>{const r=RI.r[i];return `<div class="rate" data-c="${r[0]}"><div class="rc"><span class="mono">ГЭСН${r[0]}</span>${UADD[r[0]]?'<span class="chip warn" title="Расценки нет в ФСНБ-2022, она есть только в учебной базе">только уч.</span>':S.base==='ucheb'&&(UCH.norms[r[0]]||UCH.comp&&UCH.comp[r[0]])?'<span class="chip warn" title="В учебной базе нормы отличаются от ФСНБ-2022">уч.</span>':''}<span class="ru">${pu(r[4])}</span></div><div class="rn">${esc(RFULL[i])}</div><button class="add" title="Добавить в смету">${ic('plus')}</button></div>`};
 function renderTree(){return catSrc==='edu'?renderTreeEdu():renderTreeReal()}
 function renderTreeReal(){
   const q=$('#catq').value.trim().toLowerCase(),tree=$('#tree');
@@ -677,7 +684,7 @@ function renderTreeReal(){
     $('#catcount').textContent=hits.length>=150?'150+ найдено':hits.length+' найдено';return}
   tree.innerHTML=CGRP.map(([pf,gn])=>{const cs=RI.c.filter(([cc])=>cc.replace(/\d/g,'')===pf);if(!cs.length)return '';const n=cs.reduce((a,[cc])=>a+(RCNT[cc]||0),0);
     return `<details class="cgrp"${pf===''?' open':''}><summary>${ic('chev')}<span class="gn" title="${esc(gn)}">${esc(gn)}</span><span class="c">${n.toLocaleString('ru-RU')}</span></summary>`+cs.map(([cc,nm])=>`<details class="sec" data-cc="${cc}"><summary>${ic('chev')}<span class="cn">${cc}</span><span class="nm" title="${esc(nm)}">${esc(nm)}</span><span class="c">${RCNT[cc]||0}</span></summary><div class="tbls"></div></details>`).join('')+`</details>`}).join('');
-  $('#catcount').textContent=RI.r.length.toLocaleString('ru-RU')+' расценок';
+  $('#catcount').textContent=(RI.r.length-Object.keys(UADD).length).toLocaleString('ru-RU')+' расценок';
 }
 function renderTreeEdu(){
   const q=$('#catq').value.trim().toLowerCase();let n=0,html='';
