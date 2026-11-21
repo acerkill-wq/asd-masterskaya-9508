@@ -869,6 +869,19 @@ function totals(){
 
 /* ---------- каталог ---------- */
 let catSrc='real',RLOW=null;
+/* поиск расценок по формам слов: «стяжка цементная», «стяжки цементные», «стяжек цементных» → основы «стяж», «цементн» */
+const RU_END=/(иями|ями|ами|ого|его|ому|ему|ыми|ими|ией|ием|иях|иям|ых|их|ая|яя|ое|ее|ые|ие|ой|ей|ий|ый|ов|ев|ам|ям|ах|ях|ом|ем|ую|юю|ек|ок|ия|ии|ию|а|я|о|е|ы|и|у|ю|ь)$/;
+const ruStem=w=>{if(!/^[а-я]{5,}$/.test(w))return w;const m=w.match(RU_END);let t=m&&w.length-m[1].length>=4?w.slice(0,w.length-m[1].length):w;
+  if(t.length>=5&&/[бвгджзйклмнпрстфхцчшщ]к$/.test(t))t=t.slice(0,-1);return t}; // беглая гласная: стяжка/стяжек → «стяж», кладка/кладок → «клад»
+const rateWords=q=>[...new Set(String(q||'').toLowerCase().replace(/ё/g,'е').split(/[\s,;:«»"()]+/).filter(w=>w.length>=2).map(ruStem))];
+const rateHas=(t,q)=>{t=String(t).toLowerCase().replace(/ё/g,'е');return rateWords(q).every(w=>t.includes(w))};
+function rateFind(q,lim){if(!RLOW)RLOW=RFULL.map((t,i)=>('гэсн'+RI.r[i][0]+' '+t).toLowerCase().replace(/ё/g,'е'));
+  const st=rateWords(q),need=st.length,ph=String(q||'').trim().toLowerCase().replace(/ё/g,'е'),by=[[],[],[]];if(!need)return [];
+  const sc=[];
+  for(let i=0;i<RLOW.length;i++){const t=RLOW[i];let k=0,v=0;for(const w of st){const j=t.indexOf(w);if(j<0)continue;k++;v+=/[\s:;,(«"-]/.test(t[j-1]||' ')?2:1}
+    if(k===need){const nm=t.slice(t.indexOf(' ')+1);sc.push([v+(nm.startsWith(st[0])||nm.includes(': '+st[0])?2:0)+(t.includes(ph)?1:0),i])}else if(need>=3&&k===need-1)by[2].push(i)}
+  // все слова: выше те, где слова с начала слова и первое слово в начале наименования; при равенстве — порядок сборников; затем без одного слова
+  const isCode=/^[а-яa-z]*[\d.\-\s]+$/.test(ph);sc.sort((a,b)=>isCode?a[1]-b[1]:b[0]-a[0]||a[1]-b[1]);return sc.map(x=>x[1]).concat(sc.length<20?by[2]:[]).slice(0,lim||150)}
 // строку поиска по 56 тыс. расценок готовим заранее, пока окно простаивает, чтобы первый поиск был мгновенным
 (window.requestIdleCallback||(f=>setTimeout(f,300)))(()=>{if(!RLOW)RLOW=RFULL.map((t,i)=>('гэсн'+RI.r[i][0]+' '+t).toLowerCase().replace(/ё/g,'е'))},{timeout:2000});
 const rateHtml=i=>{const r=RI.r[i];return `<div class="rate" data-c="${r[0]}"><div class="rc"><span class="mono">ГЭСН${r[0]}</span>${UADD[r[0]]?'<span class="chip warn" title="Расценки нет в ФСНБ-2022, она есть только в учебной базе">только уч.</span>':S.base==='ucheb'&&(UCH.norms[r[0]]||UCH.comp&&UCH.comp[r[0]])?'<span class="chip warn" title="В учебной базе нормы отличаются от ФСНБ-2022">уч.</span>':''}<span class="ru">${pu(r[4])}</span></div><div class="rn">${esc(RFULL[i])}</div><button class="add" title="Добавить в смету">${ic('plus')}</button></div>`};
@@ -876,12 +889,7 @@ function renderTree(){return catSrc==='edu'?renderTreeEdu():renderTreeReal()}
 function renderTreeReal(){
   const q=$('#catq').value.trim().toLowerCase(),tree=$('#tree');
   if(q.length>=2){
-    if(!RLOW)RLOW=RFULL.map((t,i)=>('гэсн'+RI.r[i][0]+' '+t).toLowerCase().replace(/ё/g,'е'));
-    const st=q.replace(/ё/g,'е').split(/[\s,;«»"()]+/).filter(w=>w.length>=2).map(w=>/^[а-я]{6,}$/.test(w)?w.slice(0,Math.max(5,w.length-2)):w);
-    const by=[[],[]],need=st.length;
-    for(let i=0;i<RLOW.length;i++){const t=RLOW[i];let k=0;for(const w of st)if(t.includes(w))k++;
-      if(k===need)by[0].push(i);else if(need>=3&&k===need-1)by[1].push(i)}
-    const hits=by[0].concat(by[0].length<20?by[1]:[]).slice(0,150);
+    const hits=rateFind(q,150);
     tree.innerHTML=hits.length?hits.map(rateHtml).join(''):`<div class="empty-s">Ничего не нашлось.<br>Попробуйте другое слово или шифр.</div>`;
     $('#catcount').textContent=hits.length>=150?'150+ найдено':hits.length+' найдено';return}
   tree.innerHTML=CGRP.map(([pf,gn])=>{const cs=RI.c.filter(([cc])=>cc.replace(/\d/g,'')===pf);if(!cs.length)return '';const n=cs.reduce((a,[cc])=>a+(RCNT[cc]||0),0);
@@ -891,7 +899,7 @@ function renderTreeReal(){
 function renderTreeEdu(){
   const q=$('#catq').value.trim().toLowerCase();let n=0,html='';
   for(const [sc,s] of Object.entries(B.sections).sort((a,b)=>a[0].localeCompare(b[0]))){
-    const rows=Object.entries(B.rates).filter(([c,r])=>!r.real&&r.sec===sc&&(!q||(c+' '+r.name).toLowerCase().includes(q)));
+    const rows=Object.entries(B.rates).filter(([c,r])=>!r.real&&r.sec===sc&&(!q||rateHas(c+' '+r.name,q)));
     if(!rows.length)continue;n+=rows.length;
     html+=`<details class="sec" ${q||sc==='01'?'open':''}><summary>${ic('chev')}<span class="cn">${sc}</span>${esc(s.name)}<span class="c">${rows.length}</span></summary>`+
     rows.map(([c,r])=>`<div class="rate" data-c="${c}"><div class="rc"><span class="mono">${c}</span><span class="ru">${pu(r.unit)}</span></div><div class="rn">${esc(r.name)}</div><button class="add" title="Добавить в смету">${ic('plus')}</button></div>`).join('')+`</details>`;
@@ -1214,7 +1222,7 @@ function aiPosCtx(p){const c=calc(p),R=c.R,n=S.pos.filter(x=>x.sec===undefined).
 function aiSmetaCtx(){const T=totals();return {смета:S.name,база:baseTxt(),цены:basisTxt(),нормативы_НР_СП:nrspTxt(),позиций:S.pos.filter(p=>p.sec===undefined).length,
   итоги:{ОТ:T.ot,ЭМ:T.em,ОТм:T.otm,М:T.mat,перевозка:T.per,прямые:T.direct,ФОТ:T.fot,НР:T.nr,СП:T.sp,всего:T.total}}}
 function aiCands(q){if(!RLOW)RLOW=RFULL.map((t,i)=>('гэсн'+RI.r[i][0]+' '+t).toLowerCase().replace(/ё/g,'е'));
-  const ws=[...new Set(q.toLowerCase().replace(/ё/g,'е').match(/[а-яa-z0-9]{2,}/g)||[])].map(w=>w.length>5?w.slice(0,w.length>7?w.length-2:w.length-1):w).slice(0,12);if(!ws.length)return [];
+  const ws=[...new Set(q.toLowerCase().replace(/ё/g,'е').match(/[а-яa-z0-9]{2,}/g)||[])].map(ruStem).slice(0,12);if(!ws.length)return [];
   const df=ws.map(()=>0),hit=[];for(let i=0;i<RLOW.length;i++){let m=0;ws.forEach((w,j)=>{if(RLOW[i].includes(w)){df[j]++;m|=1<<j}});if(m)hit.push([m,i])}
   const wt=df.map(d=>Math.log(1+RLOW.length/(d||1)));const sc=hit.map(([m,i])=>[ws.reduce((a,w,j)=>a+(m>>j&1?wt[j]:0),0),i]);
   sc.sort((a,b)=>b[0]-a[0]||a[1]-b[1]);return sc.slice(0,70).map(([,i])=>[RI.r[i][0],RFULL[i].slice(0,220),pu(RI.r[i][4])])}
@@ -2332,6 +2340,10 @@ ${sgH([['Руководитель проектной организации',st.
    Кинфл.мес = ¹²√Кинфл.год (4 знака), Кинфл.пер = (Кинфл.мес^n − 1)/2 + 1 (4 знака); больше года — Кинфл = Σ Дi × Ki (п. 23).
    Кинфл.год — индекс-дефлятор Минэкономразвития «Инвестиции в основной капитал (капитальные вложения)». Копия текста: 84_НМЦК_841пр/. */
 const r4=x=>Math.round((+x||0)*1e4)/1e4;
+/* Индексы-дефляторы «Инвестиции в основной капитал (капитальные вложения)», % г/г, базовый вариант прогноза СЭР на 2027–2029 (одобрен Правительством 24.09.2026, протокол № 31);
+   письмо Минэкономразвития от 30.09.2026 № 36459-ПК/Д03и, приложение. 2025 — отчёт, 2026 — оценка. Копия: 84_НМЦК_841пр/исходники/. */
+const NM_DEFL={2025:109.3,2026:112.0,2027:109.0,2028:104.6,2029:104.5},NM_DEFL_SRC='прогнозу Минэкономразвития (базовый вариант, одобрен 24.09.2026; письмо от 30.09.2026 № 36459-ПК/Д03и)';
+const nmDefl=(t,y)=>{let g=num(t.defl[y]);if(g)return{g:g>10?g/100:g,own:1};return NM_DEFL[y]?{g:NM_DEFL[y]/100,own:0}:{g:0,own:0}};
 const ymOf=s=>{const m=/^(\d{4})-(\d{1,2})$/.exec(String(s||'').trim());return m?+m[1]*12+(+m[2]-1):null};
 const ymTxt=m=>['январь','февраль','март','апрель','май','июнь','июль','август','сентябрь','октябрь','ноябрь','декабрь'][m%12]+' '+Math.floor(m/12);
 const NM_PNR=/пуско-?наладоч/i,NM_VAH=/вахт|командир|перебазир/i;
@@ -2340,7 +2352,7 @@ function nmckCalc(){const st=ST(),t=st.nmck,M=ssrModel(),O=M.O,X0=xmlx(),W=[];
   const now=new Date(),nm=ymOf(t.nm)??(now.getFullYear()*12+now.getMonth()),s0=ymOf(t.start)??nm,d=Math.round(num(t.dur)||num(X0?X0.PZ().duration:''));
   if(!d)W.push('НМЦК: не указана продолжительность выполнения работ, мес. (по ПОС)');if(s0<nm)W.push('НМЦК: начало работ раньше даты определения НМЦК, принята дата НМЦК');
   const s=Math.max(s0,nm),e=s+Math.max(d,0),yOf=m=>Math.floor(m/12),km={},miss=new Set();
-  const kmes=y=>{if(km[y]!=null)return km[y];let g=num(t.defl[y]);if(g>10)g/=100;if(!g){miss.add(y);return km[y]=1}return km[y]=r4(Math.pow(g,1/12))};
+  const kmes=y=>{if(km[y]!=null)return km[y];const g=nmDefl(t,y).g;if(!g){miss.add(y);return km[y]=1}return km[y]=r4(Math.pow(g,1/12))};
   const I=to=>{let v=1;for(let m=nm;m<to;m++)v*=kmes(yOf(m));return v};
   const years=[];if(d)for(let y=yOf(s);y<=yOf(e-1);y++)years.push(y);const parts=[];
   if(years.length===1)parts.push({y:years[0],mo:d,K:r4((I(s)+I(e))/2),how:`(${fq(r4(I(s)))} + ${fq(r4(I(e)))}) / 2`});
@@ -2353,6 +2365,7 @@ function nmckCalc(){const st=ST(),t=st.nmck,M=ssrModel(),O=M.O,X0=xmlx(),W=[];
   const Kp=parts.length?r4(parts.reduce((a,x)=>a+x.D*x.K,0)):1;
   for(const y of [...new Set([...years,...Array.from({length:Math.max(0,yOf(s)-yOf(nm))},(_,i)=>yOf(nm)+i)])])kmes(y);
   if(miss.size)W.push(`НМЦК: нет индекса-дефлятора Минэкономразвития «Инвестиции в основной капитал» на ${[...miss].sort().join(', ')} год: принят 1`);
+  const autoY=[...new Set([...years,...Object.keys(km).map(Number)])].filter(y=>!miss.has(y)&&!nmDefl(t,y).own).sort();if(autoY.length)W.push(`НМЦК: индекс-дефлятор на ${autoY.join(', ')} принят по ${NM_DEFL_SRC}`);
   const Kf=num(t.kf)||1;if(!M.cur)W.push('НМЦК определяется от сметной стоимости в текущем уровне цен: переключите цены на текущие');
   if(!num(t.kf))W.push('НМЦК: индекс фактической инфляции от даты утверждения ПД до даты НМЦК не указан, принят 1 (п. 8 «а», п. 22 «а»)');
   const inc=c=>t.ch[c]!=null?!!t.ch[c]:c<=9;let smr=0,eq=0,oth=0,win=0,pnr=0,vah=0;const cls={pnr:[],vah:[]};
@@ -2390,7 +2403,7 @@ function nmckHtml(){const C=nmckCalc(),st=C.st,t=C.t,Q=req();const f=v=>v?fmt(v)
 <tr>${[1,2,3,4,5,6].map(i=>`<th>${i}</th>`).join('')}</tr></thead><tbody>${C.rows.map(r=>rw(r)).join('')}
 ${rw({name:'Стоимость без учета НДС',...C.T},1)}<tr><td>НДС (${C.nd}%)</td><td class="n">${f(C.N.c2)}</td><td></td><td class="n">${f(C.N.c4)}</td><td></td><td class="n">${f(C.N.c6)}</td></tr>${rw({name:'Стоимость с учетом НДС',...C.A},1)}</tbody></table>
 <div style="margin-top:6px">Продолжительность строительства — ${C.d} мес. Начало строительства ${esc(ymTxt(C.s))} г., окончание строительства ${esc(C.d?ymTxt(C.e-1):'—')} г.</div>
-<div>${esc(how)}. Месячные индексы: ${C.years.map(y=>`${y} — ${fq(r4(Math.pow((num(t.defl[y])>10?num(t.defl[y])/100:num(t.defl[y]))||1,1/12)))} (годовой ${esc(String(t.defl[y]||'—'))})`).join('; ')}.</div>
+<div>${esc(how)}. Месячные индексы: ${C.years.map(y=>{const d=nmDefl(t,y);return `${y} — ${fq(r4(Math.pow(d.g||1,1/12)))} (годовой ${d.g?fq(Math.round(d.g*1e4)/100)+' %':'—'}${d.g&&!d.own?', прогноз Минэкономразвития':''})`}).join('; ')}.</div>
 <div>Индекс фактической инфляции: ${fq(C.Kf)}${t.kfOsn?' ('+esc(t.kfOsn)+')':''}.</div>
 ${sgH([['Заказчик',t.zak||st.sign.zak]])}
 <div class="pg"></div><div class="ap">Приложение № 1 к Порядку, утвержденному приказом Минстроя России от 23 декабря 2019 г. № 841/пр (рекомендуемый образец)</div>
@@ -2418,7 +2431,7 @@ function nmckPanel(){const C=nmckCalc(),st=C.st,t=C.t,pz=xmlx()?xmlx().PZ():{};
   return `<div class="osw"><section><h4>Начальная (максимальная) цена контракта на подрядные работы (приказ Минстроя № 841/пр)</h4>
    <p class="u">Основа — сводный сметный расчёт этого окна в текущем уровне цен (${esc(C.lvl||'—')}). Индекс прогнозной инфляции: Кмес = ¹²√Кгод, Кпер = (Кмес^n − 1)/2 + 1; больше календарного года — Σ Д × К (п. 23).</p>
    <div class="ksf"><label>Дата определения НМЦК${inp('nmck.nm',t.nm||nmDef,'','130px','month')}</label><label>Начало работ${inp('nmck.start',t.start||t.nm||nmDef,'','130px','month')}</label><label>Продолжительность по ПОС, мес.${inp('nmck.dur',t.dur,pz.duration?'из ПЗ: '+pz.duration:'например 8','90px')}</label></div>
-   <div class="ksf">${C.years.map(y=>`<label>Индекс-дефлятор «Инвестиции в основной капитал», ${y}${inp('nmck.defl.'+y,t.defl[y],'например 1,052','90px')}</label>`).join('')}</div>
+   <div class="ksf">${C.years.map(y=>`<label>Индекс-дефлятор «Инвестиции в основной капитал», ${y}${inp('nmck.defl.'+y,t.defl[y],NM_DEFL[y]?fq(NM_DEFL[y])+' (прогноз)':'например 105,2','110px')}</label>`).join('')}</div>
    ${C.parts.length>1?`<div class="ksf">${C.parts.map(x=>`<label>Доля работ ${x.y}, %${inp('nmck.shares.'+x.y,t.shares[x.y],fq(Math.round(x.mo/C.d*1000)/10)+' (по месяцам)','80px')}</label>`).join('')}</div>`:''}
    <div class="ksf"><label>Индекс фактической инфляции (Росстат, строительство)${inp('nmck.kf',t.kf,'1','80px')}</label><label>обоснование${inp('nmck.kfOsn',t.kfOsn,'период и источник','260px')}</label></div>
    <div class="ost2">Главы ССР в цене контракта: ${SSR_CH.map((c,j)=>`<label class="kchk" title="${esc(c)}"><input type="checkbox" data-sp="nmck.ch.${j+1}"${C.inc(j+1)?' checked':''}> ${j+1}</label>`).join(' ')}</div>
@@ -2444,7 +2457,7 @@ function pirRow(l,X){const s=window.PIR_DB&&PIR_DB[l.src],t=s&&s.tables.find(x=>
   if(!r[6]){mn=0;mx=0}const iv=(r[2]!=null?'от '+fq(r[2])+' ':'')+(r[3]!=null?'до '+fq(r[3]):'');
   return {r,mn,mx,u:r[4],txt:`${s.short}, таблица ${t.code}, п. ${r[0]} «${r[1]}»${iv?', '+iv.trim()+' ('+r[4]+')':''}: a = ${fq(r[5])}, b = ${fq(r[6])} тыс. руб., уровень цен 01.01.${s.lvl}`}}
 function pirKOpts(l){const x=[],s=window.PIR_DB&&PIR_DB[l.src];if(l.src==='nz848'&&s)x.push(['Стеснённая территория или зона охраны ОКН (п. 17 НЗ 848/пр)','1,1',1]);
-    if(s&&s.ks)for(const k of s.ks)if(k[0]==='2.1'||(l.tab&&k[0]===l.tab+'.1'))x.push([`${k[1]} (табл. ${k[0]} ${s.short}${k[3]?': '+k[3].replace(/^К параметрам цены проектных работ /,'к ').slice(0,60):''})`,k[2],0]);return [...x,...PIR_KP]}
+    if(s&&s.ks)for(const k of s.ks)if(!/^3\.\d+\.1$/.test(k[0])||(l.tab&&k[0]===l.tab+'.1'))x.push([`${k[1]} (табл. ${k[0]} ${s.short}${k[3]?': '+k[3].replace(/^К параметрам цены проектных работ /,'к ').slice(0,60):''})`,k[2],0]);return [...x,...PIR_KP]}
 function pirCalc(acc,cur){const st=ST(),P=st.pir,W=[],L=[];const ist=num(P.ist)||1,kl=P.klOn?num(P.kl):0,DB=window.PIR_DB||null,IQ=DB?DB.idx[+P.idxQ||0]:null;
   const iprOf=l=>{const s=DB&&DB[l.src];if(s&&IQ){const v=IQ.v[s.lvl];return {v,txt:`Ипр = ${fq(v)} (${IQ.osn}, ${IQ.q}, к уровню цен 01.01.${s.lvl})`}}const v=num(P.ipr)||1;return {v,txt:`Ипр = ${fq(v)}${P.iprOsn?' ('+P.iprOsn+')':''}`}};
   const NC=st.ncs&&st.ncs.toPir?ncsCalc():null,byN=!!(NC&&NC.T0),Sb=byN?n2(NC.T0*1000):n2((acc.b+acc.m+acc.e)*1000),Sstr=n2(Sb/ist),smr=byN?100:acc.b+acc.m+acc.e?(acc.b+acc.m)/(acc.b+acc.m+acc.e)*100:0,
@@ -2542,7 +2555,7 @@ function pirPanel(M){const C=M.pir,P=C.P;
   const inp=(path,v,ph,w)=>`<input data-sp="pir.${path}" value="${esc(v??'')}"${ph?` placeholder="${esc(ph)}"`:''}${w?` style="width:${w}"`:''}>`;
   const chk=(path,on,l)=>`<label class="kchk"><input type="checkbox" data-sp="pir.${path}"${on?' checked':''}> ${l}</label>`;
   const DB=window.PIR_DB,sel=(path,v,opts,w)=>`<select data-sp="pir.${path}"${w?` style="max-width:${w}"`:''}>${opts.map(([k,t])=>`<option value="${esc(k)}"${String(v)===String(k)?' selected':''}>${esc(t)}</option>`).join('')}</select>`;
-  const srcUI=(l,b)=>{if(!DB)return '';const srcs=(l.m==='nat'?['nz848','nz343','sbc_avto']:['nz848']).filter(k=>DB[k]),s0=DB[l.src];let h=`<label>Справочник${sel(b+'src',l.src,[['','вручную (a, b из своего сборника)'],...srcs.map(k=>[k,DB[k].short])],'260px')}</label>`;
+  const srcUI=(l,b)=>{if(!DB)return '';const srcs=Object.keys(DB).filter(k=>k!=='idx'&&DB[k]&&(l.m==='nat'?DB[k].tables&&DB[k].tables.length:DB[k].pct)),s0=DB[l.src];let h=`<label>Справочник${sel(b+'src',l.src,[['','вручную (a, b из своего сборника)'],...srcs.map(k=>[k,DB[k].short])],'260px')}</label>`;
     if(s0&&l.m==='nat'){const t=s0.tables.find(x=>x.code===l.tab);h+=`<label>Таблица${sel(b+'tab',t?l.tab:'',[['','— таблица —'],...s0.tables.map(x=>[x.code,x.code+'. '+x.title])],'300px')}</label>`;
       if(t)h+=`<label>Объект${sel(b+'obj',l.obj,[['','— объект —'],...[...new Set(t.rows.map(r=>r[1]))].map(o=>[o,o])],'360px')}</label>`}
     if(s0)h+=`<label>Документация${sel(b+'stg',l.stg||'pr',[['pr','П + Р, 100%'],['p',`проектная (П), ${s0.st.p}%`],['r',`рабочая (Р), ${s0.st.r}%`]])}</label>`;return `<div class="ksf">${h}</div>`};
@@ -2576,18 +2589,21 @@ function pirPanel(M){const C=M.pir,P=C.P;
 const ncsLine=()=>({tab:'',g:'',M:'',ks:[]});
 const ncsGroups=t=>t?[...new Set(t.rows.map(r=>r[4]??r[1]))]:[];
 function ncsCalc(){const st=ST(),N=st.ncs,DB=window.NCS_DB,W=[],L=[];if(!DB)return {N,S:null,L,W,T0:0,T:0,nds:0,A:0};
-  const S=DB[N.sb]||DB['01'],P=S.p,r2=x=>Math.round(x*100)/100,pp=x=>`п. ${x} техчасти НЦС ${S.code}`;
+  const S=DB[N.sb]||DB['01'],P=S.p,r2=x=>Math.round(+(x*100).toFixed(6))/100,pp=x=>`п. ${x} техчасти НЦС ${S.code}`;
+  const colOf=(m,c)=>{if(!m)return undefined;for(let n=c.length;n>=5;n--)if(m[c.slice(0,n)]!=null)return m[c.slice(0,n)];return undefined},onL=(a,c)=>(a||[]).some(x=>c.startsWith(x)),kAt=(k,c)=>Array.isArray(k)?(k[c]??k[0]):k;
+  const K3=N.kr3&&S.kreg3?S.kreg3.find(k=>k[0]===N.kr3):null,K4=N.kr4&&S.kreg4?S.kreg4.find(k=>k[0]===N.kr4):null;
   const sub=String(N.reg||'').replace(/ \(1 зона\)$/,''),KP=S.kper.find(k=>k[0]===N.reg),KZ=N.zon?S.kzon.find(k=>k[0]===N.zon):null;
   if(!KP)W.push('НЦС: выберите субъект Российской Федерации (Кпер.)');
   let K1=S.kreg1.find(k=>k[0]===N.kr1);if(!K1&&sub){const c=S.kreg1.filter(k=>k[1]===sub||k[1].startsWith(sub+':'));if(c.length===1)K1=c[0];else if(c.length>1)W.push(`НЦС: для «${sub}» в таблице Крег.1 несколько территорий — выберите свою`)}
   const kr1=K1?K1[3]:1,zone=K1?K1[2]:'',kr2=N.kr2?(S.kreg2[zone]||1):1,ks=N.seis?(S.ks||1):1;
+  if(N.seis&&!S.ks)W.push(`НЦС: в сборнике ${S.code} сейсмического коэффициента Кс нет`);
   if(N.kr2&&!S.kreg2[zone])W.push(`НЦС: Крег.2 (снегоборьба) применяют в IV–VIII температурных зонах, у выбранной территории зона ${zone||'не определена'}`);
   const ipr=num(N.ipr)||1,zr=num(N.zr);if(!num(N.ipr))W.push('НЦС: не указан индекс-дефлятор Ипр (Минэкономразвития, «Инвестиции в основной капитал») — расчёт в уровне цен 01.01.2026');
   let T0=0;
   N.lines.forEach((l,i)=>{const nm=`НЦС, строка ${i+1}`,t=S.tables.find(x=>x.code===l.tab);if(!t){W.push(nm+': выберите таблицу сборника');L.push(null);return}
     const gs=ncsGroups(t),g=gs.includes(l.g)?l.g:gs.length===1?gs[0]:'';if(!g){W.push(nm+': в таблице несколько объектов — выберите свой');L.push(null);return}
     const TR=t.rows.filter(r=>(r[4]??r[1])===g),M=num(l.M),R=TR.filter(r=>r[2]!=null).sort((a,b)=>a[2]-b[2]);let v=0,how='',code='';if(!M)W.push(nm+': не указана мощность объекта М');
-    if(R.length<2){const r=R[0]||TR[0];v=r[3];code=r[0];how=`показатель ${r[0]} = ${fq(v)} тыс. руб. (единственный в таблице)`;
+    if(R.length<2){const r=R[0]||TR[0];v=r[3];code=r[0];how=`показатель ${r[0]} = ${fq(v)} тыс. руб.${r[2]!=null?" (единственный в таблице)":""}`;
       if(r[2]!=null&&M&&Math.abs(M-r[2])/r[2]>0.1)W.push(`${nm}: мощность ${fq(M)} отличается от показателя ${r[0]} (${fq(r[2])}) больше чем на 10% — расчёт ведут по стоимости 1 м³ из Отдела 2 (${pp(P.one)})`)}
     else{const ex=R.find(r=>r[2]===M),mn=R[0],mx=R.at(-1);
       if(ex){v=ex[3];code=ex[0];how=`показатель ${ex[0]} = ${fq(v)} тыс. руб.`}
@@ -2599,16 +2615,22 @@ function ncsCalc(){const st=ST(),N=st.ncs,DB=window.NCS_DB,W=[],L=[];if(!DB)retu
         how=`интерполяция (${pp(P.interp)}): Пв = ${fq(c[3])} − (${fq(c[2])} − ${fq(M)}) × (${fq(c[3])} − ${fq(a[3])}) / (${fq(c[2])} − ${fq(a[2])}) = ${fq(v)} тыс. руб.`}}
     const grp=g=>{const ks=(l.ks||[]).filter(k=>(k.g||'ц')===g&&num(k.k));const lo=ks.filter(k=>num(k.k)<1),hi=ks.filter(k=>num(k.k)>1);
       return {K:lo.reduce((a,k)=>a*num(k.k),1)*(1+hi.reduce((a,k)=>a+num(k.k)-1,0)),n:ks.length}};
-    const Gc=grp('ц'),Gu=grp('у'),Kp=Gc.K*Gu.K,col=S.kcols.length?(S.col[t.code.slice(0,5)]??S.kcols.length-1):0;
-    const kper=KP?KP[1][col]??KP[1][0]:1,kzon=KZ?KZ[1][col]??KZ[1][0]:1,base=r2(v*M*Kp),reg=r2(base*kper*kzon*kr1*kr2*ks);T0+=reg;
+    const Gc=grp('ц'),Gu=grp('у'),Kp=Gc.K*Gu.K,col=S.kcols.length?(S.col[t.code.slice(0,5)]??(l.c1!=null&&l.c1!==''&&(S.k1cols||[]).length===S.kcols.length?+l.c1:S.kcols.length-1)):0;
+    const kper=KP?KP[1][col]??KP[1][0]:1,kzon=KZ?KZ[1][col]??KZ[1][0]:1,base=r2(v*M*Kp);
+    const rc=/^\d\d-\d\d-\d{3}-\d\d$/.test(code)?code:t.code;let c1=(S.k1cols||[]).length>1?colOf(S.k1col,rc):0;
+    if(c1==null){c1=l.c1!=null&&l.c1!==''?+l.c1:0;if(l.c1==null||l.c1==='')W.push(`${nm}: техчасть не указывает, какая колонка Крег.1 относится к ${t.code} — выберите колонку (принята «${S.k1cols[0]}»)`)}
+    const no=onL(S.kregNo,rc),kr1L=no?1:K1?kAt(K1[3],c1):1,kr2L=no?1:kr2,ksL=ks!==1&&(!S.ksOnly||onL(S.ksOnly,rc))&&!onL(S.ksNo,rc)?(S.ksCol?kAt(S.ksCol,c1):ks):1,kr3=K3?kAt(K3[3],c1):1,kr4=K4?kAt(K4[3],c1):1;
+    if(no&&(K1||N.kr2))W.push(`${nm}: к показателю ${rc} Крег.1 и Крег.2 не применяются (техчасть НЦС ${S.code})`);if(ks!==1&&ksL===1)W.push(`${nm}: Кс к ${rc} не применяется (${pp(P.ks)})`);
+    const reg=r2(base*kper*kzon*kr1L*kr2L*kr3*kr4*ksL);T0+=reg;
     const kt=[Gc.n?`${fq(r2(Gc.K))} (ценообразующие, ${pp(P.grp)})`:'',Gu.n?`${fq(r2(Gu.K))} (усложняющие)`:''].filter(Boolean);
-    L.push({i,t,code,v,M,Kp,base,reg,how,kper,kzon,kr1,kr2,ks,col,
-      txt:`${fq(v)} × ${fq(M)}${kt.length?' × '+kt.join(' × '):''} = ${fmt(base)} тыс. руб.; × Кпер. ${fq(kper)}${S.kcols.length?' ('+S.kcols[col]+')':''}${KZ?' × Кпер/зон '+fq(kzon):''} × Крег.1 ${fq(kr1)}${kr2!==1?' × Крег.2 '+fq(kr2):''}${ks!==1?' × Кс '+fq(ks):''} = ${fmt(reg)} тыс. руб.`})});
+    L.push({i,t,code,v,M,Kp,base,reg,how,kper,kzon,kr1:kr1L,kr2:kr2L,kr3,kr4,ks:ksL,col,c1,
+      txt:`${fq(v)} × ${fq(M)}${kt.length?' × '+kt.join(' × '):''} = ${fmt(base)} тыс. руб.; × Кпер. ${fq(kper)}${S.kcols.length?' ('+S.kcols[col]+')':''}${KZ?' × Кпер/зон '+fq(kzon):''}${S.kreg1.length?` × Крег.1 ${fq(kr1L)}${(S.k1cols||[]).length>1?' ('+S.k1cols[c1]+')':''}`:''}${kr2L!==1?' × Крег.2 '+fq(kr2L):''}${kr3!==1?' × Крег.3 '+fq(kr3):''}${kr4!==1?' × Крег.4 '+fq(kr4):''}${ksL!==1?' × Кс '+fq(ksL):''} = ${fmt(reg)} тыс. руб.`})});
   T0=r2(T0+zr);const T=r2(T0*ipr),nds=r2(T*B.nds/100);
   return {N,S,L,W,K1,zone,kr1,kr2,ks,ipr,zr,T0,T,nds,A:r2(T+nds)}}
 function ncsSample(){const st=ST();Object.assign(st.ncs,{sb:'03',reg:'Краснодарский край',zon:'',kr1:'26.1',kr2:false,seis:true,ipr:'',iprOsn:'',zr:'',zrOsn:'',
   lines:[{tab:'03-03-004',M:'800',ks:[{n:'Город более 500 тыс.: остекление, витражные оконные системы (п. 26)',k:'1,04',g:'ц'},{n:'Город более 500 тыс.: больше электропотребляющего оборудования (п. 25)',k:'1,05',g:'ц'},{n:'Город более 500 тыс.: внутренняя отделка, оштукатуривание по сетке (п. 25)',k:'1,03',g:'ц'},{n:'Стеснённые условия застроенной части города (п. 27)',k:'1,03',g:'у'}]},
     {tab:'03-03-007',M:'675',ks:[]}]})}
+const colOf2=(m,code,t)=>{const c=/^\d\d-\d\d-\d{3}-\d\d$/.test(code||'')?code:t.code;for(let n=c.length;n>=5;n--)if(m&&m[c.slice(0,n)]!=null)return m[c.slice(0,n)];return null};
 function ncsPanel(){const C=ncsCalc(),N=C.N,S=C.S;if(!S)return '<p class="u">Справочник НЦС не загружен (ncs_data.js).</p>';
   const inp=(path,v,ph,w)=>`<input data-sp="ncs.${path}" value="${esc(v??'')}"${ph?` placeholder="${esc(ph)}"`:''}${w?` style="width:${w}"`:''}>`;
   const chk=(path,on,l)=>`<label class="kchk"><input type="checkbox" data-sp="ncs.${path}"${on?' checked':''}> ${l}</label>`;
@@ -2616,18 +2638,20 @@ function ncsPanel(){const C=ncsCalc(),N=C.N,S=C.S;if(!S)return '<p class="u">С�
   const DB=window.NCS_DB,sub=String(N.reg||'').replace(/ \(1 зона\)$/,''),zs=S.kzon.filter(k=>k[0].startsWith(sub+' (')),kv=a=>a.map(fq).join(' / ');
   const line=(x,i)=>{const l=N.lines[i],b=`lines.${i}.`,t=S.tables.find(q=>q.code===l.tab);
     return `<section><div class="ksf"><b>${i+1}.</b><label>Таблица сборника${sel(b+'tab',l.tab,[['','— таблица —'],...S.tables.map(q=>[q.code,q.code+'. '+q.title])],'560px')}</label>
-      ${ncsGroups(t).length>1?`<label>Объект${sel(b+'g',l.g,[['','— объект в таблице —'],...ncsGroups(t).map(g=>[g,g])],'420px')}</label>`:''}<label>Мощность М${t?', '+esc(t.unit.replace(/^1 /,'')):''}${inp(b+'M',l.M,'','100px')}</label><button class="vdel" data-ndel="${i}" title="Удалить строку">×</button></div>
+      ${ncsGroups(t).length>1?`<label>Объект${sel(b+'g',l.g,[['','— объект в таблице —'],...ncsGroups(t).map(g=>[g,g])],'420px')}</label>`:''}<label>${t&&t.rows.some(r=>r[2]!=null)?'Мощность М':'Количество М'}${t?', '+esc(t.unit.replace(/^1 /,'')):''}${inp(b+'M',l.M,'','100px')}</label>${x&&(S.k1cols||[]).length>1&&colOf2(S.k1col,x.code,t)==null?`<label>Колонка Крег.1${sel(b+'c1',l.c1??'',[['','— колонка —'],...S.k1cols.map((c,j)=>[String(j),c])],'260px')}</label>`:''}<button class="vdel" data-ndel="${i}" title="Удалить строку">×</button></div>
       ${t?`<div class="u">Показатели: ${(ncsGroups(t).includes(l.g)&&ncsGroups(t).length>1?t.rows.filter(r=>r[4]===l.g):t.rows).map(r=>`${r[0]}${r[2]!=null?' — '+fq(r[2]):''}: ${fq(r[3])}`).join('; ')} тыс. руб. на ${esc(t.unit.replace(/^1 /,''))}</div>`:''}
       <table class="kvt ost"><thead><tr><th>Поправочный коэффициент техчасти</th><th>Значение</th><th>Группа</th><th></th></tr></thead><tbody>${(l.ks||[]).map((k,j)=>`<tr><td>${inp(b+`ks.${j}.n`,k.n,'','100%')}</td><td>${inp(b+`ks.${j}.k`,k.k,'','60px')}</td><td>${sel(b+`ks.${j}.g`,k.g||'ц',[['ц','ценообразующий'],['у','усложняющий']])}</td><td><button class="vdel" data-nkdel="${i}.${j}">×</button></td></tr>`).join('')}</tbody></table>
       <select data-nkp="${i}" style="max-width:100%;width:100%"><option value="">+ коэффициент из технической части…</option>${S.k.map((k,j)=>`<option value="${j}">п. ${k[0]}: ${esc(k[1])} — ${fq(k[2])} (${k[3]==='у'?'усложняющий':'ценообразующий'}; ${esc(k[4])})</option>`).join('')}<option value="-1">свой коэффициент</option></select>
       ${x?`<div class="u">${esc(x.how)}</div><div class="u">Расчёт: ${esc(x.txt)}</div>`:''}</section>`};
   return `<div class="osw"><section><h4>Расчёт по укрупнённым нормативам цены строительства (НЦС-2026)</h4>
-   <p class="u">С = [(НЦС × М × Кпер. × Кпер/зон × Крег. × Кс) + Зр] × Ипр + НДС — Методика 314/пр, п. 97, и п. ${S.p.f} технической части сборника. Показатели в уровне цен на 01.01.2026 для базового района (Московская область), без НДС, в тыс. руб. Учтены затраты на СМР, оборудование, временные здания, зимнее удорожание, ПИР, экспертизу, строительный контроль и резерв; не учтены наружные сети, благоустройство и прочие объекты участка. Интерполяция внутри таблицы, экстраполяции нет (п. ${S.p.interp}).</p>
+   <p class="u">С = [(НЦС × М × Кпер. × Кпер/зон × Крег. × Кс) + Зр] × Ипр + НДС — Методика 314/пр, п. 97, и п. ${S.p.f} технической части сборника. Показатели в уровне цен на 01.01.2026 для базового района (Московская область), без НДС, в тыс. руб. Учтены затраты на СМР, оборудование, временные здания, зимнее удорожание, ПИР, экспертизу, строительный контроль и резерв; не учтены наружные сети, благоустройство и прочие объекты участка. ${S.tables.some(t=>t.rows.some(r=>r[2]!=null))?"Интерполяция внутри таблицы, экстраполяции нет":"Показатели даны на объекты-представители, М — количество в единицах измерителя таблицы; интерполяции и экстраполяции нет"}${S.p.interp?` (п. ${S.p.interp})`:""}.</p>
    <div class="ksf"><label>Сборник${sel('sb',N.sb,Object.entries(DB).map(([k,v])=>[k,`НЦС ${v.code} «${v.name}» (${v.order})`]),'520px')}</label></div>
    <div class="ksf"><label>Субъект РФ (Кпер., ${S.p.kper})${sel('reg',N.reg,[['','— субъект —'],...S.kper.map(k=>[k[0],`${k[0]} — ${kv(k[1])}`])],'380px')}</label>
     ${zs.length?`<label>Ценовая зона (Кпер/зон, ${S.p.kzon})${sel('zon',N.zon,[['','1 зона (центр субъекта)'],...zs.map(k=>[k[0],`${k[0]} — ${kv(k[1])}`])],'300px')}</label>`:''}</div>
    ${S.kcols.length?`<div class="u">Коэффициенты перехода в этом сборнике разные для групп: ${S.kcols.join(', ')}; группа выбирается по таблице показателя.</div>`:''}
-   <div class="ksf"><label>Территория (Крег.1, ${S.p.kreg1})${sel('kr1',C.K1?C.K1[0]:N.kr1,[['','— территория —'],...S.kreg1.map(k=>[k[0],`${k[0]}. ${k[1]} — зона ${k[2]}, ${fq(k[3])}`])],'520px')}</label></div>
+   <div class="ksf"><label>Территория (Крег.1, ${S.p.kreg1})${sel('kr1',C.K1?C.K1[0]:N.kr1,[['','— территория —'],...S.kreg1.map(k=>[k[0],`${k[0]}. ${k[1]} — зона ${k[2]}, ${Array.isArray(k[3])?kv(k[3]):fq(k[3])}`])],'520px')}</label>${S.kreg3?`<label>Ветер, 10–30 % ветреных дней (Крег.3, п. ${S.p.kreg3})${sel('kr3',N.kr3,[['','не применяется'],...S.kreg3.map(k=>[k[0],`${k[0]}. ${k[1]} — ${kv([].concat(k[3]))}`])],'420px')}</label>`:''}${S.kreg4?`<label>Ветер, больше 30 % ветреных дней (Крег.4, п. ${S.p.kreg4})${sel('kr4',N.kr4,[['','не применяется'],...S.kreg4.map(k=>[k[0],`${k[0]}. ${k[1]} — ${kv([].concat(k[3]))}`])],'420px')}</label>`:''}</div>
+   ${(S.k1cols||[]).length>1?`<div class="u">Крег.1 в этом сборнике по колонкам: ${S.k1cols.map((c,j)=>(j+1)+') '+esc(c)).join('; ')}; колонка выбирается по показателю.</div>`:''}${!S.kreg1.length?'<div class="u">Крег.1 и Крег.2 в этом сборнике не применяются.</div>':''}
+   ${(S.notes||[]).length?`<details class="u"><summary>Особенности сборника ${S.code} (${S.notes.length})</summary><ul>${S.notes.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></details>`:''}
    <div class="ost2">${chk('kr2',N.kr2,`Крайний Север или сельская местность в IV–VIII зонах: снегоборьба Крег.2 (${S.p.kreg2})`)} ${chk('seis',N.seis,`Сейсмичность 7, 8 или 9 баллов: Кс = ${fq(S.ks||1)} (п. ${S.p.ks})`)}</div>
    <div class="ksf"><label>Ипр${inp('ipr',N.ipr,'1','70px')}</label><label>обоснование Ипр${inp('iprOsn',N.iprOsn,'прогноз Минэкономразвития, «Инвестиции в основной капитал», индекс-дефлятор','380px')}</label></div>
    <div class="ksf"><label>Зр, тыс. руб.${inp('zr',N.zr,'0','90px')}</label><label>что входит в Зр${inp('zrOsn',N.zrOsn,'затраты, не учтённые в НЦС, по отдельным расчётам','380px')}</label></div></section>
@@ -2709,7 +2733,7 @@ function renderOsr(){const st=ST(),X=xmlx(),pz=X?X.PZ():{},O=osrModel(),M=ssrMod
     D.querySelectorAll('[data-nkdel]').forEach(b=>b.onclick=()=>{const [i,j]=b.dataset.nkdel.split('.');N.lines[+i].ks.splice(+j,1);re()});
     D.querySelectorAll('[data-nkp]').forEach(x=>x.onchange=()=>{if(x.value==='')return;const l=N.lines[+x.dataset.nkp],v=+x.value,S=NCS_DB[N.sb]||NCS_DB['01'];l.ks=l.ks||[];
       l.ks.push(v<0?{n:'',k:'',g:'ц'}:{n:`${S.k[v][1]} (п. ${S.k[v][0]})`,k:fq(S.k[v][2]),g:S.k[v][3]});re()});
-    D.querySelectorAll('[data-sp="ncs.reg"],[data-sp="ncs.sb"]').forEach(x=>x.addEventListener('change',()=>{N.zon='';N.kr1='';commit();renderOsr()}))}
+    D.querySelectorAll('[data-sp="ncs.reg"],[data-sp="ncs.sb"]').forEach(x=>x.addEventListener('change',()=>{N.zon='';N.kr1='';N.kr3='';N.kr4='';commit();renderOsr()}))}
   else if(osTab==='pir'){const P=st.pir,re=()=>{commit();renderOsr()};
     D.querySelectorAll('[data-padd]').forEach(b=>b.onclick=()=>{P.lines.push(pirLine(b.dataset.padd));re()});
     D.querySelectorAll('[data-pdel]').forEach(b=>b.onclick=()=>{P.lines.splice(+b.dataset.pdel,1);re()});
@@ -3587,8 +3611,8 @@ function palList(q){
   const cmds=[['Проверить смету',openCheck],['Шаблоны смет',()=>tplOpen(false)],['Сохранить как шаблон',tplSave],['Знакомство с программой',tour],['Вид сметы: форма ЛСР',()=>setLsrView('form')],['Вид сметы: компактный',()=>setLsrView('cmp')],['Давальческие материалы заказчика',openDav],['Коэффициенты на всю смету',openKall],['Экспертиза сметы: уведомление с замечаниями',openExpert],['Материал из ФСБЦ отдельной позицией…',()=>mrNew()],['Материал вне базы (конъюнктурный анализ)',()=>kaNew()],['Оборудование из ФСБЦ…',eqNew],['Оборудование вне базы (конъюнктурный анализ)',()=>kaNew('eq')],['Погрузка и разгрузка (ФГИС ЦС)',()=>trNew('load')],['Новая смета',newDoc],['Загрузить пример',sample],['Сохранить',save],['Мои сметы',openDocs],['На другое устройство (ссылка, QR)',openShare],['Сохранить как копию',saveAs],['Сохранить в файл',()=>exportDocFile()],['Открыть смету из файла',importDocFile],['Загрузить сплит-форму цен (Excel)',openSplit],['Модель IFC (ТИМ): открыть',openBim],['Модель IFC (ТИМ): вкладка',()=>setTab('bim')],['Выходные формы (ЛСР, печать)',openForms],['Акты КС-2 и справки КС-3',openActs],['Объектный и сводный сметные расчёты (ОСР, ССРСС)',openOsr],['Ведомость ресурсов в Excel',exportResXlsx],['Ведомость ресурсов: печать',printRes],['ЛСР в Excel (.xlsx)',exportLsrXlsx],['Экспорт таблицы (.csv)',exportCsv],['Отменить',undo],['Вернуть',redoF],['Удалить строку',del],['Дублировать позицию',dup],['Добавить раздел',askSection],['Тёмная / светлая тема',toggleTheme],['Краткий / полный вид',toggleCompact],['Включить / выключить НДС',()=>setNds(!S.nds)],['Базисный уровень цен',()=>setIdx('')],...Object.entries(B.idx).map(([k,v])=>['Индексы: '+v.q,()=>setIdx(k)]),['Ведомость объёмов',()=>setTab('vor')],['Ресурсная ведомость',()=>setTab('res')],['Объектная смета',()=>setTab('obj')],['Помощь ИИ',aiHelp],['Подбор расценки',focusCat],['Экспорт в XML (схема Минстроя)',exportXML],['Пакет XML для экспертизы (ЛСР, ОСР, ССРСС, записка)',exportPack],['Горячие клавиши',keys],['О тренажёре',about]];
   const c=cmds.filter(x=>!q||x[0].toLowerCase().includes(q)).slice(0,q?6:8);
   c.forEach(x=>out.push({g:'Команды',t:x[0],fn:x[1],s:''}));
-  if(q){Object.entries(B.rates).filter(([k,r])=>!r.real&&(k+' '+r.name).toLowerCase().includes(q)).slice(0,4).forEach(([k,r])=>out.push({g:'Учебная база · добавить в смету',t:k+'  '+r.name,fn:()=>addRate(k),s:pu(r.unit)}));
-    if(q.length>=2){if(!RLOW)RLOW=RFULL.map((t,i)=>('гэсн'+RI.r[i][0]+' '+t).toLowerCase().replace(/ё/g,'е'));let k=0;for(let i=0;i<RLOW.length&&k<8;i++)if(RLOW[i].includes(q)){k++;const r=RI.r[i];out.push({g:'ГЭСН-2022 · добавить в смету',t:'ГЭСН'+r[0]+'  '+RFULL[i],fn:()=>addRate(r[0]),s:pu(r[4])})}}}
+  if(q){Object.entries(B.rates).filter(([k,r])=>!r.real&&rateHas(k+' '+r.name,q)).slice(0,4).forEach(([k,r])=>out.push({g:'Учебная база · добавить в смету',t:k+'  '+r.name,fn:()=>addRate(k),s:pu(r.unit)}));
+    if(q.length>=2){if(!RLOW)RLOW=RFULL.map((t,i)=>('гэсн'+RI.r[i][0]+' '+t).toLowerCase().replace(/ё/g,'е'));for(const i of rateFind(q,8)){const r=RI.r[i];out.push({g:'ГЭСН-2022 · добавить в смету',t:'ГЭСН'+r[0]+'  '+RFULL[i],fn:()=>addRate(r[0]),s:pu(r[4])})}}}
   return out;
 }
 function palRender(){
