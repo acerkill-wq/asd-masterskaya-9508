@@ -485,6 +485,66 @@ body.cat-off.insp-off .work{grid-template-columns:46px minmax(0,1fr) 46px}
 body.insp-off #insp>*:not(.ph){display:none}
 body.insp-off #insp>.ph~.ph{display:none}
 body.insp-off #insp{overflow:hidden;cursor:pointer}
+/* ---------- телефон (до 760 px): одна панель за раз, нижняя панель вкладок ---------- */
+#mnav{display:none}
+@media (max-width:760px){
+  #app{display:flex;flex-direction:column;height:100vh;height:100dvh;min-width:0}
+  .titlebar{gap:8px;padding:8px 10px}
+  .titlebar .logo>div,.titlebar .modes,#savetxt{display:none}
+  .titlebar .doc{flex:1;min-width:0}.titlebar .doc input{min-width:0;width:100%;font-size:16px}
+  .ribbon{overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none;padding:4px 6px;gap:4px}.ribbon::-webkit-scrollbar{display:none}
+  .ribbon .grp{flex-shrink:0}
+  .doctabs{overflow-x:auto;scrollbar-width:none}
+  .menubar{display:none}
+  .work,body.cat-off .work,body.insp-off .work,body.cat-off.insp-off .work{display:flex;flex:1;min-height:0;padding:6px;gap:0}
+  .work>.panel{display:none;flex:1;min-width:0}
+  body[data-mv=sheet] #sheet,body[data-mv=cat] .catalog,body[data-mv=insp] #insp{display:flex}
+  .catalog .cbtn,#insp .ph .cbtn,#catbtn,#inspbtn{display:none!important}
+  body:not([data-mv=sheet]) .ribbon,body:not([data-mv=sheet]) .doctabs{display:none}
+  .dock{display:none}
+  body[data-mv=tot] .work,body[data-mv=menu] .work{display:none}
+  body[data-mv=tot] .dock{display:flex;flex-direction:column-reverse;justify-content:flex-end;flex:1;min-height:0;overflow:auto;padding:6px;gap:8px}
+  body[data-mv=menu] .menubar{display:flex;flex-direction:column;align-items:stretch;flex:1;min-height:0;overflow:auto;padding:10px;gap:6px}
+  body[data-mv=menu] .menubar>button{text-align:left;padding:12px 14px;font-size:16px;border-radius:10px;background:var(--surface2)}
+  body[data-mv=menu] .params{flex-direction:column;align-items:stretch;margin:8px 0 0;padding:10px 0 0;border-left:0;border-top:1px solid var(--line);gap:8px}
+  body[data-mv=menu] .params .ctl{font-size:13px}body[data-mv=menu] .params .ctl .lb,body[data-mv=menu] .params .lb-s{display:inline}
+  body[data-mv=menu] .params select{max-width:none!important;flex:1;font-size:15px}
+  body[data-mv=menu] #palbtn{display:none}
+  .menubar .dd{position:fixed;left:8px!important;right:8px;top:auto;bottom:78px;max-height:65vh!important;min-width:0}
+  .menubar .dd button{padding:12px 10px;font-size:15px}
+  #mnav{display:flex;border-top:1px solid var(--line);background:var(--surface);padding:4px 4px calc(4px + env(safe-area-inset-bottom))}
+  #mnav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 2px;font-size:11px;color:var(--ink2);border-radius:10px;min-width:0}
+  #mnav button.on{color:var(--brand-ink);background:var(--brand-soft)}
+  #mnav .i{width:22px;height:22px}#mnav small{font-family:var(--mono);font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+  /* смета: позиции карточками */
+  #tablewrap>table:not(.lsrf)>thead{display:none}
+  #tablewrap>table:not(.lsrf),#tablewrap>table:not(.lsrf)>tbody{display:block;width:100%}
+  #tablewrap>table:not(.lsrf) tr.pos{display:grid;grid-template-columns:auto auto 1fr auto;column-gap:8px;row-gap:3px;padding:10px 8px;border-bottom:1px solid var(--line)}
+  #tablewrap>table:not(.lsrf) tr.pos>td{padding:0;border:0;max-width:none}
+  #tablewrap>table:not(.lsrf) tr.pos>td:nth-child(1){grid-area:1/1}
+  #tablewrap>table:not(.lsrf) tr.pos>td:nth-child(2){grid-area:1/2/2/4;align-self:center}
+  #tablewrap>table:not(.lsrf) tr.pos>td.tot{grid-area:1/4;font-weight:700}
+  #tablewrap>table:not(.lsrf) tr.pos>td.nm{grid-area:2/1/3/5;white-space:normal}
+  #tablewrap>table:not(.lsrf) tr.pos>td.nm .t{-webkit-line-clamp:3}
+  #tablewrap>table:not(.lsrf) tr.pos>td:nth-child(4){grid-area:3/1/4/3;text-align:left}
+  #tablewrap>table:not(.lsrf) tr.pos>td:nth-child(5){grid-area:3/3/4/4;align-self:center}
+  #tablewrap>table:not(.lsrf) tr.pos>td.c-ext{display:none}
+  #tablewrap>table:not(.lsrf) tr.sc{display:flex;gap:8px;padding:10px 8px;align-items:center}
+  #tablewrap>table:not(.lsrf) tr.sc>td{border:0;padding:0}#tablewrap>table:not(.lsrf) tr.sc>td:first-child{display:none}#tablewrap>table:not(.lsrf) tr.sc>td[colspan]{flex:1}
+  #tablewrap>table:not(.lsrf) tr.exp{display:block}#tablewrap>table:not(.lsrf) tr.exp>td:first-child{display:none}#tablewrap>table:not(.lsrf) tr.exp>td{display:block;overflow-x:auto;padding:4px 8px}
+  .tablewrap{overflow:auto}
+  #tablewrap>table:not(.lsrf) tr.pos>td,#tablewrap>table:not(.lsrf) tr.sc>td{background:transparent!important}
+  #tablewrap>table:not(.lsrf) tr.sc{background:var(--surface2)}
+  #tablewrap>table:not(.lsrf) tr.pos.sel{background:var(--brand-soft);box-shadow:inset 3px 0 0 var(--brand)}
+  #tablewrap>table:not(.lsrf) tr.pos>td.tot .bar{display:none}
+  body[data-mv=tot] .dock>.panel{flex:none}
+  body[data-mv=tot] .tiles{display:grid!important;grid-template-columns:1fr 1fr;gap:10px 14px}
+  body[data-mv=tot] .tile{min-width:0}body[data-mv=tot] .tile b{font-size:16px;white-space:nowrap}
+  body[data-mv=menu] #zonesel,body[data-mv=menu] #lvlsel,body[data-mv=menu] #terrsel{max-width:none!important}
+  body[data-mv=menu] .params .ctl:not([style*="none"]){display:grid!important;grid-template-columns:64px 1fr;align-items:center;gap:8px;justify-content:stretch}
+  body[data-mv=menu] .params .ctl select{width:100%;max-width:none!important}
+}
+
 body.insp-off #insp>.ph{writing-mode:vertical-rl;padding:12px 0;justify-content:flex-start;align-items:center;height:100%;gap:10px}
 body.insp-off #insp>.ph>:not(.cbtn):not(.pt){display:none}
 #insp>.ph .cbtn{margin-left:auto;width:26px;height:26px;border-radius:7px;display:grid;place-items:center;color:var(--muted);flex:none}
@@ -507,7 +567,7 @@ body.insp-off #insp>.ph .cbtn{margin:0;order:-1}
 .catalog .ph{white-space:nowrap}.catalog .ph .n{overflow:hidden;text-overflow:ellipsis}
 </style>
 </head>
-<body data-theme="light">
+<body data-theme="light" data-mv="sheet">
 <div id="gate" style="position:fixed;inset:0;z-index:99999;display:grid;place-items:center;background:#EDF0F4;font-family:Inter,system-ui,sans-serif">
  <form id="gateF" style="background:#fff;border-radius:18px;box-shadow:0 10px 40px rgba(18,26,36,.12);padding:34px 36px;width:min(380px,calc(100vw - 32px));box-sizing:border-box">
   <div style="display:flex;align-items:center;gap:10px;font-size:22px;font-weight:700;color:#121A24;margin-bottom:14px"><svg width="30" height="30" viewBox="0 0 80 80" aria-hidden="true"><g transform="rotate(-90 40 40)"><circle cx="40" cy="40" r="30" fill="none" stroke="#0EA5A4" stroke-width="12" stroke-linecap="round" stroke-dasharray="64 124.5"/><circle cx="40" cy="40" r="30" fill="none" stroke="#F2A93B" stroke-width="12" stroke-linecap="round" stroke-dasharray="44 144.5" stroke-dashoffset="-79.5"/><circle cx="40" cy="40" r="30" fill="none" stroke="#7C6CF0" stroke-width="12" stroke-linecap="round" stroke-dasharray="34 154.5" stroke-dashoffset="-139"/></g></svg>Римора</div>
@@ -629,6 +689,13 @@ body.insp-off #insp>.ph .cbtn{margin:0;order:-1}
       <div class="nds"><span id="ndslabel">без НДС</span><span class="num" id="ndsv"></span></div>
     </div>
   </footer>
+  <nav id="mnav" aria-label="Разделы программы">
+    <button data-mv="sheet" class="on"><svg class="i"><use href="#i-sheet"/></svg>Смета</button>
+    <button data-mv="cat"><svg class="i"><use href="#i-book"/></svg>Каталог</button>
+    <button data-mv="insp"><svg class="i"><use href="#i-rate"/></svg>Карточка</button>
+    <button data-mv="tot"><svg class="i"><use href="#i-recalc"/></svg>Итог<small id="mnavTot"></small></button>
+    <button data-mv="menu"><svg class="i"><use href="#i-layers"/></svg>Меню</button>
+  </nav>
 </div>
 
 <div class="pal-bg" id="palbg"><div class="pal">
@@ -1973,6 +2040,20 @@ function openXml(f){if(!f)return openXlsx(null,true);
 // Ctrl+V (⌘V) в смете, а не в поле ввода: если в буфере есть шифры расценок — открываем окно вставки
 document.addEventListener('paste',e=>{const a=document.activeElement;if(/INPUT|SELECT|TEXTAREA/.test(a.tagName)||a.isContentEditable||$('#dlgbg').classList.contains('on')||$('#palbg').classList.contains('on'))return;
   const t=e.clipboardData&&e.clipboardData.getData('text/plain');const rc=t&&clipGet(t);if(rc){e.preventDefault();return clipPaste(rc)}if(!t||!parseTSV(t).some(r=>r.some(pasteCode)))return;e.preventDefault();openPaste(t)});
+/* ---------- телефон: одна панель за раз (сама раскладка — в CSS, до 760 px) ---------- */
+const MOBQ=matchMedia('(max-width: 760px)'),isMob=()=>MOBQ.matches;
+// свёрнутые каталог и карточка на телефоне не нужны: снимаем на время, на компьютере возвращаем как было
+let mobKeep=null;function mobApply(){const b=document.body.classList;if(isMob()){if(!mobKeep){mobKeep={cat:b.contains('cat-off'),insp:b.contains('insp-off')};b.remove('cat-off','insp-off')}}
+  else if(mobKeep){if(mobKeep.cat)b.add('cat-off');if(mobKeep.insp)b.add('insp-off');mobKeep=null;setMv('sheet')}}
+MOBQ.addEventListener('change',mobApply);setTimeout(mobApply,0);
+function setMv(v){document.body.dataset.mv=v;$$('#mnav button').forEach(b=>b.classList.toggle('on',b.dataset.mv===v));if(v!=='menu')closeMenu()}
+$('#mnav').addEventListener('click',e=>{const b=e.target.closest('[data-mv]');if(b)setMv(b.dataset.mv)});
+// повторное нажатие на выбранную позицию открывает её карточку
+$('#tablewrap').addEventListener('click',e=>{if(!isMob())return;const tr=e.target.closest('tr.pos');if(!tr||e.target.closest('button,input,select,a,textarea'))return;
+  if(tr.classList.contains('sel'))setTimeout(()=>setMv('insp'),0)},true);
+// пункт меню выбран — возвращаемся к смете (окна открываются поверх)
+$('#menubar').addEventListener('click',e=>{if(isMob()&&e.target.closest('.dd button'))setTimeout(()=>{if(document.body.dataset.mv==='menu')setMv('sheet')},0)},true);
+{const g=$('#gtot'),m=$('#mnavTot'),up=()=>{m.textContent=g.textContent.replace(/\s*₽\s*$/,'').trim()};new MutationObserver(up).observe(g,{childList:true,subtree:true,characterData:true});up()}
 function renderObj(){
   const T=totals();
   if(!S.pos.some(p=>p.sec===undefined))return `<div class="empty"><div><h3>Объектная смета соберётся из локальных</h3><p>Добавьте позиции в локальный расчёт, и здесь появится сводка по смете.</p></div></div>`;
