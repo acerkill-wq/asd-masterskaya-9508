@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Римора · доступ</title>
+<!-- Кабинет администратора Риморы: личные коды доступа и сроки. Данные на сервере облака (/v1/admin/users).
+     Ключ администратора вводится вручную и живёт только в этой вкладке (sessionStorage); в файлах его нет. -->
+<style>
+:root{--bg:#EDF0F4;--card:#fff;--ink:#121A24;--ink2:#465366;--ink3:#7A8696;--line:#DDE3EA;--brand:#0EA5A4;--brand-ink:#0B7F7E;--brand-soft:#E1F6F5;
+  --ok:#1E8E5A;--ok-soft:#E3F5EC;--warn:#B7791F;--warn-soft:#FDF3E1;--bad:#C0392B;--bad-soft:#FBE9E7;--mute-soft:#EEF1F5}
+@media (prefers-color-scheme:dark){:root{--bg:#0F141B;--card:#18202A;--ink:#E8EDF3;--ink2:#B4BFCC;--ink3:#8592A3;--line:#2A3442;--brand-soft:#123634;--brand-ink:#5FD3D2;
+  --ok-soft:#163528;--warn-soft:#3A2E16;--bad-soft:#3B1D1A;--mute-soft:#222B36}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 Inter,system-ui,-apple-system,Segoe UI,sans-serif}
+button,input,select{font:inherit;color:inherit}
+.wrap{max-width:1040px;margin:0 auto;padding:20px 16px 60px}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.top h1{font-size:20px;margin:0;flex:1}
+.card{background:var(--card);border-radius:14px;box-shadow:0 2px 10px rgba(18,26,36,.06);padding:16px;margin-bottom:14px}
+.btn{border:1px solid var(--line);background:var(--card);border-radius:9px;padding:8px 12px;cursor:pointer;white-space:nowrap}
+.btn:hover{border-color:var(--brand)}
+.btn.pri{background:var(--brand);border-color:var(--brand);color:#fff;font-weight:600}
+.btn.sm{padding:5px 9px;font-size:13px}
+.btn.dng{color:var(--bad)}
+input[type=text],input[type=password],input[type=date],input[type=search],select{border:1px solid var(--line);background:var(--card);border-radius:9px;padding:8px 10px;min-width:0}
+label.f{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--ink3)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
+.row>label.f{flex:1 1 180px}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:14px}
+.stat{background:var(--card);border-radius:12px;padding:10px 12px;cursor:pointer;border:2px solid transparent}
+.stat.on{border-color:var(--brand)}
+.stat b{display:block;font-size:20px}.stat span{font-size:12px;color:var(--ink3)}
+.chip{display:inline-block;padding:2px 8px;border-radius:20px;font-size:12px;font-weight:600;white-space:nowrap}
+.c-ok{background:var(--ok-soft);color:var(--ok)}.c-warn{background:var(--warn-soft);color:var(--warn)}.c-bad{background:var(--bad-soft);color:var(--bad)}.c-mute{background:var(--mute-soft);color:var(--ink2)}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;font-size:12px;color:var(--ink3);font-weight:600;padding:6px 8px;border-bottom:1px solid var(--line)}
+td{padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+td .u{color:var(--ink3);font-size:12px}
+td.acts{text-align:right}
+td.acts .btn{margin:2px 0 2px 4px}
+.code{font:600 22px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:1px;background:var(--brand-soft);color:var(--brand-ink);padding:10px 14px;border-radius:10px;display:inline-block;margin:6px 0}
+.msg{color:var(--bad);font-size:13px;margin-top:8px}
+.muted{color:var(--ink3)}
+.hide{display:none!important}
+dialog{border:0;border-radius:14px;padding:18px;background:var(--card);color:var(--ink);width:min(380px,calc(100vw - 32px));box-shadow:0 10px 40px rgba(0,0,0,.25)}
+dialog::backdrop{background:rgba(18,26,36,.35)}
+.ml{display:none;color:var(--ink3)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 14px;border-radius:10px;font-size:13px;z-index:9}
+@media (max-width:760px){
+  .stats{grid-template-columns:repeat(3,1fr)}
+  thead{display:none}
+  table,tbody,tr,td{display:block;width:100%}
+  tr{border-bottom:1px solid var(--line);padding:8px 0}
+  td{border:0;padding:3px 0}.ml{display:inline}
+  td.acts{text-align:left}td.acts .btn{margin:4px 4px 0 0}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <svg width="28" height="28" viewBox="0 0 80 80" aria-hidden="true"><g transform="rotate(-90 40 40)"><circle cx="40" cy="40" r="30" fill="none" stroke="#0EA5A4" stroke-width="12" stroke-linecap="round" stroke-dasharray="64 124.5"/><circle cx="40" cy="40" r="30" fill="none" stroke="#F2A93B" stroke-width="12" stroke-linecap="round" stroke-dasharray="44 144.5" stroke-dashoffset="-79.5"/><circle cx="40" cy="40" r="30" fill="none" stroke="#7C6CF0" stroke-width="12" stroke-linecap="round" stroke-dasharray="34 154.5" stroke-dashoffset="-139"/></g></svg>
+    <h1>Римора · доступ пользователей</h1>
+    <button class="btn sm hide" id="out">Выйти</button>
+  </div>
+
+  <!-- вход -->
+  <form class="card" id="login" style="max-width:420px">
+    <b>Вход для администратора</b>
+    <p class="muted" style="margin:6px 0 12px">Вставьте ключ администратора. Он хранится только в этой вкладке и стирается, когда вы её закроете.</p>
+    <input type="password" id="key" autocomplete="off" placeholder="Ключ администратора" style="width:100%">
+    <div class="msg hide" id="lerr"></div>
+    <button class="btn pri" style="margin-top:12px;width:100%">Войти</button>
+  </form>
+
+  <div id="main" class="hide">
+    <!-- выдать код -->
+    <form class="card" id="add">
+      <b>Выдать доступ</b>
+      <div class="row" style="margin-top:10px">
+        <label class="f">Кому (имя)<input type="text" id="aname" maxlength="120" placeholder="Иван Петров" required></label>
+        <label class="f">Заметка<input type="text" id="anote" maxlength="500" placeholder="почта, телефон, группа"></label>
+        <label class="f" style="flex:0 1 170px">Срок
+          <select id="aterm"><option value="30">30 дней</option><option value="90">90 дней</option><option value="182">6 месяцев</option><option value="365" selected>1 год</option><option value="date">До даты…</option><option value="">Бессрочно</option></select></label>
+        <label class="f hide" id="adatew" style="flex:0 1 160px">Дата<input type="date" id="adate"></label>
+        <button class="btn pri">Выдать код</button>
+      </div>
+      <div class="msg hide" id="aerr"></div>
+    </form>
+
+    <!-- код только что выдан -->
+    <div class="card hide" id="issued">
+      <b id="iwho"></b>
+      <div class="code" id="icode"></div>
+      <div class="muted" id="iterm"></div>
+      <p style="margin:8px 0">Код показывается один раз. Скопируйте и отправьте его пользователю. Если потеряется, выдайте новый кнопкой «Новый код».</p>
+      <button class="btn pri" id="icopy">Скопировать текст для пользователя</button> <button class="btn" id="iclose">Готово</button>
+    </div>
+
+    <div class="stats" id="stats"></div>
+
+    <div class="card">
+      <div class="row" style="margin-bottom:8px"><input type="search" id="q" placeholder="Найти по имени или заметке" style="flex:1"><button class="btn sm" id="reload">Обновить</button></div>
+      <div id="list"></div>
+    </div>
+  </div>
+</div>
+
+<dialog id="dlg"><form method="dialog" id="dlgf"></form></dialog>
+
+<script>
+(() => {
+const API = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) ? 'http://127.0.0.1:8794' : 'https://rimora.45-10-244-45.sslip.io';
+const SITE = 'https://acerkill-wq.github.io/rimora-9508/';
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const DAY = 864e5;
+const dt = ms => { const d = new Date(ms); return String(d.getDate()).padStart(2,'0') + '.' + String(d.getMonth()+1).padStart(2,'0') + '.' + d.getFullYear(); };
+const dtt = ms => ms ? dt(ms) + ' ' + String(new Date(ms).getHours()).padStart(2,'0') + ':' + String(new Date(ms).getMinutes()).padStart(2,'0') : '—';
+const endOfDay = s => { const [y,m,d] = s.split('-').map(Number); return new Date(y, m-1, d, 23, 59, 59).getTime(); };
+const toast = t => { const n = document.createElement('div'); n.className = 'toast'; n.textContent = t; document.body.appendChild(n); setTimeout(() => n.remove(), 2600); };
+let KEY = ''; try { KEY = sessionStorage.getItem('rimora_admin') || ''; } catch (e) {}
+let USERS = [], NOW = Date.now(), FILTER = 'all';
+
+async function api(method, path, body) {
+  const r = await fetch(API + path, { method, headers: { 'Authorization': 'Bearer ' + KEY, ...(body ? { 'Content-Type': 'application/json' } : {}) }, body: body ? JSON.stringify(body) : undefined });
+  const j = await r.json().catch(() => ({}));
+  if (r.status === 401) { logout('Ключ не подошёл или слишком много попыток. Попробуйте ещё раз через час.'); throw new Error('401'); }
+  if (!r.ok) throw new Error(j.error || ('ошибка ' + r.status));
+  return j;
+}
+function state(u) {
+  if (u.blocked) return ['closed', 'Доступ закрыт', 'c-bad'];
+  if (u.until == null) return ['ok', 'Бессрочно', 'c-ok'];
+  if (u.until < NOW) return ['expired', 'Истёк ' + dt(u.until), 'c-mute'];
+  if (u.until - NOW < 7 * DAY) return ['soon', 'До ' + dt(u.until), 'c-warn'];
+  return ['ok', 'До ' + dt(u.until), 'c-ok'];
+}
+function logout(msg) {
+  KEY = ''; try { sessionStorage.removeItem('rimora_admin'); } catch (e) {}
+  $('#main').classList.add('hide'); $('#out').classList.add('hide'); $('#login').classList.remove('hide');
+  $('#lerr').textContent = msg || ''; $('#lerr').classList.toggle('hide', !msg);
+}
+async function load() {
+  const j = await api('GET', '/v1/admin/users');
+  USERS = j.users; NOW = j.now || Date.now();
+  $('#login').classList.add('hide'); $('#main').classList.remove('hide'); $('#out').classList.remove('hide');
+  render();
+}
+function render() {
+  const cnt = { all: USERS.length, ok: 0, soon: 0, expired: 0, closed: 0 };
+  USERS.forEach(u => { const s = state(u)[0]; cnt[s]++; if (s === 'soon') cnt.ok++; });
+  const ST = [['all', 'Всего'], ['ok', 'Действуют'], ['soon', 'Истекают за 7 дней'], ['expired', 'Срок истёк'], ['closed', 'Закрыты']];
+  $('#stats').innerHTML = ST.map(([k, t]) => `<div class="stat${FILTER === k ? ' on' : ''}" data-f="${k}"><b>${cnt[k]}</b><span>${t}</span></div>`).join('');
+  const q = $('#q').value.trim().toLowerCase();
+  const L = USERS.filter(u => {
+    const s = state(u)[0];
+    if (FILTER !== 'all' && !(FILTER === s || (FILTER === 'ok' && s === 'soon'))) return false;
+    return !q || (u.name + ' ' + u.note).toLowerCase().includes(q);
+  });
+  if (!USERS.length) { $('#list').innerHTML = '<p class="muted">Пока никому не выдано личных кодов. Заполните форму «Выдать доступ» выше.</p>'; return; }
+  if (!L.length) { $('#list').innerHTML = '<p class="muted">Никого не нашлось.</p>'; return; }
+  $('#list').innerHTML = `<table><thead><tr><th>Пользователь</th><th>Доступ</th><th>Последний вход</th><th>Входов</th><th></th></tr></thead><tbody>${L.map(u => {
+    const [s, t, c] = state(u);
+    return `<tr data-id="${u.id}"><td><b>${esc(u.name)}</b>${u.note ? `<div class="u">${esc(u.note)}</div>` : ''}<div class="u">выдан ${dt(u.created)}</div></td>
+      <td><span class="chip ${c}">${t}</span></td><td><span class="ml">Последний вход: </span>${dtt(u.last_seen)}</td><td><span class="ml">Входов: </span>${u.visits}</td>
+      <td class="acts">${s !== 'closed' ? `<button class="btn sm" data-a="d30">+30 дней</button><button class="btn sm" data-a="d365">+1 год</button>` : ''}<button class="btn sm" data-a="term">Срок…</button>
+      ${u.blocked ? '<button class="btn sm" data-a="open">Открыть доступ</button>' : '<button class="btn sm dng" data-a="close">Закрыть доступ</button>'}
+      <button class="btn sm" data-a="code">Новый код</button><button class="btn sm" data-a="edit">Изменить</button></td></tr>`;
+  }).join('')}</tbody></table>`;
+}
+function ask(html) {
+  return new Promise(res => {
+    const d = $('#dlg'); $('#dlgf').innerHTML = html + '<div class="row" style="justify-content:flex-end;margin-top:14px"><button class="btn" value="no">Отмена</button><button class="btn pri" value="ok">Сохранить</button></div>';
+    d.onclose = () => res(d.returnValue === 'ok' ? d : null); d.returnValue = ''; d.showModal();
+  });
+}
+function termText(until) { return until == null ? 'Доступ бессрочный.' : 'Доступ до ' + dt(until) + '.'; }
+function showIssued(u, code) {
+  $('#iwho').textContent = 'Код для: ' + u.name; $('#icode').textContent = code; $('#iterm').textContent = termText(u.until);
+  $('#icopy').onclick = () => {
+    const txt = `Ваш доступ к Риморе\nАдрес: ${SITE}\nКод доступа: ${code}\n${termText(u.until)}\nОткройте адрес в Chrome, Яндекс Браузере или Edge и введите код.`;
+    (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).then(() => toast('Текст скопирован'), () => toast('Не удалось скопировать: выделите код вручную'));
+  };
+  $('#issued').classList.remove('hide'); $('#issued').scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+$('#login').onsubmit = async e => {
+  e.preventDefault(); KEY = $('#key').value.trim(); if (!KEY) return;
+  try { await load(); try { sessionStorage.setItem('rimora_admin', KEY); } catch (e) {} $('#key').value = ''; }
+  catch (err) { if (err.message !== '401') logout('Нет связи с сервером: ' + err.message); }
+};
+$('#out').onclick = () => logout();
+$('#aterm').onchange = () => $('#adatew').classList.toggle('hide', $('#aterm').value !== 'date');
+$('#add').onsubmit = async e => {
+  e.preventDefault(); $('#aerr').classList.add('hide');
+  const v = $('#aterm').value; let until = null;
+  if (v === 'date') { if (!$('#adate').value) { $('#aerr').textContent = 'Укажите дату'; $('#aerr').classList.remove('hide'); return; } until = endOfDay($('#adate').value); }
+  else if (v) until = endOfDay(new Date(Date.now() + (+v) * DAY).toISOString().slice(0, 10));
+  try {
+    const j = await api('POST', '/v1/admin/users', { name: $('#aname').value, note: $('#anote').value, until });
+    USERS.unshift(j.user); render(); showIssued(j.user, j.code); $('#aname').value = ''; $('#anote').value = '';
+  } catch (err) { if (err.message !== '401') { $('#aerr').textContent = 'Не получилось: ' + err.message; $('#aerr').classList.remove('hide'); } }
+};
+$('#iclose').onclick = () => $('#issued').classList.add('hide');
+$('#q').oninput = render;
+$('#reload').onclick = () => load().then(() => toast('Список обновлён')).catch(() => {});
+$('#stats').onclick = e => { const s = e.target.closest('[data-f]'); if (s) { FILTER = s.dataset.f; render(); } };
+$('#list').onclick = async e => {
+  const b = e.target.closest('[data-a]'); if (!b) return;
+  const id = +b.closest('tr').dataset.id, u = USERS.find(x => x.id === id), a = b.dataset.a;
+  const put = async body => { const j = await api('PUT', '/v1/admin/users/' + id, body); Object.assign(u, j.user); render(); };
+  const ext = days => endOfDay(new Date(Math.max(Date.now(), u.until ?? 0) + days * DAY).toISOString().slice(0, 10));
+  try {
+    if (a === 'd30' || a === 'd365') { if (u.until == null) return toast('У пользователя бессрочный доступ'); const until = ext(a === 'd30' ? 30 : 365); await put({ until }); toast(u.name + ': ' + termText(until)); }
+    else if (a === 'term') {
+      const d = await ask(`<b>Срок доступа: ${esc(u.name)}</b><p class="muted" style="margin:6px 0 10px">Сейчас: ${esc(state(u)[1])}</p>
+        <label class="f">До даты включительно<input type="date" name="d" value="${u.until ? new Date(u.until).toISOString().slice(0, 10) : ''}"></label>
+        <label style="display:flex;gap:6px;align-items:center;margin-top:10px"><input type="checkbox" name="inf" ${u.until == null ? 'checked' : ''}> Бессрочно</label>`);
+      if (!d) return; const f = $('#dlgf'), inf = f.inf.checked, dv = f.d.value;
+      if (!inf && !dv) return toast('Дата не указана, срок не изменён');
+      await put({ until: inf ? null : endOfDay(dv) }); toast('Срок сохранён');
+    }
+    else if (a === 'close') { if (!confirm(`Закрыть доступ для «${u.name}»? Код перестанет работать сразу, в том числе у уже вошедших (при следующем открытии программы).`)) return; await put({ blocked: true }); toast('Доступ закрыт'); }
+    else if (a === 'open') { await put({ blocked: false }); toast('Доступ открыт'); }
+    else if (a === 'code') { if (!confirm(`Выдать «${u.name}» новый код? Старый код перестанет работать.`)) return; const j = await api('POST', '/v1/admin/users/' + id + '/code'); showIssued(u, j.code); }
+    else if (a === 'edit') {
+      const d = await ask(`<b>Изменить</b><label class="f" style="margin-top:10px">Имя<input type="text" name="n" maxlength="120" value="${esc(u.name)}" required></label>
+        <label class="f" style="margin-top:10px">Заметка<input type="text" name="t" maxlength="500" value="${esc(u.note)}"></label>`);
+      if (!d) return; const f = $('#dlgf'); await put({ name: f.n.value, note: f.t.value }); toast('Сохранено');
+    }
+  } catch (err) { if (err.message !== '401') toast('Не получилось: ' + err.message); }
+};
+if (KEY) load().catch(err => { if (err.message !== '401') logout('Нет связи с сервером: ' + err.message); });
+})();
+</script>
+</body>
+</html>

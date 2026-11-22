@@ -578,18 +578,36 @@ body.insp-off #insp>.ph .cbtn{margin:0;order:-1}
  </form>
 </div>
 <script>
-(function(){var HS=['3565c169189b59c6d1fe932f52b50295990d6469deb20d5647b7c36f3187477c','b237370c2e542195dd006c633d584b7b24a1ddda1781a76e6fe032cc4bd483e2'],K='sm_gate',g=document.getElementById('gate');
- function ok(){g.remove()}
- try{var m=localStorage.getItem(K);if(m&&HS.some(function(x){return x.slice(0,16)===m})){ok();return}}catch(e){}
+(function(){var HS=['3565c169189b59c6d1fe932f52b50295990d6469deb20d5647b7c36f3187477c','b237370c2e542195dd006c633d584b7b24a1ddda1781a76e6fe032cc4bd483e2'],K='sm_gate',g=document.getElementById('gate'),F=document.getElementById('gateF'),E=document.getElementById('gateE'),
+ API=/^(localhost|127\.0\.0\.1)$/.test(location.hostname)?'http://127.0.0.1:8794':'https://rimora.45-10-244-45.sslip.io',
+ MSG={unknown:'Код не подошёл. Проверьте и попробуйте ещё раз.',expired:'Срок доступа по этому коду закончился. Напишите тому, кто прислал код, чтобы продлить.',
+  blocked:'Доступ по этому коду закрыт. Напишите тому, кто прислал код.',too_many:'Слишком много попыток. Попробуйте через час.',net:'Нет связи с сервером. Проверьте интернет и попробуйте ещё раз.'};
+ function sha(s){return crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)).then(function(b){return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,'0')}).join('')})}
+ function dt(ms){var d=new Date(ms);return ('0'+d.getDate()).slice(-2)+'.'+('0'+(d.getMonth()+1)).slice(-2)+'.'+d.getFullYear()}
+ function note(until){if(!until)return;var left=Math.ceil((until-Date.now())/864e5);if(left>7)return;
+  var n=document.createElement('div');n.textContent='Доступ к Риморе до '+dt(until)+(left<=1?' (последний день)':'')+'. Чтобы продлить, напишите тому, кто прислал код.';
+  n.style.cssText='position:fixed;left:50%;bottom:90px;transform:translateX(-50%);z-index:99998;background:#121A24;color:#fff;font:13px/1.4 Inter,system-ui,sans-serif;padding:10px 14px;border-radius:10px;max-width:calc(100vw - 32px);box-shadow:0 6px 24px rgba(0,0,0,.2)';
+  document.body.appendChild(n);setTimeout(function(){n.remove()},9000)}
+ function ok(until){document.documentElement.style.overflow='';g.remove();note(until)}
+ function show(err){F.style.visibility='';document.documentElement.style.overflow='hidden';if(err){E.textContent=MSG[err]||MSG.unknown;E.style.display='block'}
+  setTimeout(function(){var c=document.getElementById('gateC');if(c)c.focus()},50)}
+ // личный код: спрашиваем сервер; t — сколько ждать ответа, после этого без связи пускаем (если код уже проверялся раньше)
+ function check(h,t){var ctl=new AbortController(),tm=setTimeout(function(){ctl.abort()},t);
+  return fetch(API+'/v1/access/check',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({h:h}),signal:ctl.signal})
+   .then(function(r){clearTimeout(tm);return r.json().then(function(j){return r.ok?{ok:1,until:j.until}:{err:j.error||'unknown'}})})
+   .catch(function(){clearTimeout(tm);return {err:'net'}})}
+ var m=null;try{m=localStorage.getItem(K)}catch(e){}
+ if(m&&m.indexOf('u:')!==0&&HS.some(function(x){return x.slice(0,16)===m})){ok();return}
  document.documentElement.style.overflow='hidden';
- setTimeout(function(){var c=document.getElementById('gateC');if(c)c.focus()},50);
- document.getElementById('gateF').onsubmit=function(e){e.preventDefault();
-  var v=document.getElementById('gateC').value.trim();
-  crypto.subtle.digest('SHA-256',new TextEncoder().encode(v)).then(function(b){
-   var h=Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,'0')}).join('');
-   if(HS.indexOf(h)<0){document.getElementById('gateE').style.display='block';return}
-   try{localStorage.setItem(K,h.slice(0,16))}catch(e){}
-   document.documentElement.style.overflow='';ok()})}
+ if(m&&m.indexOf('u:')===0){F.style.visibility='hidden';
+  check(m.slice(2),5000).then(function(r){if(r.ok)return ok(r.until);if(r.err==='net'||r.err==='too_many')return ok();
+   try{localStorage.removeItem(K)}catch(e){}show(r.err)})}
+ else show();
+ F.onsubmit=function(e){e.preventDefault();var v=document.getElementById('gateC').value.trim();if(!v)return;E.style.display='none';
+  sha(v).then(function(h){
+   if(HS.indexOf(h)>=0){try{localStorage.setItem(K,h.slice(0,16))}catch(e){}return ok()}
+   return sha(v.replace(/[^0-9a-z]/gi,'').toUpperCase()).then(function(hn){return check(hn,15000).then(function(r){
+    if(!r.ok)return show(r.err);try{localStorage.setItem(K,'u:'+hn)}catch(e){}ok(r.until)})})})}
 })();
 </script>
 
@@ -1471,7 +1489,7 @@ function renderDocs(){const w=$('#docsw');if(!w)return;const L=docIndex(),SL=str
   w.innerHTML=`<div class="where">${ic('help')}<div><b>Где хранятся сметы.</b> В этом браузере на этом компьютере, в его хранилище. ${cloudKey()?'Копия каждой сметы хранится в облаке Риморы и подтягивается на других ваших устройствах.':'В интернет сметы не отправляются.'} Другой браузер или компьютер их не увидит: чтобы открыть смету на телефоне или другом компьютере, нажмите «На другое устройство» (ссылка или QR-код), для проверки можно сохранить её в файл. После первого сохранения изменения записываются сами.<div class="u">Смет: ${L.length} · занято около ${kb} КБ из ~5 000 КБ</div></div></div>${cloudBar()}
   <div class="dtb"><button class="btn pri" data-da="save">${ic('save')}${S.docId?'Сохранить текущую':'Сохранить текущую в список'}</button><button class="btn" data-da="new">${ic('new')}Новая смета</button><button class="btn" data-da="imp">${ic('open')}Открыть из файла…</button><button class="btn" data-da="share">${ic('send')}На другое устройство</button><button class="btn" data-da="exp">${ic('xls')}Текущую в файл</button><input id="docq" placeholder="Найти по названию" value="${esc(docQ)}"></div>
   <div class="dsw">${tree}<div class="dsm">${head}
-  ${F.length?`<table class="docs"><thead><tr><th>Название</th><th>База</th><th>Цены</th><th class="r">Позиций</th><th class="r">Сумма, ₽</th><th>Изменена</th><th></th></tr></thead><tbody>${F.map(x=>`<tr class="${x.id===S.docId?'cur':''}" data-id="${x.id}"><td><b>${esc(x.name)}</b>${x.id===S.docId?' <span class="chip ok">открыта</span>':''}${MD[x.mode]?`<div class="dpl">${MD[x.mode]}</div>`:''}${showPl?`<div class="dpl">${x.pl&&x.pl.s?esc(pk[0]==='s'?x.pl.on||'':plTxt(x.pl)):'Без стройки'}</div>`:''}</td><td>${bn(x)}</td><td class="u">${x.mode?'':esc(lvName(x.level,x.zone))}</td><td class="r num">${x.mode?'':x.npos??''}</td><td class="r num">${x.total!=null?fmt(x.total):''}</td><td class="u">${dtf(x.updated)}</td>
+  ${F.length?`<table class="docs"><thead><tr><th>Название</th><th>База</th><th>Цены</th><th class="r">Позиций</th><th class="r">Сумма, ₽</th><th>Изменена</th><th></th></tr></thead><tbody>${F.map(x=>`<tr class="${x.id===S.docId?'cur':''}" data-id="${x.id}"><td><b>${esc(x.name)}</b>${x.id===S.docId?' <span class="chip ok">открыта</span>':''}${MD[x.mode]&&!x.name.toLowerCase().includes(MD[x.mode].toLowerCase())?`<div class="dpl">${MD[x.mode]}</div>`:''}${showPl?`<div class="dpl">${x.pl&&x.pl.s?esc(pk[0]==='s'?x.pl.on||'':plTxt(x.pl)):'Без стройки'}</div>`:''}</td><td>${bn(x)}</td><td class="u">${x.mode?'':esc(lvName(x.level,x.zone))}</td><td class="r num">${x.mode?'':x.npos??''}</td><td class="r num">${x.total!=null?fmt(x.total):''}</td><td class="u">${dtf(x.updated)}</td>
     <td class="acts"><button class="btn sm pri" data-da="open">Открыть</button><button class="btn sm" data-da="mv" title="Перенести в стройку и объект">Перенести</button><button class="btn sm" data-da="file" title="Скачать файл .smeta.json">В файл</button><button class="btn sm" data-da="dup">Копия</button><button class="btn sm" data-da="del" title="Удалить из браузера">${ic('trash')}</button></td></tr>`).join('')}</tbody></table>`
    :`<div class="empty" style="min-height:160px"><div><h3>${empty[0]}</h3><p>${empty[1]}</p></div></div>`}</div></div>`;
   w.querySelectorAll('[data-pk]').forEach(b=>b.onclick=()=>{docPick=b.dataset.pk;renderDocs()});
