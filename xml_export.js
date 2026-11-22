@@ -171,6 +171,7 @@ function xmlChecks(){sync();const E=[],W=[];const cur=S.level!=='base';
   if(hasVor()&&S.pos.some(p=>p.sec===undefined&&p.vor!=null))W.push(`позиции ссылаются на строки ВОР (QTF): приложите XML ведомости «${fileNames().vor}» (вкладка «Ведомость объёмов» → «XML ВОР» или пакет для экспертизы)`);
   const pos=S.pos.filter(p=>p.sec===undefined);if(!pos.length)E.push('Смета пустая');
   for(const p of pos){const c=calc(p);const nm=(p.code||'')+' '+(c.R.name||'').slice(0,40);
+    if(p.own){E.push('Позиция «'+(c.R.name||'').slice(0,40)+'»: своя позиция вне сметных норм в XML не выгружается, схема ЛС РИМ 3.01 принимает только позиции с шифром норм (ГЭСН, ФССЦ и др.). Материал или оборудование вне базы оформите конъюнктурным анализом');continue}
     if(!p.ka&&!p.tr&&!p.mr&&!c.R.real)E.push('Позиция '+nm+': расценка не из ФСНБ-2022 (старая учебная база), в XML её не выгрузить');
     if(p.mr&&p.mr.rc&&!B.res[p.mr.rc])E.push('Позиция '+nm+': ресурса '+p.mr.rc+' нет в ФСБЦ текущей редакции, замените его или оформите конъюнктурным анализом');
     if(c.warn&&c.warn.some(w=>/нет цены/.test(w)))W.push('Позиция '+nm+': у части ресурсов нет цены');

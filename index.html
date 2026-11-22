@@ -413,6 +413,11 @@ tr:hover>td>.rxb,.rxb:focus{opacity:1}.rxb:hover{background:var(--line2);color:v
   td.tot .bar{display:none}
 }
 #printtot{display:none}
+#qadd{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:10px 0 4px;padding:8px 10px;border:1px dashed var(--line);border-radius:12px}
+#qadd .qa-p{font-size:20px;font-weight:700;color:var(--brand);width:18px;text-align:center}
+#qadd input{font:inherit;padding:6px 9px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)}
+#qa_c{flex:1 1 220px;min-width:160px;font-family:var(--mono)}#qa_q{width:110px;text-align:right}
+@media print{#qadd{display:none!important}}
 /* --- интерфейс v2: параметры в строке меню, компактная лента, сворачиваемый каталог --- */
 .menubar{align-items:center}
 .params{display:flex;align-items:center;gap:4px;margin-left:18px;padding-left:14px;border-left:1px solid var(--line);min-width:0}
@@ -846,6 +851,7 @@ let CC=null;
 function calcScope(fn){return function(){if(CC)return fn.apply(this,arguments);CC=new Map();try{return fn.apply(this,arguments)}finally{CC=null}}}
 function calc(p){if(!CC)return calc0(p);let c=CC.get(p);if(!c){c=calc0(p);CC.set(p,c)}return c}
 function calc0(p){
+  if(p.own){const c=calcOwn(p);c.mon=0;return c}
   if(p.ka||p.mr||p.tr){const c=p.ka?calcKA(p):p.mr?calcMR(p):calcTR(p);if(p.dav&&!p.tr)davZero(c);c.mon=!c.R.ob&&inhMon(p)?c.total:0;return c}const R0=B.rates[p.code];if(!R0){const s0=stub(p);if(isReal(p.code)&&!RPOS.has(p.code)){s0.R={...s0.R,name:'ГЭСН'+p.code+': такой расценки нет в ФСНБ-2022'};s0.warn=['расценки ГЭСН'+p.code+' нет в ФСНБ-2022 (ФРСН): проверьте шифр или подберите расценку из сборника']}return s0}if(R0.real){const c=calcReal(p,R0);c.mon=/^м/.test(p.code)?c.total:0;return c}
   const R=B.rates[p.code],U=unitPrice(p.code),sec=B.sections[R.sec];
   const q=p.qty/R.mult;
@@ -890,7 +896,9 @@ function renderTreeReal(){
   const q=$('#catq').value.trim().toLowerCase(),tree=$('#tree');
   if(q.length>=2){
     const hits=rateFind(q,150);
-    tree.innerHTML=hits.length?hits.map(rateHtml).join(''):`<div class="empty-s">Ничего не нашлось.<br>Попробуйте другое слово или шифр.</div>`;
+    const SC=[[/нмцк|841|начальн.*цен/,'НМЦК: расчёт и протокол',()=>openOsrTab('nmck'),'nmck'],[/нцс|укрупн|314/,'НЦС: укрупнённые нормативы цены строительства',()=>openOsrTab('ncs'),'ncs'],[/пир|проектн|изыск|сбц|^нз|707|848|343/,'Смета на проектные работы (НЗ, СБЦ)',()=>openOsrTab('pir'),'pir'],[/^баз|подключ/,'Подключённые базы',openBases],[/оср|сср|сводн|объектн/,'ОСР и ССРСС',()=>openOsrTab('osr')],[/сво[яиюе]|вне баз|прочая|прайс/,'Своя позиция (вне базы)',ownNew]].filter(x=>x[0].test(q)&&(!x[3]||baseOn(x[3])));
+    tree.innerHTML=(SC.length?`<div style="padding:6px 4px 10px">${SC.map((x,i)=>`<button class="btn" data-sc="${i}" style="width:100%;justify-content:flex-start;margin-bottom:6px">${esc(x[1])} →</button>`).join('')}</div>`:'')+(hits.length?hits.map(rateHtml).join(''):SC.length?'':`<div class="empty-s">Ничего не нашлось.<br>Попробуйте другое слово или шифр.</div>`);
+    tree.querySelectorAll('[data-sc]').forEach(b=>b.onclick=()=>SC[+b.dataset.sc][2]());
     $('#catcount').textContent=hits.length>=150?'150+ найдено':hits.length+' найдено';return}
   tree.innerHTML=CGRP.map(([pf,gn])=>{const cs=RI.c.filter(([cc])=>cc.replace(/\d/g,'')===pf);if(!cs.length)return '';const n=cs.reduce((a,[cc])=>a+(RCNT[cc]||0),0);
     return `<details class="cgrp"${pf===''?' open':''}><summary>${ic('chev')}<span class="gn" title="${esc(gn)}">${esc(gn)}</span><span class="c">${n.toLocaleString('ru-RU')}</span></summary>`+cs.map(([cc,nm])=>`<details class="sec" data-cc="${cc}"><summary>${ic('chev')}<span class="cn">${cc}</span><span class="nm" title="${esc(nm)}">${esc(nm)}</span><span class="c">${RCNT[cc]||0}</span></summary><div class="tbls"></div></details>`).join('')+`</details>`}).join('');
@@ -1002,7 +1010,95 @@ $('#tablewrap').addEventListener('dragover',e=>{if(!DRG)return;const tr=e.target
 $('#tablewrap').addEventListener('drop',e=>{if(!DRG)return;const tr=e.target.closest('tr[data-id]');dropClr();if(!tr){DRG=null;return}e.preventDefault();const r=tr.getBoundingClientRect();moveTo(DRG,+tr.dataset.id,e.clientY>r.top+r.height/2);DRG=null});
 $('#tablewrap').addEventListener('dragend',()=>{DRG=null;dropClr()});
 function findClose(){FQ='';$('#fbar')?.remove();$$('#tablewrap tr.fhit').forEach(x=>x.classList.remove('fhit','fcur'))}
-function newDoc(){if(S.pos.length&&!S.docId&&!saved&&!confirm('Начать новую смету? Эта смета не сохранена и пропадёт.'))return;S={name:'Новая смета',pos:[],idx:'',nds:false};vorPick=null;renderPickBar();sel=null;hist=[];redo=[];$('#docname').value=S.name;markDirty();render()}
+function newDocRaw(){if(S.pos.length&&!S.docId&&!saved&&!confirm('Начать новую смету? Эта смета не сохранена и пропадёт.'))return false;S={name:'Новая смета',pos:[],idx:'',nds:false};vorPick=null;renderPickBar();sel=null;hist=[];redo=[];$('#docname').value=S.name;markDirty();render();return true}
+/* ---------- подключённые базы: сметчик включает одну или несколько (хранится в этом браузере) ---------- */
+const BASES=[['fsnb','ФСНБ-2022','ГЭСН и ФСБЦ, текущие цены и индексы ФГИС ЦС. Для локальных смет'],['ucheb','Учебная база курса','ФСНБ-2022 с нормами из учебных смет курса. Для локальных смет'],['pir','НЗ и СБЦ на проектные работы','Нормативы затрат и справочники базовых цен. Смета на проектные работы'],['ncs','НЦС-2026','Укрупнённые нормативы цены строительства, 23 сборника'],['nmck','НМЦК, приказ 841/пр','Расчёт начальной (максимальной) цены контракта от ССРСС с индексами инфляции']];
+const BSK='rimora.basesOff',basesOff=()=>{try{return JSON.parse(lsGet(BSK)||'[]')}catch(e){return []}},baseOn=k=>!basesOff().includes(k);
+function basesApply(){const s=$('#basesel');if(!s)return;if(!s.querySelector('option[value=cfg]')){const o=document.createElement('option');o.value='cfg';o.textContent='Подключить базы…';s.appendChild(o)}
+  s.querySelectorAll('option').forEach(o=>{if(o.value!=='cfg')o.hidden=!baseOn(o.value)});$$('#catseg button').forEach(b=>b.style.display=baseOn(b.dataset.s)?'':'none')}
+function openBases(){const off=basesOff();
+  dlg(`<div class="kah"><div><h3>Подключённые базы</h3><div class="u">Оставьте одну базу или включите несколько. Выключенные не показываются в каталоге, меню и окнах, данные смет не теряются.</div></div><button class="vdel" id="bsX" style="font-size:22px">×</button></div>
+   <div style="display:grid;gap:8px;margin:12px 0">${BASES.map(([k,n,d])=>`<label style="display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:1px solid var(--line);border-radius:10px;cursor:pointer"><input type="checkbox" data-bs="${k}" ${off.includes(k)?'':'checked'} style="margin-top:3px"><span><b>${esc(n)}</b><br><span class="u" style="font-size:12px">${esc(d)}</span></span></label>`).join('')}</div>
+   <div class="ac"><button class="btn" id="bsN">Отмена</button><button class="btn pri" id="bsY">Сохранить</button></div>`);
+  $('#bsX').onclick=$('#bsN').onclick=dlgClose;
+  $('#bsY').onclick=()=>{const o=[...$$('#dlg [data-bs]')].filter(x=>!x.checked).map(x=>x.dataset.bs);
+    if(o.includes('fsnb')&&o.includes('ucheb'))return toast('Для локальных смет нужна хотя бы одна база: ФСНБ-2022 или учебная');
+    try{lsSet(BSK,JSON.stringify(o))}catch(e){}dlgClose();
+    if(!baseOn(S.base||'fsnb'))setBase(baseOn('fsnb')?'fsnb':'ucheb');basesApply();render();renderTree();
+    toast('Подключено: '+BASES.filter(([k])=>!o.includes(k)).map(x=>x[1]).join(', '))}}
+/* ---------- «Новая»: выбор документа ---------- */
+function newDoc(){const D=[['lsr','Локальный сметный расчёт (ЛСР)','Пустая смета: расценки из каталога, строка «+», свои позиции'],['vor','Ведомость объёмов работ (ВОР)','Сначала объёмы по чертежам, потом расценки к строкам'],['tpl','Смета из шаблона','Готовый набор расценок: свой или типовой'],['bim','Смета по модели ТИМ (IFC)','Объёмы берутся из модели здания'],['pir','Смета на проектные работы','По НЗ и СБЦ, форма 2п (Методика 707/пр)'],['ncs','Расчёт по НЦС-2026','Укрупнённые нормативы цены строительства'],['nmck','НМЦК','Расчёт и протокол по приказу 841/пр'],['osr','ОСР и ССРСС','Объектный и сводный сметные расчёты'],['demo','Примеры (демо)','Готовые учебные расчёты']].filter(([k])=>!['pir','ncs','nmck'].includes(k)||baseOn(k));
+  dlg(`<div class="kah"><div><h3>Что составляем?</h3><div class="u">Выберите документ. Набор баз меняется в ленте: «База → Подключить базы…».</div></div><button class="vdel" id="ndX" style="font-size:22px">×</button></div>
+   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px;margin-top:12px">${D.map(([k,n,d])=>`<button class="btn" data-nd="${k}" style="justify-content:flex-start;text-align:left;padding:10px 14px;height:auto;white-space:normal"><span><b>${esc(n)}</b><br><span class="u" style="font-size:12px">${esc(d)}</span></span></button>`).join('')}</div>`,true);
+  $('#ndX').onclick=dlgClose;
+  $('#dlg').querySelectorAll('[data-nd]').forEach(b=>b.onclick=()=>{const k=b.dataset.nd;dlgClose();
+    if(k==='demo')return openDemos();if(k==='tpl')return tplOpen(true);
+    if(!newDocRaw())return;
+    const NM={vor:'Ведомость объёмов работ',bim:'Смета по модели ТИМ',pir:'Смета на проектные работы',ncs:'Расчёт по НЦС',nmck:'Расчёт НМЦК',osr:'Сводный сметный расчёт'};if(NM[k]){S.name=NM[k];$('#docname').value=S.name;markDirty()}
+    if(k==='vor')setTab('vor');else if(k==='bim')openBim();else if(k==='osr')openOsrTab('set');else if(k!=='lsr')openOsrTab(k)})}
+
+/* ---------- своя позиция вне базы: наименование, единица и цены за единицу задаёт сметчик (как «прочая позиция» в сметных программах) ---------- */
+const ownNum=v=>{const n=parseFloat(String(v??'').replace(/\s/g,'').replace(',','.'));return isFinite(n)?n:0};
+function calcOwn(p){const o=p.own,q=+p.qty||0,w=[];
+  const ot=r2(ownNum(o.ot)*q),em=r2(ownNum(o.em)*q),otm=r2(Math.min(ownNum(o.otm),ownNum(o.em))*q),emN=r2(em-otm),mat=r2(ownNum(o.m)*q);
+  const direct=r2(ot+em+mat),fot=r2(ot+otm),NS=NRSET(),nv=o.nk?NS.nr[o.nk]:null,sv=o.nk?NS.sp[o.nk]:null;
+  const nrp=nv?(nv[terrOf()[1]]!=null&&typeof nv[terrOf()[1]]==='number'?nv[terrOf()[1]]:nv[0]):0,spp=sv?sv[0]:0;
+  const nr=r2(fot*nrp/100),sp=r2(fot*spp/100);
+  if(!o.name)w.push('своя позиция: не указано наименование');if(!direct)w.push('своя позиция: не заданы цены за единицу');
+  if(!o.nk&&fot)w.push('своя позиция: не выбран вид работ, НР и СП не начислены');
+  return {R:{name:o.name||'Своя позиция (вне базы)',nat:o.unit||'',unit:o.unit||'',mult:1,comp:[],sec:'',own:true,disp:o.j||'Своя позиция',nk:o.nk||'',sk:sv?o.nk:''},
+    q,ot,otm,emN,em,mat,per:0,dpm:0,dpl:[],direct,fot,nr,sp,total:r2(direct+nr+sp),nrp,spp,zt:0,ztm:0,kl:1,km:1,kmat:1,kpay:1,lines:[],warn:w,
+    nrName:nv&&nv[nv.length-1],spName:sv&&sv[sv.length-1]}}
+function ownNew(){const p={id:uid++,code:'СВ',qty:1,ks:[],own:{name:'',unit:'',j:'',ot:'',em:'',otm:'',m:'',nk:''}};ownEdit(p,true)}
+function ownEdit(p,isNew){const o=p.own,NS=NRSET(),nm=k=>{const v=NS.nr[k];return v?String(v[v.length-1]).replace(/:$/,''):''};
+  const F=(id,l,v,ph,w)=>`<label style="display:flex;flex-direction:column;gap:3px;font-size:12px;color:var(--ink2);${w?'grid-column:1/-1':''}">${l}<input id="${id}" value="${esc(v??'')}" placeholder="${ph||''}" style="font:inherit;font-size:14px;color:var(--ink);padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface)"></label>`;
+  dlg(`<h3>${isNew?'Своя позиция (вне базы)':'Своя позиция: изменить'}</h3>
+   <p class="u" style="font-size:12px">Для работ и затрат, которых нет в сметных нормах. Цены за единицу укажите в уровне цен этой сметы, в рублях без НДС.</p>
+   <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0">
+    ${F('ow_n','Наименование',o.name,'например: Устройство временного ограждения из профлиста',1)}
+    ${F('ow_j','Обоснование (шифр, источник)',o.j,'Прайс, КП, калькуляция')}${F('ow_u','Единица измерения',o.unit,'м, м2, шт')}
+    ${F('ow_q','Количество',isNew?'':fq(p.qty),'1')}<span></span>
+    ${F('ow_ot','ОТ: оплата труда рабочих, ₽ за ед.',o.ot,'0')}${F('ow_m','М: материалы, ₽ за ед.',o.m,'0')}
+    ${F('ow_em','ЭМ: эксплуатация машин, ₽ за ед.',o.em,'0')}${F('ow_otm','в т. ч. ОТм: оплата машинистов, ₽ за ед.',o.otm,'0')}
+    <label style="display:flex;flex-direction:column;gap:3px;font-size:12px;color:var(--ink2);grid-column:1/-1">Вид работ для НР и СП (812/пр, 774/пр)<select id="ow_nk" style="font:inherit;font-size:13px;padding:6px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)"><option value="">без НР и СП</option>${Object.keys(NS.nr).map(k=>`<option value="${k}"${k===o.nk?' selected':''}>${k} · ${esc(nm(k).slice(0,80))}</option>`).join('')}</select></label>
+   </div><div class="ac"><button class="btn" id="owN">Отмена</button><button class="btn pri" id="owY">${isNew?'Добавить в смету':'Сохранить'}</button></div>`,true);
+  $('#owN').onclick=dlgClose;setTimeout(()=>$('#ow_n')?.focus(),0);
+  $('#owY').onclick=()=>{const g=id=>$('#'+id).value.trim(),nums={};
+    for(const k of ['ot','em','otm','m']){const s=g('ow_'+k);if(s&&(!isFinite(parseFloat(s.replace(/\s/g,'').replace(',','.')))||ownNum(s)<0))return toast('Цена — число не меньше нуля, например 1250,50');nums[k]=s}
+    if(!g('ow_n'))return toast('Укажите наименование');
+    if(ownNum(nums.otm)>ownNum(nums.em))return toast('ОТм входит в ЭМ: ОТм не может быть больше ЭМ');
+    const qs=g('ow_q'),qn=qs?ownNum(qs):1;if(!(qn>0))return toast('Количество — число больше нуля');
+    Object.assign(o,{name:g('ow_n'),j:g('ow_j'),unit:g('ow_u'),nk:$('#ow_nk').value,...nums});p.qty=qn;
+    if(isNew){const i=sel?S.pos.findIndex(x=>x.id===sel):-1;if(i>=0)S.pos.splice(i+1,0,p);else S.pos.push(p);sel=p.id;setTab('lsr')}
+    dlgClose();commit();toast(isNew?'Своя позиция добавлена':'Своя позиция изменена')}}
+function renderInspOwn(p,c){const el=$('#insp'),R=c.R;
+  const line=(l,col,f,v,big)=>`<div class="step ${big?'big':''}"><span class="d" style="background:${col}"></span><div><div class="l">${l}</div><div class="f">${f}</div></div><div class="v num">${fmt(v)}</div></div>`;
+  const pf=u=>`${fmt(ownNum(u))} ₽ × ${fq(c.q)}`;
+  el.innerHTML=`<div class="ih"><span class="mono chip" style="background:var(--surface2);color:var(--ink2)">${esc(R.disp)}</span><h3>${esc(R.name)}</h3></div>
+  <div class="sect"><h5>Количество</h5><div class="qrow"><input id="qside" value="${fq(p.qty)}" inputmode="decimal"><span class="u" style="font-size:13px">${esc(pu(R.unit))}</span></div></div>
+  <div class="sect"><h5>Как посчитано</h5><div class="steps">${line('ОТ','var(--ot)',pf(p.own.ot),c.ot)}${line('ЭМ'+(c.otm?' (в т. ч. ОТм '+fmt(c.otm)+')':''),'var(--em)',pf(p.own.em),c.em)}${line('М','var(--m)',pf(p.own.m),c.mat)}
+   ${line('НР','var(--nr)',c.nrp?`${fq(c.nrp)} % от ФОТ ${fmt(c.fot)}`:'не начисляются',c.nr)}${line('СП','var(--sp)',c.spp?`${fq(c.spp)} % от ФОТ ${fmt(c.fot)}`:'не начисляется',c.sp)}${line('Итого','var(--brand)','',c.total,1)}</div>
+   <div class="conv">Своя позиция вне сметных норм${p.own.j?': '+esc(p.own.j):''}. Цены задал сметчик, проверьте обоснование.${R.nk?' НР и СП: пункт '+esc(R.nk)+(c.nrName?' · '+esc(String(c.nrName).replace(/:$/,'')):'')+'.':''}</div>
+   <p style="margin-top:8px"><button class="btn" id="owed">Изменить позицию…</button></p></div>
+  ${c.warn.length?`<div class="tip">${ic('bolt')}<div>${c.warn.map(esc).join('<br>')}</div></div>`:''}`;
+  $('#qside').onchange=e=>setQty(p.id,e.target.value);$('#owed').onclick=()=>ownEdit(p)}
+/* строка «+» под сметой: шифр ГЭСН и объём, расценка подтягивается из базы */
+const QA={c:'',q:''};
+function qaNorm(s){s=String(s||'').replace(/\s+/g,'').replace(/^ГЭСН/i,'').replace(/^[MmМм](?=\d|[RrРр]\d)/,'м').replace(/^м[RrРр]/,'мр').replace(/^[PpРр](?=\d)/,'р').replace(/^[ПпNn](?=\d)/,'п');return s.replace(/[–—]/g,'-')}
+async function qaAdd(){const code=qaNorm(QA.c),qs=String(QA.q||'').trim(),q=qs?ownNum(qs):null;
+  if(!code)return toast('Введите шифр расценки, например 01-01-009-02');
+  if(qs&&!(q>0))return toast('Объём — число больше нуля');
+  const ok=B.rates[code]||(isReal(code)&&RPOS.has(code));
+  if(!ok){toast('Расценки '+code+' нет в базе: ищем похожие в каталоге');const f=$('#catq')||$('input[placeholder^="Шифр или слова"]');if(f){f.value=code;f.dispatchEvent(new Event('input',{bubbles:true}));f.focus()}return}
+  const last=[...S.pos].reverse().find(x=>x.sec===undefined)||S.pos.at(-1);sel=last?last.id:null;msel.clear();
+  await addRate(code,q??undefined);QA.c='';QA.q='';const e=$('#qa_c');if(e){e.value='';$('#qa_q').value='';e.focus()}}
+function qaRender(w){let d=$('#qadd');if(!d){d=document.createElement('div');d.id='qadd';
+   d.innerHTML=`<span class="qa-p">+</span><input id="qa_c" placeholder="Шифр ГЭСН, например 01-01-009-02" autocomplete="off" spellcheck="false"><input id="qa_q" placeholder="Объём" inputmode="decimal" autocomplete="off"><button class="btn" id="qa_go">Добавить</button><button class="btn" id="qa_own" title="Работа или затраты, которых нет в базе">Своя позиция…</button>`;
+   d.querySelector('#qa_c').oninput=e=>QA.c=e.target.value;d.querySelector('#qa_q').oninput=e=>QA.q=e.target.value;
+   d.querySelectorAll('input').forEach(i=>i.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();e.stopPropagation();if(e.target.id==='qa_c'&&!QA.q)$('#qa_q').focus();else qaAdd()}});
+   d.querySelector('#qa_go').onclick=qaAdd;d.querySelector('#qa_own').onclick=ownNew;
+   d.querySelector('#qa_c').value=QA.c;d.querySelector('#qa_q').value=QA.q}
+  w.appendChild(d)}
 const keepAsk=m=>S.pos.length&&!S.docId&&!saved&&!confirm(m+' Эта смета не сохранена и пропадёт.');
 async function sample(real=true){if(keepAsk('Открыть пример?'))return false;
   const list=real?[['01-01-009-02',180],['01-01-033-05',114.56],['11-01-002-01',13.44],['06-01-001-01',6],['06-01-005-06',46],['11-01-011-01',54],['11-01-011-02',54,4]]
@@ -1182,7 +1278,7 @@ function renderDocs(){const w=$('#docsw');if(!w)return;const L=docIndex(),q=docQ
     <td class="acts"><button class="btn sm pri" data-da="open">Открыть</button><button class="btn sm" data-da="file" title="Скачать файл .smeta.json">В файл</button><button class="btn sm" data-da="dup">Копия</button><button class="btn sm" data-da="del" title="Удалить из браузера">${ic('trash')}</button></td></tr>`).join('')}</tbody></table>`
    :`<div class="empty" style="min-height:160px"><div><h3>${L.length?'Ничего не найдено':'Сохранённых смет пока нет'}</h3><p>${L.length?'Измените строку поиска.':'Нажмите «Сохранить» или Ctrl+S, и смета появится здесь.'}</p></div></div>`}`;
   w.querySelectorAll('[data-da]').forEach(b=>b.onclick=async()=>{const a=b.dataset.da,id=b.closest('tr')?.dataset.id;
-    if(a==='save'){save();renderDocs()}else if(a==='new'){newDoc();$('#dlgbg').classList.remove('on')}else if(a==='imp')importDocFile();else if(a==='exp')exportDocFile();else if(a==='share')openShare();
+    if(a==='save'){save();renderDocs()}else if(a==='new'){$('#dlgbg').classList.remove('on');newDoc()}else if(a==='imp')importDocFile();else if(a==='exp')exportDocFile();else if(a==='share')openShare();
     else if(a==='open'){if(await openDoc(id))$('#dlgbg').classList.remove('on')}else if(a==='file')exportDocFile(id);else if(a==='dup')dupDoc(id);else if(a==='del')delDoc(id)});
   w.querySelectorAll('tbody tr').forEach(tr=>tr.ondblclick=async e=>{if(e.target.closest('button'))return;if(await openDoc(tr.dataset.id))$('#dlgbg').classList.remove('on')});
   const qi=$('#docq');qi.oninput=()=>{docQ=qi.value;const p=qi.selectionStart;renderDocs();const n=$('#docq');n.focus();n.setSelectionRange(p,p)}}
@@ -1341,10 +1437,10 @@ function exportPack(){const X=xmlx();if(!X)return toast('Модуль XML не �
 function exportXML(){const X=xmlx();if(!X)return toast('Модуль XML не загрузился, обновите страницу');X.exportXML()}
 /* ---------- меню и лента ---------- */
 const MENUS={
- file:[['Новая смета',newDoc],['Примеры (демо)…',openDemos],['Мои сметы…',openDocs,'Ctrl+O'],['Сохранить',save,'Ctrl+S'],['Сохранить как копию…',saveAs],['Сохранить как шаблон…',tplSave],['Новая смета из шаблона…',()=>tplOpen(true)],['Сохранить в файл (.smeta.json)',()=>exportDocFile()],['Открыть из файла…',importDocFile],['Загрузить сплит-форму цен (Excel)…',openSplit],['Открыть модель IFC (ТИМ)…',openBim],['На другое устройство (ссылка, QR)…',openShare],'-',['Выходные формы: ЛСР (прил. 3)…',openForms,'Ctrl+P'],['Акты КС-2 и справки КС-3…',openActs],['Объектный и сводный расчёты (ОСР, ССРСС)…',()=>openOsrTab('set')],['Смета на проектные работы (ПИР)…',()=>openOsrTab('pir')],['НМЦК: расчёт и протокол…',()=>openOsrTab('nmck')],['НЦС: укрупнённые нормативы…',()=>openOsrTab('ncs')],['Ведомость ресурсов в Excel (.xlsx)',exportResXlsx],['ЛСР в Excel (.xlsx)',exportLsrXlsx],['Экспорт таблицы (.csv)',exportCsv],['Конъюнктурный анализ, прил. 1 (Excel)',exportKaCsv],['Экспорт в XML (схема Минстроя, ЛС РИМ 3.01)',exportXML],['Пакет XML для экспертизы: ЛСР, ОСР, ССРСС, записка (.zip)',exportPack],['Печать или PDF по форме ЛСР',printLsr]],
+ file:[['Новая смета',newDoc],['Примеры (демо)…',openDemos],['Мои сметы…',openDocs,'Ctrl+O'],['Сохранить',save,'Ctrl+S'],['Сохранить как копию…',saveAs],['Сохранить как шаблон…',tplSave],['Новая смета из шаблона…',()=>tplOpen(true)],['Сохранить в файл (.smeta.json)',()=>exportDocFile()],['Открыть из файла…',importDocFile],['Загрузить сплит-форму цен (Excel)…',openSplit],['Открыть модель IFC (ТИМ)…',openBim],['На другое устройство (ссылка, QR)…',openShare],'-',['Выходные формы: ЛСР (прил. 3)…',openForms,'Ctrl+P'],['Акты КС-2 и справки КС-3…',openActs],['Объектный и сводный расчёты (ОСР, ССРСС)…',()=>openOsrTab('set')],['Смета на проектные работы (ПИР)…',()=>openOsrTab('pir'),null,null,'pir'],['НМЦК: расчёт и протокол…',()=>openOsrTab('nmck'),null,null,'nmck'],['НЦС: укрупнённые нормативы…',()=>openOsrTab('ncs'),null,null,'ncs'],['Ведомость ресурсов в Excel (.xlsx)',exportResXlsx],['ЛСР в Excel (.xlsx)',exportLsrXlsx],['Экспорт таблицы (.csv)',exportCsv],['Конъюнктурный анализ, прил. 1 (Excel)',exportKaCsv],['Экспорт в XML (схема Минстроя, ЛС РИМ 3.01)',exportXML],['Пакет XML для экспертизы: ЛСР, ОСР, ССРСС, записка (.zip)',exportPack],['Печать или PDF по форме ЛСР',printLsr]],
  edit:[['Отменить',undo,'Ctrl+Z'],['Вернуть',redoF,'Ctrl+Y'],'-',['Копировать строки',()=>clipMenu(false),'Ctrl+C'],['Вырезать строки',()=>clipMenu(true),'Ctrl+X'],['Вставить строки',pasteMenu,'Ctrl+V'],['Выделить все строки',selAll,'Ctrl+A'],['Найти в смете',findOpen,'Ctrl+F'],'-',['Вставить список из Excel…',()=>openPaste()],['Дублировать',dup,'Ctrl+D'],['Удалить',del,'Del'],['Спрашивать перед удалением',delAskToggle,null,()=>delAsk()],['Переместить вверх',()=>move(-1),'Alt+↑'],['Переместить вниз',()=>move(1),'Alt+↓']],
- ins:[['Расценка из каталога',focusCat,'/'],['Из шаблона…',()=>tplOpen(false)],['Список расценок из Excel…',()=>openPaste(),'Ctrl+V'],['Ресурс в выбранную позицию…',()=>{const p=S.pos.find(x=>x.id===sel);if(!p||!p.code||p.ka||p.tr||!B.rates[p.code]||!B.rates[p.code].real)return toast('Выберите позицию с расценкой ГЭСН');resPick(p,null)}],['Раздел сметы…',askSection],['Коэффициент к позиции',()=>{if(sel)$('#insp .kr .switch')?.focus();toast('Коэффициенты справа в карточке позиции')}],['Материал из ФСБЦ отдельной позицией…',()=>mrNew()],['Материал вне базы (конъюнктурный анализ)',()=>kaNew()],['Оборудование из ФСБЦ…',eqNew],['Оборудование вне базы (конъюнктурный анализ)',()=>kaNew('eq')],['Перевозка грузов',()=>trNew()],['Погрузка и разгрузка (ФГИС ЦС)',()=>trNew('load')]],
- calc:[['Базисный уровень цен',()=>setIdx(''),null,()=>!S.idx],...Object.entries(B.idx).map(([k,v])=>[`Индексы: ${v.region}, ${v.q}`,()=>setIdx(k),null,()=>S.idx===k]),'-',['Коэффициенты на всю смету…',openKall,null,()=>kallN()>0],['НДС '+B.nds+'%',()=>setNds(!S.nds),null,()=>S.nds],['Пересчитать',()=>{render();toast('Пересчитано')}]],
+ ins:[['Расценка из каталога',focusCat,'/'],['Из шаблона…',()=>tplOpen(false)],['Список расценок из Excel…',()=>openPaste(),'Ctrl+V'],['Ресурс в выбранную позицию…',()=>{const p=S.pos.find(x=>x.id===sel);if(!p||!p.code||p.ka||p.tr||!B.rates[p.code]||!B.rates[p.code].real)return toast('Выберите позицию с расценкой ГЭСН');resPick(p,null)}],['Раздел сметы…',askSection],['Коэффициент к позиции',()=>{if(sel)$('#insp .kr .switch')?.focus();toast('Коэффициенты справа в карточке позиции')}],['Материал из ФСБЦ отдельной позицией…',()=>mrNew()],['Материал вне базы (конъюнктурный анализ)',()=>kaNew()],['Оборудование из ФСБЦ…',eqNew],['Оборудование вне базы (конъюнктурный анализ)',()=>kaNew('eq')],['Своя позиция (вне базы)…',ownNew],['Перевозка грузов',()=>trNew()],['Погрузка и разгрузка (ФГИС ЦС)',()=>trNew('load')]],
+ calc:[['Подключённые базы…',openBases],'-',['Базисный уровень цен',()=>setIdx(''),null,()=>!S.idx],...Object.entries(B.idx).map(([k,v])=>[`Индексы: ${v.region}, ${v.q}`,()=>setIdx(k),null,()=>S.idx===k]),'-',['Коэффициенты на всю смету…',openKall,null,()=>kallN()>0],['НДС '+B.nds+'%',()=>setNds(!S.nds),null,()=>S.nds],['Пересчитать',()=>{render();toast('Пересчитано')}]],
  view:[['Смета: компактный вид',()=>setLsrView('cmp'),null,()=>lsrView!=='form'],['Смета: форма ЛСР (графы 1–12)',()=>setLsrView('form'),null,()=>lsrView==='form'],'-',['Ведомость объёмов',()=>setTab('vor')],['Тёмная тема',toggleTheme],['Краткий / полный вид',toggleCompact],['Ресурсная ведомость',()=>setTab('res')],['Давальческие материалы заказчика…',openDav],['Объектная смета',()=>setTab('obj')],['Локальный расчёт',()=>setTab('lsr')]],
  check:[['Проверить смету',openCheck,'F7'],['Экспертиза сметы…',openExpert,'Shift+F7'],['Подбор расценки',focusCat,'/'],['Помощь ИИ',aiHelp],['Сверить с заказом',null,'soon'],['Режим «Допуск»',null,'soon']],
  help:[['Знакомство с программой',tour],['Горячие клавиши',keys],['О тренажёре',about]]
@@ -1358,7 +1454,7 @@ $('#menubar').addEventListener('click',e=>{
   const dd=document.createElement('div');dd.className='dd';dd.style.left=b.offsetLeft+'px';
   MENUS[b.dataset.m].forEach(it=>{
     if(it==='-'){dd.appendChild(document.createElement('hr'));return}
-    const [label,fn,extra,ck]=it;if(extra==='soon')return;const bt=document.createElement('button');
+    const [label,fn,extra,ck]=it;if(extra==='soon'||(it[4]&&!baseOn(it[4])))return;const bt=document.createElement('button');
     const mark=ck?`<span class="ck">${ck()?'✓':''}</span>`:'';
     bt.innerHTML=mark+esc(label)+(extra==='soon'?'<span class="soon">скоро</span>':(extra?`<span class="sc">${extra}</span>`:''));
     if(!fn)bt.disabled=true;else bt.onclick=()=>{closeMenu();fn()};dd.appendChild(bt);
@@ -1389,12 +1485,12 @@ function buildRibbon(){
    <div class="ctl" title="Редакция приказов 812/пр и 774/пр"><span class="lb-l">НР и СП</span><span class="lb-s">НР/СП</span><select id="nrspsel"><option value="new">с 20.10.2026</option><option value="old">до 20.10.2026</option></select></div>
    <div class="ctl"><span class="switch" id="ndssw"><i></i>НДС ${B.nds}%</span></div>`;
   $$('.rb').forEach(el=>{const f=RIB.flat().find(x=>x[0]===el.dataset.r);el.onclick=f[2]});
-  $('#idxsel').onchange=e=>setIdx(e.target.value);$('#lvlsel').onchange=e=>setLevel(e.target.value);$('#zonesel').onchange=e=>setZone(+e.target.value);$('#basesel').onchange=e=>setBase(e.target.value);$('#nrspsel').onchange=e=>{S.nrsp=e.target.value;commit()};$('#terrsel').onchange=e=>{S.terr=e.target.value==='t'?undefined:e.target.value;commit();toast('НР по графе: '+terrOf()[0])};$('#ndssw').onclick=()=>setNds(!S.nds);
+  $('#idxsel').onchange=e=>setIdx(e.target.value);$('#lvlsel').onchange=e=>setLevel(e.target.value);$('#zonesel').onchange=e=>setZone(+e.target.value);$('#basesel').onchange=e=>{if(e.target.value==='cfg'){e.target.value=S.base||'fsnb';return openBases()}setBase(e.target.value)};$('#nrspsel').onchange=e=>{S.nrsp=e.target.value;commit()};$('#terrsel').onchange=e=>{S.terr=e.target.value==='t'?undefined:e.target.value;commit();toast('НР по графе: '+terrOf()[0])};$('#ndssw').onclick=()=>setNds(!S.nds);
 }
 
 /* ---------- отрисовка ---------- */
 function render(){renderTable();renderInsp();renderDock();syncRibbon();fMark();lastSnap=snap()}
-function syncRibbon(){{const ic_=$('#idxctl');if(ic_)ic_.style.display=S.pos.some(p=>p.code&&!p.tr&&!p.ka&&B.rates[p.code]&&!B.rates[p.code].real)||S.idx?'':'none'}$('#idxsel').value=S.idx;{const zs=$('#zonesel'),ls=$('#lvlsel');if(zs)zs.value=String(zoneOf());if(ls){if(ls.dataset.z!==String(zoneOf())){ls.innerHTML=lvlOpts(zoneOf());ls.dataset.z=String(zoneOf())}ls.value=S.level||'cur'}}$('#basesel').value=S.base||'fsnb';$('#nrspsel').value=S.nrsp||'new';{const t_=$('#terrsel');if(t_)t_.value=S.terr||'t'}$$('#catseg button').forEach(x=>x.classList.toggle('on',x.dataset.s===(S.base||'fsnb')));$('#ndssw').classList.toggle('on',S.nds);
+function syncRibbon(){{const ic_=$('#idxctl');if(ic_)ic_.style.display=S.pos.some(p=>p.code&&!p.tr&&!p.ka&&B.rates[p.code]&&!B.rates[p.code].real)||S.idx?'':'none'}$('#idxsel').value=S.idx;{const zs=$('#zonesel'),ls=$('#lvlsel');if(zs)zs.value=String(zoneOf());if(ls){if(ls.dataset.z!==String(zoneOf())){ls.innerHTML=lvlOpts(zoneOf());ls.dataset.z=String(zoneOf())}ls.value=S.level||'cur'}}basesApply();$('#basesel').value=S.base||'fsnb';$('#nrspsel').value=S.nrsp||'new';{const t_=$('#terrsel');if(t_)t_.value=S.terr||'t'}$$('#catseg button').forEach(x=>x.classList.toggle('on',x.dataset.s===(S.base||'fsnb')));$('#ndssw').classList.toggle('on',S.nds);
   $$('.rb[data-r=undo]')[0].disabled=!hist.length;$$('.rb[data-r=redo]')[0].disabled=!redo.length;
   const n=S.pos.filter(p=>p.sec===undefined).length;const anyReal=S.pos.some(p=>p.code&&isReal(p.code));$('#posinfo').innerHTML=(n?`${n} поз.`:'')+(anyReal?` <span class="chip ${S.level==='base'?'warn':'ok'}" id="basisChip" title="${basisTxt()}">${S.level==='base'?'Базис 2022':'Цены '+PSET[S.level||'cur'].replace('Волгоград, ','')}</span>`:'')+(S.base==='ucheb'?' <span class="chip warn" title="'+esc(baseTxt())+'">Учебная база</span>':'')+((n2=>n2?` <span class="chip" id="davChip" style="cursor:pointer" title="Список давальческих материалов заказчика">Давальческие: ${n2}</span>`:'')(davList().length))+(kallN()?` <span class="chip" id="kallChip" style="cursor:pointer" title="${esc(kallTxt())}">К сметы: ${kallN()}</span>`:'')+(()=>{const E=expMarks();return E.N?` <span class="chip warn" id="exChip" style="cursor:pointer" title="Нажмите: ${E.only?'показать все строки':'оставить только строки с замечаниями'}">Экспертиза (${E.N.n}): ${E.N.items.length}${E.only?' · только они':''}</span>`:''})();{const ec=$('#exChip');if(ec)ec.onclick=()=>{S.exp.only=!S.exp.only;render()}}{const kc=$('#kallChip');if(kc)kc.onclick=openKall}{const dc=$('#davChip');if(dc)dc.onclick=openDav}const bc=$('#basisChip');if(bc)bc.onclick=()=>toast(basisTxt())}
 function setTab(t){tab=t;$$('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));render()}
@@ -1423,8 +1519,8 @@ function renderTable(){
   if(tab==='obj'){return w.innerHTML=renderObj()}
   if(tab==='bim'){const X=bimx();if(!X){w.innerHTML='<div class="empty"><div><h3>Модуль ТИМ не загрузился</h3><p>Обновите страницу.</p></div></div>';return}w.innerHTML=X.html();return X.bind()}
   if(!S.pos.length){
-    w.innerHTML=`<div class="empty"><div><svg class="i" style="width:84px;height:84px;color:var(--muted);stroke-width:1.4"><use href="#i-sheet"/></svg><h3>Смета пока пуста</h3><p>Выберите расценку в каталоге слева, нажмите «+» или Ctrl+K и начните вводить название. Можно открыть готовый пример.</p><button class="btn pri" id="eSample">${ic('bolt')}Загрузить пример</button> <button class="btn" id="eCat">${ic('rate')}Открыть каталог</button></div></div>`;
-    $('#eSample').onclick=sample;$('#eCat').onclick=focusCat;return;
+    w.innerHTML=`<div class="empty"><div><svg class="i" style="width:84px;height:84px;color:var(--muted);stroke-width:1.4"><use href="#i-sheet"/></svg><h3>Смета пока пуста</h3><p>Выберите расценку в каталоге слева или введите шифр в строке «+» ниже. Работу вне базы добавьте как свою позицию.</p><button class="btn pri" id="eSample">${ic('bolt')}Примеры (демо)</button> <button class="btn" id="eCat">${ic('rate')}Открыть каталог</button><p style="margin-top:14px" class="u">Не локальная смета, а другой расчёт:</p><button class="btn" data-eo="pir">Смета на проектные работы</button> <button class="btn" data-eo="ncs">НЦС</button> <button class="btn" data-eo="nmck">НМЦК</button></div></div>`;
+    $('#eSample').onclick=openDemos;$('#eCat').onclick=focusCat;w.querySelectorAll('[data-eo]').forEach(b=>{if(!baseOn(b.dataset.eo)){b.style.display='none';return}b.onclick=()=>openOsrTab(b.dataset.eo)});qaRender(w);return;
   }
   if(lsrView==='form'){LSR_K=null;w.innerHTML=lsrViewBar()+renderLsrForm();$$('#tablewrap [data-vw]').forEach(b=>b.onclick=()=>setLsrView(b.dataset.vw));$$('#tablewrap [data-vr]').forEach(b=>b.onclick=()=>setLsrRes(b.dataset.vr==='1'));return}
   const T=totals();let n=0,html='';
@@ -1453,11 +1549,13 @@ function renderTable(){
     for(const inp of tb.querySelectorAll('.qin')){if(inp===act)continue;const p=byId.get(inp.dataset.id);if(p){const v=fq(p.qty);if(inp.value!==v)inp.value=v}}
   }else{w.innerHTML=lsrViewBar()+head+H.join('')+`</tbody></table>`;$$('#tablewrap [data-vw]').forEach(b=>b.onclick=()=>setLsrView(b.dataset.vw))}
   LSR_K=K;LSR_H=H;
+  qaRender(w);
   $('#printtot')?.remove();
   const pt=document.createElement('div');pt.id='printtot';pt.innerHTML=`<b>Итого: ${fmt(T.total)} ₽</b>${T.ob?` · в т. ч. оборудование: ${fmt(T.ob)} ₽`:''}${T.mka?` · в т. ч. материалы по конъюнктурному анализу: ${fmt(T.mka)} ₽`:''}${S.nds?` · НДС ${B.nds}%: ${fmt(T.nds)} ₽ · Всего: <b>${fmt(T.all)} ₽</b>`:''}`;w.appendChild(pt);
 }
 
 function expandHtml(p,c){const R=c.R;let h='';if(R.ka)return kaExpandHtml(p,c);
+  if(R.own)return `<div class="wk">Своя позиция вне базы</div><div class="num">${esc(R.disp)}: ОТ ${fmt(c.ot)} · ЭМ ${fmt(c.em)} · М ${fmt(c.mat)} · НР ${fmt(c.nr)} · СП ${fmt(c.sp)} = <b>${fmt(c.total)}</b> ₽</div>`+c.warn.map(w=>` <span class="wn">⚠ ${esc(w)}</span>`).join('');
   if(R.mr)return `<div class="wk">${R.ob?'Оборудование':'Материал'}</div><div class="num">${esc(R.disp)}: ${fmt(c.price)} ₽ × ${fq(c.q)} ${esc(pu(R.unit))} = <b>${fmt(c.total)}</b> ₽ · ${esc(c.src||'')} · без НР и СП</div>`+c.warn.map(w=>` <span class="wn">⚠ ${esc(w)}</span>`).join('');
   if(R.trp)return `<div class="wk">Перевозка</div><div class="num">${esc(c.code)}: ${fmt(c.pt||0)} ₽/т × ${fq(c.q)} т = <b>${fmt(c.per)}</b> ₽ · без НР и СП</div>`+c.warn.map(w=>` <span class="wn">⚠ ${esc(w)}</span>`).join('');
   if(R.content&&R.content.length)h+=`<div class="wk">Состав работ</div><ol>${R.content.map(x=>`<li>${esc(x)}</li>`).join('')}</ol>`;
@@ -1636,7 +1734,7 @@ function _renderInsp(){
   const p=S.pos.find(x=>x.id===sel);const el=$('#insp');
   if(!p||p.sec!==undefined){
     el.innerHTML=`<div class="ph">Карточка позиции</div><div class="insp-empty">${ic('rate','')}<p>Выберите строку в таблице, и здесь покажем, как посчитан каждый рубль.</p></div>`;return}
-  const c=calc(p),R=c.R;if(R.ka)return renderInspKA(p,c);if(R.mr)return renderInspMR(p,c);if(R.trp)return renderInspTR(p,c);if(R.real)return renderInspReal(p,c);const k1=(x)=>x===1?'':` × ${fq(x)}`;
+  const c=calc(p),R=c.R;if(R.own)return renderInspOwn(p,c);if(R.ka)return renderInspKA(p,c);if(R.mr)return renderInspMR(p,c);if(R.trp)return renderInspTR(p,c);if(R.real)return renderInspReal(p,c);const k1=(x)=>x===1?'':` × ${fq(x)}`;
   const I=c.I;
   const line=(label,color,formula,val,big)=>`<div class="step ${big?'big':''}"><span class="d" style="background:${color}"></span><div><div class="l">${label}</div><div class="f">${formula}</div></div><div class="v num">${fmt(val)}</div></div>`;
   const fm=(u,k,i)=>`${fmt(u)} × ${fq(c.q)}${k!==1?' × '+fq(k):''}${i?' × '+fq(i):''}`;
@@ -1758,7 +1856,7 @@ function lsrModel(){const O=fopt();if(O.view==='grand')return lsrModelGrand(O);
     if(c.R.ka){const ka=p.ka;
       rows.push({k:'pos',c:[n,(ka.rescode||'Конъюнктурный анализ, приложение 1')+' (П,Н)',c.R.name,pu(ka.unit),'','',p.qty,'','',c.K.price,'',c.total]});
       if(O.view!=='short')rows.push({k:'all',c:['','','Всего по позиции','','','','','','','','',c.total]});continue}
-    if(!c.R.real){rows.push({k:'pos',c:[n,p.code,c.R.name,pu(c.R.unit||''),'','',c.q,'','',O.view==='short'&&c.q?c.total/c.q:'','',c.total]});if(O.view==='short')continue;
+    if(!c.R.real){rows.push({k:'pos',c:[n,c.R.own?c.R.disp:p.code,c.R.name,pu(c.R.unit||''),'','',c.q,'','',O.view==='short'&&c.q?c.total/c.q:'','',c.total]});if(O.view==='short')continue;
       tot('tl','ОТ',tr2(c.ot));tot('tl','ЭМ',tr2(c.em));tot('tl','М',tr2(c.mat));tot('tl','НР',tr2(c.nr));tot('tl','СП',tr2(c.sp));
       rows.push({k:'all',c:['','','Всего по позиции','','','','','','','','',c.total]});continue}
     const R=c.R,KR=c.kr||1,kl=c.kl,km=c.km,KM=c.kmat||KR,kq=kk(Math.round(kl*1e7)/1e7);
@@ -1852,7 +1950,7 @@ function lsrModelGrand(O){
       rows.push({k:'all',c:['','','Всего по позиции','','','','','','','','',c.total]});continue}
     if(c.R.ka){rows.push({k:'pos',c:[n,(p.ka.rescode||'Конъюнктурный анализ')+' (П,Н)',c.R.name,pu(p.ka.unit),p.qty,1,p.qty,'','',c.K.price,'',c.total]});
       rows.push({k:'all',c:['','','Всего по позиции','','','','','','','','',c.total]});continue}
-    if(!c.R.real){rows.push({k:'pos',c:[n,p.code,c.R.name,pu(c.R.unit||''),c.q,1,c.q,'','','','',c.total]});continue}
+    if(!c.R.real){rows.push({k:'pos',c:[n,c.R.own?c.R.disp:p.code,c.R.name,pu(c.R.unit||''),c.q,1,c.q,'','','','',c.total]});continue}
     const R=c.R,KR=c.kr||1,kl=c.kl,km=c.km,KM=c.kmat||KR,kq=Math.round(kl*1e7)/1e7;
     rows.push({k:'pos',c:[n,'ГЭСН'+p.code,R.name,pu(R.unit),c.q,1,c.q,'','','','','']});
     if(KR!==1)rows.push({k:'note',c:['','Кратность',`Кратность ${fq(KR)}: ОЗП=${fq(KR)}; ЭМ=${fq(KR)}; ЗПМ=${fq(KR)}; МАТ=${fq(KR)}; ТЗ=${fq(KR)}; ТЗМ=${fq(KR)}`,'','','','','','','','','']});
@@ -2044,7 +2142,7 @@ function ksPart(x,j,key){const q=x.p.qty;if(!q)return 0;const t=x.c[key]||0,c1=k
 /* стоимость за акт = сумма элементов затрат, каждый считается долей нарастающим итогом: при полном выполнении акты дают смету до копейки */
 function ksCost(x,j){return r2(KS_EL.reduce((s,[k])=>s+ksPart(x,j,k),0))}
 function ksInfo(x){const R=x.c.R,real=R.real||R.ka||R.mr;const mult=R.ka||R.mr?1:(R.mult||1);
-  return {code:R.trp||R.mr?R.disp:R.ka?(x.p.ka.rescode||'КА, прил. 1 к 421/пр'):(R.real?'ГЭСН'+x.p.code:x.p.code),name:R.name,unit:pu(R.ka?x.p.ka.unit:R.unit||''),nat:pu(R.ka?x.p.ka.unit:(R.nat||R.unit||'')),mult,price:x.c.q?r2(x.c.total/x.c.q):0,real}}
+  return {code:R.trp||R.mr||R.own?R.disp:R.ka?(x.p.ka.rescode||'КА, прил. 1 к 421/пр'):(R.real?'ГЭСН'+x.p.code:x.p.code),name:R.name,unit:pu(R.ka?x.p.ka.unit:R.unit||''),nat:pu(R.ka?x.p.ka.unit:(R.nat||R.unit||'')),mult,price:x.c.q?r2(x.c.total/x.c.q):0,real}}
 function ks2Model(j){const a=S.acts[j],P=party(),T=totals(),rows=[];let n=0,sum=0,ls=0;
   for(const x of ksPos()){const d=ksDone(a,x.p.id);if(!d)continue;const I=ksInfo(x),cost=ksCost(x,j);
     if(x.si!==ls){rows.push({sec:`Раздел ${x.si}. ${x.sec}`});ls=x.si}
@@ -2713,7 +2811,7 @@ function openDemos(){
     else if(k==='les')await sampleLesson();
     else if(k==='osr'){if(await sample()===false)return;osSample();commit();osTab='set';openOsr()}
     else if(k==='bim'){setTab('bim');const X=bimx();X?X.sample(false):toast('Модуль ТИМ не загрузился')}})}
-function openOsr(){if(!S.pos.some(p=>p.sec===undefined))return toast('Смета пуста: добавьте позиции');ST();renderOsr()}
+function openOsr(){if(!S.pos.some(p=>p.sec===undefined)&&(osTab==='osr'||osTab==='ssr'))toast('Локальная смета пуста: ОСР и ССРСС будут нулевыми, можно открыть учебный пример');ST();renderOsr()}
 function renderOsr(){const st=ST(),X=xmlx(),pz=X?X.PZ():{},O=osrModel(),M=ssrModel(),W=[...new Set([...O.W,...M.W,...(osTab==='nmck'?nmckCalc().W:[]),...(osTab==='ncs'?ncsCalc().W:[])])];
   const sel=(path,v,opts)=>`<select data-sp="${path}">${opts.map(([k,l])=>`<option value="${esc(k)}"${String(v)===String(k)?' selected':''}>${esc(l)}</option>`).join('')}</select>`;
   const inp=(path,v,ph,w)=>`<input data-sp="${path}" value="${esc(v??'')}"${ph?` placeholder="${esc(ph)}"`:''}${w?` style="width:${w}"`:''}>`;
@@ -2744,7 +2842,7 @@ function renderOsr(){const st=ST(),X=xmlx(),pz=X?X.PZ():{},O=osrModel(),M=ssrMod
   dlg(`<div class="kah"><div><h3>Объектный и сводный сметные расчёты</h3><div class="u">ОСР по приложению 5 и ССРСС по приложению 6 к Методике 421/пр. Суммы в тыс. руб. с двумя знаками (п. 42).</div></div><button class="vdel" id="osX" style="font-size:22px">×</button></div>
    <div class="ksa"><button class="btn" id="osSmp">Учебный пример: стройка гаража</button></div>
    ${W.length?`<div class="kaw">${W.map(x=>`<div>⚠ ${esc(x)}</div>`).join('')}</div>`:''}
-   <div class="kstab">${[['set','Данные стройки'],['osr','ОСР'],['ssr','ССРСС'],['ncs','НЦС'],['pir','Смета ПИР'],['nmck','НМЦК']].map(([k,l])=>`<button data-ot="${k}" class="${k===osTab?'on':''}">${l}</button>`).join('')}</div>${body}
+   <div class="kstab">${[['set','Данные стройки'],['osr','ОСР'],['ssr','ССРСС'],['ncs','НЦС'],['pir','Смета ПИР'],['nmck','НМЦК']].filter(([k])=>!['ncs','pir','nmck'].includes(k)||baseOn(k)).map(([k,l])=>`<button data-ot="${k}" class="${k===osTab?'on':''}">${l}</button>`).join('')}</div>${body}
    <div class="ksum">ОСР № ${esc(st.osrNum)}: <b>${fmt(O.tot)} тыс. руб.</b>${O.izm?` (${fmt(O.unitCost)} тыс. руб. за 1 ${esc(st.izmU)})`:''} · ССРСС № ${esc(st.ssrNum)}: <b>${fmt(gsum(M.total))} тыс. руб.</b>${M.cur?' с НДС':''}</div>`,true);
   const D=$('#dlg');$('#osX').onclick=()=>$('#dlgbg').classList.remove('on');
   D.querySelectorAll('[data-ot]').forEach(b=>b.onclick=()=>{osTab=b.dataset.ot;renderOsr()});
@@ -3636,7 +3734,7 @@ $('#tablewrap').addEventListener('keydown',e=>{if((e.target.classList.contains('
 let palItems=[],palI=0;
 function palList(q){
   q=q.trim().toLowerCase();const out=[];
-  const cmds=[['Проверить смету',openCheck],['Шаблоны смет',()=>tplOpen(false)],['Сохранить как шаблон',tplSave],['Знакомство с программой',tour],['Вид сметы: форма ЛСР',()=>setLsrView('form')],['Вид сметы: компактный',()=>setLsrView('cmp')],['Давальческие материалы заказчика',openDav],['Коэффициенты на всю смету',openKall],['Экспертиза сметы: уведомление с замечаниями',openExpert],['Материал из ФСБЦ отдельной позицией…',()=>mrNew()],['Материал вне базы (конъюнктурный анализ)',()=>kaNew()],['Оборудование из ФСБЦ…',eqNew],['Оборудование вне базы (конъюнктурный анализ)',()=>kaNew('eq')],['Погрузка и разгрузка (ФГИС ЦС)',()=>trNew('load')],['Новая смета',newDoc],['Примеры (демо)',openDemos],['Загрузить пример',sample],['Смета на проектные работы (ПИР)',()=>openOsrTab('pir')],['НМЦК',()=>openOsrTab('nmck')],['НЦС',()=>openOsrTab('ncs')],['Сохранить',save],['Мои сметы',openDocs],['На другое устройство (ссылка, QR)',openShare],['Сохранить как копию',saveAs],['Сохранить в файл',()=>exportDocFile()],['Открыть смету из файла',importDocFile],['Загрузить сплит-форму цен (Excel)',openSplit],['Модель IFC (ТИМ): открыть',openBim],['Модель IFC (ТИМ): вкладка',()=>setTab('bim')],['Выходные формы (ЛСР, печать)',openForms],['Акты КС-2 и справки КС-3',openActs],['Объектный и сводный сметные расчёты (ОСР, ССРСС)',openOsr],['Ведомость ресурсов в Excel',exportResXlsx],['Ведомость ресурсов: печать',printRes],['ЛСР в Excel (.xlsx)',exportLsrXlsx],['Экспорт таблицы (.csv)',exportCsv],['Отменить',undo],['Вернуть',redoF],['Удалить строку',del],['Дублировать позицию',dup],['Добавить раздел',askSection],['Тёмная / светлая тема',toggleTheme],['Краткий / полный вид',toggleCompact],['Включить / выключить НДС',()=>setNds(!S.nds)],['Базисный уровень цен',()=>setIdx('')],...Object.entries(B.idx).map(([k,v])=>['Индексы: '+v.q,()=>setIdx(k)]),['Ведомость объёмов',()=>setTab('vor')],['Ресурсная ведомость',()=>setTab('res')],['Объектная смета',()=>setTab('obj')],['Помощь ИИ',aiHelp],['Подбор расценки',focusCat],['Экспорт в XML (схема Минстроя)',exportXML],['Пакет XML для экспертизы (ЛСР, ОСР, ССРСС, записка)',exportPack],['Горячие клавиши',keys],['О тренажёре',about]];
+  const cmds=[['Проверить смету',openCheck],['Шаблоны смет',()=>tplOpen(false)],['Сохранить как шаблон',tplSave],['Знакомство с программой',tour],['Вид сметы: форма ЛСР',()=>setLsrView('form')],['Вид сметы: компактный',()=>setLsrView('cmp')],['Давальческие материалы заказчика',openDav],['Коэффициенты на всю смету',openKall],['Экспертиза сметы: уведомление с замечаниями',openExpert],['Материал из ФСБЦ отдельной позицией…',()=>mrNew()],['Материал вне базы (конъюнктурный анализ)',()=>kaNew()],['Оборудование из ФСБЦ…',eqNew],['Оборудование вне базы (конъюнктурный анализ)',()=>kaNew('eq')],['Погрузка и разгрузка (ФГИС ЦС)',()=>trNew('load')],['Новая смета',newDoc],['Примеры (демо)',openDemos],['Своя позиция (вне базы)',ownNew],['Загрузить пример',sample],['Смета на проектные работы (ПИР)',()=>openOsrTab('pir')],['НМЦК',()=>openOsrTab('nmck')],['НЦС',()=>openOsrTab('ncs')],['Сохранить',save],['Мои сметы',openDocs],['На другое устройство (ссылка, QR)',openShare],['Сохранить как копию',saveAs],['Сохранить в файл',()=>exportDocFile()],['Открыть смету из файла',importDocFile],['Загрузить сплит-форму цен (Excel)',openSplit],['Модель IFC (ТИМ): открыть',openBim],['Модель IFC (ТИМ): вкладка',()=>setTab('bim')],['Выходные формы (ЛСР, печать)',openForms],['Акты КС-2 и справки КС-3',openActs],['Объектный и сводный сметные расчёты (ОСР, ССРСС)',openOsr],['Ведомость ресурсов в Excel',exportResXlsx],['Ведомость ресурсов: печать',printRes],['ЛСР в Excel (.xlsx)',exportLsrXlsx],['Экспорт таблицы (.csv)',exportCsv],['Отменить',undo],['Вернуть',redoF],['Удалить строку',del],['Дублировать позицию',dup],['Добавить раздел',askSection],['Тёмная / светлая тема',toggleTheme],['Краткий / полный вид',toggleCompact],['Включить / выключить НДС',()=>setNds(!S.nds)],['Базисный уровень цен',()=>setIdx('')],...Object.entries(B.idx).map(([k,v])=>['Индексы: '+v.q,()=>setIdx(k)]),['Ведомость объёмов',()=>setTab('vor')],['Ресурсная ведомость',()=>setTab('res')],['Объектная смета',()=>setTab('obj')],['Помощь ИИ',aiHelp],['Подбор расценки',focusCat],['Экспорт в XML (схема Минстроя)',exportXML],['Пакет XML для экспертизы (ЛСР, ОСР, ССРСС, записка)',exportPack],['Горячие клавиши',keys],['О тренажёре',about]];
   const c=cmds.filter(x=>!q||x[0].toLowerCase().includes(q)).slice(0,q?6:8);
   c.forEach(x=>out.push({g:'Команды',t:x[0],fn:x[1],s:''}));
   if(q){Object.entries(B.rates).filter(([k,r])=>!r.real&&rateHas(k+' '+r.name,q)).slice(0,4).forEach(([k,r])=>out.push({g:'Учебная база · добавить в смету',t:k+'  '+r.name,fn:()=>addRate(k),s:pu(r.unit)}));
