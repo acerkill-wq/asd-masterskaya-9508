@@ -934,7 +934,14 @@ const msel=new Set();
 function selIds(){const a=S.pos.filter(x=>x.id===sel||msel.has(x.id)).map(x=>x.id);return a}
 const rowsGen=n=>n%10===1&&n%100!==11?'строки':'строк';
 const rowsWord=n=>n%10===1&&n%100!==11?'строка':n%10>=2&&n%10<=4&&(n%100<10||n%100>=20)?'строки':'строк';
-function del(){const ids=new Set(selIds());if(!ids.size)return toast('Выберите строку');const i=S.pos.findIndex(x=>ids.has(x.id));S.pos=S.pos.filter(x=>!ids.has(x.id));msel.clear();sel=S.pos[Math.min(i,S.pos.length-1)]?.id??null;commit();if(ids.size>1)toast(`Удалено: ${ids.size} ${rowsWord(ids.size)}. Вернуть: ${hkTxt('Ctrl+Z')}`)}
+const CDK='rimora.confirmDel',delAsk=()=>lsGet(CDK)!=='0';
+function delAskToggle(){try{lsSet(CDK,delAsk()?'0':'1')}catch(e){}toast(delAsk()?'Перед удалением строк программа будет спрашивать':'Строки удаляются сразу, вернуть: '+hkTxt('Ctrl+Z'))}
+function del(force){const ids=new Set(selIds());if(!ids.size)return toast('Выберите строку');
+  if(force!==true&&delAsk()){const ps=S.pos.filter(x=>ids.has(x.id)),p=ps[0];
+    const nm=ps.length>1?ps.length+' '+rowsWord(ps.length):p.sec!==undefined?'раздел «'+p.sec+'»':'позицию'+(p.code?' '+p.code:'');
+    dlg(`<h3>Удалить ${esc(nm)}?</h3><p class="u">Вернуть удалённое можно кнопкой «Отменить» или ${hkTxt('Ctrl+Z')}.</p><label style="display:flex;gap:8px;align-items:center;margin:12px 0;font-size:13px"><input type="checkbox" id="cdNo"> Больше не спрашивать (вернуть вопрос: Правка → Спрашивать перед удалением)</label><div class="ac"><button class="btn" id="cdN">Отмена</button><button class="btn pri" id="cdY">Удалить</button></div>`);
+    $('#cdN').onclick=dlgClose;$('#cdY').onclick=()=>{if($('#cdNo').checked){try{lsSet(CDK,'0')}catch(e){}}dlgClose();del(true)};setTimeout(()=>$('#cdY')?.focus(),0);return}
+const i=S.pos.findIndex(x=>ids.has(x.id));S.pos=S.pos.filter(x=>!ids.has(x.id));msel.clear();sel=S.pos[Math.min(i,S.pos.length-1)]?.id??null;commit();if(ids.size>1)toast(`Удалено: ${ids.size} ${rowsWord(ids.size)}. Вернуть: ${hkTxt('Ctrl+Z')}`)}
 const clonePos=p=>{const c=JSON.parse(JSON.stringify(p));c.id=uid++;return c};
 function dup(){const ids=new Set(selIds());const blk=S.pos.filter(x=>ids.has(x.id));if(!blk.length)return toast('Выберите позицию');const last=S.pos.findIndex(x=>x.id===blk[blk.length-1].id);
   const add=blk.map(p=>{const c=clonePos(p);delete c.vor;return c});S.pos.splice(last+1,0,...add);msel.clear();if(add.length>1)add.forEach(x=>msel.add(x.id));sel=add[add.length-1].id;commit();if(add.length>1)toast(`Скопировано рядом: ${add.length} ${rowsWord(add.length)}`)}
@@ -996,7 +1003,8 @@ $('#tablewrap').addEventListener('drop',e=>{if(!DRG)return;const tr=e.target.clo
 $('#tablewrap').addEventListener('dragend',()=>{DRG=null;dropClr()});
 function findClose(){FQ='';$('#fbar')?.remove();$$('#tablewrap tr.fhit').forEach(x=>x.classList.remove('fhit','fcur'))}
 function newDoc(){if(S.pos.length&&!S.docId&&!saved&&!confirm('Начать новую смету? Эта смета не сохранена и пропадёт.'))return;S={name:'Новая смета',pos:[],idx:'',nds:false};vorPick=null;renderPickBar();sel=null;hist=[];redo=[];$('#docname').value=S.name;markDirty();render()}
-async function sample(real=true){
+const keepAsk=m=>S.pos.length&&!S.docId&&!saved&&!confirm(m+' Эта смета не сохранена и пропадёт.');
+async function sample(real=true){if(keepAsk('Открыть пример?'))return false;
   const list=real?[['01-01-009-02',180],['01-01-033-05',114.56],['11-01-002-01',13.44],['06-01-001-01',6],['06-01-005-06',46],['11-01-011-01',54],['11-01-011-02',54,4]]
     :[['УЧ01-01-002-01',180],['УЧ01-02-001-01',12],['УЧ11-01-001-01',14],['УЧ11-01-003-01',6],['УЧ06-01-001-01',46],['УЧ01-01-003-01',130]];
   try{await ensureReal(list.map(x=>x[0]))}catch(e){return toast('Не удалось загрузить данные примера')}
@@ -1334,7 +1342,7 @@ function exportXML(){const X=xmlx();if(!X)return toast('Модуль XML не з
 /* ---------- меню и лента ---------- */
 const MENUS={
  file:[['Новая смета',newDoc],['Примеры (демо)…',openDemos],['Мои сметы…',openDocs,'Ctrl+O'],['Сохранить',save,'Ctrl+S'],['Сохранить как копию…',saveAs],['Сохранить как шаблон…',tplSave],['Новая смета из шаблона…',()=>tplOpen(true)],['Сохранить в файл (.smeta.json)',()=>exportDocFile()],['Открыть из файла…',importDocFile],['Загрузить сплит-форму цен (Excel)…',openSplit],['Открыть модель IFC (ТИМ)…',openBim],['На другое устройство (ссылка, QR)…',openShare],'-',['Выходные формы: ЛСР (прил. 3)…',openForms,'Ctrl+P'],['Акты КС-2 и справки КС-3…',openActs],['Объектный и сводный расчёты (ОСР, ССРСС)…',()=>openOsrTab('set')],['Смета на проектные работы (ПИР)…',()=>openOsrTab('pir')],['НМЦК: расчёт и протокол…',()=>openOsrTab('nmck')],['НЦС: укрупнённые нормативы…',()=>openOsrTab('ncs')],['Ведомость ресурсов в Excel (.xlsx)',exportResXlsx],['ЛСР в Excel (.xlsx)',exportLsrXlsx],['Экспорт таблицы (.csv)',exportCsv],['Конъюнктурный анализ, прил. 1 (Excel)',exportKaCsv],['Экспорт в XML (схема Минстроя, ЛС РИМ 3.01)',exportXML],['Пакет XML для экспертизы: ЛСР, ОСР, ССРСС, записка (.zip)',exportPack],['Печать или PDF по форме ЛСР',printLsr]],
- edit:[['Отменить',undo,'Ctrl+Z'],['Вернуть',redoF,'Ctrl+Y'],'-',['Копировать строки',()=>clipMenu(false),'Ctrl+C'],['Вырезать строки',()=>clipMenu(true),'Ctrl+X'],['Вставить строки',pasteMenu,'Ctrl+V'],['Выделить все строки',selAll,'Ctrl+A'],['Найти в смете',findOpen,'Ctrl+F'],'-',['Вставить список из Excel…',()=>openPaste()],['Дублировать',dup,'Ctrl+D'],['Удалить',del,'Del'],['Переместить вверх',()=>move(-1),'Alt+↑'],['Переместить вниз',()=>move(1),'Alt+↓']],
+ edit:[['Отменить',undo,'Ctrl+Z'],['Вернуть',redoF,'Ctrl+Y'],'-',['Копировать строки',()=>clipMenu(false),'Ctrl+C'],['Вырезать строки',()=>clipMenu(true),'Ctrl+X'],['Вставить строки',pasteMenu,'Ctrl+V'],['Выделить все строки',selAll,'Ctrl+A'],['Найти в смете',findOpen,'Ctrl+F'],'-',['Вставить список из Excel…',()=>openPaste()],['Дублировать',dup,'Ctrl+D'],['Удалить',del,'Del'],['Спрашивать перед удалением',delAskToggle,null,()=>delAsk()],['Переместить вверх',()=>move(-1),'Alt+↑'],['Переместить вниз',()=>move(1),'Alt+↓']],
  ins:[['Расценка из каталога',focusCat,'/'],['Из шаблона…',()=>tplOpen(false)],['Список расценок из Excel…',()=>openPaste(),'Ctrl+V'],['Ресурс в выбранную позицию…',()=>{const p=S.pos.find(x=>x.id===sel);if(!p||!p.code||p.ka||p.tr||!B.rates[p.code]||!B.rates[p.code].real)return toast('Выберите позицию с расценкой ГЭСН');resPick(p,null)}],['Раздел сметы…',askSection],['Коэффициент к позиции',()=>{if(sel)$('#insp .kr .switch')?.focus();toast('Коэффициенты справа в карточке позиции')}],['Материал из ФСБЦ отдельной позицией…',()=>mrNew()],['Материал вне базы (конъюнктурный анализ)',()=>kaNew()],['Оборудование из ФСБЦ…',eqNew],['Оборудование вне базы (конъюнктурный анализ)',()=>kaNew('eq')],['Перевозка грузов',()=>trNew()],['Погрузка и разгрузка (ФГИС ЦС)',()=>trNew('load')]],
  calc:[['Базисный уровень цен',()=>setIdx(''),null,()=>!S.idx],...Object.entries(B.idx).map(([k,v])=>[`Индексы: ${v.region}, ${v.q}`,()=>setIdx(k),null,()=>S.idx===k]),'-',['Коэффициенты на всю смету…',openKall,null,()=>kallN()>0],['НДС '+B.nds+'%',()=>setNds(!S.nds),null,()=>S.nds],['Пересчитать',()=>{render();toast('Пересчитано')}]],
  view:[['Смета: компактный вид',()=>setLsrView('cmp'),null,()=>lsrView!=='form'],['Смета: форма ЛСР (графы 1–12)',()=>setLsrView('form'),null,()=>lsrView==='form'],'-',['Ведомость объёмов',()=>setTab('vor')],['Тёмная тема',toggleTheme],['Краткий / полный вид',toggleCompact],['Ресурсная ведомость',()=>setTab('res')],['Давальческие материалы заказчика…',openDav],['Объектная смета',()=>setTab('obj')],['Локальный расчёт',()=>setTab('lsr')]],
@@ -2703,7 +2711,7 @@ function openDemos(){
   $('#dlg').querySelectorAll('[data-dm]').forEach(b=>b.onclick=async()=>{const k=b.dataset.dm;dlgClose();
     if(k==='lsr')await sample();
     else if(k==='les')await sampleLesson();
-    else if(k==='osr'){await sample();osSample();commit();osTab='set';openOsr()}
+    else if(k==='osr'){if(await sample()===false)return;osSample();commit();osTab='set';openOsr()}
     else if(k==='bim'){setTab('bim');const X=bimx();X?X.sample(false):toast('Модуль ТИМ не загрузился')}})}
 function openOsr(){if(!S.pos.some(p=>p.sec===undefined))return toast('Смета пуста: добавьте позиции');ST();renderOsr()}
 function renderOsr(){const st=ST(),X=xmlx(),pz=X?X.PZ():{},O=osrModel(),M=ssrModel(),W=[...new Set([...O.W,...M.W,...(osTab==='nmck'?nmckCalc().W:[]),...(osTab==='ncs'?ncsCalc().W:[])])];
@@ -3243,7 +3251,7 @@ function lvlOpts(z){const ps=zonePeriods(z);return ps.map(p=>`<option value="${l
 function setZone(z){const ps=zonePeriods(z);if(!ps.length)return toast('Для этой зоны цен пока нет');S.zone=z;
   if(S.level!=='base'&&!ps.includes(lvPeriod(S.level))){S.level=lvOf(ps[0]);S.nrsp=ps[0]<427?'old':'new'}
   commit();ensurePR(prKey());toast('Регион: '+(ZINFO(z)?ZINFO(z).z.name:z)+'. Цены: '+PSET[S.level||'cur'])}
-async function sampleLesson(){const list=[['01-01-018-05',63.45],['01-01-022-23',217.96],['01-02-057-02',9.08]];
+async function sampleLesson(){if(keepAsk('Открыть пример урока?'))return false;const list=[['01-01-018-05',63.45],['01-01-022-23',217.96],['01-02-057-02',9.08]];
   try{await ensureReal(list.map(x=>x[0]))}catch(e){return toast('Не удалось загрузить данные примера')}
   S={name:'Земляные работы ФАП (урок КНС)',pos:[],idx:'',nds:false,level:'q2025',nrsp:'old',base:'ucheb',
      req:{stroyka:'Фельдшерско-акушерский пункт',obj:'ФАП',num:'ЛС-02-01-01Уч',works:'Общестроительные работы',osn:'Учебное задание: проект 2-ЭА.2024'}};
@@ -3708,7 +3716,7 @@ document.addEventListener('keydown',e=>{
   if(e.key==='Escape'){closeMenu();$('#dlgbg').classList.remove('on');if(inField)document.activeElement.blur();else if($('#fbar'))findClose();else if(msel.size){msel.clear();render()}}
   if(inField)return;
   if(e.key==='/'){e.preventDefault();focusCat()}
-  if(e.key==='Delete'||e.key==='Backspace'){del()}
+  if((e.key==='Delete'||e.key==='Backspace')&&!$('#dlgbg').classList.contains('on')){e.preventDefault();del()}
   if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();const i=curIdx();const j=Math.max(0,Math.min(S.pos.length-1,i<0?0:i+(e.key==='ArrowDown'?1:-1)));if(S.pos[j]){sel=S.pos[j].id;msel.clear();render();$(`tr[data-id="${sel}"]`)?.scrollIntoView({block:'nearest'})}}
 });
 
