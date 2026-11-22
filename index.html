@@ -1580,9 +1580,20 @@ async function aiRun(task,text,opt={}){
     if(!r.ok)throw new Error(d.error||r.status);w.classList.remove('wait');
     let h=d.text?aiTxt(d.text):'';if(task==='find'&&d.picks)h+=(d.picks.length?aiPicks(d.picks,opt.vor):'');
     if(d.unverified&&d.unverified.length)h+=`<div class="unv">Проверьте числа ${esc(d.unverified.join(', '))}: их нет в расчёте программы.</div>`;
-    if(task!=='find'&&d.src&&d.src.length)h+=`<div class="src">Источники: ${esc(d.src.slice(0,5).join('; '))}</div>`;w.innerHTML=h||'Нет ответа.';const ab=$('#aip .ab');ab.scrollTop=Math.max(0,w.offsetTop-ab.offsetTop-8)}
+    if(task!=='find'&&d.src&&d.src.length)h+=`<div class="src">Источники: ${esc(d.src.slice(0,5).join('; '))}</div>`;w.innerHTML=h||'Нет ответа.';
+    if(d.pending)aiWaitAdd(d.pending,text);const ab=$('#aip .ab');ab.scrollTop=Math.max(0,w.offsetTop-ab.offsetTop-8)}
   catch(e){w.className='m a err';w.textContent='Помощник не ответил: '+e.message;aiUp=null}}
 function aiPicks(ps,vor){return '<div class="pk">'+ps.map(p=>{const i=RPOS.get(p.code);if(i==null)return '';return `<div class="pc"><span class="mono">ГЭСН${esc(p.code)} · ${esc(pu(RI.r[i][4]))}</span><span class="pn">${esc(RFULL[i])}</span>${p.why?`<span class="pw">${esc(p.why)}</span>`:''}<button data-add="${esc(p.code)}"${vor!=null?` data-vor="${vor}" title="Добавить в смету со связью со строкой ВОР ${vorLbl(vor)}"`:''}>${vor!=null?'Добавить к строке ВОР '+vorLbl(vor):'Добавить'}</button></div>`}).join('')+'</div>'}
+/* вопросы, переданные специалистам: номер хранится в этом браузере, ответ показывается в окне помощника, когда готов */
+const AIW='rimora_ai_wait';
+function aiWaitList(){try{return JSON.parse(localStorage.getItem(AIW)||'[]').filter(x=>Date.now()-x.at<90*864e5)}catch(e){return []}}
+function aiWaitSave(L){try{localStorage.setItem(AIW,JSON.stringify(L.slice(-50)))}catch(e){}}
+function aiWaitAdd(id,q){const L=aiWaitList();L.push({id,q:String(q).slice(0,300),at:Date.now()});aiWaitSave(L)}
+async function aiAnswers(){const L=aiWaitList();if(!L.length)return;
+  try{const r=await fetch(AI_URL+'/answers?ids='+encodeURIComponent(L.map(x=>x.id).join(',')),{cache:'no-store'});if(!r.ok)return;const A=(await r.json()).answers||{};
+    const got=L.filter(x=>A[x.id]);aiWaitSave(L.filter(x=>!A[x.id]));if(!got.length)return;
+    if(!$('#aip')||!$('#aip').classList.contains('on'))aiHelp();
+    for(const x of got)aiMsg('a',`<div class="u" style="margin-bottom:4px">Ответ специалистов на ваш вопрос «${esc(x.q)}»</div>`+aiTxt(A[x.id].a))}catch(e){}}
 function aiHelp(){let el=$('#aip');
   if(!el){el=document.createElement('div');el.id='aip';el.className='aip';
     el.innerHTML=`<div class="ah">${ic('ai')}Помощь ИИ<span class="st">проверяю…</span><button class="ax" title="Закрыть (Esc)">${ic('x')}</button></div>
@@ -1595,7 +1606,8 @@ function aiHelp(){let el=$('#aip');
     const send=()=>{const v=ta.value.trim();if(!v)return;ta.value='';aiRun('ask',v)};
     $('.ai button',el).onclick=send;ta.onkeydown=e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send()}if(e.key==='Escape')el.classList.remove('on')};
     el.addEventListener('click',e=>{const b=e.target.closest('[data-add]');if(b){if(b.dataset.vor&&(S.vor||[]).some(r=>r.id===+b.dataset.vor))vorPick=+b.dataset.vor;addRate(b.dataset.add);b.textContent='Добавлено';b.disabled=true}})}
-  el.classList.toggle('on');if(el.classList.contains('on')){aiPing();setTimeout(()=>$('textarea',el).focus(),50)}}
+  el.classList.toggle('on');if(el.classList.contains('on')){aiPing().then(()=>{if(aiUp)aiAnswers()});setTimeout(()=>$('textarea',el).focus(),50)}}
+setTimeout(()=>{if(aiWaitList().length)aiAnswers()},4000);
 function dlg(h,wide){$('#dlg').className='dlg'+(wide?' wide':'');$('#dlg').style.maxWidth='';$('#dlg').style.width='';$('#dlg').innerHTML=h;$('#dlgbg').classList.add('on')}
 $('#dlgbg').addEventListener('click',e=>{if(e.target.id==='dlgbg')e.currentTarget.classList.remove('on')});
 let tt;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),1800)}
