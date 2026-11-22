@@ -1220,8 +1220,8 @@ function delDoc(id){const m=docIndex().find(x=>x.id===id);if(!m)return;if(!confi
 function exportDocFile(id){let doc;try{doc=id?JSON.parse(lsGet(SKD+id)):JSON.parse(snap())}catch(e){return toast('Не удалось подготовить файл')}
   const data=JSON.stringify({format:'smeta-masterskaya',ver:1,app:APPV,saved:new Date().toISOString(),doc},null,1);
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data],{type:'application/json'}));a.download=(doc.name||'smeta').replace(/[\\/:*?"<>|]/g,'')+'.smeta.json';a.click();toast('Файл сметы скачан (.smeta.json)')}
-function importDocFile(){const inp=document.createElement('input');inp.type='file';inp.accept='.json,application/json';
-  inp.onchange=async()=>{const f=inp.files&&inp.files[0];if(!f)return;try{const j=JSON.parse(await f.text()),n=j&&j.doc?j.doc:j;
+function importDocFile(){const inp=document.createElement('input');inp.type='file';inp.accept='.json,application/json,.xlsx,.xml,.gge';
+  inp.onchange=async()=>{const f=inp.files&&inp.files[0];if(!f)return;if(/\.(xlsx?|xml|gge)$/i.test(f.name))return openXlsx(f);try{const j=JSON.parse(await f.text()),n=j&&j.doc?j.doc:j;
       if(!n||!Array.isArray(n.pos))throw new Error('format');n.docId=newId();n.created=Date.now();n.name=n.name||f.name.replace(/\.smeta\.json$|\.json$/,'');
       if(tabBusy())tabNew();await loadDoc(n,true);storeDoc(true);$('#dlgbg').classList.remove('on');toast('Открыто из файла и добавлено в «Мои сметы»: '+S.name)}
     catch(e){toast('Это не файл сметы Риморы (.smeta.json)')}};inp.click()}
@@ -1467,7 +1467,7 @@ function aiCands(q){if(!RLOW)RLOW=RFULL.map((t,i)=>('гэсн'+RI.r[i][0]+' '+t)
 function aiMsg(cls,html){const b=$('#aip .ab'),d=document.createElement('div');d.className='m '+cls;d.innerHTML=html;b.appendChild(d);b.scrollTop=b.scrollHeight;return d}
 const aiTxt=t=>esc(t).replace(/\n/g,'<br>');
 let aiModel='';async function aiPing(){try{const r=await fetch(AI_URL+'/ping',{cache:'no-store'});aiUp=r.ok;if(r.ok)aiModel=(await r.json()).model||''}catch(e){aiUp=false}
-  const st=$('#aip .st');if(st){st.className='st '+(aiUp?'ok':'off');st.textContent=aiUp?(aiModel||'подключён'):'без ИИ';st.title=aiUp?'Модель помощника: '+aiModel+'. Сменить: ai/config.json → brain':(AI_LOCAL?'Помощник не запущен: node 71_Тренажёр_смет/ai/server.mjs':'Помощник ИИ сейчас недоступен. Программа объясняет расчёт сама')}return aiUp}
+  const st=$('#aip .st');if(st){st.className='st '+(aiUp?'ok':'off');st.textContent=aiUp?'на связи':'без ИИ';st.title=aiUp?'ИИ-помощник Риморы на связи':(AI_LOCAL?'Помощник не запущен: node 71_Тренажёр_смет/ai/server.mjs':'Помощник ИИ сейчас недоступен. Программа объясняет расчёт сама')}return aiUp}
 function aiExplainLocal(o){const L=[`${o.шифр}: ${o.наименование}, объём ${o.объём_в_единицах_проекта} (${o.объём_в_единицах_нормы} × ${o.единица_нормы}).`];
   if(o.ресурсы){const ot=o.ресурсы.filter(r=>r.тип==='ОТ'),em=o.ресурсы.filter(r=>r.тип==='ЭМ'),m=o.ресурсы.filter(r=>r.тип==='М');
     if(ot.length)L.push(`Оплата труда рабочих ${fmt(o.ОТ)} ₽: затраты труда ${fmt(o.ЗТ_чел_ч)} чел.-ч по ценам ${ot.map(r=>fmt(r.цена)).join(', ')} ₽/чел.-ч.`);
@@ -1571,7 +1571,7 @@ function exportPack(){const X=xmlx();if(!X)return toast('Модуль XML не �
 function exportXML(){const X=xmlx();if(!X)return toast('Модуль XML не загрузился, обновите страницу');X.exportXML()}
 /* ---------- меню и лента ---------- */
 const MENUS={
- file:[['Новая смета',newDoc],['Примеры (демо)…',openDemos],['Мои сметы…',openDocs,'Ctrl+O'],['Сохранить',save,'Ctrl+S'],['Сохранить как копию…',saveAs],['Сохранить как шаблон…',tplSave],['Новая смета из шаблона…',()=>tplOpen(true)],['Сохранить в файл (.smeta.json)',()=>exportDocFile()],['Открыть из файла…',importDocFile],['Загрузить сплит-форму цен (Excel)…',openSplit],['Открыть модель IFC (ТИМ)…',openBim],['На другое устройство (ссылка, QR)…',openShare],'-',['Выходные формы: ЛСР (прил. 3)…',openForms,'Ctrl+P'],['Акты КС-2 и справки КС-3…',openActs],['Объектный и сводный расчёты (ОСР, ССРСС)…',()=>openOsrTab('set')],['Смета на проектные работы (ПИР)…',()=>openOsrTab('pir'),null,null,'pir'],['НМЦК: расчёт и протокол…',()=>openOsrTab('nmck'),null,null,'nmck'],['НЦС: укрупнённые нормативы…',()=>openOsrTab('ncs'),null,null,'ncs'],['Ведомость ресурсов в Excel (.xlsx)',exportResXlsx],['ЛСР в Excel (.xlsx)',exportLsrXlsx],['Экспорт таблицы (.csv)',exportCsv],['Конъюнктурный анализ, прил. 1 (Excel)',exportKaCsv],['Экспорт в XML (схема Минстроя, ЛС РИМ 3.01)',exportXML],['Пакет XML для экспертизы: ЛСР, ОСР, ССРСС, записка (.zip)',exportPack],['Печать или PDF по форме ЛСР',printLsr]],
+ file:[['Новая смета',newDoc],['Примеры (демо)…',openDemos],['Мои сметы…',openDocs,'Ctrl+O'],['Сохранить',save,'Ctrl+S'],['Сохранить как копию…',saveAs],['Сохранить как шаблон…',tplSave],['Новая смета из шаблона…',()=>tplOpen(true)],['Сохранить в файл (.smeta.json)',()=>exportDocFile()],['Открыть из файла…',importDocFile],['Открыть смету из Excel (.xlsx)…',()=>openXlsx()],['Открыть смету из XML Минстроя (ЛС РИМ)…',()=>openXml()],['Загрузить сплит-форму цен (Excel)…',openSplit],['Открыть модель IFC (ТИМ)…',openBim],['На другое устройство (ссылка, QR)…',openShare],'-',['Выходные формы: ЛСР (прил. 3)…',openForms,'Ctrl+P'],['Акты КС-2 и справки КС-3…',openActs],['Объектный и сводный расчёты (ОСР, ССРСС)…',()=>openOsrTab('set')],['Смета на проектные работы (ПИР)…',()=>openOsrTab('pir'),null,null,'pir'],['НМЦК: расчёт и протокол…',()=>openOsrTab('nmck'),null,null,'nmck'],['НЦС: укрупнённые нормативы…',()=>openOsrTab('ncs'),null,null,'ncs'],['Ведомость ресурсов в Excel (.xlsx)',exportResXlsx],['ЛСР в Excel (.xlsx)',exportLsrXlsx],['Экспорт таблицы (.csv)',exportCsv],['Конъюнктурный анализ, прил. 1 (Excel)',exportKaCsv],['Экспорт в XML (схема Минстроя, ЛС РИМ 3.01)',exportXML],['Пакет XML для экспертизы: ЛСР, ОСР, ССРСС, записка (.zip)',exportPack],['Печать или PDF по форме ЛСР',printLsr]],
  edit:[['Отменить',undo,'Ctrl+Z'],['Вернуть',redoF,'Ctrl+Y'],'-',['Копировать строки',()=>clipMenu(false),'Ctrl+C'],['Вырезать строки',()=>clipMenu(true),'Ctrl+X'],['Вставить строки',pasteMenu,'Ctrl+V'],['Выделить все строки',selAll,'Ctrl+A'],['Найти в смете',findOpen,'Ctrl+F'],'-',['Вставить список из Excel…',()=>openPaste()],['Дублировать',dup,'Ctrl+D'],['Удалить',del,'Del'],['Спрашивать перед удалением',delAskToggle,null,()=>delAsk()],['Переместить вверх',()=>move(-1),'Alt+↑'],['Переместить вниз',()=>move(1),'Alt+↓']],
  ins:[['Расценка из каталога',focusCat,'/'],['Из шаблона…',()=>tplOpen(false)],['Список расценок из Excel…',()=>openPaste(),'Ctrl+V'],['Ресурс в выбранную позицию…',()=>{const p=S.pos.find(x=>x.id===sel);if(!p||!p.code||p.ka||p.tr||!B.rates[p.code]||!B.rates[p.code].real)return toast('Выберите позицию с расценкой ГЭСН');resPick(p,null)}],['Раздел сметы…',askSection],['Коэффициент к позиции',()=>{if(sel)$('#insp .kr .switch')?.focus();toast('Коэффициенты справа в карточке позиции')}],['Материал из ФСБЦ отдельной позицией…',()=>mrNew()],['Материал вне базы (конъюнктурный анализ)',()=>kaNew()],['Оборудование из ФСБЦ…',eqNew],['Оборудование вне базы (конъюнктурный анализ)',()=>kaNew('eq')],['Своя позиция (вне базы)…',ownNew],['Перевозка грузов',()=>trNew()],['Погрузка и разгрузка (ФГИС ЦС)',()=>trNew('load')]],
  calc:[['Подключённые базы…',openBases],'-',['Базисный уровень цен',()=>setIdx(''),null,()=>!S.idx],...Object.entries(B.idx).map(([k,v])=>[`Индексы: ${v.region}, ${v.q}`,()=>setIdx(k),null,()=>S.idx===k]),'-',['Коэффициенты на всю смету…',openKall,null,()=>kallN()>0],['НДС '+B.nds+'%',()=>setNds(!S.nds),null,()=>S.nds],['Пересчитать',()=>{render();toast('Пересчитано')}]],
@@ -1791,14 +1791,16 @@ function rpOk(){const rc=RPK.sel;if(!rc||!regRes(rc))return;const p=RPK.mr||S.po
 function pasteCode(s){const t=String(s||'').replace(/[\s ]+/g,'').replace(/_+$/,'');
   const m=t.match(/^(ФЕР|ТЕР)?(?:ГЭСН)?(мр|м|р|п)?(\d\d-\d\d-\d{3}-\d\d)(?!\d)/i);if(!m)return null;
   return {code:(m[2]||'').toLowerCase()+m[3],fer:!!m[1]}}
-const pasteNum=s=>{const t=String(s??'').replace(/[\s ]+/g,'').replace(',','.');return /^-?\d+(\.\d+)?$/.test(t)?parseFloat(t):null};
+const pasteNum=s=>{const t=String(s??'').replace(/[\s ]+/g,'').replace(',','.');return /^-?\d+(\.\d+)?(e-?\d+)?$/i.test(t)?parseFloat(t):null};
 function parseTSV(t){const rows=[];let row=[],cell='',q=false;t=String(t).replace(/\r\n?/g,'\n');
   for(let i=0;i<t.length;i++){const ch=t[i];
     if(q){if(ch==='"'){if(t[i+1]==='"'){cell+='"';i++}else q=false}else cell+=ch;continue}
     if(ch==='"'&&cell==='')q=true;else if(ch==='\t'){row.push(cell);cell=''}else if(ch==='\n'){row.push(cell);rows.push(row);row=[];cell=''}else cell+=ch}
   if(cell!==''||row.length){row.push(cell);rows.push(row)}
   return rows.filter(r=>r.some(c=>String(c).trim()!==''))}
-const PROLE=[['','не брать'],['code','Шифр'],['qty','Объём'],['name','Наименование']];
+const PROLE=[['','не брать'],['code','Шифр'],['qty','Объём'],['name','Наименование'],['unit','Ед. изм.'],['sum','Стоимость, ₽']];
+// материал или оборудование из ФСБЦ отдельной позицией: «ФСБЦ-02.2.05.04-2094» → код ресурса
+function pasteMat(s,bare){const m=String(s||'').replace(/[\s ]+/g,'').match(bare?/^(?:ФСБЦ-?)?(\d\d\.\d\.\d\d\.\d\d-\d{4}|\d\d\.\d\d\.\d\d-\d{3})$/i:/^ФСБЦ-?(\d\d\.\d\.\d\d\.\d\d-\d{4}|\d\d\.\d\d\.\d\d-\d{3})$/i);return m?m[1]:null}
 let PS=null;
 function pasteDetect(rows){const nc=Math.max(...rows.map(r=>r.length));const roles=Array(nc).fill('');
   const codeN=[...Array(nc)].map((_,j)=>rows.filter(r=>pasteCode(r[j])).length);
@@ -1818,39 +1820,156 @@ function openPaste(text){if(S.mode)return toast('Вставка из Excel ра�
   ta.addEventListener('paste',e=>{const t=e.clipboardData&&e.clipboardData.getData('text/plain');if(t){e.preventDefault();pasteLoad(t)}});
   ta.addEventListener('input',()=>{if(ta.value.trim())pasteLoad(ta.value)});
   if(text)pasteLoad(text);else ta.focus()}
-async function pasteLoad(text){const rows=parseTSV(text);if(!rows.length)return;
-  PS={rows,roles:pasteDetect(rows),unit:PS&&PS.unit||'nat',sec:true};
+async function pasteLoad(text,o){const rows=Array.isArray(text)?text:parseTSV(text);if(!rows.length)return;
+  PS={rows,roles:o&&o.roles||pasteDetect(rows),unit:PS&&PS.unit||'nat',sec:true,nd:o&&o.nd||null};
   const codes=[...new Set(rows.map(r=>r.map(pasteCode).find(Boolean)).filter(x=>x&&!x.fer&&RPOS.has(x.code)).map(x=>x.code))];
-  $('#pstxt').style.display='none';$('#psw').innerHTML='<div class="u" style="padding:12px">Проверяю шифры по базе…</div>';
+  const bare=!!(o&&o.nd&&o.nd.form),mats=[...new Set(rows.map(r=>r.map(c=>pasteMat(c,bare)).find(Boolean)).filter(Boolean))];
+  if($('#pstxt'))$('#pstxt').style.display='none';$('#psw').innerHTML='<div class="u" style="padding:12px">Проверяю шифры по базе…</div>';
   try{await ensureReal(codes)}catch(e){}
+  try{await Promise.all([...new Set(mats.map(fsbcKey))].map(loadFsbc))}catch(e){}
   pasteRender()}
-function pasteItems(){const ci=PS.roles.indexOf('code'),qi=PS.roles.indexOf('qty'),ni=PS.roles.indexOf('name');
+function pasteItems(){const ci=PS.roles.indexOf('code'),qi=PS.roles.indexOf('qty'),ni=PS.roles.indexOf('name'),ui=PS.roles.indexOf('unit'),si=PS.roles.indexOf('sum');
   return PS.rows.map(r=>{const pc=ci>=0?pasteCode(r[ci]):null,qv=qi>=0?pasteNum(r[qi]):null,txt=r.map(x=>String(x).trim()).filter(Boolean).join(' ');
+    const ut=ui>=0?String(r[ui]??'').trim():'',nm=ni>=0?String(r[ni]??'').trim():'';
+    if(PS.nd&&PS.nd.secs&&PS.nd.secs.has(r))return {k:'sec',r,title:nm||txt};
     if(pc){if(pc.fer)return {k:'bad',r,why:'ФЕР — другая база (2001 г.), в Риморе ГЭСН-2022',code:pc.code};
       if(!RPOS.has(pc.code))return {k:'bad',r,why:'шифра нет в ФСНБ-2022',code:pc.code};
-      const R=B.rates[pc.code];const q=qv==null?0:PS.unit==='rate'&&R?qv*R.mult:qv;
-      return {k:'ok',r,code:pc.code,R,q,noq:qv==null}}
-    const st=(ni>=0&&String(r[ni]||'').trim()?String(r[ni]):txt).trim();
+      // единица из файла («100 м3», «1000 м2») говорит, во сколько раз объём меньше натурального; без столбца единиц — как выбрано в окне
+      const R=B.rates[pc.code];const q=qv==null?0:ut?qv*parseUnit(ut.replace(/³/g,'3').replace(/²/g,'2')).mult:PS.unit==='rate'&&R?qv*R.mult:qv;
+      return {k:'ok',r,code:pc.code,R,q,noq:qv==null,kr:r.kr,kc:r.kc}}
+    const pm=ci>=0?pasteMat(r[ci],PS.nd&&PS.nd.form):null;
+    if(pm){const v=fsbcRec(pm);if(!v||!(v[0]==='М'||v[0]==='ОБ'))return {k:'bad',r,why:'ресурса нет в ФСБЦ-2022',code:'ФСБЦ-'+pm};
+      return {k:'mat',r,rc:pm,v,q:qv==null?0:qv,noq:qv==null}}
+    const cd=ci>=0?String(r[ci]??'').trim():'';
+    if(PS.nd&&PS.nd.form&&/^421\/пр.*75/.test(cd))return {k:'skip',r,txt,why:'вспомогательные материалы (п. 75 Методики) Римора считает сама'};
+    if(PS.nd&&PS.nd.form&&cd&&qv!=null&&qv>0){const sv=si>=0?pasteNum(r[si]):null;
+      if(sv===0)return {k:'skip',r,txt,why:'в файле стоимость 0'};
+      return {k:'own',r,j:cd,name:nm||cd,unit:ut,q:qv,price:sv==null?null:Math.round(sv/qv*100)/100}}
+    const st=(nm||txt).trim();
     if(PS.sec&&/^раздел(?![а-яё])/i.test(st))return {k:'sec',r,title:st};
     return {k:'skip',r,txt}})}
-function pasteRender(){const it=pasteItems(),nc=PS.roles.length,ok=it.filter(x=>x.k==='ok'),bad=it.filter(x=>x.k==='bad'),sec=it.filter(x=>x.k==='sec'),noq=ok.filter(x=>x.noq).length;
-  const st=x=>x.k==='ok'?`<span class="pst ok">✓</span>`:x.k==='bad'?`<span class="pst bad" title="${esc(x.why)}">✗</span>`:x.k==='sec'?`<span class="pst sec">Раздел</span>`:`<span class="pst">—</span>`;
-  const res=x=>x.k==='ok'?`<span class="mono">ГЭСН${esc(x.code)}</span> ${esc(x.R?x.R.name.slice(0,70):'')}${x.R?` · <b>${fq(x.q)}</b> ${esc(pu(x.R.nat))}`:''}${x.noq?' <span class="kc">нет объёма</span>':''}`:x.k==='bad'?`<span class="wn">${esc(x.code)}: ${esc(x.why)}</span>`:x.k==='sec'?esc(x.title):'<span class="u">пропуск</span>';
-  $('#psw').innerHTML=`<div class="pss"><span class="chip">${ok.length} найдено</span>${bad.length?`<span class="chip warn">${bad.length} не найдено</span>`:''}${sec.length?`<span class="chip">${sec.length} разд.</span>`:''}${noq?`<span class="chip warn">${noq} без объёма</span>`:''}
-     <span style="flex:1"></span><label>Объём в Excel <select id="psunit"><option value="nat">в натуральных единицах (м³, м², шт)</option><option value="rate">в единицах расценки (100 м³ …)</option></select></label>
+function pasteRender(){const it=pasteItems(),nc=PS.roles.length,ok=it.filter(x=>x.k==='ok'),bad=it.filter(x=>x.k==='bad'),sec=it.filter(x=>x.k==='sec'),mat=it.filter(x=>x.k==='mat'),own=it.filter(x=>x.k==='own'),noq=ok.filter(x=>x.noq).length+mat.filter(x=>x.noq).length,nd=PS.nd,hasU=PS.roles.includes('unit');
+  const st=x=>x.k==='ok'||x.k==='mat'?`<span class="pst ok">✓</span>`:x.k==='own'?`<span class="pst ok" title="Своя позиция с ценой из файла">≈</span>`:x.k==='bad'?`<span class="pst bad" title="${esc(x.why)}">✗</span>`:x.k==='sec'?`<span class="pst sec">Раздел</span>`:`<span class="pst">—</span>`;
+  const res=x=>x.k==='ok'?`<span class="mono">ГЭСН${esc(x.code)}</span> ${esc(x.R?x.R.name.slice(0,70):'')}${x.R?` · <b>${fq(x.q)}</b> ${esc(pu(x.R.nat))}`:''}${x.kr?` · кратность ${fq(x.kr)}`:''}${x.kc?` · <span title="${esc(x.kc.map(k=>k.n||k.j).join('; '))}">коэфф.: ${x.kc.length}</span>`:''}${x.noq?' <span class="kc">нет объёма</span>':''}`
+    :x.k==='mat'?`<span class="mono">ФСБЦ-${esc(x.rc)}</span> ${esc(String(x.v[1]).slice(0,70))} · <b>${fq(x.q)}</b> ${esc(pu(x.v[2]))}${x.noq?' <span class="kc">нет объёма</span>':''}`
+    :x.k==='own'?`Своя позиция: ${esc(x.name.slice(0,60))} · <b>${fq(x.q)}</b> ${esc(x.unit)}${x.price!=null?` · ${fmt(x.price)} ₽ за ед. из файла`:' <span class="kc">без цены</span>'}`
+    :x.k==='bad'?`<span class="wn">${esc(x.code)}: ${esc(x.why)}</span>`:x.k==='sec'?esc(x.title):`<span class="u">пропуск${x.why?': '+esc(x.why):''}</span>`;
+  const n=ok.length+mat.length+own.length;
+  $('#psw').innerHTML=`${nd?`<p class="u" style="margin:6px 0 0">Римора пересчитает смету по своим базам: цены ресурсов, индексы, НР и СП. ${nd.xml?'Коэффициенты к позициям переносятся из файла: кратность — в кратность, остальные — в «Свои коэффициенты».':'Коэффициенты к позициям из файла не переносятся — проверьте их после открытия.'} Позиции не из ФСНБ-2022 (перевозка, цены по КА) станут своими позициями с ценой за единицу из файла.</p>`:''}<div class="pss"><span class="chip">${ok.length} найдено</span>${mat.length?`<span class="chip">${mat.length} матер. и оборуд.</span>`:''}${own.length?`<span class="chip">${own.length} своих</span>`:''}${bad.length?`<span class="chip warn">${bad.length} не найдено</span>`:''}${sec.length?`<span class="chip">${sec.length} разд.</span>`:''}${noq?`<span class="chip warn">${noq} без объёма</span>`:''}
+     <span style="flex:1"></span>${hasU?'':`<label>Объём в Excel <select id="psunit"><option value="nat">в натуральных единицах (м³, м², шт)</option><option value="rate">в единицах расценки (100 м³ …)</option></select></label>`}
      <label class="rpg"><input type="checkbox" id="pssec" ${PS.sec?'checked':''}> строки «Раздел …» — разделы</label></div>
    <div class="psl"><table><thead><tr><th></th>${[...Array(nc)].map((_,j)=>`<th><select data-pc="${j}">${PROLE.map(([v,l])=>`<option value="${v}" ${PS.roles[j]===v?'selected':''}>${l}</option>`).join('')}</select></th>`).join('')}<th>Что попадёт в смету</th></tr></thead>
    <tbody>${it.slice(0,400).map(x=>`<tr class="${x.k}"><td>${st(x)}</td>${[...Array(nc)].map((_,j)=>`<td>${esc(String(x.r[j]??'').slice(0,60))}</td>`).join('')}<td class="psr">${res(x)}</td></tr>`).join('')}</tbody></table>${it.length>400?`<div class="u" style="padding:8px">Показаны первые 400 строк из ${it.length}, вставлены будут все</div>`:''}</div>
-   <div class="ac" style="gap:10px"><button class="btn" id="psagain">Вставить другой текст</button><span style="flex:1"></span><button class="btn" onclick="document.getElementById('dlgbg').classList.remove('on')">Отмена</button><button class="btn pri" id="psok" ${ok.length?'':'disabled'}>Добавить ${ok.length} поз.${sec.length?' и '+sec.length+' разд.':''} ${sel?'после выбранной строки':'в конец сметы'}</button></div>`;
-  $('#psunit').value=PS.unit;$('#psunit').onchange=e=>{PS.unit=e.target.value;pasteRender()};$('#pssec').onchange=e=>{PS.sec=e.target.checked;pasteRender()};
+   <div class="ac" style="gap:10px"><button class="btn" id="psagain">${nd?'Выбрать другой файл':'Вставить другой текст'}</button><span style="flex:1"></span><button class="btn" onclick="document.getElementById('dlgbg').classList.remove('on')">Отмена</button><button class="btn pri" id="psok" ${n?'':'disabled'}>${nd?`Создать смету: ${n} поз.${sec.length?' и '+sec.length+' разд.':''}`:`Добавить ${n} поз.${sec.length?' и '+sec.length+' разд.':''} ${sel?'после выбранной строки':'в конец сметы'}`}</button></div>`;
+  if($('#psunit')){$('#psunit').value=PS.unit;$('#psunit').onchange=e=>{PS.unit=e.target.value;pasteRender()}}$('#pssec').onchange=e=>{PS.sec=e.target.checked;pasteRender()};
   $$('#psw select[data-pc]').forEach(s=>s.onchange=async e=>{const j=+e.target.dataset.pc,v=e.target.value;if(v)PS.roles=PS.roles.map(x=>x===v?'':x);PS.roles[j]=v;
     const ci=PS.roles.indexOf('code');if(ci>=0)try{await ensureReal([...new Set(PS.rows.map(r=>pasteCode(r[ci])).filter(x=>x&&!x.fer&&RPOS.has(x.code)).map(x=>x.code))])}catch(e){}pasteRender()});
-  $('#psagain').onclick=()=>openPaste();$('#psok').onclick=pasteInsert}
-function pasteInsert(){const it=pasteItems().filter(x=>x.k==='ok'||x.k==='sec');if(!it.length)return;
-  const add=it.map(x=>x.k==='sec'?{id:uid++,sec:x.title}:{id:uid++,code:x.code,qty:x.q,ks:[]});
+  $('#psagain').onclick=()=>nd?openXlsx(null,nd.xml):openPaste();$('#psok').onclick=pasteInsert}
+function pasteInsert(){const all=pasteItems(),it=all.filter(x=>x.k==='ok'||x.k==='sec'||x.k==='mat'||x.k==='own');if(!it.length)return;
+  const nd=PS.nd;if(nd){if(tabBusy())tabNew();if(!newDocRaw())return}
+  const add=it.map(x=>x.k==='sec'?{id:uid++,sec:nd?x.title.replace(/^Раздел\s*\d+(\.\d+)*[.:]?\s*/i,'')||x.title:x.title}:x.k==='mat'?(regRes(x.rc),{id:uid++,code:'ФСБЦ',qty:x.q,ks:[],mr:isEqRc(x.rc)?{rc:x.rc,eq:1}:{rc:x.rc}})
+    :x.k==='own'?{id:uid++,code:'СВ',qty:x.q,ks:[],own:{name:x.name,unit:x.unit,j:x.j,ot:'',em:'',otm:'',m:x.price==null?'':String(x.price),nk:''}}:Object.assign({id:uid++,code:x.code,qty:x.q,ks:[]},x.kr?{kr:x.kr}:{},x.kc?{kc:x.kc.map(k=>({...k}))}:{}));
+  const bad=all.filter(x=>x.k==='bad').length,noq=it.filter(x=>x.noq).length,n=add.filter(x=>x.code).length;
+  if(nd){S.name=nd.name;$('#docname').value=S.name;S.pos=add;sel=null;$('#dlgbg').classList.remove('on');commit();storeDoc(true);renderDocTabs();
+    return toast(`Смета из Excel открыта и добавлена в «Мои сметы»: ${n} поз.${bad?`, не найдено шифров: ${bad}`:''}${noq?`. Без объёма: ${noq}`:''}`)}
   const i=sel?S.pos.findIndex(x=>x.id===sel):-1;S.pos.splice(i>=0?i+1:S.pos.length,0,...add);sel=add[add.length-1].id;
-  $('#dlgbg').classList.remove('on');commit();const n=add.filter(x=>x.code).length,bad=pasteItems().filter(x=>x.k==='bad').length,noq=it.filter(x=>x.noq).length;
+  $('#dlgbg').classList.remove('on');commit();
   toast(`Добавлено позиций: ${n}${bad?`, не найдено шифров: ${bad}`:''}${noq?`. Без объёма: ${noq} — введите объём`:''}`)}
+/* ---------- открыть смету из файла Excel (.xlsx): файл читается в браузере, никуда не отправляется ---------- */
+async function xlsxRead(file){const buf=await file.arrayBuffer(),dv=new DataView(buf),u8=new Uint8Array(buf);let e=-1;
+  for(let i=buf.byteLength-22;i>=Math.max(0,buf.byteLength-66000);i--)if(dv.getUint32(i,true)===0x06054b50){e=i;break}
+  if(e<0)throw new Error('не xlsx');
+  const cnt=dv.getUint16(e+10,true),Z={},td=new TextDecoder();let o=dv.getUint32(e+16,true);
+  for(let i=0;i<cnt;i++){if(dv.getUint32(o,true)!==0x02014b50)throw new Error('повреждён');const nl=dv.getUint16(o+28,true),xl=dv.getUint16(o+30,true),cl=dv.getUint16(o+32,true);
+    Z[td.decode(u8.subarray(o+46,o+46+nl))]={meth:dv.getUint16(o+10,true),cs:dv.getUint32(o+20,true),lho:dv.getUint32(o+42,true)};o+=46+nl+xl+cl}
+  const txt=async k=>{const en=Z[k];if(!en)return '';const l=en.lho,st=l+30+dv.getUint16(l+26,true)+dv.getUint16(l+28,true);
+    let s=new Blob([u8.subarray(st,st+en.cs)]).stream();if(en.meth===8)s=s.pipeThrough(new DecompressionStream('deflate-raw'));else if(en.meth)throw new Error('сжатие');return new Response(s).text()};
+  const ENT={amp:'&',lt:'<',gt:'>',quot:'"',apos:"'"},un=s=>s.indexOf('&')<0?s:s.replace(/&(#x[0-9a-f]+|#\d+|\w+);/gi,(m,c)=>c[0]==='#'?String.fromCodePoint(c[1]==='x'||c[1]==='X'?parseInt(c.slice(2),16):+c.slice(1)):ENT[c]??m);
+  const tt=s=>{let r='';const re=/<t(?:\s[^>]*)?>([\s\S]*?)<\/t>/g;let m;while((m=re.exec(s.replace(/<rPh\b[\s\S]*?<\/rPh>/g,''))))r+=m[1];return un(r)};
+  // первый лист по порядку в книге
+  let sh=null;const wb=await txt('xl/workbook.xml'),rl=await txt('xl/_rels/workbook.xml.rels'),rid=(/<sheet\b[^>]*\br:id="([^"]+)"/.exec(wb)||[])[1];
+  if(rid){const m=new RegExp('<Relationship\\b[^>]*\\bId="'+rid+'"[^>]*>').exec(rl),tg=m&&/Target="([^"]+)"/.exec(m[0]);if(tg)sh=tg[1][0]==='/'?tg[1].slice(1):'xl/'+tg[1].replace(/^\.\//,'')}
+  if(!sh||!Z[sh])sh=Object.keys(Z).filter(k=>/^xl\/worksheets\/sheet\d+\.xml$/.test(k)).sort((a,b)=>parseInt(a.match(/\d+/))-parseInt(b.match(/\d+/)))[0];
+  if(!sh)throw new Error('нет листа');
+  const SS=[];const ss=await txt('xl/sharedStrings.xml');{const re=/<si>([\s\S]*?)<\/si>|<si\/>/g;let m;while((m=re.exec(ss)))SS.push(m[1]?tt(m[1]):'')}
+  const x=await txt(sh),rows=[],col=s=>{let n=0;for(const ch of s)n=n*26+ch.charCodeAt(0)-64;return n-1};
+  const rre=/<row\b[^>]*?(?:\/>|>([\s\S]*?)<\/row>)/g,cre=/<c\b([^>]*?)(?:\/>|>([\s\S]*?)<\/c>)/g;let m;
+  while((m=rre.exec(x))){const row=[];if(m[1]){let c,k=0;cre.lastIndex=0;while((c=cre.exec(m[1]))){const a=c[1],r=/\br="([A-Z]+)\d+"/.exec(a),ci=r?col(r[1]):k;k=ci+1;if(c[2]==null)continue;
+      const ty=(/\bt="(\w+)"/.exec(a)||[])[1]||'';let v;if(ty==='inlineStr')v=tt(c[2]);else{const vv=/<v>([^<]*)<\/v>/.exec(c[2]);if(!vv)continue;v=ty==='s'?SS[+vv[1]]??'':un(vv[1]);if((ty===''||ty==='n')&&v!==''&&isFinite(+v))v=String(+(+v).toPrecision(12))}
+      while(row.length<ci)row.push('');row[ci]=v}}
+    rows.push(row)}
+  return rows}
+// форма ЛСР (приложение 3 к Методике 421/пр: ГРАНД-Смета, Римора и др.): шапка «№ п/п | Обоснование | Наименование | Единица | Количество»
+function xlsxSmeta(rows){const L=v=>String(v??'').replace(/\s+/g,' ').trim();let h=-1;
+  for(let i=0;i<rows.length&&i<300;i++){const r=rows[i];if(r.some(c=>/^Обоснование/i.test(L(c)))&&r.some(c=>/^(№|N)\s*п/i.test(L(c)))){h=i;break}}
+  if(h<0)return null;const H=rows[h],fc=re=>H.findIndex(c=>re.test(L(c)));
+  const cN=fc(/^(№|N)\s*п/i),cC=fc(/^Обоснование/i),cM=fc(/^Наименование/i),cU=fc(/^Единица/i),cQ=fc(/^Количество/i);if(cC<0||cQ<0)return null;
+  let cS=-1,cQT=-1;for(let i=h+1;i<=h+3&&i<rows.length;i++)rows[i].forEach((c,j)=>{if(/^всего в текущем/i.test(L(c)))cS=j;if(cQT<0&&/^всего с уч/i.test(L(c)))cQT=j});
+  let name='';const li=rows.findIndex((r,i)=>i<h&&r.some(c=>/ЛОКАЛЬНЫЙ\s+СМЕТНЫЙ\s+РАСЧ/i.test(L(c))));
+  if(li>=0)for(let i=li+1;i<h&&i<li+5;i++){const s=rows[i].map(L).find(Boolean);if(s&&!/^\(/.test(s)&&!/^Составлен/i.test(s)){name=s;break}}
+  const out=[],secs=new Set();let i=h+1;
+  for(;i<rows.length&&i<=h+4;i++)if(L(rows[i][cN])==='1'&&L(rows[i][cC])==='2'){i++;break}
+  if(i>h+4)i=h+1;
+  let tail=false;
+  for(;i<rows.length;i++){const r=rows[i],n=L(r[cN]),c=L(r[cC]),nm=L(r[cM]);
+    if(r.some(v=>/^(итог\S*|всего)\s+по\s+смете/i.test(L(v))))break;
+    if(/^\d+(\.\d+)*(\s*[ОO])?$/.test(n)&&c){const q=L(r[cQ])!==''?r[cQ]:cQT>=0?r[cQT]??'':'';out.push([n,c,nm,L(r[cU]),q,cS>=0?r[cS]??'':'']);tail=false;continue}
+    // после «Итого по разделу» идут строки итогов («в том числе», «оплата труда»…): это не разделы
+    if(r.some(v=>/^итог\S*\s.*по\s+раздел/i.test(L(v)))){tail=true;continue}
+    if(n&&!/^\d/.test(n)&&!c&&!nm&&!/^(Итог|Всего|в том числе|Справочно)/i.test(n)&&(!tail||/^Раздел/i.test(n))){tail=false;const row=['','',n,'','',''];secs.add(row);out.push(row)}}
+  while(out.length&&secs.has(out[out.length-1]))out.pop();
+  return out.length?{rows:out,roles:['','code','name','unit','qty',cS>=0?'sum':''],secs,name}:null}
+function openXlsx(f,xml){if(!f){const inp=document.createElement('input');inp.type='file';inp.accept=xml?'.xml,.gge,text/xml,application/xml':'.xlsx,.xls,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+    inp.onchange=()=>{if(inp.files&&inp.files[0])openXlsx(inp.files[0],xml)};return inp.click()}
+  if(/\.(xml|gge)$/i.test(f.name))return openXml(f);
+  if(/\.xls$/i.test(f.name))return toast('Это старый формат .xls. Откройте файл в Excel и сохраните как .xlsx');
+  dlg(`<div class="dch"><h3>${ic('paste')} Открыть смету из Excel</h3><button class="x" onclick="document.getElementById('dlgbg').classList.remove('on')" aria-label="Закрыть">×</button></div>
+   <p class="u">${esc(f.name)}</p><div id="psw"><div class="u" style="padding:12px">Читаю файл…</div></div>`,true);
+  $('#dlg').classList.add('ppaste');
+  (async()=>{let rows;try{rows=await xlsxRead(f)}catch(e){$('#psw').innerHTML='<div class="u" style="padding:12px">Не удалось прочитать файл. Нужен файл Excel в формате .xlsx</div>';return}
+    const base=f.name.replace(/\.xlsx$/i,'').replace(/\s*-\s*ЛСР по Методике.*$/i,'').trim()||'Смета из Excel',g=xlsxSmeta(rows);
+    if(g)return pasteLoad(g.rows,{roles:g.roles,nd:{name:g.name||base,secs:g.secs,form:true}});
+    // любая таблица: убираем пустые столбцы, дальше столбцы распознаются как при вставке
+    const keep=[];rows.forEach(r=>r.forEach((v,j)=>{if(String(v??'').trim())keep[j]=1}));const cols=keep.map((v,j)=>v?j:-1).filter(j=>j>=0).slice(0,14);
+    const R2=rows.map(r=>cols.map(j=>String(r[j]??''))).filter(r=>r.some(v=>v.trim()));
+    if(!R2.some(r=>r.some(pasteCode)||r.some(c=>pasteMat(c))))return $('#psw').innerHTML='<div class="u" style="padding:12px">В файле не нашлось шифров расценок ГЭСН. Нужен столбец с шифрами вида ГЭСН01-01-009-08</div>';
+    pasteLoad(R2,{nd:{name:base,secs:new Set()}})})()}
+/* ---------- открыть смету из XML Минстроя (схема ЛС РИМ 3.01; файлы .xml и .gge из ГРАНД-Сметы, Риморы и др.) ---------- */
+function xmlSmeta(txt){const d=new DOMParser().parseFromString(txt,'application/xml');if(d.getElementsByTagName('parsererror').length)return {err:'Файл XML повреждён или это не XML'};
+  const kid=(el,n)=>el?[...el.children].find(c=>c.localName===n):null,tx=(el,n)=>{const c=kid(el,n);return c?c.textContent.trim():''};
+  const root=d.documentElement,ty=tx(kid(kid(root,'Meta'),'File'),'Type');
+  const est=root.getElementsByTagName('Estimate')[0];
+  if(!est||ty&&!/^ЛС/i.test(ty))return {err:`Это не локальный сметный расчёт${ty?` (в файле: ${ty})`:''}. Откройте файл ЛСР (ЛС РИМ)`};
+  const name=tx(est,'Name')||tx(kid(root,'Object'),'Name')||'',out=[],secs=new Set();
+  const sumOf=it=>tx(kid(it,'Totals'),'Current');
+  // коэффициенты позиции: «Кратность …» → кратность, остальные → свои коэффициенты (ОТ и ЗТ → ot, ЭМ → em, МАТ → m)
+  const kofs=c=>{const K=kid(c,'Coefficients');if(!K)return null;let kr=0;const kc=[];
+    for(const k of K.children){if(k.localName!=='Coefficient')continue;const V={},vs=kid(k,'Values');
+      if(vs)for(const v of vs.children){const tg=tx(v,'Target').toUpperCase(),cv=parseFloat(tx(v,'CoefValue').replace(',','.'));if(tg&&isFinite(cv)&&cv>0)V[tg]=cv}
+      const n=tx(k,'Name'),j=tx(k,'Reason');
+      if(/^кратность/i.test(n)||/кратност/i.test(j)){const x=V['ОТ']||V['ЭМ']||V['МАТ']||V['ЗТ'];if(x)kr=(kr||1)*x;continue}
+      const ot=V['ОТ']??V['ЗТ']??1,em=V['ЭМ']??1,m=V['МАТ']??1;if(ot!==1||em!==1||m!==1)kc.push({j,n,ot,em,m})}
+    return {kr,kc}};
+  const items=its=>{for(const it of its.children){if(it.localName!=='Item')continue;
+      const c=kid(it,'Cost');if(c){const row=[tx(c,'Num'),tx(c,'Prefix')+tx(c,'Code'),tx(c,'Name'),tx(c,'Unit'),tx(c,'Quantity')||tx(c,'QuantityTotal'),sumOf(it)],k=kofs(c);
+        if(k){if(k.kr&&k.kr!==1)row.kr=k.kr;if(k.kc.length)row.kc=k.kc}out.push(row);continue}
+      const m=kid(it,'Material')||kid(it,'Equipment')||kid(it,'Transport');
+      if(m){const cd=tx(m,'Code'),nm=tx(m,'Name'),pre=/^\d\d\.\d{1,2}\.\d\d/.test(cd)&&m.localName!=='Transport'?'ФСБЦ-':'';
+        out.push(['',pre+cd,nm,tx(m,'Unit'),tx(m,'ConsumptionTotal')||tx(m,'Consumption'),sumOf(it)||tx(m,'PriceTotalCur')])}}};
+  const walk=el=>{for(const s of el.children){if(s.localName==='Sections'||s.localName==='Subsections'){walk(s);continue}if(s.localName!=='Section'&&s.localName!=='Subsection')continue;
+      const tl=tx(s,'Name');if(tl){const row=['','',tl,'','',''];secs.add(row);out.push(row)}
+      const its=kid(s,'Items');if(its)items(its);walk(s)}};
+  walk(est);while(out.length&&secs.has(out[out.length-1]))out.pop();
+  if(!out.some(r=>r[1]))return {err:'В файле не нашлось позиций сметы'};
+  return {rows:out,roles:['','code','name','unit','qty','sum'],secs,name}}
+function openXml(f){if(!f)return openXlsx(null,true);
+  dlg(`<div class="dch"><h3>${ic('paste')} Открыть смету из XML Минстроя</h3><button class="x" onclick="document.getElementById('dlgbg').classList.remove('on')" aria-label="Закрыть">×</button></div>
+   <p class="u">${esc(f.name)}</p><div id="psw"><div class="u" style="padding:12px">Читаю файл…</div></div>`,true);
+  $('#dlg').classList.add('ppaste');
+  (async()=>{let g;try{const buf=await f.arrayBuffer(),head=new TextDecoder('latin1').decode(new Uint8Array(buf,0,Math.min(300,buf.byteLength))),enc=(/encoding=["']([\w-]+)["']/i.exec(head)||[])[1]||'utf-8';
+      let txt;try{txt=new TextDecoder(enc).decode(buf)}catch(e){txt=new TextDecoder('utf-8').decode(buf)}g=xmlSmeta(txt)}catch(e){g={err:'Не удалось прочитать файл'}}
+    if(g.err)return $('#psw').innerHTML=`<div class="u" style="padding:12px">${esc(g.err)}</div>`;
+    pasteLoad(g.rows,{roles:g.roles,nd:{name:g.name||f.name.replace(/\.(xml|gge)$/i,''),secs:g.secs,form:true,xml:true}})})()}
 // Ctrl+V (⌘V) в смете, а не в поле ввода: если в буфере есть шифры расценок — открываем окно вставки
 document.addEventListener('paste',e=>{const a=document.activeElement;if(/INPUT|SELECT|TEXTAREA/.test(a.tagName)||a.isContentEditable||$('#dlgbg').classList.contains('on')||$('#palbg').classList.contains('on'))return;
   const t=e.clipboardData&&e.clipboardData.getData('text/plain');const rc=t&&clipGet(t);if(rc){e.preventDefault();return clipPaste(rc)}if(!t||!parseTSV(t).some(r=>r.some(pasteCode)))return;e.preventDefault();openPaste(t)});
@@ -4064,7 +4183,7 @@ $('#tablewrap').addEventListener('keydown',e=>{if((e.target.classList.contains('
 let palItems=[],palI=0;
 function palList(q){
   q=q.trim().toLowerCase();const out=[];
-  const cmds=[['Проверить смету',openCheck],['Шаблоны смет',()=>tplOpen(false)],['Сохранить как шаблон',tplSave],['Знакомство с программой',tour],['Вид сметы: форма ЛСР',()=>setLsrView('form')],['Вид сметы: компактный',()=>setLsrView('cmp')],['Давальческие материалы заказчика',openDav],['Коэффициенты на всю смету',openKall],['Экспертиза сметы: уведомление с замечаниями',openExpert],['Материал из ФСБЦ отдельной позицией…',()=>mrNew()],['Материал вне базы (конъюнктурный анализ)',()=>kaNew()],['Оборудование из ФСБЦ…',eqNew],['Оборудование вне базы (конъюнктурный анализ)',()=>kaNew('eq')],['Погрузка и разгрузка (ФГИС ЦС)',()=>trNew('load')],['Новая смета',newDoc],['Примеры (демо)',openDemos],['Своя позиция (вне базы)',ownNew],['Загрузить пример',sample],['Смета на проектные работы (ПИР)',()=>openOsrTab('pir')],['НМЦК',()=>openOsrTab('nmck')],['НЦС',()=>openOsrTab('ncs')],['Сохранить',save],['Мои сметы',openDocs],['На другое устройство (ссылка, QR)',openShare],['Сохранить как копию',saveAs],['Сохранить в файл',()=>exportDocFile()],['Открыть смету из файла',importDocFile],['Загрузить сплит-форму цен (Excel)',openSplit],['Модель IFC (ТИМ): открыть',openBim],['Модель IFC (ТИМ): вкладка',()=>setTab('bim')],['Выходные формы (ЛСР, печать)',openForms],['Акты КС-2 и справки КС-3',openActs],['Объектный и сводный сметные расчёты (ОСР, ССРСС)',openOsr],['Ведомость ресурсов в Excel',exportResXlsx],['Ведомость ресурсов: печать',printRes],['ЛСР в Excel (.xlsx)',exportLsrXlsx],['Экспорт таблицы (.csv)',exportCsv],['Отменить',undo],['Вернуть',redoF],['Удалить строку',del],['Дублировать позицию',dup],['Добавить раздел',askSection],['Тёмная / светлая тема',toggleTheme],['Краткий / полный вид',toggleCompact],['Включить / выключить НДС',()=>setNds(!S.nds)],['Базисный уровень цен',()=>setIdx('')],...Object.entries(B.idx).map(([k,v])=>['Индексы: '+v.q,()=>setIdx(k)]),['Ведомость объёмов',()=>setTab('vor')],['Ресурсная ведомость',()=>setTab('res')],['Объектная смета',()=>setTab('obj')],['Помощь ИИ',aiHelp],['Подбор расценки',focusCat],['Экспорт в XML (схема Минстроя)',exportXML],['Пакет XML для экспертизы (ЛСР, ОСР, ССРСС, записка)',exportPack],['Руководство пользователя',openGuide],['Горячие клавиши',keys],['О программе',about]];
+  const cmds=[['Проверить смету',openCheck],['Шаблоны смет',()=>tplOpen(false)],['Сохранить как шаблон',tplSave],['Знакомство с программой',tour],['Вид сметы: форма ЛСР',()=>setLsrView('form')],['Вид сметы: компактный',()=>setLsrView('cmp')],['Давальческие материалы заказчика',openDav],['Коэффициенты на всю смету',openKall],['Экспертиза сметы: уведомление с замечаниями',openExpert],['Материал из ФСБЦ отдельной позицией…',()=>mrNew()],['Материал вне базы (конъюнктурный анализ)',()=>kaNew()],['Оборудование из ФСБЦ…',eqNew],['Оборудование вне базы (конъюнктурный анализ)',()=>kaNew('eq')],['Погрузка и разгрузка (ФГИС ЦС)',()=>trNew('load')],['Новая смета',newDoc],['Примеры (демо)',openDemos],['Своя позиция (вне базы)',ownNew],['Загрузить пример',sample],['Смета на проектные работы (ПИР)',()=>openOsrTab('pir')],['НМЦК',()=>openOsrTab('nmck')],['НЦС',()=>openOsrTab('ncs')],['Сохранить',save],['Мои сметы',openDocs],['Открыть смету из Excel',()=>openXlsx()],['Открыть смету из XML Минстроя',()=>openXml()],['На другое устройство (ссылка, QR)',openShare],['Сохранить как копию',saveAs],['Сохранить в файл',()=>exportDocFile()],['Открыть смету из файла',importDocFile],['Загрузить сплит-форму цен (Excel)',openSplit],['Модель IFC (ТИМ): открыть',openBim],['Модель IFC (ТИМ): вкладка',()=>setTab('bim')],['Выходные формы (ЛСР, печать)',openForms],['Акты КС-2 и справки КС-3',openActs],['Объектный и сводный сметные расчёты (ОСР, ССРСС)',openOsr],['Ведомость ресурсов в Excel',exportResXlsx],['Ведомость ресурсов: печать',printRes],['ЛСР в Excel (.xlsx)',exportLsrXlsx],['Экспорт таблицы (.csv)',exportCsv],['Отменить',undo],['Вернуть',redoF],['Удалить строку',del],['Дублировать позицию',dup],['Добавить раздел',askSection],['Тёмная / светлая тема',toggleTheme],['Краткий / полный вид',toggleCompact],['Включить / выключить НДС',()=>setNds(!S.nds)],['Базисный уровень цен',()=>setIdx('')],...Object.entries(B.idx).map(([k,v])=>['Индексы: '+v.q,()=>setIdx(k)]),['Ведомость объёмов',()=>setTab('vor')],['Ресурсная ведомость',()=>setTab('res')],['Объектная смета',()=>setTab('obj')],['Помощь ИИ',aiHelp],['Подбор расценки',focusCat],['Экспорт в XML (схема Минстроя)',exportXML],['Пакет XML для экспертизы (ЛСР, ОСР, ССРСС, записка)',exportPack],['Руководство пользователя',openGuide],['Горячие клавиши',keys],['О программе',about]];
   const c=cmds.filter(x=>!q||x[0].toLowerCase().includes(q)).slice(0,q?6:8);
   c.forEach(x=>out.push({g:'Команды',t:x[0],fn:x[1],s:''}));
   if(q){Object.entries(B.rates).filter(([k,r])=>!r.real&&rateHas(k+' '+r.name,q)).slice(0,4).forEach(([k,r])=>out.push({g:'Учебная база · добавить в смету',t:k+'  '+r.name,fn:()=>addRate(k),s:pu(r.unit)}));
