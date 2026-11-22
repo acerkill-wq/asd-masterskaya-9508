@@ -35,7 +35,7 @@ svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.75;str
 td.mono{white-space:nowrap}.rb,.switch,.ctl{white-space:nowrap}
 .mono{font-family:var(--mono);font-size:11.5px;letter-spacing:-.2px}
 
-#app{height:100vh;display:grid;grid-template-rows:auto auto auto 1fr auto;grid-template-columns:minmax(0,1fr);min-width:1180px}
+#app{height:100vh;display:grid;grid-template-rows:auto auto auto auto 1fr auto;grid-template-columns:minmax(0,1fr);min-width:1180px}
 
 
 
@@ -344,6 +344,18 @@ table.lsrf tr.sel td{background:color-mix(in srgb,var(--brand) 12%,transparent)}
 .seg{display:flex;gap:2px;margin:0 12px 8px;background:var(--surface2);border:1px solid var(--line);padding:3px;border-radius:10px}
 .seg button{flex:1;padding:6px 8px;border-radius:8px;font-weight:600;font-size:12px;color:var(--ink2)}
 .seg button.on{background:var(--surface);color:var(--brand-ink);box-shadow:var(--shadow-s)}
+.doctabs{display:flex;align-items:flex-end;gap:2px;padding:6px 12px 0;background:var(--surface2);border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:thin;min-height:36px}
+.doctabs .dt{display:flex;align-items:center;gap:6px;max-width:240px;min-width:120px;padding:5px 6px 5px 12px;border:1px solid transparent;border-bottom:0;border-radius:9px 9px 0 0;color:var(--ink2);font-size:12.5px;cursor:pointer;margin-bottom:-1px;flex:none}
+.doctabs .dt.on{background:var(--surface);color:var(--ink);font-weight:600;border-color:var(--line)}
+.doctabs .dt:hover:not(.on){background:var(--line2)}
+.doctabs .dn{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.doctabs .dm{font-size:10px;font-weight:700;padding:1px 5px;border-radius:5px;background:var(--brand-soft);color:var(--brand-ink);flex:none}
+.doctabs .dtdot{width:7px;height:7px;border-radius:50%;background:#d97706;flex:none}
+.doctabs .dx{width:20px;height:20px;border-radius:6px;display:grid;place-items:center;color:var(--muted);font-size:15px;line-height:1;flex:none}
+.doctabs .dx:hover{background:var(--line);color:var(--ink)}
+.doctabs .dplus{width:28px;height:28px;margin:0 0 3px 4px;border-radius:8px;font-size:18px;color:var(--muted);flex:none}
+.doctabs .dplus:hover{background:var(--line2);color:var(--ink)}
+@media print{.doctabs{display:none}}
 #tabs .pt,#tabs .nt{display:none}body.doc-mode #tabs>button{display:none}body.pir-mode #tabs>button.pt,body.ncs-mode #tabs>button.nt{display:inline-block}body.doc-mode #params>*{display:none}#catseg button{font-size:11.5px;padding:6px 4px}
 .pirt td{height:auto;padding:9px 10px;vertical-align:top;font-size:12.5px}.pirt th.num,.pirt td.num{text-align:right;white-space:nowrap}.pirt td.mono{color:var(--muted)}
 tbody tr.prow{cursor:pointer}tbody tr.prow:hover td{background:var(--surface2)}tbody tr.prow.sel td{background:var(--brand-soft)}tbody tr.prow.sel td:first-child{box-shadow:inset 3px 0 0 var(--brand)}
@@ -576,6 +588,7 @@ body.insp-off #insp>.ph .cbtn{margin:0;order:-1}
   </nav>
 
   <div class="ribbon" id="ribbon"></div>
+  <div class="doctabs" id="doctabs"></div>
 
   <main class="work">
     <aside class="panel catalog">
@@ -832,7 +845,7 @@ async function ensureExtRes(pos){const need=new Set();
 let S={name:'Новая смета',pos:[],idx:'',nds:false};
 const openRows=new Set();
 let sel=null, uid=1, hist=[], redo=[], tab='lsr', compact=false, saved=true;
-let pirSel=0,pirTab='t',pirParOpen=false,treeMode='',PIR_N=0;const PM=()=>S.mode==='pir';let ncsSel=0,ncsTab='t',ncsParOpen=false;const NM=()=>S.mode==='ncs';
+let pirSel=0,pirTab='t',pirParOpen=false,treeMode='',PIR_N=0;const PM=()=>S.mode==='pir';let ncsSel=0,ncsTab='t',ncsParOpen=false;const NM=()=>S.mode==='ncs';let TABS=[{}],TI=0;const TBK='rimora.tabs';
 const snap=()=>JSON.stringify(S);
 /* отмена: в историю кладём состояние до правки — снимок, сделанный при прошлой перерисовке (lastSnap) */
 let lastSnap=null;
@@ -1030,6 +1043,8 @@ const BASES=[['fsnb','ФСНБ-2022','ГЭСН и ФСБЦ, текущие це�
 const BSK='rimora.basesOff',basesOff=()=>{try{return JSON.parse(lsGet(BSK)||'[]')}catch(e){return []}},baseOn=k=>!basesOff().includes(k);
 function basesApply(){const s=$('#basesel');if(!s)return;if(!s.querySelector('option[value=cfg]')){const o=document.createElement('option');o.value='cfg';o.textContent='Подключить базы…';s.appendChild(o)}
   s.querySelectorAll('option').forEach(o=>{if(o.value!=='cfg')o.hidden=!baseOn(o.value)});$$('#catseg button').forEach(b=>b.style.display=baseOn(b.dataset.s)?'':'none')}
+function baseOffTree(k){const b=BASES.find(x=>x[0]===k);$('#tree').innerHTML=`<div class="empty-s"><b>База «${esc(b?b[1]:k)}» не подключена.</b><br>Расчёт можно заполнять вручную, справочники появятся здесь после подключения.<br><button class="btn pri" id="bOn" style="margin-top:10px">Подключить базу</button></div>`;$('#catcount').textContent='';
+  $('#bOn').onclick=()=>{try{lsSet(BSK,JSON.stringify(basesOff().filter(x=>x!==k)))}catch(e){}basesApply();treeMode='-';render();toast('Подключено: '+(b?b[1]:k))}}
 function openBases(){const off=basesOff();
   dlg(`<div class="kah"><div><h3>Подключённые базы</h3><div class="u">Оставьте одну базу или включите несколько. Выключенные не показываются в каталоге, меню и окнах, данные смет не теряются.</div></div><button class="vdel" id="bsX" style="font-size:22px">×</button></div>
    <div style="display:grid;gap:8px;margin:12px 0">${BASES.map(([k,n,d])=>`<label style="display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:1px solid var(--line);border-radius:10px;cursor:pointer"><input type="checkbox" data-bs="${k}" ${off.includes(k)?'':'checked'} style="margin-top:3px"><span><b>${esc(n)}</b><br><span class="u" style="font-size:12px">${esc(d)}</span></span></label>`).join('')}</div>
@@ -1041,9 +1056,9 @@ function openBases(){const off=basesOff();
     if(!baseOn(S.base||'fsnb'))setBase(baseOn('fsnb')?'fsnb':'ucheb');basesApply();render();renderTree();
     toast('Подключено: '+BASES.filter(([k])=>!o.includes(k)).map(x=>x[1]).join(', '))}}
 /* ---------- «Новая»: выбор документа ---------- */
-function newDoc(){const D=[['lsr','Локальный сметный расчёт (ЛСР)','Пустая смета: расценки из каталога, строка «+», свои позиции'],['vor','Ведомость объёмов работ (ВОР)','Сначала объёмы по чертежам, потом расценки к строкам'],['tpl','Смета из шаблона','Готовый набор расценок: свой или типовой'],['bim','Смета по модели ТИМ (IFC)','Объёмы берутся из модели здания'],['pir','Смета на проектные работы','По НЗ и СБЦ, форма 2п (Методика 707/пр)'],['ncs','Расчёт по НЦС-2026','Укрупнённые нормативы цены строительства'],['nmck','НМЦК','Расчёт и протокол по приказу 841/пр'],['osr','ОСР и ССРСС','Объектный и сводный сметные расчёты'],['demo','Примеры (демо)','Готовые учебные расчёты']].filter(([k])=>!['pir','ncs','nmck'].includes(k)||baseOn(k));
+function newDoc(){if(tabBusy())tabNew();const D=[['lsr','Локальный сметный расчёт (ЛСР)','Пустая смета: расценки из каталога, строка «+», свои позиции'],['vor','Ведомость объёмов работ (ВОР)','Сначала объёмы по чертежам, потом расценки к строкам'],['tpl','Смета из шаблона','Готовый набор расценок: свой или типовой'],['bim','Смета по модели ТИМ (IFC)','Объёмы берутся из модели здания'],['pir','Смета на проектные работы','По НЗ и СБЦ, форма 2п (Методика 707/пр)'],['ncs','Расчёт по НЦС-2026','Укрупнённые нормативы цены строительства'],['nmck','НМЦК','Расчёт и протокол по приказу 841/пр'],['osr','ОСР и ССРСС','Объектный и сводный сметные расчёты'],['demo','Примеры (демо)','Готовые учебные расчёты']];
   dlg(`<div class="kah"><div><h3>Что составляем?</h3><div class="u">Выберите документ. Набор баз меняется в ленте: «База → Подключить базы…».</div></div><button class="vdel" id="ndX" style="font-size:22px">×</button></div>
-   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px;margin-top:12px">${D.map(([k,n,d])=>`<button class="btn" data-nd="${k}" style="justify-content:flex-start;text-align:left;padding:10px 14px;height:auto;white-space:normal"><span><b>${esc(n)}</b><br><span class="u" style="font-size:12px">${esc(d)}</span></span></button>`).join('')}</div>`,true);
+   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px;margin-top:12px">${D.map(([k,n,d])=>`<button class="btn" data-nd="${k}" style="justify-content:flex-start;text-align:left;padding:10px 14px;height:auto;white-space:normal"><span><b>${esc(n)}</b><br><span class="u" style="font-size:12px">${esc(d)}</span>${['pir','ncs','nmck'].includes(k)&&!baseOn(k)?'<br><span class="u" style="font-size:11px;color:#b45309">база не подключена: подключите её в каталоге</span>':''}</span></button>`).join('')}</div>`,true);
   $('#ndX').onclick=dlgClose;
   $('#dlg').querySelectorAll('[data-nd]').forEach(b=>b.onclick=()=>{const k=b.dataset.nd;dlgClose();
     if(k==='demo')return openDemos();if(k==='tpl')return tplOpen(true);
@@ -1140,17 +1155,51 @@ function docIndex(){try{const L=JSON.parse(lsGet(SK)||'[]');return Array.isArray
 function setSaveChip(){const t=$('#savetxt'),c=$('#savechip');if(!t)return;
   t.textContent=(saved&&S.docId?'Сохранено'+(savedAt?' '+savedAt.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'}):''):S.docId?'Сохраняю…':'Не сохранено')+(cloudKey()&&S.docId?(cloudSt.ok===false?' · без облака':dirty().includes(S.docId)?' · в облако…':' · в облаке'):'');
   c.classList.toggle('warn',!S.docId);c.style.opacity=saved?1:.85;
-  c.title=S.docId?'Смета в списке «Мои сметы» (в этом браузере на этом компьютере), изменения сохраняются сами. Нажмите, чтобы открыть список':'Смета ещё не сохранена. Нажмите или Ctrl+S, чтобы сохранить в «Мои сметы»'}
+  c.title=S.docId?'Смета в списке «Мои сметы» (в этом браузере на этом компьютере), изменения сохраняются сами. Нажмите, чтобы открыть список':'Смета ещё не сохранена. Нажмите или Ctrl+S, чтобы сохранить в «Мои сметы»';renderDocTabs()}
 function storeDoc(silent){const fresh=!S.docId;if(fresh){S.docId=newId();S.created=Date.now()}
   try{const T=totals(),m={id:S.docId,name:S.name||'Без названия',created:S.created||Date.now(),updated:Date.now(),total:T.total,npos:S.pos.filter(p=>p.sec===undefined).length,base:S.base||'fsnb',level:S.level||'cur',zone:zoneOf()};
     lsSet(SKD+S.docId,snap());lsSet(SK,JSON.stringify([m,...docIndex().filter(x=>x.id!==S.docId)]));lsSet(SKL,S.docId);cloudMark(S.docId);
     saved=true;savedAt=new Date();setSaveChip();if(!silent)toast(fresh?`Сохранено в «Мои сметы»: ${m.name}. Дальше изменения сохраняются сами`:'Сохранено');return true}
   catch(e){if(fresh){delete S.docId;delete S.created}setSaveChip();toast('Не удалось сохранить в браузере. Сохраните смету в файл');return false}}
+/* ---------- вкладки смет: несколько открытых смет, как в браузере. Открытая вкладка живёт в обычных переменных (S, история отмен, выделение),
+   остальные хранят свой снимок состояния; вкладка, восстановленная после перезагрузки, грузится из «Моих смет» при первом открытии ---------- */
+const tabSnap=()=>({S,sel,hist,redo,lastSnap,saved,savedAt,tab,pirSel,ncsSel,pirTab,ncsTab});
+const tabBlank=()=>({S:{name:'Новая смета',pos:[],idx:'',nds:false},sel:null,hist:[],redo:[],lastSnap:null,saved:true,savedAt:null,tab:'lsr'});
+function tabPut(o){S=o.S;sel=o.sel;hist=o.hist;redo=o.redo;lastSnap=o.lastSnap;saved=o.saved;savedAt=o.savedAt;tab=o.tab||'lsr';pirSel=o.pirSel||0;ncsSel=o.ncsSel||0;pirTab=o.pirTab||'t';ncsTab=o.ncsTab||'t';
+  fixUid();msel.clear();openRows.clear();vorPick=null;renderPickBar();$('#docname').value=S.name||'';$$('#tabs>button').forEach(b=>b.classList.toggle('on',b.dataset.t===tab));setSaveChip()}
+const tabBusy=()=>!!(S.docId||S.pos.length||S.mode||(S.vor&&S.vor.length)||S.stroy);
+function tabFlush(){if(ast){clearTimeout(ast);ast=null}if(S.docId&&!saved)storeDoc(true)}
+const tabUn=s=>!s.docId&&!!(s.pos.length||s.mode||(s.vor&&s.vor.length));
+function tabInfo(k){if(k===TI)return {name:S.name,un:tabUn(S),id:S.docId,mode:S.mode};const T=TABS[k]||{};if(T.st)return {name:T.st.S.name,un:tabUn(T.st.S),id:T.st.S.docId,mode:T.st.S.mode};return {name:T.name,un:false,id:T.id,mode:T.mode}}
+const tabFind=id=>TABS.findIndex((_,k)=>tabInfo(k).id===id);
+function tabNew(){tabFlush();TABS[TI]={st:tabSnap()};TABS.push({});TI=TABS.length-1;tabPut(tabBlank());render();renderTree();renderDocTabs()}
+async function tabLoad(T){if(T.st){tabPut(T.st);if(S.docId&&saved){const d=lsGet(SKD+S.docId);if(d&&d!==snap()){try{await loadDoc(JSON.parse(d),true)}catch(e){}}}}
+  else{tabPut(tabBlank());if(T.id&&!(await openDoc(T.id,true)))toast('Смета «'+(T.name||'')+'» не найдена в «Моих сметах»')}
+  if(S.docId)try{lsSet(SKL,S.docId)}catch(e){}render();renderTree();renderDocTabs()}
+async function tabSwitch(i){if(i===TI||!TABS[i])return;tabFlush();TABS[TI]={st:tabSnap()};const T=TABS[i];TABS[i]={};TI=i;await tabLoad(T)}
+async function tabClose(i){const act=i===TI,x=tabInfo(i),o=act?tabSnap():TABS[i].st;
+  if(o&&tabUn(o.S)&&!confirm(`Смета «${o.S.name||'Новая смета'}» не сохранена. Закрыть вкладку и потерять изменения?`))return;
+  if(act)tabFlush();TABS.splice(i,1);
+  if(!TABS.length){TABS=[{}];TI=0;tabPut(tabBlank());render();renderTree();renderDocTabs()}
+  else if(act){const j=Math.min(i,TABS.length-1),T=TABS[j];TABS[j]={};TI=j;await tabLoad(T)}
+  else{if(i<TI)TI--;renderDocTabs()}
+  if(x.id)toast('Вкладка закрыта, смета осталась в «Моих сметах»')}
+function renderDocTabs(){const w=$('#doctabs');if(!w)return;const MD={pir:'ПИР',ncs:'НЦС'};
+  w.innerHTML=TABS.map((_,k)=>{const x=tabInfo(k),n=x.name||'Новая смета';return `<div class="dt${k===TI?' on':''}" data-ti="${k}" title="${esc(n)}${x.id?'':' (не сохранена)'}">${MD[x.mode]?`<span class="dm">${MD[x.mode]}</span>`:''}<span class="dn">${esc(n)}</span>${x.un?'<i class="dtdot" title="Не сохранена в «Мои сметы»"></i>':''}<button class="dx" data-tx="${k}" title="Закрыть вкладку">×</button></div>`}).join('')+
+    `<button class="dplus" id="dtNew" title="Новая смета в новой вкладке (${hkTxt('Alt+N')})">+</button>`;
+  try{lsSet(TBK,JSON.stringify({ids:TABS.map((_,k)=>tabInfo(k).id).filter(Boolean)}))}catch(e){}}
+function tabsRestore(){let o=null;try{o=JSON.parse(lsGet(TBK)||'null')}catch(e){}
+  if(o&&Array.isArray(o.ids)){const L=docIndex(),ids=o.ids.filter(id=>lsGet(SKD+id)),cur=S.docId;
+    if(ids.length){TABS=ids.map(id=>id===cur?{}:{id,name:(L.find(x=>x.id===id)||{}).name||'Смета'});let k=ids.indexOf(cur);if(k<0){TABS.unshift({});k=0}TI=k}}
+  renderDocTabs()}
+$('#doctabs').addEventListener('click',e=>{const x=e.target.closest('[data-tx]');if(x){e.stopPropagation();return tabClose(+x.dataset.tx)}if(e.target.closest('#dtNew'))return newDoc();const d=e.target.closest('[data-ti]');if(d)tabSwitch(+d.dataset.ti)});
+$('#doctabs').addEventListener('auxclick',e=>{if(e.button!==1)return;const d=e.target.closest('[data-ti]');if(d){e.preventDefault();tabClose(+d.dataset.ti)}});
 function save(){storeDoc(false)}
 function saveAs(){const v=prompt('Название копии сметы:',(S.name||'Смета')+' (копия)');if(!v)return;delete S.docId;S.name=v;$('#docname').value=v;storeDoc(false);render()}
 function fixUid(){uid=Math.max(1,...S.pos.map(p=>p.id||0),...(S.vor||[]).map(r=>r.id||0))+1}
 async function loadDoc(n,silent){await ensureReal(n.pos.filter(p=>p.code&&!p.ka&&!p.tr&&!p.mr).map(p=>p.code));await ensureExtRes(n.pos);S=n;fixUid();if(n.pos.some(p=>p.tr||p.ka&&p.ka.tr&&p.ka.tr.on))await ensureTR();sel=null;hist=[];redo=[];vorPick=null;renderPickBar();$('#docname').value=S.name;saved=true;savedAt=null;setSaveChip();render();if(!silent)toast('Открыто: '+S.name)}
 async function openDoc(id,silent){const d=lsGet(SKD+id);if(!d){if(!silent)toast('Смета не найдена в браузере');return false}
+  if(!silent){const j=tabFind(id);if(j===TI)return true;if(j>=0){await tabSwitch(j);return true}if(tabBusy())tabNew()}
   if(!silent&&S.pos.length&&!S.docId&&!saved&&!confirm('Текущая смета не сохранена. Открыть другую и потерять изменения?'))return false;
   try{await loadDoc(JSON.parse(d),silent);try{lsSet(SKL,id)}catch(e){}return true}catch(e){if(!silent)toast('Не удалось открыть смету');return false}}
 function dupDoc(id){const d=lsGet(SKD+id);if(!d)return;try{const n=JSON.parse(d);n.docId=newId();n.created=Date.now();n.name=(n.name||'Смета')+' (копия)';
@@ -1164,7 +1213,7 @@ function exportDocFile(id){let doc;try{doc=id?JSON.parse(lsGet(SKD+id)):JSON.par
 function importDocFile(){const inp=document.createElement('input');inp.type='file';inp.accept='.json,application/json';
   inp.onchange=async()=>{const f=inp.files&&inp.files[0];if(!f)return;try{const j=JSON.parse(await f.text()),n=j&&j.doc?j.doc:j;
       if(!n||!Array.isArray(n.pos))throw new Error('format');n.docId=newId();n.created=Date.now();n.name=n.name||f.name.replace(/\.smeta\.json$|\.json$/,'');
-      await loadDoc(n,true);storeDoc(true);$('#dlgbg').classList.remove('on');toast('Открыто из файла и добавлено в «Мои сметы»: '+S.name)}
+      if(tabBusy())tabNew();await loadDoc(n,true);storeDoc(true);$('#dlgbg').classList.remove('on');toast('Открыто из файла и добавлено в «Мои сметы»: '+S.name)}
     catch(e){toast('Это не файл сметы Риморы (.smeta.json)')}};inp.click()}
 /* ---------- перенос сметы на другое устройство: смета сжимается в ссылку (и QR), на сервер ничего не уходит ---------- */
 const b64u=u8=>{let s='';for(let i=0;i<u8.length;i+=0x8000)s+=String.fromCharCode.apply(null,u8.subarray(i,i+0x8000));return btoa(s).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')};
@@ -1194,7 +1243,7 @@ async function takeShared(){const h=location.hash;if(!h.startsWith(SHARE_PREFIX)
   <p style="margin:10px 0 6px"><b>${esc(n.name||'Смета')}</b></p><p class="u" style="margin:0 0 14px">Позиций: ${np}. Смета добавится в «Мои сметы» этого браузера отдельной копией, текущая смета не изменится.</p>
   <div style="display:flex;gap:8px;justify-content:flex-end"><button class="btn" id="tkno">Не открывать</button><button class="btn pri" id="tkok">Открыть смету</button></div>`);
   const close=()=>{clear();$('#dlgbg').classList.remove('on')};$('#tkx').onclick=close;fitDlg();$('#tkno').onclick=close;
-  $('#tkok').onclick=async()=>{close();if(S.docId&&!saved)storeDoc(true);n.docId=newId();n.created=Date.now();n.name=n.name||'Смета';
+  $('#tkok').onclick=async()=>{close();if(S.docId&&!saved)storeDoc(true);if(tabBusy())tabNew();n.docId=newId();n.created=Date.now();n.name=n.name||'Смета';
     try{await loadDoc(n,true);storeDoc(true);toast('Смета открыта и сохранена в «Мои сметы»: '+S.name)}catch(e){toast('Не удалось открыть смету по ссылке')}}}
 window.addEventListener('hashchange',()=>{if(location.hash.startsWith(SHARE_PREFIX))takeShared();else if(location.hash.startsWith('#k1.'))takeKey()});
 /* ---------- облако смет: сервер Риморы в России (RUVDS), личный ключ синхронизации без почты и пароля ---------- */
@@ -1503,7 +1552,7 @@ function buildRibbon(){
 }
 
 /* ---------- отрисовка ---------- */
-function render(){if(S.mode&&!baseOn(S.mode))S.mode=undefined;const bc=document.body.classList;bc.toggle('pir-mode',PM());bc.toggle('ncs-mode',NM());bc.toggle('doc-mode',!!S.mode);
+function render(){const bc=document.body.classList;bc.toggle('pir-mode',PM());bc.toggle('ncs-mode',NM());bc.toggle('doc-mode',!!S.mode);
   if(treeMode!==(S.mode||'')){treeMode=S.mode||'';$('#catq').placeholder=PM()?'Объект или сборник: «гараж», «школа», 848…':NM()?'Объект: «школа», «поликлиника», 03-01…':'Шифр или слова: «стяжка», УЧ06…';renderTree()}
   if(PM()){syncRibbon();renderPir();lastSnap=snap();return}
   if(NM()){syncRibbon();renderNcs();lastSnap=snap();return}
@@ -2722,13 +2771,13 @@ function pirPanel(M){const C=M.pir,P=C.P,{inp,chk,sel,line}=pirUI(C);
 
 
 /* ---------- смета ПИР в главном окне: слева справочники НЗ и СБЦ, в центре таблица формы 2п, справа карточка строки ---------- */
-function setMode(m){const nm=m==='pir'||m==='ncs'?m:undefined;if(nm&&!baseOn(nm))return toast((nm==='pir'?'Справочники НЗ и СБЦ':'НЦС-2026')+' отключены: «База → Подключить базы…»');
+function setMode(m){const nm=m==='pir'||m==='ncs'?m:undefined;
   $('#catq').value='';
-  if(S.mode!==nm){S.mode=nm;ST();commit();if(nm)toast(nm==='pir'?'Смета на проектные работы: справочник, таблицу и объект выберите в каталоге слева':'Расчёт по НЦС: сборник и таблицу выберите в каталоге слева')}else render()}
+  if(S.mode!==nm){S.mode=nm;ST();commit();if(nm)toast(!baseOn(nm)?(nm==='pir'?'База НЗ и СБЦ':'База НЦС-2026')+' не подключена: подключите её в каталоге слева':nm==='pir'?'Смета на проектные работы: справочник, таблицу и объект выберите в каталоге слева':'Расчёт по НЦС: сборник и таблицу выберите в каталоге слева')}else render()}
 const pirObjs=t=>[...new Set(t.rows.map(r=>r[1]))],pirUnit=(t,o)=>((t.rows.find(r=>r[1]===o)||[])[4]||'').replace(/^1 /,'');
 const pirIt=(attrs,chip,unit,name,title)=>`<div class="rate" ${attrs}><div class="rc">${chip?`<span class="mono">${esc(chip)}</span>`:''}${unit?`<span class="ru">${esc(unit)}</span>`:''}</div><div class="rn" title="${esc(title||name)}">${esc(name)}</div><button class="add" title="Добавить в смету ПИР">${ic('plus')}</button></div>`;
 const pirObjIt=(k,ti,oi)=>{const s=PIR_DB[k],t=s.tables[ti],o=pirObjs(t)[oi];return pirIt(`data-pa="nat" data-k="${k}" data-ti="${ti}" data-oi="${oi}"`,s.short+', табл. '+t.code,pirUnit(t,o),o,t.title+': '+o)};
-function renderTreePir(){const DB=window.PIR_DB,tree=$('#tree');
+function renderTreePir(){if(!baseOn('pir'))return baseOffTree('pir');const DB=window.PIR_DB,tree=$('#tree');
   if(!DB){tree.innerHTML='<div class="empty-s">Справочники НЗ и СБЦ не загрузились. Обновите страницу.</div>';$('#catcount').textContent='';return}
   const K=Object.keys(DB).filter(k=>k!=='idx'&&DB[k]&&DB[k].tables),q=$('#catq').value.trim();
   if(!PIR_N)PIR_N=K.reduce((a,k)=>a+DB[k].tables.reduce((b,t)=>b+pirObjs(t).length,0),0);
@@ -2890,7 +2939,7 @@ ${params}</section>
    <div class="ksum">По НЦС в уровне 01.01.2026: <b>${fmt(C.T0)} тыс. руб.</b>${C.ipr!==1?` · с Ипр ${fq(C.ipr)}: <b>${fmt(C.T)} тыс. руб.</b>`:''} · НДС ${B.nds}% ${fmt(C.nds)} · всего <b>${fmt(C.A)} тыс. руб.</b></div></div>`}
 /* ---------- расчёт по НЦС в главном окне: слева сборники и таблицы НЦС-2026, в центре расчёт, справа карточка строки ---------- */
 const ncsIt=(sb,t)=>{const g=ncsGroups(t).length;return pirIt(`data-nsb="${sb}" data-nt="${esc(t.code)}"`,t.code,t.unit.replace(/^1 /,''),t.title,t.title+(g>1?` (объектов в таблице: ${g})`:''))};
-function renderTreeNcs(){const DB=window.NCS_DB,tree=$('#tree');
+function renderTreeNcs(){if(!baseOn('ncs'))return baseOffTree('ncs');const DB=window.NCS_DB,tree=$('#tree');
   if(!DB){tree.innerHTML='<div class="empty-s">Справочник НЦС не загрузился. Обновите страницу.</div>';$('#catcount').textContent='';return}
   const N=ST().ncs,q=$('#catq').value.trim();
   if(q.length>=2){const hits=[];
@@ -3010,13 +3059,13 @@ function timPanel(st,chk,inp,dur){const t=st.tim;let h=`<div class="ost2">${chk(
    ${ln('СП, ₽ (12)',`${fmt(c.Z)} × 10 / 100`,c.SP)}
    ${ln('<b>СТИМ, ₽ (7)</b>','ЗТИМ + СП, в главу 9, графа «прочие затраты»',c.STIM)}
    ${c.sat?ln('Спутниковая связь, ₽ (п. 214)','отдельной строкой главы 9',c.sat):''}</tbody></table></div>`}
-function openOsrTab(t){if(t==='pir'||t==='ncs')return setMode(t);osTab=t;openOsr()}
+function openOsrTab(t){if(t==='pir'||t==='ncs')return setMode(t);if(t==='nmck'&&!baseOn('nmck'))toast('База НМЦК (приказ 841/пр) не подключена: «Расчёт → Подключённые базы…»');osTab=t;openOsr()}
 function openDemos(){
   const D=[['lsr','Смета: фундамент гаража','Локальный расчёт по ГЭСН-2022, 7 позиций'],['les','Смета урока: земляные работы ФАП','3 позиции, цены 3 кв. 2025'],['osr','Стройка гаража: ОСР, ССРСС, НЦС, смета ПИР, НМЦК','Откроется смета гаража и учебные данные стройки'],['bim','Модель IFC (ТИМ): гараж 6×9 м','Учебная модель здания, объёмы из модели']];
   dlg(`<div class="kah"><div><h3>Примеры (демо)</h3><div class="u">Учебные примеры в одном месте. Пример заменит открытую смету, свою смету сначала сохраните.</div></div><button class="vdel" id="dmX" style="font-size:22px">×</button></div>
    <div style="display:grid;gap:8px;margin-top:10px">${D.map(([k,n,d])=>`<button class="btn" data-dm="${k}" style="justify-content:flex-start;text-align:left;padding:10px 14px;height:auto"><span><b>${esc(n)}</b><br><span class="u" style="font-size:12px">${esc(d)}</span></span></button>`).join('')}</div>`);
   $('#dmX').onclick=dlgClose;
-  $('#dlg').querySelectorAll('[data-dm]').forEach(b=>b.onclick=async()=>{const k=b.dataset.dm;dlgClose();
+  $('#dlg').querySelectorAll('[data-dm]').forEach(b=>b.onclick=async()=>{const k=b.dataset.dm;dlgClose();if(tabBusy())tabNew();
     if(k==='lsr')await sample();
     else if(k==='les')await sampleLesson();
     else if(k==='osr'){if(await sample()===false)return;osSample();commit();osTab='set';openOsr()}
@@ -3969,7 +4018,7 @@ $('#insp').addEventListener('click',e=>{if(e.target.closest('#inspbtn')){e.stopP
 try{if(localStorage.getItem('sm_insp_off'))inspShow(false)}catch(e){}
 $('#docname').addEventListener('change',e=>{S.name=e.target.value||'Без названия';markDirty()});
 $('#savechip').addEventListener('click',()=>S.docId?openDocs():save());$('#savechip').style.cursor='pointer';
-window.addEventListener('beforeunload',e=>{if(saved)return;if(S.docId){storeDoc(true);return}if(S.pos.length){e.preventDefault();e.returnValue=''}});
+window.addEventListener('beforeunload',e=>{TABS.forEach((T,k)=>{if(k!==TI&&T.st&&T.st.S.docId&&!T.st.saved){const keep=tabSnap();tabPut(T.st);storeDoc(true);tabPut(keep)}});if(TABS.some((T,k)=>k!==TI&&T.st&&tabUn(T.st.S))){e.preventDefault();e.returnValue='';return}if(saved)return;if(S.docId){storeDoc(true);return}if(S.pos.length){e.preventDefault();e.returnValue=''}});
 
 /* ---------- знакомство при первом запуске ---------- */
 const TOUR=[
@@ -4032,7 +4081,7 @@ document.addEventListener('keydown',e=>{
 try{const t=localStorage.getItem('sm_theme');if(t)document.body.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.body.dataset.theme='dark'}catch(e){}
 buildRibbon();renderTree();render();
 if(splitX())splitX().list().then(a=>{for(const s of a)splitReg(s);if(a.length){render();if(S.split&&!SPL[S.split])toast('Сплит-формы этой сметы нет в браузере: цены взяты из ФГИС ЦС')}});
-migrateOld();setSaveChip();{const last=lsGet(SKL);const shared=location.hash.startsWith(SHARE_PREFIX);(last&&location.hash!=='#sample'?openDoc(last,true):Promise.resolve()).finally(()=>{if(shared)takeShared();else if(location.hash.startsWith('#k1.'))takeKey();if(cloudKey())cloudSync()})}
+migrateOld();setSaveChip();{const last=lsGet(SKL);const shared=location.hash.startsWith(SHARE_PREFIX);(last&&location.hash!=='#sample'?openDoc(last,true):Promise.resolve()).finally(()=>{if(shared)takeShared();else if(location.hash.startsWith('#k1.'))takeKey();if(cloudKey())cloudSync();tabsRestore()})}
 render=calcScope(render);renderTable=calcScope(renderTable);renderInsp=calcScope(renderInsp);renderDock=calcScope(renderDock);totals=calcScope(totals);
 lsrModel=calcScope(lsrModel);lsrModelGrand=calcScope(lsrModelGrand);ks2Model=calcScope(ks2Model);osrModel=calcScope(osrModel);ssrModel=calcScope(ssrModel);checkSmeta=calcScope(checkSmeta);resModel=calcScope(resModel);davList=calcScope(davList);
 window.__app={bimx,ncsCalc,ncsSample,pirCalc,pirHtml,pirXlsx,pirSample,openOsr,renderOsr,nmckCalc,rubWords,nmckXlsx,setLsrView,setLsrRes,openExpert,expx,openSplit,splitReg,useSplit,SPL,get split(){return splitX()},osSample,ST,lsrModel,lsrModelGrand,osrModel,ssrModel,resModel,checkSmeta,ks2Model,fopt,mrNew,eqNew,kaNew,makePR,ensurePR,setZone,setLevel,prKey,get S(){return S},get xml(){return xmlx()},totals,calc,sample,B,ensureReal,nrCode,nrFull,sampleLesson,loadDoc,setBase:v=>setBase(v),renderTable,renderInsp,renderDock,syncRibbon};
