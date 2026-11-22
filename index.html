@@ -99,7 +99,7 @@ td.mono{white-space:nowrap}.rb,.switch,.ctl{white-space:nowrap}
 .menubar>button:hover,.menubar>button.open{background:var(--surface2);color:var(--ink)}
 .menubar .hint{margin-left:auto;display:flex;align-items:center;gap:6px;color:var(--muted);font-size:12px;padding:3px 10px;border:1px solid var(--line);border-radius:9px;cursor:pointer;background:var(--surface2)}
 .menubar .hint kbd,.kbd{font-family:var(--mono);font-size:10.5px;padding:1px 5px;border-radius:5px;background:var(--surface);border:1px solid var(--line);color:var(--ink2)}
-.dd{position:absolute;top:100%;min-width:260px;background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);padding:6px;z-index:60;animation:pop .12s ease-out}
+.dd{position:absolute;top:100%;min-width:260px;overflow-y:auto;overscroll-behavior:contain;background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);padding:6px;z-index:60;animation:pop .12s ease-out}
 .dd button{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:7px 10px;border-radius:8px}
 .dd button:hover:not([disabled]){background:var(--brand-soft);color:var(--brand-ink)}
 .dd button[disabled]{color:var(--muted);cursor:default}
@@ -479,7 +479,7 @@ body.insp-off #insp>.ph .cbtn{margin:0;order:-1}
  </form>
 </div>
 <script>
-(function(){var HS=['b237370c2e542195dd006c633d584b7b24a1ddda1781a76e6fe032cc4bd483e2','3565c169189b59c6d1fe932f52b50295990d6469deb20d5647b7c36f3187477c'],K='sm_gate',g=document.getElementById('gate');
+(function(){var HS=['3565c169189b59c6d1fe932f52b50295990d6469deb20d5647b7c36f3187477c','b237370c2e542195dd006c633d584b7b24a1ddda1781a76e6fe032cc4bd483e2'],K='sm_gate',g=document.getElementById('gate');
  function ok(){g.remove()}
  try{var m=localStorage.getItem(K);if(m&&HS.some(function(x){return x.slice(0,16)===m})){ok();return}}catch(e){}
  document.documentElement.style.overflow='hidden';
@@ -1356,6 +1356,7 @@ $('#menubar').addEventListener('click',e=>{
     if(!fn)bt.disabled=true;else bt.onclick=()=>{closeMenu();fn()};dd.appendChild(bt);
   });
   $('#menubar').appendChild(dd);
+  dd.style.maxHeight=Math.max(160,innerHeight-dd.getBoundingClientRect().top-12)+'px';
 });
 document.addEventListener('click',e=>{if(!e.target.closest('#menubar'))closeMenu()});
 
