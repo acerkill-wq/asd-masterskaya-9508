@@ -344,6 +344,19 @@ table.lsrf tr.sel td{background:color-mix(in srgb,var(--brand) 12%,transparent)}
 .seg{display:flex;gap:2px;margin:0 12px 8px;background:var(--surface2);border:1px solid var(--line);padding:3px;border-radius:10px}
 .seg button{flex:1;padding:6px 8px;border-radius:8px;font-weight:600;font-size:12px;color:var(--ink2)}
 .seg button.on{background:var(--surface);color:var(--brand-ink);box-shadow:var(--shadow-s)}
+#tabs .pt{display:none}body.pir-mode #tabs .pt{display:inline-block}body.pir-mode #tabs>button:not(.pt){display:none}body.pir-mode #params>*{display:none}
+.pirt td{height:auto;padding:9px 10px;vertical-align:top;font-size:12.5px}.pirt th.num,.pirt td.num{text-align:right;white-space:nowrap}.pirt td.mono{color:var(--muted)}
+tbody tr.prow{cursor:pointer}tbody tr.prow:hover td{background:var(--surface2)}tbody tr.prow.sel td{background:var(--brand-soft)}tbody tr.prow.sel td:first-child{box-shadow:inset 3px 0 0 var(--brand)}
+.pcl{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;font-size:12px;color:var(--ink2)}
+.pirt tr.ptot td{font-weight:700;background:var(--surface2);height:auto;padding:8px 10px}.pirt tr.ptot2 td{color:var(--ink2);height:auto;padding:8px 10px}
+.pirpar{margin:10px 12px;border:1px solid var(--line);border-radius:12px}.pirpar>summary{list-style:none;display:flex;gap:10px;align-items:center;padding:10px 12px;cursor:pointer;flex-wrap:wrap}
+.pirpar>summary::-webkit-details-marker{display:none}.pirpar>summary svg{width:14px;height:14px;color:var(--muted);transition:.15s}.pirpar[open]>summary svg{transform:rotate(90deg)}
+.pirpw{padding:0 12px 12px}.pira{padding:10px 12px}.pire{height:auto;padding:36px 20px}
+.pirw{margin:0 12px 12px;padding:8px 12px;border:1px solid var(--line);border-radius:10px;font-size:12px;color:var(--ink2)}.pirw summary{cursor:pointer;font-weight:600}.pirw ul{margin:8px 0 0;padding-left:18px;display:grid;gap:4px}
+.pirf{display:flex;flex-direction:column;height:100%;min-height:60vh}.pirf .fmb{padding:10px 12px;margin:0}.pirf iframe{flex:1;border:0;border-top:1px solid var(--line);background:#fff;width:100%}
+#insp .pirx{padding:12px 14px}#insp .pirx section{border:0;padding:0;margin:0}#insp .pirx .ksf label{flex:1 1 100%}
+#insp .pirx .ksf input,#insp .pirx .ksf select,#insp .pirx .kvt input,#insp .pirx .kvt select{width:100%!important;max-width:100%!important;box-sizing:border-box}#insp .pirx select[data-pkp]{margin-top:6px}
+.pirosn{margin-top:12px;padding-top:10px;border-top:1px solid var(--line);font-size:12px;color:var(--ink2)}.pirosn .l{font-weight:600;color:var(--muted);margin-bottom:4px}
 details.tbl{margin:0 0 1px 10px}
 details.tbl>summary{list-style:none;display:flex;gap:8px;align-items:flex-start;padding:6px 8px;border-radius:8px;cursor:pointer;font-size:12px;color:var(--ink2)}
 details.tbl>summary::-webkit-details-marker{display:none}
@@ -567,14 +580,14 @@ body.insp-off #insp>.ph .cbtn{margin:0;order:-1}
   <main class="work">
     <aside class="panel catalog">
       <div class="ph" id="catph"><svg class="i" style="width:16px;height:16px"><use href="#i-book"/></svg>Каталог норм<span class="n" id="catcount"></span><button class="cbtn" id="catbtn" title="Свернуть каталог"><svg class="i"><use href="#i-catoff"/></svg></button></div>
-      <div class="seg" id="catseg"><button class="on" data-s="fsnb" title="Федеральная сметно-нормативная база 2022, ГЭСН (доп. № 19, 12.08.2026)">ФСНБ-2022</button><button data-s="ucheb" title="Учебная база: ФСНБ-2022 с нормами из учебных смет курса (как в ГРАНД-Смете на уроках)">Учебная база</button></div>
+      <div class="seg" id="catseg"><button class="on" data-s="fsnb" title="Федеральная сметно-нормативная база 2022, ГЭСН (доп. № 19, 12.08.2026)">ФСНБ-2022</button><button data-s="ucheb" title="Учебная база: ФСНБ-2022 с нормами из учебных смет курса (как в ГРАНД-Смете на уроках)">Учебная база</button><button data-s="pir" title="Нормативы затрат (НЗ) и справочники базовых цен (СБЦ) на проектные работы: смета ПИР по Методике 707/пр">НЗ и СБЦ</button></div>
       <label class="search"><svg class="i" style="width:16px;height:16px"><use href="#i-search"/></svg><input id="catq" placeholder="Шифр или слова: «стяжка», УЧ06…" autocomplete="off"><span class="kbd">/</span></label>
       <div class="tree" id="tree"></div>
     </aside>
 
     <section class="panel sheet" id="sheet">
       <div class="tabs" id="tabs">
-        <button data-t="vor">Ведомость объёмов</button><button class="on" data-t="lsr">Локальный расчёт</button><button data-t="obj">Объектная смета</button><button data-t="res">Ресурсная ведомость</button><button data-t="bim">Модель (ТИМ)</button>
+        <button data-t="vor">Ведомость объёмов</button><button class="on" data-t="lsr">Локальный расчёт</button><button data-t="obj">Объектная смета</button><button data-t="res">Ресурсная ведомость</button><button data-t="bim">Модель (ТИМ)</button><button class="pt" data-t="pir:t">Смета ПИР</button><button class="pt" data-t="pir:f">Форма 2п</button><button class="pt" data-t="pir:x" title="Вернуться к локальной смете">← Локальная смета</button>
         <div class="tr"><span class="u" id="posinfo"></span></div>
       </div>
       <div class="tablewrap" id="tablewrap"></div>
@@ -819,6 +832,7 @@ async function ensureExtRes(pos){const need=new Set();
 let S={name:'Новая смета',pos:[],idx:'',nds:false};
 const openRows=new Set();
 let sel=null, uid=1, hist=[], redo=[], tab='lsr', compact=false, saved=true;
+let pirSel=0,pirTab='t',pirParOpen=false,treeMode=false,PIR_N=0;const PM=()=>S.mode==='pir';
 const snap=()=>JSON.stringify(S);
 /* отмена: в историю кладём состояние до правки — снимок, сделанный при прошлой перерисовке (lastSnap) */
 let lastSnap=null;
@@ -891,7 +905,7 @@ function rateFind(q,lim){if(!RLOW)RLOW=RFULL.map((t,i)=>('гэсн'+RI.r[i][0]+'
 // строку поиска по 56 тыс. расценок готовим заранее, пока окно простаивает, чтобы первый поиск был мгновенным
 (window.requestIdleCallback||(f=>setTimeout(f,300)))(()=>{if(!RLOW)RLOW=RFULL.map((t,i)=>('гэсн'+RI.r[i][0]+' '+t).toLowerCase().replace(/ё/g,'е'))},{timeout:2000});
 const rateHtml=i=>{const r=RI.r[i];return `<div class="rate" data-c="${r[0]}"><div class="rc"><span class="mono">ГЭСН${r[0]}</span>${UADD[r[0]]?'<span class="chip warn" title="Расценки нет в ФСНБ-2022, она есть только в учебной базе">только уч.</span>':S.base==='ucheb'&&(UCH.norms[r[0]]||UCH.comp&&UCH.comp[r[0]])?'<span class="chip warn" title="В учебной базе нормы отличаются от ФСНБ-2022">уч.</span>':''}<span class="ru">${pu(r[4])}</span></div><div class="rn">${esc(RFULL[i])}</div><button class="add" title="Добавить в смету">${ic('plus')}</button></div>`};
-function renderTree(){return catSrc==='edu'?renderTreeEdu():renderTreeReal()}
+function renderTree(){if(PM())return renderTreePir();return catSrc==='edu'?renderTreeEdu():renderTreeReal()}
 function renderTreeReal(){
   const q=$('#catq').value.trim().toLowerCase(),tree=$('#tree');
   if(q.length>=2){
@@ -916,12 +930,12 @@ function renderTreeEdu(){
   $('#catcount').textContent=n+' расценок';
 }
 $('#catq').addEventListener('input',renderTree);
-$('#catseg').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;setBase(b.dataset.s);renderTree()});
-$('#tree').addEventListener('toggle',e=>{const d=e.target;if(!d.open)return;
+$('#catseg').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.s==='pir')return setMode('pir');if(PM())setMode('lsr');setBase(b.dataset.s);renderTree()});
+$('#tree').addEventListener('toggle',e=>{const d=e.target;if(!d.open)return;if(d.classList.contains('ptbl')){if(!d.dataset.f){d.dataset.f=1;pirFillTbl(d)}return}
   if(d.classList.contains('sec')&&d.dataset.cc&&!d.dataset.f){d.dataset.f=1;const ci=RCI.get(d.dataset.cc);
     d.querySelector('.tbls').innerHTML=TCOLL[ci].map(ti=>`<details class="tbl" data-t="${ti}"><summary><span class="mono">${RI.t[ti][0]}</span><span>${esc(RI.t[ti][1])}</span><span class="c">${RTAB[ti].length}</span></summary><div class="trs"></div></details>`).join('')}
   else if(d.classList.contains('tbl')&&!d.dataset.f){d.dataset.f=1;d.querySelector('.trs').innerHTML=RTAB[+d.dataset.t].map(rateHtml).join('')}},true);
-$('#tree').addEventListener('click',e=>{const r=e.target.closest('.rate');if(r)addRate(r.dataset.c)});
+$('#tree').addEventListener('click',e=>{if(PM())return pirTreeClick(e);const r=e.target.closest('.rate');if(r)addRate(r.dataset.c)});
 
 /* ---------- действия ---------- */
 async function addRate(code,qty){
@@ -944,16 +958,16 @@ const rowsGen=n=>n%10===1&&n%100!==11?'строки':'строк';
 const rowsWord=n=>n%10===1&&n%100!==11?'строка':n%10>=2&&n%10<=4&&(n%100<10||n%100>=20)?'строки':'строк';
 const CDK='rimora.confirmDel',delAsk=()=>lsGet(CDK)!=='0';
 function delAskToggle(){try{lsSet(CDK,delAsk()?'0':'1')}catch(e){}toast(delAsk()?'Перед удалением строк программа будет спрашивать':'Строки удаляются сразу, вернуть: '+hkTxt('Ctrl+Z'))}
-function del(force){const ids=new Set(selIds());if(!ids.size)return toast('Выберите строку');
+function del(force){if(PM())return pirDel(force);const ids=new Set(selIds());if(!ids.size)return toast('Выберите строку');
   if(force!==true&&delAsk()){const ps=S.pos.filter(x=>ids.has(x.id)),p=ps[0];
     const nm=ps.length>1?ps.length+' '+rowsWord(ps.length):p.sec!==undefined?'раздел «'+p.sec+'»':'позицию'+(p.code?' '+p.code:'');
     dlg(`<h3>Удалить ${esc(nm)}?</h3><p class="u">Вернуть удалённое можно кнопкой «Отменить» или ${hkTxt('Ctrl+Z')}.</p><label style="display:flex;gap:8px;align-items:center;margin:12px 0;font-size:13px"><input type="checkbox" id="cdNo"> Больше не спрашивать (вернуть вопрос: Правка → Спрашивать перед удалением)</label><div class="ac"><button class="btn" id="cdN">Отмена</button><button class="btn pri" id="cdY">Удалить</button></div>`);
     $('#cdN').onclick=dlgClose;$('#cdY').onclick=()=>{if($('#cdNo').checked){try{lsSet(CDK,'0')}catch(e){}}dlgClose();del(true)};setTimeout(()=>$('#cdY')?.focus(),0);return}
 const i=S.pos.findIndex(x=>ids.has(x.id));S.pos=S.pos.filter(x=>!ids.has(x.id));msel.clear();sel=S.pos[Math.min(i,S.pos.length-1)]?.id??null;commit();if(ids.size>1)toast(`Удалено: ${ids.size} ${rowsWord(ids.size)}. Вернуть: ${hkTxt('Ctrl+Z')}`)}
 const clonePos=p=>{const c=JSON.parse(JSON.stringify(p));c.id=uid++;return c};
-function dup(){const ids=new Set(selIds());const blk=S.pos.filter(x=>ids.has(x.id));if(!blk.length)return toast('Выберите позицию');const last=S.pos.findIndex(x=>x.id===blk[blk.length-1].id);
+function dup(){if(PM())return pirDup();const ids=new Set(selIds());const blk=S.pos.filter(x=>ids.has(x.id));if(!blk.length)return toast('Выберите позицию');const last=S.pos.findIndex(x=>x.id===blk[blk.length-1].id);
   const add=blk.map(p=>{const c=clonePos(p);delete c.vor;return c});S.pos.splice(last+1,0,...add);msel.clear();if(add.length>1)add.forEach(x=>msel.add(x.id));sel=add[add.length-1].id;commit();if(add.length>1)toast(`Скопировано рядом: ${add.length} ${rowsWord(add.length)}`)}
-function move(d){const ids=new Set(selIds());if(!ids.size)return;const a=S.pos;
+function move(d){if(PM())return pirMove(d);const ids=new Set(selIds());if(!ids.size)return;const a=S.pos;
   if(d<0){if(ids.has(a[0].id))return;for(let i=1;i<a.length;i++)if(ids.has(a[i].id)&&!ids.has(a[i-1].id))[a[i-1],a[i]]=[a[i],a[i-1]]}
   else{if(ids.has(a[a.length-1].id))return;for(let i=a.length-2;i>=0;i--)if(ids.has(a[i].id)&&!ids.has(a[i+1].id))[a[i],a[i+1]]=[a[i+1],a[i]]}
   commit();$(`tr[data-id="${sel}"]`)?.scrollIntoView({block:'nearest'})}
@@ -1381,7 +1395,7 @@ function dlg(h,wide){$('#dlg').className='dlg'+(wide?' wide':'');$('#dlg').style
 $('#dlgbg').addEventListener('click',e=>{if(e.target.id==='dlgbg')e.currentTarget.classList.remove('on')});
 let tt;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),1800)}
 const soon=()=>toast('Появится в следующих версиях');
-function askSection(){const v=prompt('Название раздела сметы:','Новый раздел');if(v)addSection(v)}
+function askSection(){if(PM())return toast('В смете ПИР разделов нет: строки добавляются из каталога НЗ и СБЦ');const v=prompt('Название раздела сметы:','Новый раздел');if(v)addSection(v)}
 
 /* ---------- выгрузка XML по схеме Минстроя (xml_export.js) ---------- */
 let XMLX=null;const xmlx=()=>XMLX||(XMLX=window.RimoraXML?window.RimoraXML({get S(){return S},vorLbl,syncPR,calc,req,totals,B,RC,nrCode,nrFull,drvCat,toast,markDirty,fq,osrModel,ssrModel,ST,SSR_CH,dlBlob,vorNum,vorVal}):null);
@@ -1489,11 +1503,14 @@ function buildRibbon(){
 }
 
 /* ---------- отрисовка ---------- */
-function render(){renderTable();renderInsp();renderDock();syncRibbon();fMark();lastSnap=snap()}
-function syncRibbon(){{const ic_=$('#idxctl');if(ic_)ic_.style.display=S.pos.some(p=>p.code&&!p.tr&&!p.ka&&B.rates[p.code]&&!B.rates[p.code].real)||S.idx?'':'none'}$('#idxsel').value=S.idx;{const zs=$('#zonesel'),ls=$('#lvlsel');if(zs)zs.value=String(zoneOf());if(ls){if(ls.dataset.z!==String(zoneOf())){ls.innerHTML=lvlOpts(zoneOf());ls.dataset.z=String(zoneOf())}ls.value=S.level||'cur'}}basesApply();$('#basesel').value=S.base||'fsnb';$('#nrspsel').value=S.nrsp||'new';{const t_=$('#terrsel');if(t_)t_.value=S.terr||'t'}$$('#catseg button').forEach(x=>x.classList.toggle('on',x.dataset.s===(S.base||'fsnb')));$('#ndssw').classList.toggle('on',S.nds);
+function render(){if(PM()&&!baseOn('pir'))S.mode=undefined;document.body.classList.toggle('pir-mode',PM());
+  if(treeMode!==PM()){treeMode=PM();$('#catq').placeholder=treeMode?'Объект или сборник: «гараж», «школа», 848…':'Шифр или слова: «стяжка», УЧ06…';renderTree()}
+  if(PM()){syncRibbon();renderPir();lastSnap=snap();return}
+  renderTable();renderInsp();renderDock();syncRibbon();fMark();lastSnap=snap()}
+function syncRibbon(){{const ic_=$('#idxctl');if(ic_)ic_.style.display=S.pos.some(p=>p.code&&!p.tr&&!p.ka&&B.rates[p.code]&&!B.rates[p.code].real)||S.idx?'':'none'}$('#idxsel').value=S.idx;{const zs=$('#zonesel'),ls=$('#lvlsel');if(zs)zs.value=String(zoneOf());if(ls){if(ls.dataset.z!==String(zoneOf())){ls.innerHTML=lvlOpts(zoneOf());ls.dataset.z=String(zoneOf())}ls.value=S.level||'cur'}}basesApply();$('#basesel').value=S.base||'fsnb';$('#nrspsel').value=S.nrsp||'new';{const t_=$('#terrsel');if(t_)t_.value=S.terr||'t'}$$('#catseg button').forEach(x=>x.classList.toggle('on',x.dataset.s===(PM()?'pir':(S.base||'fsnb'))));$('#ndssw').classList.toggle('on',S.nds);
   $$('.rb[data-r=undo]')[0].disabled=!hist.length;$$('.rb[data-r=redo]')[0].disabled=!redo.length;
   const n=S.pos.filter(p=>p.sec===undefined).length;const anyReal=S.pos.some(p=>p.code&&isReal(p.code));$('#posinfo').innerHTML=(n?`${n} поз.`:'')+(anyReal?` <span class="chip ${S.level==='base'?'warn':'ok'}" id="basisChip" title="${basisTxt()}">${S.level==='base'?'Базис 2022':'Цены '+PSET[S.level||'cur'].replace('Волгоград, ','')}</span>`:'')+(S.base==='ucheb'?' <span class="chip warn" title="'+esc(baseTxt())+'">Учебная база</span>':'')+((n2=>n2?` <span class="chip" id="davChip" style="cursor:pointer" title="Список давальческих материалов заказчика">Давальческие: ${n2}</span>`:'')(davList().length))+(kallN()?` <span class="chip" id="kallChip" style="cursor:pointer" title="${esc(kallTxt())}">К сметы: ${kallN()}</span>`:'')+(()=>{const E=expMarks();return E.N?` <span class="chip warn" id="exChip" style="cursor:pointer" title="Нажмите: ${E.only?'показать все строки':'оставить только строки с замечаниями'}">Экспертиза (${E.N.n}): ${E.N.items.length}${E.only?' · только они':''}</span>`:''})();{const ec=$('#exChip');if(ec)ec.onclick=()=>{S.exp.only=!S.exp.only;render()}}{const kc=$('#kallChip');if(kc)kc.onclick=openKall}{const dc=$('#davChip');if(dc)dc.onclick=openDav}const bc=$('#basisChip');if(bc)bc.onclick=()=>toast(basisTxt())}
-function setTab(t){tab=t;$$('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));render()}
+function setTab(t){if(t.startsWith('pir:')){if(t==='pir:x')return setMode('lsr');pirTab=t.slice(4);return render()}if(PM())S.mode=undefined;tab=t;$$('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));render()}
 $('#tabs').addEventListener('click',e=>{const b=e.target.closest('button');if(b)setTab(b.dataset.t)});
 
 let LSR_K=null,LSR_H=null; // строки таблицы с прошлой отрисовки: обновляем только изменившиеся
@@ -1671,7 +1688,7 @@ function pasteDetect(rows){const nc=Math.max(...rows.map(r=>r.length));const rol
   cand.sort((a,b)=>b[1]-a[1]||b[2]-a[2]||b[0]-a[0]);if(cand.length)roles[cand[0][0]]='qty';
   const tx=[...Array(nc)].map((_,j)=>j===cc||roles[j]?-1:coded.filter(r=>String(r[j]||'').trim().length>15&&pasteNum(r[j])==null).length);
   const nm=tx.indexOf(Math.max(...tx));if(tx[nm]>0)roles[nm]='name';return roles}
-function openPaste(text){
+function openPaste(text){if(PM())return toast('Вставка из Excel работает в локальной смете');
   dlg(`<div class="dch"><h3>${ic('paste')} Вставить список расценок из Excel</h3><button class="x" onclick="document.getElementById('dlgbg').classList.remove('on')" aria-label="Закрыть">×</button></div>
    <p class="u">Скопируйте в Excel строки со столбцом шифров (можно с объёмами и разделами) и вставьте сюда. Римора сама найдёт столбцы, проверит каждый шифр по базе и покажет, что не нашлось.</p>
    <textarea id="pstxt" class="pstxt" placeholder="Нажмите сюда и вставьте: Ctrl+V (на Mac ⌘V)"></textarea>
@@ -2084,7 +2101,7 @@ function lsrXlsx(){const M=lsrModel(),H=M.head,X=[],merges=[];let r=0,titleFrom=
     {name:'xl/workbook.xml',data:wb},
     {name:'xl/_rels/workbook.xml.rels',data:`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>`},
     {name:'xl/styles.xml',data:XSTY},{name:'xl/worksheets/sheet1.xml',data:sheet}])}
-function exportLsrXlsx(){if(!S.pos.some(p=>p.sec===undefined))return toast('Смета пуста');const Q=req();
+function exportLsrXlsx(){if(PM())return pirXls();if(!S.pos.some(p=>p.sec===undefined))return toast('Смета пуста');const Q=req();
   const a=document.createElement('a');a.href=URL.createObjectURL(lsrXlsx());const vw=fopt().view;a.download=`${Q.num} ${(Q.works||S.name||'смета').replace(/[\\/:*?"<>|]/g,'')}${vw==='full'?'':' ('+FV[vw][1]+')'}.xlsx`.slice(0,150);a.click();toast('ЛСР по форме приложения 3 выгружена в Excel')}
 /* ---------- печать из той же модели ---------- */
 function lsrHtml(){const M=lsrModel(),H=M.head,f=(v,i)=>v===''||v==null?'':typeof v==='number'?(i===7||i===9||i===11?fmt(v):fq(Math.round(v*1e7)/1e7)):esc(v).replace(/\n/g,'<br>');
@@ -2111,7 +2128,7 @@ tr.grp td:nth-child(3){font-weight:700}tr.all td,tr.stot2 td{background:#efefef;
 function printLsr(){const fr=document.createElement('iframe');fr.style.cssText='position:fixed;right:0;bottom:0;width:0;height:0;border:0';document.body.appendChild(fr);
   fr.srcdoc=lsrHtml();fr.onload=()=>{fr.contentWindow.focus();fr.contentWindow.print();setTimeout(()=>fr.remove(),60000)}}
 const REQF=[['stroyka','Наименование стройки'],['obj','Объект'],['num','Номер ЛСР (шифр)'],['works','Наименование работ и затрат'],['osn','Основание'],['sost','Составил (должность, ФИО)'],['prov','Проверил (должность, ФИО)']];
-function openForms(){if(!S.pos.some(p=>p.sec===undefined))return toast('Смета пуста: добавьте позиции');const Q=req(),O=fopt();
+function openForms(){if(PM())return pirPrint();if(!S.pos.some(p=>p.sec===undefined))return toast('Смета пуста: добавьте позиции');const Q=req(),O=fopt();
   dlg(`<div class="kah"><div><h3>Выходные формы</h3><div class="u">Локальный сметный расчёт по форме приложения 3 к Методике 421/пр (ресурсно-индексный метод)</div></div><button class="vdel" id="fmX" style="font-size:22px">×</button></div>
   <div class="fmw"><div class="fmf">${REQF.map(([k,l])=>`<label>${l}<input data-rq="${k}" value="${esc(Q[k]||'')}"></label>`).join('')}
    <div class="fvo"><b>Вид формы</b>${Object.entries(FV).map(([k,[l]])=>`<label class="kchk"><input type="radio" name="fv" data-fo="view" value="${k}"${O.view===k?' checked':''}> ${l}</label>`).join('')}
@@ -2273,7 +2290,7 @@ function ksNewAct(){const j=S.acts.length,prev=S.acts[j-1],done={};
 function ksSample(){const P=ksPos(),h=Math.ceil(P.length/2),a1={id:uid++,num:'1',date:'2026-09-30',from:'2026-09-01',to:'2026-09-30',nds:true,done:{}},a2={id:uid++,num:'2',date:'2026-10-31',from:'2026-10-01',to:'2026-10-31',nds:true,done:{}};
   P.forEach((x,i)=>{if(i<h)a1.done[x.p.id]=x.p.qty;else if(i===h){a1.done[x.p.id]=Math.round(x.p.qty/2*1e7)/1e7;a2.done[x.p.id]=Math.round((x.p.qty-a1.done[x.p.id])*1e7)/1e7}else a2.done[x.p.id]=x.p.qty});
   S.acts=[a1,a2];S.party={...party(),inv:'Учебный инвестор',zak:'ООО «Учебный заказчик», г. Волгоград',podr:'ООО «Учебный подрядчик», г. Волгоград',dogNum:'15/26',dogDate:'2026-08-20',sdal:'Прораб, И. И. Иванов',prin:'Инженер технического надзора, П. П. Петров',zakSign:'Директор, С. С. Сидоров',podrSign:'Директор, А. А. Андреев'};ksI=0}
-function openActs(){if(!S.pos.some(p=>p.sec===undefined))return toast('Смета пуста: добавьте позиции');if(!S.acts)S.acts=[];if(!S.acts.length){S.acts.push(ksNewAct());commit()}ksI=Math.min(ksI,S.acts.length-1);renderActs()}
+function openActs(){if(PM())return toast('Акты КС-2 и КС-3 составляются по локальной смете');if(!S.pos.some(p=>p.sec===undefined))return toast('Смета пуста: добавьте позиции');if(!S.acts)S.acts=[];if(!S.acts.length){S.acts.push(ksNewAct());commit()}ksI=Math.min(ksI,S.acts.length-1);renderActs()}
 function renderActs(){const a=S.acts[ksI],P=party(),w=ksWarn(ksI),XP=ksPos(),T=totals();
   const tabs=[['vol','Выполненные объёмы'],['ks2','КС-2'],['ks3','КС-3'],['party','Стороны и подписи']];
   let body='';
@@ -2666,7 +2683,7 @@ function pirSample(){const st=ST();const L=(m,o)=>Object.assign(pirLine(m),o);
     L('nat',{name:'Гараж на 2 машино-места 6 × 9 м (закрытая одноэтажная стоянка): проектная и рабочая документация',src:'sbc_avto',tab:'1',obj:'Закрытые одноэтажные стоянки автотранспорта площадью, м2',X:'54',stg:'pr'}),
     L('dop',{name:'Сбор и подготовка исходных данных по поручению заказчика (табл. 4.1, п. 11, до 2%)',pct:'2'}),
     L('kalk',{name:'Обследование грунтов основания под пристройку',nz:'учебные данные',zp:'98500',days:'21',kz:'40,06',r:'10',T:'5',staff:[{d:'ГИП',I:'1,60',ch:'1',tf:'2'},{d:'Ведущий специалист',I:'1,00',ch:'1',tf:'5'},{d:'Техник',I:'0,45',ch:'1',tf:'5'}]})]})}
-function pirPanel(M){const C=M.pir,P=C.P;
+function pirUI(C){const P=C.P;
   const inp=(path,v,ph,w)=>`<input data-sp="pir.${path}" value="${esc(v??'')}"${ph?` placeholder="${esc(ph)}"`:''}${w?` style="width:${w}"`:''}>`;
   const chk=(path,on,l)=>`<label class="kchk"><input type="checkbox" data-sp="pir.${path}"${on?' checked':''}> ${l}</label>`;
   const DB=window.PIR_DB,sel=(path,v,opts,w)=>`<select data-sp="pir.${path}"${w?` style="max-width:${w}"`:''}>${opts.map(([k,t])=>`<option value="${esc(k)}"${String(v)===String(k)?' selected':''}>${esc(t)}</option>`).join('')}</select>`;
@@ -2688,6 +2705,8 @@ function pirPanel(M){const C=M.pir,P=C.P;
       <select data-pkp="${i}" style="max-width:100%;width:100%"><option value="">+ коэффициент из методики…</option>${pirKOpts(l).map((k,j)=>`<option value="${j}">${esc(k[0])}${k[1]?' — '+k[1]:''}</option>`).join('')}<option value="-1">свой коэффициент</option></select>${(l.m==='nat'||l.m==='pct')?` <label class="kchk">доля по составу работ, %${inp(b+'share',l.share,'100','60px')}</label>`:''}`:'';
     return `<section><div class="ksf"><b>${i+1}.</b><label>Способ<select data-sp="pir.${b}m">${Object.entries(PIR_M).map(([k,v])=>`<option value="${k}"${l.m===k?' selected':''}>${v}</option>`).join('')}</select></label><label style="flex:1">Объект проектирования, вид работ${inp(b+'name',l.name,PIR_M[l.m],'100%')}</label><label>Норматив затрат, таблица, пункт${inp(b+'nz',l.nz,'приказ Минстроя № …/пр, таблица …','240px')}</label><button class="vdel" data-pdel="${i}" title="Удалить строку">×</button></div>
       ${f}${ks}<div class="u" style="margin-top:4px">Расчёт: ${esc(x.how)} = <b>${fmt(x.C,0)} ₽</b></div></section>`};
+  return {inp,chk,sel,line}}
+function pirPanel(M){const C=M.pir,P=C.P,{inp,chk,sel,line}=pirUI(C);
   return `<div class="osw"><section><h4>Смета на проектные работы (Методика 707/пр, форма 2п)</h4>
    <p class="u">Справочники: НЗ 848/пр (жилищно-гражданские объекты, уровень 01.01.2021), НЗ 343/пр (капремонт объектов железнодорожной инфраструктуры, уровень 01.01.2023) и СБЦ «Предприятия автомобильного транспорта» (уровень 01.01.2001); при наличии НЗ и СБЦ с аналогичными показателями приоритет у НЗ (письмо Минстроя от 20.03.2026 № 6597-ОГ/09). Цены без НДС (п. 117). Параметры a и b — в тыс. руб. Стоимость = цена × корректирующие коэффициенты × Ипр; усложняющие факторы суммируются (п. 171), остальные перемножаются.</p>
    <div class="ksf"><label>Номер сметы${inp('num',P.num,'','90px')}</label><label>Проектная организация${inp('org',P.org,'','220px')}</label></div>
@@ -2699,6 +2718,96 @@ function pirPanel(M){const C=M.pir,P=C.P;
    <div class="fmb">${Object.entries(PIR_M).map(([k,v])=>`<button class="btn" data-padd="${k}">+ ${v.toLowerCase()}</button>`).join('')}</div>
    <div class="ksum">Смета № ${esc(P.num)}: без НДС <b>${fmt(C.T,0)} ₽</b> · НДС ${B.nds}% ${fmt(C.nds)} ₽ · всего <b>${fmt(C.A)} ₽</b>${P.to12&&C.T?' · в главе 12 ССР '+fmt(k2(C.T))+' тыс. руб.':''}</div></div>
    <div class="fmb"><button class="btn" id="pirSmp">Учебный пример сметы ПИР</button><button class="btn pri" id="pirXls">${ic('xls')}Смета ПИР в Excel (.xlsx)</button><button class="btn" id="pirPrn">${ic('print')}Печать или PDF</button></div><iframe id="ksPrev" title="Предпросмотр"></iframe>`}
+
+
+/* ---------- смета ПИР в главном окне: слева справочники НЗ и СБЦ, в центре таблица формы 2п, справа карточка строки ---------- */
+function setMode(m){const on=m==='pir';if(on&&!baseOn('pir'))return toast('Справочники НЗ и СБЦ отключены: «База → Подключить базы…»');
+  $('#catq').value='';
+  if(!!PM()!==on){S.mode=on?'pir':undefined;ST();commit();if(on)toast('Смета на проектные работы: справочник, таблицу и объект выберите в каталоге слева')}else render()}
+const pirObjs=t=>[...new Set(t.rows.map(r=>r[1]))],pirUnit=(t,o)=>((t.rows.find(r=>r[1]===o)||[])[4]||'').replace(/^1 /,'');
+const pirIt=(attrs,chip,unit,name,title)=>`<div class="rate" ${attrs}><div class="rc">${chip?`<span class="mono">${esc(chip)}</span>`:''}${unit?`<span class="ru">${esc(unit)}</span>`:''}</div><div class="rn" title="${esc(title||name)}">${esc(name)}</div><button class="add" title="Добавить в смету ПИР">${ic('plus')}</button></div>`;
+const pirObjIt=(k,ti,oi)=>{const s=PIR_DB[k],t=s.tables[ti],o=pirObjs(t)[oi];return pirIt(`data-pa="nat" data-k="${k}" data-ti="${ti}" data-oi="${oi}"`,s.short+', табл. '+t.code,pirUnit(t,o),o,t.title+': '+o)};
+function renderTreePir(){const DB=window.PIR_DB,tree=$('#tree');
+  if(!DB){tree.innerHTML='<div class="empty-s">Справочники НЗ и СБЦ не загрузились. Обновите страницу.</div>';$('#catcount').textContent='';return}
+  const K=Object.keys(DB).filter(k=>k!=='idx'&&DB[k]&&DB[k].tables),q=$('#catq').value.trim();
+  if(!PIR_N)PIR_N=K.reduce((a,k)=>a+DB[k].tables.reduce((b,t)=>b+pirObjs(t).length,0),0);
+  if(q.length>=2){const hits=[];
+    for(const k of K){const s=DB[k];if(s.pct&&rateHas(s.short+' '+s.name+' процентом от стоимости строительства',q))hits.push(pirIt(`data-pa="pct" data-k="${k}"`,s.short+', табл. '+s.pct.code,'% от Сстр','Процентом от стоимости строительства'));
+      s.tables.forEach((t,ti)=>pirObjs(t).forEach((o,oi)=>{if(hits.length<150&&rateHas(s.short+' '+s.name+' '+t.code+' '+t.title+' '+o,q))hits.push(pirObjIt(k,ti,oi))}))}
+    tree.innerHTML=hits.join('')||'<div class="empty-s">Ничего не нашлось.<br>Попробуйте другое слово: «гараж», «школа», «848».</div>';
+    $('#catcount').textContent=(hits.length>=150?'150+':hits.length)+' найдено';return}
+  const nm=(k,s)=>k.startsWith('nz')?(x=>x.charAt(0).toUpperCase()+x.slice(1))(s.name.replace(/^[^:]*:\s*/,'')):s.short.replace(/^СБЦ /,'').replace(/[«»]/g,'');
+  const grp=(title,keys)=>`<details class="cgrp" open><summary>${ic('chev')}<span class="gn">${title}</span><span class="c">${keys.length}</span></summary>`+keys.map(k=>{const s=DB[k];
+    return `<details class="sec"><summary>${ic('chev')}<span class="cn">${esc(k.startsWith('nz')?s.short.replace(/^НЗ /,''):'СБЦ')}</span><span class="nm" title="${esc(s.name)}">${esc(nm(k,s))}</span><span class="c">${s.tables.length}</span></summary>`+
+      (s.pct?pirIt(`data-pa="pct" data-k="${k}"`,'табл. '+s.pct.code,'% от Сстр','Процентом от стоимости строительства'):'')+
+      s.tables.map((t,ti)=>`<details class="tbl ptbl" data-k="${k}" data-ti="${ti}"><summary><span class="mono">${esc(t.code)}</span><span>${esc(t.title)}</span><span class="c">${pirObjs(t).length}</span></summary><div class="trs"></div></details>`).join('')+`</details>`}).join('')+`</details>`;
+  const other=`<details class="cgrp" open><summary>${ic('chev')}<span class="gn">Без справочника</span></summary>`+[['kalk','форма 3п'],['dop','табл. 4.1'],['fix','п. 143'],['nat','a и b вручную']].map(([m,c])=>pirIt(`data-pa="${m}"`,c,'',PIR_M[m]+(m==='nat'?' (параметры из своего сборника)':''))).join('')+`</details>`;
+  tree.innerHTML=grp('Нормативы затрат (НЗ)',K.filter(k=>k.startsWith('nz')))+grp('Справочники базовых цен (СБЦ)',K.filter(k=>!k.startsWith('nz')))+other;
+  $('#catcount').textContent=PIR_N.toLocaleString('ru-RU')+' объектов'}
+function pirFillTbl(d){const k=d.dataset.k,ti=+d.dataset.ti,t=PIR_DB[k].tables[ti];d.querySelector('.trs').innerHTML=pirObjs(t).map((o,oi)=>pirObjIt(k,ti,oi)).join('')}
+function pirTreeClick(e){const r=e.target.closest('[data-pa]');if(!r)return;const P=ST().pir,m=r.dataset.pa,k=r.dataset.k,DB=window.PIR_DB,l=pirLine(m);let msg;
+  if(m==='nat'&&k){const s=DB[k],t=s.tables[+r.dataset.ti],o=pirObjs(t)[+r.dataset.oi];Object.assign(l,{src:k,tab:t.code,obj:o,name:o});msg=`${s.short}, табл. ${t.code}: укажите показатель X в карточке справа`}
+  else if(m==='pct'&&k){const s=DB[k];l.src=k;msg=`${s.short}, табл. ${s.pct.code}: Сстр берётся из ССР`}
+  else msg=PIR_M[m]+': заполните строку в карточке справа';
+  P.lines.push(l);pirSel=P.lines.length-1;pirTab='t';commit();toast('Добавлено в смету ПИР. '+msg);
+  setTimeout(()=>{const x=$('#insp [data-sp$=".X"]')||$('#insp [data-sp$=".name"]');if(x)x.focus()},60)}
+function pirBind(D){const st=ST(),P=st.pir;
+  const setP=(path,v)=>{const ks=path.split('.');let o=st;for(let i=0;i<ks.length-1;i++){if(o[ks[i]]==null||typeof o[ks[i]]!=='object')o[ks[i]]={};o=o[ks[i]]}o[ks.at(-1)]=v};
+  /* после пересчёта фокус возвращается в поле, куда перешёл пользователь (Tab) */
+  D.querySelectorAll('[data-sp]').forEach(x=>x.onchange=()=>{setP(x.dataset.sp,x.type==='checkbox'?x.checked:x.value);
+    setTimeout(()=>{const a=document.activeElement,k=a&&a.dataset&&a.dataset.sp;commit();if(k){const n=document.querySelector(`[data-sp="${k}"]`);if(n){n.focus();if(n.select&&n.tagName==='INPUT'&&n.type!=='checkbox')n.select()}}},0)});
+  D.querySelectorAll('[data-padd]').forEach(b=>b.onclick=()=>{P.lines.push(pirLine(b.dataset.padd));pirSel=P.lines.length-1;commit()});
+  D.querySelectorAll('[data-pdel]').forEach(b=>b.onclick=()=>{pirSel=+b.dataset.pdel;pirDel()});
+  D.querySelectorAll('[data-pkdel]').forEach(b=>b.onclick=()=>{const [i,j]=b.dataset.pkdel.split('.');P.lines[+i].ks.splice(+j,1);commit()});
+  D.querySelectorAll('[data-pkp]').forEach(x=>x.onchange=()=>{const l=P.lines[+x.dataset.pkp],v=+x.value;if(x.value==='')return;l.ks=l.ks||[];const O=pirKOpts(l);l.ks.push(v<0?{n:'',k:'',uf:false}:{n:O[v][0],k:O[v][1],uf:!!O[v][2]});commit()});
+  D.querySelectorAll('[data-pfadd]').forEach(b=>b.onclick=()=>{const l=P.lines[+b.dataset.pfadd];l.staff=l.staff||[];l.staff.push({d:'',I:'1,00',ch:'1',tf:''});commit()});
+  D.querySelectorAll('[data-pfdel]').forEach(b=>b.onclick=()=>{const [i,j]=b.dataset.pfdel.split('.');P.lines[+i].staff.splice(+j,1);commit()})}
+function renderPir(){const M=ssrModel(),C=M.pir,P=C.P,w=$('#tablewrap'),DB=window.PIR_DB,{inp,chk,sel}=pirUI(C);
+  if(pirSel>=P.lines.length)pirSel=Math.max(0,P.lines.length-1);
+  $$('#tabs .pt').forEach(b=>b.classList.toggle('on',b.dataset.t==='pir:'+pirTab));
+  $('#posinfo').innerHTML=(P.lines.length?P.lines.length+' стр. · ':'')+`<span class="chip ok" title="${esc(C.IQ?C.IQ.osn:'')}">Индексы ${esc(C.IQ?C.IQ.q:'не выбраны')}</span>`;
+  if(pirTab==='f'){w.innerHTML=`<div class="pirf"><div class="fmb"><button class="btn pri" id="pirXls">${ic('xls')}В Excel (.xlsx)</button><button class="btn" id="pirPrn">${ic('print')}Печать или PDF</button></div><iframe id="pirFrame" title="Форма 2п"></iframe></div>`;
+    $('#pirFrame').srcdoc=pirHtml().replace('</style>','@media screen{body{min-width:900px;padding:14px}}</style>');$('#pirXls').onclick=pirXls;$('#pirPrn').onclick=pirPrint}
+  else{
+    const par=`<details class="pirpar"${pirParOpen?' open':''}><summary>${ic('chev')}<b>Смета № ${esc(P.num)}</b><span class="u">${esc(P.org||'проектная организация не указана')} · индексы Минстроя ${esc(C.IQ?C.IQ.q:'не выбраны')}${P.klOn?' · Кл '+esc(P.kl||'не указан'):''}${P.to12?' · итог в главу 12 ССР':''}</span></summary><div class="osw pirpw">
+       <div class="ksf"><label>Номер сметы${inp('num',P.num,'','90px')}</label><label>Проектная организация${inp('org',P.org,'','260px')}</label></div>
+       ${DB?`<div class="ksf"><label style="flex:1">Индексы Минстроя к справочникам${sel('idxQ',P.idxQ||'0',DB.idx.map((q,j)=>[String(j),`${q.q}: к 01.01.2023 — ${fq(q.v['2023'])}, к 01.01.2021 — ${fq(q.v['2021'])}, к 01.01.2001 — ${fq(q.v['2001'])} (${q.osn})`]),'100%')}</label></div>`:''}
+       <div class="ksf"><label>Ипр для строк «вручную»${inp('ipr',P.ipr,'например 1,20','90px')}</label><label style="flex:1">обоснование${inp('iprOsn',P.iprOsn,'письмо Минстроя, квартал, к уровню цен сборника','100%')}</label></div>
+       <div class="ksf"><label>Индекс пересчёта Сстр в уровень цен НЗ (п. 135)${inp('ist',P.ist,'1','90px')}</label><label style="flex:1">обоснование${inp('istOsn',P.istOsn,'индекс ФГИС ЦС или дефлятор Минэкономразвития','100%')}</label></div>
+       <div class="ost2">${chk('to12',P.to12,'Итог сметы в главу 12 ССР, графа «прочие затраты»')} ${chk('klOn',P.klOn,'Районный коэффициент, формула (9.1), п. 168')} Кл ${inp('kl',P.kl,'','60px')}</div>
+       <div class="u">Цены НЗ и СБЦ без НДС (п. 117), параметры a и b в тыс. руб. Стоимость = цена × корректирующие коэффициенты × Ипр; усложняющие факторы суммируются (п. 171), остальные перемножаются. При одинаковых показателях в НЗ и СБЦ приоритет у НЗ (письмо Минстроя от 20.03.2026 № 6597-ОГ/09).</div></div></details>`;
+    const rows=C.L.map(x=>`<tr class="prow${x.i===pirSel?' sel':''}" data-pl="${x.i}"><td class="mono">${x.i+1}</td><td><b>${esc(x.name)}</b><div class="u">${esc(PIR_M[x.l.m])}${x.l.src&&DB&&DB[x.l.src]?' · '+esc(DB[x.l.src].short):''}</div></td><td><div class="pcl">${esc(x.osn)}</div></td><td><div class="pcl">${esc(x.how)}</div></td><td class="num"><b>${fmt(x.C,0)}</b></td></tr>`).join('');
+    const add=`<div class="fmb pira">${Object.entries(PIR_M).map(([k,v])=>`<button class="btn" data-padd="${k}">+ ${esc(v.toLowerCase())}</button>`).join('')}<button class="btn" id="pirSmp">Учебный пример</button></div>`;
+    const warn=C.W.length?`<details class="pirw"><summary>Замечания к смете: ${C.W.length}</summary><ul>${C.W.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></details>`:'';
+    w.innerHTML=par+(P.lines.length?`<table class="pirt"><thead><tr><th>№</th><th>Объект проектирования, вид работ</th><th>Нормативы затрат: таблица, пункт</th><th>Расчёт стоимости</th><th class="num">Стоимость, руб.</th></tr></thead><tbody>${rows}
+      <tr class="ptot"><td></td><td colspan="3">Итого без учёта НДС</td><td class="num">${fmt(C.T,0)}</td></tr><tr class="ptot2"><td></td><td colspan="3">НДС ${B.nds}%</td><td class="num">${fmt(C.nds)}</td></tr><tr class="ptot"><td></td><td colspan="3">Всего с учётом НДС</td><td class="num">${fmt(C.A)}</td></tr></tbody></table>`
+      :`<div class="empty pire"><div><h3>Смета на проектные работы пуста</h3><p>Слева выберите справочник НЗ или СБЦ, таблицу и объект: строка появится здесь, показатель укажете в карточке справа. Работы вне справочников добавьте кнопками ниже.</p></div></div>`)+add+warn;
+    pirBind(w);const pp=w.querySelector('.pirpar');pp.ontoggle=()=>pirParOpen=pp.open;
+    $('#pirSmp').onclick=()=>{if(P.lines.length&&!confirm('Заменить смету на проектные работы учебным примером?'))return;pirSample();pirSel=0;commit()}}
+  renderInspPir(C);renderDockPir(C)}
+function renderInspPir(C){const el=$('#insp');C=C||ssrModel().pir;const x=C.L[pirSel];
+  if(!x){el.innerHTML=`<div class="ph">Строка сметы ПИР</div><div class="insp-empty">${ic('rate','')}<p>Добавьте строку из каталога НЗ и СБЦ слева: здесь появятся её параметры и расчёт.</p></div>`;inspBtn();return}
+  const {line}=pirUI(C);
+  el.innerHTML=`<div class="ph">Строка сметы ПИР</div><div class="ih"><span class="mono chip" style="background:var(--surface2);color:var(--ink2)">Строка ${x.i+1}</span><h3>${esc(x.name)}</h3></div><div class="osw pirx">${line(x,x.i)}<div class="pirosn"><div class="l">Обоснование (графа 3 формы 2п)</div><div>${esc(x.osn)}</div></div></div>`;
+  pirBind(el);inspBtn()}
+function renderDockPir(C){const by={};for(const x of C.L)by[x.l.m]=(by[x.l.m]||0)+x.C;
+  const col={nat:'var(--ot)',pct:'var(--em)',kalk:'var(--m)',dop:'var(--nr)',fix:'var(--sp)'},nm={nat:'По показателю',pct:'% от Сстр',kalk:'Калькуляция',dop:'% от основных',fix:'Суммой'};
+  const tiles=[...Object.keys(PIR_M).map(k=>[nm[k],by[k]||0,col[k]]),['Без НДС',C.T,'var(--ink2)'],['НДС',C.nds,'var(--sp)']];
+  $('#tiles').innerHTML=tiles.map(([l,v,c],i)=>`<div class="tile"><label><i style="background:${c}"></i>${l}</label><b data-k="t${i}">${fmt(v)}</b></div>`).join('');
+  tiles.forEach(([l,v],i)=>tween($(`[data-k=t${i}]`),v,'t'+i));
+  $('#stack').innerHTML=C.T?Object.keys(PIR_M).map(k=>`<i title="${nm[k]}: ${fmt(by[k]||0)} ₽" style="width:${(by[k]||0)/C.T*100}%;background:${col[k]}"></i>`).join(''):'';
+  tween($('#gtot'),C.A,'g',' <small>₽</small>');
+  $('#ndslabel').textContent=`без НДС ${fmt(C.T,0)} ₽`;$('#ndsv').textContent=`НДС ${B.nds}%: ${fmt(C.nds)} ₽`;$('#ndsv').title=C.P.to12&&C.T?`В главе 12 ССР: ${fmt(k2(C.T))} тыс. руб.`:''}
+function pirDel(force){const P=ST().pir;if(!P.lines.length)return toast('В смете ПИР нет строк');const i=Math.min(pirSel,P.lines.length-1),nm=P.lines[i].name||PIR_M[P.lines[i].m];
+  if(force!==true&&delAsk()){dlg(`<h3>Удалить строку ${i+1} «${esc(nm.slice(0,70))}»?</h3><p class="u">Вернуть удалённое можно кнопкой «Отменить» или ${hkTxt('Ctrl+Z')}.</p><label style="display:flex;gap:8px;align-items:center;margin:12px 0;font-size:13px"><input type="checkbox" id="cdNo"> Больше не спрашивать (вернуть вопрос: Правка → Спрашивать перед удалением)</label><div class="ac"><button class="btn" id="cdN">Отмена</button><button class="btn pri" id="cdY">Удалить</button></div>`);
+    $('#cdN').onclick=dlgClose;$('#cdY').onclick=()=>{if($('#cdNo').checked){try{lsSet(CDK,'0')}catch(e){}}dlgClose();pirDel(true)};setTimeout(()=>$('#cdY')?.focus(),0);return}
+  P.lines.splice(i,1);pirSel=Math.max(0,Math.min(i,P.lines.length-1));commit()}
+function pirDup(){const P=ST().pir,l=P.lines[pirSel];if(!l)return toast('Выберите строку сметы ПИР');P.lines.splice(pirSel+1,0,JSON.parse(JSON.stringify(l)));pirSel++;commit()}
+function pirMove(d){const P=ST().pir,i=pirSel,j=i+d;if(!P.lines[i]||j<0||j>=P.lines.length)return;[P.lines[i],P.lines[j]]=[P.lines[j],P.lines[i]];pirSel=j;commit()}
+function pirXls(){const P=ST().pir;if(!P.lines.length)return toast('Смета ПИР пуста');dlBlob(pirXlsx(),`Смета ПИР ${P.num} ${req().obj||''}.xlsx`.trim());toast('Смета на проектные работы выгружена в Excel')}
+function pirPrint(){if(!ST().pir.lines.length)return toast('Смета ПИР пуста');printDoc(pirHtml())}
+function pirCheck(){const C=ssrModel().pir;dlg(`<div class="kah"><div><h3>Проверка сметы ПИР</h3><div class="u">Методика 707/пр: исходные данные, индексы, пределы таблиц НЗ и СБЦ.</div></div><button class="vdel" id="pcX" style="font-size:22px">×</button></div>${C.W.length?`<ul style="margin:12px 0;padding-left:20px;display:grid;gap:6px">${C.W.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:'<p style="margin:14px 0">Замечаний нет.</p>'}`);$('#pcX').onclick=dlgClose}
+$('#tablewrap').addEventListener('click',e=>{if(!PM())return;const tr=e.target.closest('tr[data-pl]');if(!tr||e.target.closest('input,select,button'))return;pirSel=+tr.dataset.pl;$$('#tablewrap tr[data-pl]').forEach(x=>x.classList.toggle('sel',x===tr));renderInspPir()});
 
 /* ---------- НЦС-2026: укрупнённые нормативы цены строительства (Методика 314/пр, п. 97; технические части сборников) ---------- */
 const ncsLine=()=>({tab:'',g:'',M:'',ks:[]});
@@ -2800,7 +2909,7 @@ function timPanel(st,chk,inp,dur){const t=st.tim;let h=`<div class="ost2">${chk(
    ${ln('СП, ₽ (12)',`${fmt(c.Z)} × 10 / 100`,c.SP)}
    ${ln('<b>СТИМ, ₽ (7)</b>','ЗТИМ + СП, в главу 9, графа «прочие затраты»',c.STIM)}
    ${c.sat?ln('Спутниковая связь, ₽ (п. 214)','отдельной строкой главы 9',c.sat):''}</tbody></table></div>`}
-function openOsrTab(t){osTab=t;openOsr()}
+function openOsrTab(t){if(t==='pir')return setMode('pir');osTab=t;openOsr()}
 function openDemos(){
   const D=[['lsr','Смета: фундамент гаража','Локальный расчёт по ГЭСН-2022, 7 позиций'],['les','Смета урока: земляные работы ФАП','3 позиции, цены 3 кв. 2025'],['osr','Стройка гаража: ОСР, ССРСС, НЦС, смета ПИР, НМЦК','Откроется смета гаража и учебные данные стройки'],['bim','Модель IFC (ТИМ): гараж 6×9 м','Учебная модель здания, объёмы из модели']];
   dlg(`<div class="kah"><div><h3>Примеры (демо)</h3><div class="u">Учебные примеры в одном месте. Пример заменит открытую смету, свою смету сначала сохраните.</div></div><button class="vdel" id="dmX" style="font-size:22px">×</button></div>
@@ -2845,7 +2954,7 @@ function renderOsr(){const st=ST(),X=xmlx(),pz=X?X.PZ():{},O=osrModel(),M=ssrMod
    <div class="kstab">${[['set','Данные стройки'],['osr','ОСР'],['ssr','ССРСС'],['ncs','НЦС'],['pir','Смета ПИР'],['nmck','НМЦК']].filter(([k])=>!['ncs','pir','nmck'].includes(k)||baseOn(k)).map(([k,l])=>`<button data-ot="${k}" class="${k===osTab?'on':''}">${l}</button>`).join('')}</div>${body}
    <div class="ksum">ОСР № ${esc(st.osrNum)}: <b>${fmt(O.tot)} тыс. руб.</b>${O.izm?` (${fmt(O.unitCost)} тыс. руб. за 1 ${esc(st.izmU)})`:''} · ССРСС № ${esc(st.ssrNum)}: <b>${fmt(gsum(M.total))} тыс. руб.</b>${M.cur?' с НДС':''}</div>`,true);
   const D=$('#dlg');$('#osX').onclick=()=>$('#dlgbg').classList.remove('on');
-  D.querySelectorAll('[data-ot]').forEach(b=>b.onclick=()=>{osTab=b.dataset.ot;renderOsr()});
+  D.querySelectorAll('[data-ot]').forEach(b=>b.onclick=()=>{if(b.dataset.ot==='pir'){dlgClose();return setMode('pir')}osTab=b.dataset.ot;renderOsr()});
   const pk=$('#osPack');if(pk)pk.onclick=()=>{commit();X.exportPack()};
   $('#osSmp').onclick=()=>{if((st.lsr.length||st.rows.length)&&!confirm('Заменить данные стройки учебным примером?'))return;osSample();commit();renderOsr()};
   const setP=(path,v)=>{const ks=path.split('.');let o=st;for(let i=0;i<ks.length-1;i++){if(o[ks[i]]==null||typeof o[ks[i]]!=='object')o[ks[i]]={};o=o[ks[i]]}o[ks.at(-1)]=v};
@@ -2978,7 +3087,7 @@ function openKall(){const K=S.kall?JSON.parse(JSON.stringify(S.kall)):{ks:[],kc:
     const ot=v('#kaot'),em=v('#kaem'),m=v('#kam');if([ot,em,m].some(isNaN))return toast('Коэффициент — число больше нуля, например 1,15');
     if(ot===1&&em===1&&m===1)return toast('Укажите хотя бы одно значение, отличное от 1');
     (K.kc=K.kc||[]).push({j:$('#kaj').value.trim(),n:$('#kan').value.trim(),ot,em,m});save()}}
-function openCheck(){if(!S.pos.some(p=>p.sec===undefined))return toast('Смета пуста: проверять нечего');renderCheck()}
+function openCheck(){if(PM())return pirCheck();if(!S.pos.some(p=>p.sec===undefined))return toast('Смета пуста: проверять нечего');renderCheck()}
 function renderCheck(){const F=checkSmeta(),cnt=k=>F.filter(x=>x.lv===k).length,V=ckF==='all'?F:F.filter(x=>x.lv===ckF);
   const verdict=cnt('e')?`Найдено ошибок: ${cnt('e')}. Исправьте их до сдачи сметы.`:cnt('w')?'Ошибок нет, но есть предупреждения: проверьте их.':'Замечаний по правилам проверки нет.';
   dlg(`<div class="kah"><div><h3>Проверка сметы</h3><div class="u">Правила по Методике 421/пр, приказам 812/пр и 774/пр. Проверка не заменяет эксперта: она ловит типовые ошибки.</div></div><button class="vdel" id="ckX" style="font-size:22px">×</button></div>
