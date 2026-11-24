@@ -1592,6 +1592,9 @@ const AI_LIM=400,aiN=x=>x==null?'':String(aiR(x)).replace('.',',');
 function aiRow(p,n,c){const R=c.R,k=ksOf(p).map(k=>RC[k]?RC[k].g+' '+String(RC[k].v).replace('.',','):k);if(c.kr&&c.kr!==1)k.unshift('кратность '+String(c.kr).replace('.',','));
   return [n,R.real?'ГЭСН'+p.code:(R.disp||p.code||''),String(R.name||'').slice(0,110),(typeof p.qty==='number'?String(aiQ(p.qty)):String(p.qty)).replace('.',',')+' '+pu(R.nat||R.unit||''),'ОТ '+aiN(c.ot),'ЭМ '+aiN(c.em),'М '+aiN(c.mat),c.ob?'оборудование '+aiN(c.ob):'',c.per?'перевозка '+aiN(c.per):'',
     'НР '+aiN(c.nrp)+'% '+aiN(c.nr),'СП '+aiN(c.spp)+'% '+aiN(c.sp),'итого '+aiN(c.total),k.length?'К: '+k.join('; '):'',c.warn&&c.warn.length?'! '+c.warn.join('; ').slice(0,220):''].filter(x=>x!=='').join(' | ')}
+let AIH=[],AIHK='';const aiHKey=()=>String(S.docId||'')+'|'+S.name;
+function aiHist(){if(AIHK!==aiHKey()){AIH=[];AIHK=aiHKey()}return AIH}
+function aiHistAdd(q,a){aiHist().push({q:String(q||'').slice(0,500),a:String(a||'').slice(0,1500)});if(AIH.length>4)AIH.splice(0,AIH.length-4)}
 function aiOpenCtx(q){
   if(NM()){const o={смета:S.name,вид:'расчёт по НЦС'};try{const C=ncsCalc();Object.assign(o,{сборник:C.S?C.S.code:'',итого_уровень_01_01_2026_тыс_руб:C.T0,итого_тыс_руб:C.T,НДС:C.nds,всего:C.A,
     показатели:C.L.slice(0,60).map(x=>`${x.code}: ${String(x.txt||'').slice(0,300)} = ${aiN(x.reg)} тыс. руб.`),предупреждения:C.W.slice(0,30)})}catch(e){}return o}
@@ -1607,6 +1610,7 @@ function aiOpenCtx(q){
   try{const F=checkSmeta();o.протокол_проверки=F.slice(0,40).map(f=>({e:'ошибка',w:'предупреждение',i:'подсказка'}[f.lv]||'')+(f.pn?' поз. '+f.pn:'')+(f.code?' '+f.code:'')+': '+f.t+(f.ref?' ('+f.ref+')':''));if(F.length>40)o.протокол_примечание=`показаны 40 замечаний из ${F.length}`}catch(e){}
   // подробный расчёт: выбранная позиция и позиции, названные в вопросе номером («поз. 12», «позиция 12», «№ 12») или шифром
   const want=new Set([...String(q||'').matchAll(/(?:поз[а-я]*\.?|№)\s*(\d{1,4})/gi)].map(m=>+m[1])),codes=[...String(q||'').matchAll(/\d{2}-\d{2}-\d{3}-\d{2}/g)].map(m=>m[0]),det=[];
+  if(!want.size&&!codes.length&&aiHist().length){const L=AIH[AIH.length-1],s=L.q+' '+L.a;for(const m of s.matchAll(/(?:поз[а-я]*\.?|№)\s*(\d{1,4})/gi))want.add(+m[1]);for(const m of s.matchAll(/\d{2}-\d{2}-\d{3}-\d{2}/g))codes.push(m[0])}
   P.forEach((p,i)=>{if(det.length<3&&p.id!==sel&&(want.has(i+1)||codes.some(c=>String(p.code||'').includes(c))))det.push(aiPosCtx(p))});
   const ps=P.find(p=>p.id===sel);if(ps)o.выбранная_позиция=aiPosCtx(ps);if(det.length)o.позиции_из_вопроса=det;return o}
 function aiCands(q){if(!RLOW)RLOW=RFULL.map((t,i)=>('гэсн'+RI.r[i][0]+' '+t).toLowerCase().replace(/ё/g,'е'));
@@ -1642,8 +1646,10 @@ async function aiRun(task,text,opt={}){
     if(task==='find')return aiMsg('a','Расценки по словам из каталога:'+aiPicks(ctx.candidates.slice(0,6).map(c=>({code:c[0]})),opt.vor));
     return aiMsg('a err','Помощник не запущен. Ответы на вопросы по методике появятся после запуска.')}
   const w=aiMsg('a wait','Думаю…');
-  try{const r=await fetch(AI_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({task,text,ctx})});const d=await r.json();
+  const hist=task==='find'?[]:aiHist().slice();
+  try{const r=await fetch(AI_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({task,text,ctx,hist})});const d=await r.json();
     if(!r.ok)throw new Error(d.error||r.status);w.classList.remove('wait');
+    if(task!=='find'&&d.text)aiHistAdd(task==='explain'?`Объясни позицию ${ctx.позиция}, ${ctx.шифр}`:label,d.text);
     let h=d.text?aiTxt(d.text):'';if(task==='find'&&d.picks)h+=(d.picks.length?aiPicks(d.picks,opt.vor):'');
     if(d.unverified&&d.unverified.length)h+=`<div class="unv">Проверьте числа ${esc(d.unverified.join(', '))}: их нет в расчёте программы.</div>`;
     if(task!=='find'&&d.src&&d.src.length)h+=`<div class="src">Источники: ${esc(d.src.slice(0,5).join('; '))}</div>`;w.innerHTML=h||'Нет ответа.';
