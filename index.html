@@ -690,7 +690,7 @@ body.insp-off #insp>.ph .cbtn{margin:0;order:-1}
   <main class="work">
     <aside class="panel catalog">
       <div class="ph" id="catph"><svg class="i" style="width:16px;height:16px"><use href="#i-book"/></svg>Каталог норм<span class="n" id="catcount"></span><button class="cbtn" id="catbtn" title="Свернуть каталог"><svg class="i"><use href="#i-catoff"/></svg></button></div>
-      <div class="seg" id="catseg"><button class="on" data-s="fsnb" title="Федеральная сметно-нормативная база 2022, ГЭСН (доп. № 19, 12.08.2026)">ФСНБ-2022</button><button data-s="ucheb" title="Учебная база: ФСНБ-2022 с нормами из учебных смет курса (как в ГРАНД-Смете на уроках)">Учебная</button><button data-s="pir" title="Нормативы затрат (НЗ) и справочники базовых цен (СБЦ) на проектные работы: смета ПИР по Методике 707/пр">НЗ и СБЦ</button><button data-s="ncs" title="Укрупнённые нормативы цены строительства НЦС-2026: расчёт по Методике 314/пр, п. 97">НЦС</button></div>
+      <div class="seg" id="catseg"><button class="on" data-s="fsnb" title="Федеральная сметно-нормативная база 2022, ГЭСН. Редакция (изм. 1–17, 1–18, 1–19) выбирается в параметрах сметы">ФСНБ-2022</button><button data-s="ucheb" title="Учебная база: ФСНБ-2022 с нормами из учебных смет курса (как в ГРАНД-Смете на уроках)">Учебная</button><button data-s="pir" title="Нормативы затрат (НЗ) и справочники базовых цен (СБЦ) на проектные работы: смета ПИР по Методике 707/пр">НЗ и СБЦ</button><button data-s="ncs" title="Укрупнённые нормативы цены строительства НЦС-2026: расчёт по Методике 314/пр, п. 97">НЦС</button></div>
       <label class="search"><svg class="i" style="width:16px;height:16px"><use href="#i-search"/></svg><input id="catq" placeholder="Шифр или слова: «стяжка», УЧ06…" autocomplete="off"><span class="kbd">/</span></label>
       <div class="tree" id="tree"></div>
     </aside>
@@ -772,24 +772,54 @@ const TYC={ОТ:'var(--ot)',ЭМ:'var(--em)',М:'var(--m)',ТР:'var(--sp)',ОБ
 const RI=window.REAL_IDX, RR=window.REAL_RES, RN=window.REAL_NRSP;
 /* расценки уроков курса, которых нет в ФСНБ-2022 (доп. № 19), но есть в учебной базе ГРАНД-Сметы: ставим в каталог рядом с соседкой по таблице */
 const UADD=(window.UCHEB&&window.UCHEB.add)||{};
-for(const [c,a] of Object.entries(UADD)){const j=RI.r.findIndex(r=>r[0]===a.like);if(j<0)continue;const s=RI.r[j],gn=String(RI.g[s[2]]||'').trim();
-  RI.r.splice(c<a.like?j:j+1,0,[c,s[1],s[2],gn&&a.name.startsWith(gn)?a.name.slice(gn.length).trim():a.name,a.unit])}
+function uaddApply(){for(const [c,a] of Object.entries(UADD)){if(RI.r.some(r=>r[0]===c))continue;const j=RI.r.findIndex(r=>r[0]===a.like);if(j<0)continue;const s=RI.r[j],gn=String(RI.g[s[2]]||'').trim();
+  RI.r.splice(c<a.like?j:j+1,0,[c,s[1],s[2],gn&&a.name.startsWith(gn)?a.name.slice(gn.length).trim():a.name,a.unit])}}
+uaddApply();
 const isReal=c=>/^(?:мр|м|р|п)?\d\d-\d\d-\d{3}-\d\d$/.test(c);
 /* сборник: '01' ГЭСН, 'м08' ГЭСНм, 'мр01' ГЭСНмр, 'п01' ГЭСНп, 'р69' ГЭСНр; файл данных латиницей */
 const ccOf=c=>c.match(/^\D*\d\d/)[0],ccFile=cc=>({'':'','м':'m','мр':'mr','п':'p','р':'r'})[cc.replace(/\d/g,'')]+cc.replace(/\D/g,'');
 const CGRP=[['','ГЭСН · строительные работы'],['м','ГЭСНм · монтаж оборудования'],['мр','ГЭСНмр · ремонт и модернизация оборудования'],['п','ГЭСНп · пусконаладочные работы'],['р','ГЭСНр · ремонтно-строительные работы']];
-for(const [k,v] of Object.entries(RR))B.res[k]={t:v[0],name:v[1],unit:v[2],price:v[3],otm:v[4],lab:v[5],flag:v[6],real:1};
+const resOf=v=>({t:v[0],name:v[1],unit:v[2],price:v[3],otm:v[4],lab:v[5],flag:v[6],real:1});
+for(const [k,v] of Object.entries(RR))B.res[k]=resOf(v);
 const RFULL=RI.r.map(r=>(RI.g[r[2]]?RI.g[r[2]]+' ':'')+r[3]);
 const RPOS=new Map(RI.r.map((r,i)=>[r[0],i]));
 const RCI=new Map(RI.c.map((c,i)=>[c[0],i]));
 const TCOLL=RI.c.map(()=>[]);RI.t.forEach((t,i)=>TCOLL[t[2]].push(i));
 const RTAB=RI.t.map(()=>[]);RI.r.forEach((r,i)=>RTAB[r[1]].push(i));
 const RCNT={};RI.r.forEach(r=>{const k=ccOf(r[0]);RCNT[k]=(RCNT[k]||0)+1});
+/* ---------- редакции ФСНБ-2022. Действующая лежит в data/ целиком, прежние — файлы отличий data/ed/ed<id>_idx.js и ed<id>.js
+   (tools/build_editions.py). Смета помнит редакцию (S.ed); смета без неё создана в изм. 1–19. Первая строка ED_LIST — действующая редакция ---------- */
+const ED_LIST=[['19','изм. 1–19','доп. № 19, приказ Минстроя России от 12.08.2026 № 527/пр'],
+  ['18','изм. 1–18','доп. № 18 и 18.1, приказы Минстроя России от 15.05.2026 № 301/пр и от 09.07.2026 № 435/пр'],
+  ['17','изм. 1–17','доп. № 17, приказ Минстроя России от 17.02.2026 № 91/пр']];
+const ED_LATEST=ED_LIST[0][0],ED_OLD='19',EDF=new Set();
+const edOk=id=>ED_LIST.some(e=>e[0]===id),edName=id=>(ED_LIST.find(e=>e[0]===id)||[id,'изм. 1–'+id])[1],edAct=id=>(ED_LIST.find(e=>e[0]===id)||[])[2]||'';
+const edOfS=()=>edOk(S.ed)?S.ed:ED_OLD;
+let ED_CUR=ED_LATEST,EDB=null;
+const ED0={c:RI.c.slice(),g:RI.g.slice(),t:RI.t.slice(),r:RI.r.slice()};
+const edD=()=>ED_CUR===ED_LATEST?null:(window.ED_DATA||{})[ED_CUR];
+const setArr=(a,b)=>{a.length=0;for(const x of b)a.push(x)};
+function edIndex(ix){setArr(RI.c,ix.c);setArr(RI.g,ix.g);setArr(RI.t,ix.t);setArr(RI.r,ix.r);if(ix!==ED0)uaddApply();
+  setArr(RFULL,RI.r.map(r=>(RI.g[r[2]]?RI.g[r[2]]+' ':'')+r[3]));RPOS.clear();RI.r.forEach((r,i)=>RPOS.set(r[0],i));RCI.clear();RI.c.forEach((c,i)=>RCI.set(c[0],i));
+  setArr(TCOLL,RI.c.map(()=>[]));RI.t.forEach((t,i)=>TCOLL[t[2]].push(i));setArr(RTAB,RI.t.map(()=>[]));RI.r.forEach((r,i)=>RTAB[r[1]].push(i));
+  for(const k in RCNT)delete RCNT[k];RI.r.forEach(r=>{const k=ccOf(r[0]);RCNT[k]=(RCNT[k]||0)+1});RLOW=null}
+function edRes(){const d=edD(),o=d?d.res:{};for(const k in B.res)if(B.res[k]&&B.res[k].real)delete B.res[k];
+  for(const [k,v] of Object.entries(RR))if(!(k in o))B.res[k]=resOf(v);for(const [k,v] of Object.entries(o))if(v)B.res[k]=resOf(v);for(const k in RPS)delete RPS[k]}
+// переключить базу программы на редакцию id и заново собрать расценки и ресурсы смет(ы) pos
+async function edUse(id,pos=S.pos){if(!edOk(id))id=ED_LATEST;if(id===ED_CUR)return;
+  if(id!==ED_LATEST){const D=(window.ED_DATA||{})[id];if(!D||!D.idx)await loadJs('data/ed/ed'+id+'_idx.js');if(!D||!D.ch)await loadJs('data/ed/ed'+id+'.js');
+    const D2=(window.ED_DATA||{})[id];if(!D2||!D2.idx||!D2.ch)throw new Error('нет данных редакции')}
+  ED_CUR=id;edIndex(id===ED_LATEST?ED0:window.ED_DATA[id].idx);edRes();for(const c in B.rates)if(B.rates[c]&&B.rates[c].real)delete B.rates[c];
+  try{await ensureReal(pos.filter(p=>p.code&&!p.ka&&!p.tr&&!p.mr).map(p=>p.code));await ensureExtRes(pos)}catch(e){}renderTree()}
+// какая редакция нужна сейчас: открытой сметы, а пока открыто окно импорта — редакция импортируемой сметы
+const edWant=()=>{try{if(PS&&PS.nd&&PS.nd.ed&&$('#psw')&&$('#dlgbg').classList.contains('on'))return PS.nd.ed}catch(e){}return edOfS()};
+function edSync(){const id=edWant();if(id===ED_CUR||EDB||EDF.has(id))return;
+  EDB=edUse(id).catch(()=>{EDF.add(id);toast('Не удалось загрузить ФСНБ-2022 '+edName(id)+'. Смета считается по '+edName(ED_CUR))}).finally(()=>{EDB=null;render()})}
 function parseUnit(u){const m=String(u).match(/^(\d+(?:[.,]\d+)?)\s*(.*)$/);return m&&m[2]?{mult:parseFloat(m[1].replace(',','.')),nat:m[2]}:{mult:1,nat:u}}
 const loaded={};
 function loadChunk(cc){return new Promise((ok,bad)=>{if(loaded[cc])return ok();const sc=document.createElement('script');sc.src='data/real_'+ccFile(cc)+'.js';sc.onload=()=>{loaded[cc]=1;ok()};sc.onerror=()=>bad(new Error('нет данных '+cc));document.head.appendChild(sc)})}
-function buildRate(c){const d=(window.REAL_CH[ccOf(c)]||{})[c]||UADD[c],i=RPOS.get(c),u=parseUnit(RI.r[i][4]);
-  B.rates[c]={real:1,uonly:!!UADD[c]&&!(window.REAL_CH[ccOf(c)]||{})[c],name:RFULL[i],unit:RI.r[i][4],mult:u.mult,nat:u.nat,sec:ccOf(c),comp:d.r,content:d.c,abs:d.a,nk:d.n,sk:d.s}}
+function buildRate(c){const cc=ccOf(c),dd=edD(),ov=dd&&dd.ch[cc],d0=ov&&c in ov?ov[c]:(window.REAL_CH[cc]||{})[c],d=d0||UADD[c],i=RPOS.get(c),u=parseUnit(RI.r[i][4]);
+  B.rates[c]={real:1,uonly:!!UADD[c]&&!d0,name:RFULL[i],unit:RI.r[i][4],mult:u.mult,nat:u.nat,sec:ccOf(c),comp:d.r,content:d.c,abs:d.a,nk:d.n,sk:d.s}}
 async function ensureReal(codes){const cs=new Set();for(const c of codes)if(isReal(c)&&!B.rates[c])cs.add(ccOf(c));
   await Promise.all([...cs].map(loadChunk));for(const c of codes)if(isReal(c)&&!B.rates[c]&&RPOS.has(c))buildRate(c)}
 /* коэффициенты: приложение 10 к Методике 421/пр (ред. 30.01.2026). prod — снижение производительности (складываются дробные части), pay — повышенная оплата труда */
@@ -848,7 +878,7 @@ const TERR={t:['обычная территория',0,1],mprks:['местнос
 const NRSP_NEW_OFF=true,nrspOf=()=>NRSP_NEW_OFF?'old':(S.nrsp||'new');
 const NRSET=()=>nrspOf()==='old'&&window.REAL_NRSP_OLD?window.REAL_NRSP_OLD:RN;
 const nrspTxt=()=>nrspOf()==='old'?'НР: 812/пр (ред. 611/пр), СП: 774/пр (ред. 22.04.2022)'+(NRSP_NEW_OFF?'':', действовали до 20.10.2026'):'НР: 812/пр (изм. 209/пр), СП: 774/пр (изм. 210/пр), действуют с 20.10.2026';
-const baseTxt=()=>S.base==='ucheb'?'Учебная база: ФСНБ-2022 с нормами из учебных смет курса':'ФСНБ-2022 (ГЭСН, ФСБЦ), доп. № 19 (приказ Минстроя от 12.08.2026 № 527/пр)';
+const baseTxt=()=>S.base==='ucheb'?'Учебная база: ФСНБ-2022 с нормами из учебных смет курса':'ФСНБ-2022 (ГЭСН, ФСБЦ) '+edName(edOfS())+': '+edAct(edOfS());
 const basisTxt=()=>syncPR()&&S.level==='base'?'Цены: базис 01.01.2022 (ФСБЦ-2022). Оплата труда рабочих: ориентир по шкале машинистов.':'Цены: ФГИС ЦС, '+PR.meta.subject+', '+PR.meta.quarter+'. Если цены ресурса нет в ФГИС ЦС, берётся базисная цена 01.01.2022 × индекс группы однородных ресурсов (пп. 95, 97 Методики 421/пр).';
 /* оплата машинистов на 1 маш.-ч к текущей цене ФГИС ЦС: затраты труда машинистов × ставка машиниста по его коду (4-100-…).
    «Оплата машиниста» в ФГИС ЦС (m[1]) дана на весь экипаж (ставка × число машинистов), поэтому без кода машиниста ставка = m[1] / число машинистов */
@@ -880,7 +910,7 @@ function calcReal(p,R){
   let ot=0,otm=0,emN=0,mat=0,zt=0,ztm=0;const lines=[],warn=[];
   // в учебной базе состав и нормы расценок курса берутся из выгрузки ГРАНД-Сметы целиком; F0 — нормы ФСНБ для сравнения
   const COMP=S.base==='ucheb'&&UCH.comp&&UCH.comp[p.code]||R.comp,F0=COMP!==R.comp?new Map(R.comp):null;
-  if(R.uonly&&S.base!=='ucheb')warn.push('расценки нет в ФСНБ-2022 (доп. № 19), она есть только в учебной базе');
+  if(R.uonly&&S.base!=='ucheb')warn.push('расценки нет в ФСНБ-2022 ('+edName(ED_CUR)+'), она есть только в учебной базе');
   // правки ресурсов позиции: p.rs[ключ] = {to: код замены, n: своя норма, off: исключён}; p.ra = [[код, норма]] добавленные ресурсы
   const RS=p.rs||{},off=[],nu=[];
   const put=(rc,r,n,n0,x)=>{
@@ -934,7 +964,8 @@ const nuNorm=v=>v==='П'||v==null||v===''?'П':(x=>isFinite(x)?x:'П')(parseFloa
 const fsbcLoaded={};
 const fsbcKey=rc=>/^91\./.test(rc)?'91':String(rc).slice(0,2);
 function loadFsbc(k){return new Promise((ok,bad)=>{if(fsbcLoaded[k])return ok();const sc=document.createElement('script');sc.src='data/fsbc/fsbc_'+k+'.js';sc.onload=()=>{fsbcLoaded[k]=1;ok()};sc.onerror=()=>bad(new Error('нет справочника '+k));document.head.appendChild(sc)})}
-const fsbcRec=rc=>((window.FSBC_CH||{})[fsbcKey(rc)]||{})[rc];
+const fsbcRec=rc=>{const k=fsbcKey(rc),d=edD(),o=d&&d.fsbc[k];if(o&&rc in o)return o[rc]||undefined;return ((window.FSBC_CH||{})[k]||{})[rc]};
+const fsbcChunk=k=>{const D=(window.FSBC_CH||{})[k]||{},d=edD(),o=d&&d.fsbc[k];if(!o)return D;const M={...D};for(const rc in o){if(o[rc])M[rc]=o[rc];else delete M[rc]}return M};
 // ресурс из справочника ФСБЦ регистрируем в программе вместе с ценами ФГИС ЦС (3 кв. 2026 и 3 кв. 2025)
 function regRes(rc){if(B.res[rc])return true;const v=fsbcRec(rc);if(!v)return false;
   if(v[0]==='М'||v[0]==='ОБ'){B.res[rc]={t:v[0],name:v[1],unit:v[2],price:v[3],otm:0,lab:0,real:1,ext:1};
@@ -985,7 +1016,7 @@ function calcScope(fn){return function(){if(CC)return fn.apply(this,arguments);C
 function calc(p){if(!CC)return calc0(p);let c=CC.get(p);if(!c){c=calc0(p);CC.set(p,c)}return c}
 function calc0(p){
   if(p.own){const c=calcOwn(p);c.mon=0;return c}
-  if(p.ka||p.mr||p.tr){const c=p.ka?calcKA(p):p.mr?calcMR(p):calcTR(p);if(p.dav&&!p.tr)davZero(c);c.mon=!c.R.ob&&inhMon(p)?c.total:0;return c}const R0=B.rates[p.code];if(!R0){const s0=stub(p);if(isReal(p.code)&&!RPOS.has(p.code)){s0.R={...s0.R,name:'ГЭСН'+p.code+': такой расценки нет в ФСНБ-2022'};s0.warn=['расценки ГЭСН'+p.code+' нет в ФСНБ-2022 (ФРСН): проверьте шифр или подберите расценку из сборника']}return s0}if(R0.real){const c=calcReal(p,R0);c.mon=/^м/.test(p.code)?c.total:0;return c}
+  if(p.ka||p.mr||p.tr){const c=p.ka?calcKA(p):p.mr?calcMR(p):calcTR(p);if(p.dav&&!p.tr)davZero(c);c.mon=!c.R.ob&&inhMon(p)?c.total:0;return c}const R0=B.rates[p.code];if(!R0){const s0=stub(p);if(isReal(p.code)&&!RPOS.has(p.code)){s0.R={...s0.R,name:'ГЭСН'+p.code+': такой расценки нет в ФСНБ-2022 ('+edName(ED_CUR)+')'};s0.warn=['расценки ГЭСН'+p.code+' нет в ФСНБ-2022 ('+edName(ED_CUR)+', ФРСН): проверьте шифр, редакцию сметы или подберите расценку из сборника']}return s0}if(R0.real){const c=calcReal(p,R0);c.mon=/^м/.test(p.code)?c.total:0;return c}
   const R=B.rates[p.code],U=unitPrice(p.code),sec=B.sections[R.sec];
   const q=p.qty/R.mult;
   let ot=U.ot*q,otm=U.otm*q,emN=U.em*q-U.otm*q,mat=U.m*q;
@@ -1143,7 +1174,7 @@ $('#tablewrap').addEventListener('dragover',e=>{if(!DRG)return;const tr=e.target
 $('#tablewrap').addEventListener('drop',e=>{if(!DRG)return;const tr=e.target.closest('tr[data-id]');dropClr();if(!tr){DRG=null;return}e.preventDefault();const r=tr.getBoundingClientRect();moveTo(DRG,+tr.dataset.id,e.clientY>r.top+r.height/2);DRG=null});
 $('#tablewrap').addEventListener('dragend',()=>{DRG=null;dropClr()});
 function findClose(){FQ='';$('#fbar')?.remove();$$('#tablewrap tr.fhit').forEach(x=>x.classList.remove('fhit','fcur'))}
-function newDocRaw(){if(S.pos.length&&!S.docId&&!saved&&!confirm('Начать новую смету? Эта смета не сохранена и пропадёт.'))return false;S={name:'Новая смета',pos:[],idx:'',nds:false};vorPick=null;renderPickBar();sel=null;hist=[];redo=[];$('#docname').value=S.name;markDirty();render();return true}
+function newDocRaw(){if(S.pos.length&&!S.docId&&!saved&&!confirm('Начать новую смету? Эта смета не сохранена и пропадёт.'))return false;S={name:'Новая смета',pos:[],idx:'',nds:false,ed:ED_LATEST};vorPick=null;renderPickBar();sel=null;hist=[];redo=[];$('#docname').value=S.name;markDirty();render();return true}
 /* ---------- подключённые базы: сметчик включает одну или несколько (хранится в этом браузере) ---------- */
 const BASES=[['fsnb','ФСНБ-2022','ГЭСН и ФСБЦ, текущие цены и индексы ФГИС ЦС. Для локальных смет'],['ucheb','Учебная база курса','ФСНБ-2022 с нормами из учебных смет курса. Для локальных смет'],['pir','НЗ и СБЦ на проектные работы','Нормативы затрат и справочники базовых цен. Смета на проектные работы'],['ncs','НЦС-2026','Укрупнённые нормативы цены строительства, 23 сборника'],['nmck','НМЦК, приказ 841/пр','Расчёт начальной (максимальной) цены контракта от ССРСС с индексами инфляции']];
 const BSK='rimora.basesOff',basesOff=()=>{try{return JSON.parse(lsGet(BSK)||'[]')}catch(e){return []}},baseOn=k=>!basesOff().includes(k);
@@ -1304,7 +1335,7 @@ $('#doctabs').addEventListener('auxclick',e=>{if(e.button!==1)return;const d=e.t
 function save(){storeDoc(false)}
 function saveAs(){const v=prompt('Название копии сметы:',(S.name||'Смета')+' (копия)');if(!v)return;delete S.docId;S.name=v;$('#docname').value=v;storeDoc(false);render()}
 function fixUid(){uid=Math.max(1,...S.pos.map(p=>p.id||0),...(S.vor||[]).map(r=>r.id||0))+1}
-async function loadDoc(n,silent){await ensureReal(n.pos.filter(p=>p.code&&!p.ka&&!p.tr&&!p.mr).map(p=>p.code));await ensureExtRes(n.pos);S=n;fixUid();if(n.pos.some(p=>p.tr||p.ka&&p.ka.tr&&p.ka.tr.on))await ensureTR();sel=null;hist=[];redo=[];vorPick=null;renderPickBar();$('#docname').value=S.name;saved=true;savedAt=null;setSaveChip();render();if(!silent)toast('Открыто: '+S.name)}
+async function loadDoc(n,silent){try{await edUse(edOk(n.ed)?n.ed:ED_OLD,[])}catch(e){}await ensureReal(n.pos.filter(p=>p.code&&!p.ka&&!p.tr&&!p.mr).map(p=>p.code));await ensureExtRes(n.pos);S=n;fixUid();if(n.pos.some(p=>p.tr||p.ka&&p.ka.tr&&p.ka.tr.on))await ensureTR();sel=null;hist=[];redo=[];vorPick=null;renderPickBar();$('#docname').value=S.name;saved=true;savedAt=null;setSaveChip();render();if(!silent)toast('Открыто: '+S.name)}
 async function openDoc(id,silent){const d=lsGet(SKD+id);if(!d){if(!silent)toast('Смета не найдена в браузере');return false}
   if(!silent){const j=tabFind(id);if(j===TI)return true;if(j>=0){await tabSwitch(j);return true}if(tabBusy())tabNew()}
   if(!silent&&S.pos.length&&!S.docId&&!saved&&!confirm('Текущая смета не сохранена. Открыть другую и потерять изменения?'))return false;
@@ -1723,22 +1754,23 @@ function buildRibbon(){
   $('#ribbon').innerHTML=RIB.map(g=>`<div class="grp">${g.map(b=>`<button class="rb ${b[3]||''}" data-r="${b[0]}" title="${b[1]}${HK[b[0]]?' ('+hkTxt(HK[b[0]])+')':''}">${ic(b[0])}<span>${b[1]}</span></button>`).join('')}</div>`).join('');
   $('#params').innerHTML=`<div class="ctl" id="idxctl" title="Индексы для учебных расценок УЧ">Индекс УЧ<select id="idxsel"><option value="">Базисный</option>${Object.entries(B.idx).map(([k,v])=>`<option value="${k}">${esc(v.q)} · ${esc(v.region)}</option>`).join('')}</select></div>
    <div class="ctl" title="Сметно-нормативная база"><span class="lb">База</span><select id="basesel"><option value="fsnb">ФСНБ-2022</option><option value="ucheb">Учебная база</option></select></div>
+   <div class="ctl" id="edctl" title="Редакция ФСНБ-2022: по каким изменениям и дополнениям считается смета"><span class="lb-l">Редакция</span><span class="lb-s">Ред.</span><select id="edsel">${ED_LIST.map(e=>`<option value="${e[0]}">${e[1]}</option>`).join('')}</select></div>
    <div class="ctl" title="Субъект РФ и ценовая зона ФГИС ЦС"><span class="lb">Регион</span><select id="zonesel" style="max-width:190px">${zoneOpts()}</select></div>
    <div class="ctl" title="Уровень цен ресурсов для расценок ГЭСН"><span class="lb">Цены</span><select id="lvlsel">${lvlOpts(zoneOf())}</select></div>
    <div class="ctl" title="Графа норматива накладных расходов по приказу 812/пр"><span class="lb-l">Территория</span><span class="lb-s">Терр.</span><select id="terrsel"><option value="t">обычная</option><option value="mprks">МПРКС</option><option value="rks">Крайний Север</option></select></div>
    <div class="ctl" title="Редакция приказов 812/пр и 774/пр"${NRSP_NEW_OFF?' style="display:none"':''}><span class="lb-l">НР и СП</span><span class="lb-s">НР/СП</span><select id="nrspsel"><option value="new">с 20.10.2026</option><option value="old">до 20.10.2026</option></select></div>
    <div class="ctl"><span class="switch" id="ndssw"><i></i>НДС ${B.nds}%</span></div>`;
   $$('.rb').forEach(el=>{const f=RIB.flat().find(x=>x[0]===el.dataset.r);el.onclick=f[2]});
-  $('#idxsel').onchange=e=>setIdx(e.target.value);$('#lvlsel').onchange=e=>setLevel(e.target.value);$('#zonesel').onchange=e=>setZone(+e.target.value);$('#basesel').onchange=e=>{if(e.target.value==='cfg'){e.target.value=S.base||'fsnb';return openBases()}setBase(e.target.value)};$('#nrspsel').onchange=e=>{S.nrsp=e.target.value;commit()};$('#terrsel').onchange=e=>{S.terr=e.target.value==='t'?undefined:e.target.value;commit();toast('НР по графе: '+terrOf()[0])};$('#ndssw').onclick=()=>setNds(!S.nds);
+  $('#idxsel').onchange=e=>setIdx(e.target.value);$('#lvlsel').onchange=e=>setLevel(e.target.value);$('#zonesel').onchange=e=>setZone(+e.target.value);$('#basesel').onchange=e=>{if(e.target.value==='cfg'){e.target.value=S.base||'fsnb';return openBases()}setBase(e.target.value)};$('#nrspsel').onchange=e=>{S.nrsp=e.target.value;commit()};$('#edsel').onchange=e=>{S.ed=e.target.value;commit();toast('ФСНБ-2022 '+edName(S.ed)+' ('+edAct(S.ed)+')')};$('#terrsel').onchange=e=>{S.terr=e.target.value==='t'?undefined:e.target.value;commit();toast('НР по графе: '+terrOf()[0])};$('#ndssw').onclick=()=>setNds(!S.nds);
 }
 
 /* ---------- отрисовка ---------- */
-function render(){const bc=document.body.classList;bc.toggle('pir-mode',PM());bc.toggle('ncs-mode',NM());bc.toggle('doc-mode',!!S.mode);
+function render(){edSync();const bc=document.body.classList;bc.toggle('pir-mode',PM());bc.toggle('ncs-mode',NM());bc.toggle('doc-mode',!!S.mode);
   if(treeMode!==(S.mode||'')){treeMode=S.mode||'';$('#catq').placeholder=PM()?'Объект или сборник: «гараж», «школа», 848…':NM()?'Объект: «школа», «поликлиника», 03-01…':'Шифр или слова: «стяжка», УЧ06…';renderTree()}
   if(PM()){syncRibbon();renderPir();lastSnap=snap();return}
   if(NM()){syncRibbon();renderNcs();lastSnap=snap();return}
   renderTable();renderInsp();renderDock();syncRibbon();fMark();lastSnap=snap()}
-function syncRibbon(){{const ic_=$('#idxctl');if(ic_)ic_.style.display=S.pos.some(p=>p.code&&!p.tr&&!p.ka&&B.rates[p.code]&&!B.rates[p.code].real)||S.idx?'':'none'}$('#idxsel').value=S.idx;{const zs=$('#zonesel'),ls=$('#lvlsel');if(zs)zs.value=String(zoneOf());if(ls){if(ls.dataset.z!==String(zoneOf())){ls.innerHTML=lvlOpts(zoneOf());ls.dataset.z=String(zoneOf())}ls.value=S.level||'cur'}}basesApply();$('#basesel').value=S.base||'fsnb';$('#nrspsel').value=S.nrsp||'new';{const t_=$('#terrsel');if(t_)t_.value=S.terr||'t'}$$('#catseg button').forEach(x=>x.classList.toggle('on',x.dataset.s===(S.mode||S.base||'fsnb')));$('#ndssw').classList.toggle('on',S.nds);
+function syncRibbon(){{const ic_=$('#idxctl');if(ic_)ic_.style.display=S.pos.some(p=>p.code&&!p.tr&&!p.ka&&B.rates[p.code]&&!B.rates[p.code].real)||S.idx?'':'none'}$('#idxsel').value=S.idx;{const zs=$('#zonesel'),ls=$('#lvlsel');if(zs)zs.value=String(zoneOf());if(ls){if(ls.dataset.z!==String(zoneOf())){ls.innerHTML=lvlOpts(zoneOf());ls.dataset.z=String(zoneOf())}ls.value=S.level||'cur'}}basesApply();$('#basesel').value=S.base||'fsnb';$('#nrspsel').value=S.nrsp||'new';{const e_=$('#edsel');if(e_)e_.value=edOfS()}{const t_=$('#terrsel');if(t_)t_.value=S.terr||'t'}$$('#catseg button').forEach(x=>x.classList.toggle('on',x.dataset.s===(S.mode||S.base||'fsnb')));$('#ndssw').classList.toggle('on',S.nds);
   $$('.rb[data-r=undo]')[0].disabled=!hist.length;$$('.rb[data-r=redo]')[0].disabled=!redo.length;
   const n=S.pos.filter(p=>p.sec===undefined).length;const anyReal=S.pos.some(p=>p.code&&isReal(p.code));$('#posinfo').innerHTML=(n?`${n} поз.`:'')+(anyReal?` <span class="chip ${S.level==='base'?'warn':'ok'}" id="basisChip" title="${basisTxt()}">${S.level==='base'?'Базис 2022':'Цены '+PSET[S.level||'cur'].replace('Волгоград, ','')}</span>`:'')+(S.base==='ucheb'?' <span class="chip warn" title="'+esc(baseTxt())+'">Учебная база</span>':'')+((n2=>n2?` <span class="chip" id="davChip" style="cursor:pointer" title="Список давальческих материалов заказчика">Давальческие: ${n2}</span>`:'')(davList().length))+(kallN()?` <span class="chip" id="kallChip" style="cursor:pointer" title="${esc(kallTxt())}">К сметы: ${kallN()}</span>`:'')+(()=>{const E=expMarks();return E.N?` <span class="chip warn" id="exChip" style="cursor:pointer" title="Нажмите: ${E.only?'показать все строки':'оставить только строки с замечаниями'}">Экспертиза (${E.N.n}): ${E.N.items.length}${E.only?' · только они':''}</span>`:''})();{const ec=$('#exChip');if(ec)ec.onclick=()=>{S.exp.only=!S.exp.only;render()}}{const kc=$('#kallChip');if(kc)kc.onclick=openKall}{const dc=$('#davChip');if(dc)dc.onclick=openDav}const bc=$('#basisChip');if(bc)bc.onclick=()=>toast(basisTxt())}
 function setTab(t){if(/^(pir|ncs):/.test(t)){const [m,v]=t.split(':');if(v==='x')return setMode('lsr');if(m==='pir')pirTab=v;else ncsTab=v;return render()}if(S.mode)S.mode=undefined;tab=t;$$('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));render()}
@@ -1876,7 +1908,7 @@ const LATC={a:'а',b:'в',c:'с',e:'е',h:'н',k:'к',m:'м',o:'о',p:'р',t:'т
 const RPS={};
 function rpRender(){if(!RPK||!RPK.keys)return;const W=srchN($('#rpq').value.trim()).split(/\s+/).filter(Boolean);
   const out=[];let total=0;
-  for(const k of RPK.keys){const D=(window.FSBC_CH||{})[k]||{},N=RPS[k]||(RPS[k]={});for(const rc in D){const v=D[rc];if(v[0]!==RPK.t)continue;if(RPK.only&&RPK.grp&&!rc.startsWith(RPK.grp))continue;
+  for(const k of RPK.keys){const D=fsbcChunk(k),N=RPS[k]||(RPS[k]={});for(const rc in D){const v=D[rc];if(v[0]!==RPK.t)continue;if(RPK.only&&RPK.grp&&!rc.startsWith(RPK.grp))continue;
     if(W.length){const s=N[rc]||(N[rc]=srchN(rc+' '+v[1]));if(!W.every(w=>s.includes(w)))continue}
     total++;if(out.length<300)out.push([rc,v])}}
   out.sort((a,b)=>a[0].localeCompare(b[0],'ru',{numeric:true}));
@@ -1932,6 +1964,7 @@ function openPaste(text){if(S.mode)return toast('Вставка из Excel ра�
   if(text)pasteLoad(text);else ta.focus()}
 async function pasteLoad(text,o){const rows=Array.isArray(text)?text:parseTSV(text);if(!rows.length)return;
   PS={rows,roles:o&&o.roles||pasteDetect(rows),unit:PS&&PS.unit||'nat',sec:true,nd:o&&o.nd||null};
+  if(PS.nd){PS.nd.ed=edOk(PS.nd.ed)?PS.nd.ed:ED_LATEST;try{await edUse(PS.nd.ed,[])}catch(e){PS.nd.ed=ED_CUR}}
   const codes=[...new Set(rows.map(r=>r.map(pasteCode).find(Boolean)).filter(x=>x&&!x.fer&&RPOS.has(x.code)).map(x=>x.code))];
   const bare=!!(o&&o.nd&&o.nd.form),mats=[...new Set(rows.map(r=>r.map(c=>pasteMat(c,bare)).find(Boolean)).filter(Boolean))];
   if($('#pstxt'))$('#pstxt').style.display='none';$('#psw').innerHTML='<div class="u" style="padding:12px">Проверяю шифры по базе…</div>';
@@ -1980,7 +2013,7 @@ function pasteInsert(){const all=pasteItems(),it=all.filter(x=>x.k==='ok'||x.k==
   const add=it.map(x=>x.k==='sec'?{id:uid++,sec:nd?x.title.replace(/^Раздел\s*\d+(\.\d+)*[.:]?\s*/i,'')||x.title:x.title}:x.k==='mat'?(regRes(x.rc),{id:uid++,code:'ФСБЦ',qty:x.q,ks:[],mr:isEqRc(x.rc)?{rc:x.rc,eq:1}:{rc:x.rc}})
     :x.k==='own'?{id:uid++,code:'СВ',qty:x.q,ks:[],own:{name:x.name,unit:x.unit,j:x.j,ot:'',em:'',otm:'',m:x.price==null?'':String(x.price),nk:''}}:Object.assign({id:uid++,code:x.code,qty:x.q,ks:[]},x.kr?{kr:x.kr}:{},x.kc?{kc:x.kc.map(k=>({...k}))}:{}));
   const bad=all.filter(x=>x.k==='bad').length,noq=it.filter(x=>x.noq).length,n=add.filter(x=>x.code).length;
-  if(nd){S.name=nd.name;$('#docname').value=S.name;S.pos=add;sel=null;$('#dlgbg').classList.remove('on');commit();storeDoc(true);renderDocTabs();
+  if(nd){S.name=nd.name;S.ed=nd.ed||ED_LATEST;$('#docname').value=S.name;S.pos=add;sel=null;$('#dlgbg').classList.remove('on');commit();storeDoc(true);renderDocTabs();
     return toast(`Смета из Excel открыта и добавлена в «Мои сметы»: ${n} поз.${bad?`, не найдено шифров: ${bad}`:''}${noq?`. Без объёма: ${noq}`:''}`)}
   const i=sel?S.pos.findIndex(x=>x.id===sel):-1;S.pos.splice(i>=0?i+1:S.pos.length,0,...add);sel=add[add.length-1].id;
   $('#dlgbg').classList.remove('on');commit();
@@ -2100,7 +2133,8 @@ function gsSmeta(d){const root=d.documentElement,kids=(el,n)=>el?[...el.children
     add([at(c,'Number'),at(c,'Code').trim(),at(c,'Caption').trim(),at(c,'Units').trim(),qt.replace(/\s/g,''),total(c)],ks)}};
   const chs=kid(root,'Chapters');walk(chs||root,[],[]);while(out.length&&secs.has(out[out.length-1]))out.pop();
   if(!out.some(r=>r[1]))return {err:'В файле ГРАНД-Сметы не нашлось позиций сметы'};
-  return {rows:out,roles:['','code','name','unit','qty','sum'],secs,name}}
+  const rn=at(kid(root,'RegionInfo'),'RegionName'),em=/ФСНБ-2022[^)]*Изм\.?\s*1\s*[-–]\s*(\d+)/i.exec(rn);
+  return {rows:out,roles:['','code','name','unit','qty','sum'],secs,name,ed:em?em[1]:null,edTxt:rn}}
 const xmlDecode=buf=>{const head=new TextDecoder('latin1').decode(new Uint8Array(buf,0,Math.min(300,buf.byteLength))),enc=(/encoding=["']([\w-]+)["']/i.exec(head)||[])[1]||'utf-8';
   try{return new TextDecoder(enc).decode(buf)}catch(e){return new TextDecoder('utf-8').decode(buf)}};
 // .gsfx — архив ГРАНД-Сметы: Properties.txt и Data.xml (windows-1251)
@@ -2116,7 +2150,8 @@ function openXml(f){if(!f)return openXlsx(null,true);const gs=/\.gsfx$/i.test(f.
   $('#dlg').classList.add('ppaste');
   (async()=>{let g;try{g=xmlSmeta(gs?await gsfxText(f):xmlDecode(await f.arrayBuffer()))}catch(e){g={err:gs&&e.message||'Не удалось прочитать файл'}}
     if(g.err)return $('#psw').innerHTML=`<div class="u" style="padding:12px">${esc(g.err)}</div>`;
-    pasteLoad(g.rows,{roles:g.roles,nd:{name:g.name||f.name.replace(/\.(xml|gge|gsfx)$/i,''),secs:g.secs,form:true,xml:true}})})()}
+    if(g.edTxt&&g.ed&&!edOk(g.ed))toast('Смета в '+g.edTxt+': такой редакции в Риморе нет, откроется в '+edName(ED_LATEST));else if(g.ed&&g.ed!==ED_LATEST)toast('Смета в ФСНБ-2022 '+edName(g.ed)+': открываю в той же редакции');
+    pasteLoad(g.rows,{roles:g.roles,nd:{name:g.name||f.name.replace(/\.(xml|gge|gsfx)$/i,''),secs:g.secs,form:true,xml:true,ed:g.ed}})})()}
 // Ctrl+V (⌘V) в смете, а не в поле ввода: если в буфере есть шифры расценок — открываем окно вставки
 document.addEventListener('paste',e=>{const a=document.activeElement;if(/INPUT|SELECT|TEXTAREA/.test(a.tagName)||a.isContentEditable||$('#dlgbg').classList.contains('on')||$('#palbg').classList.contains('on'))return;
   const t=e.clipboardData&&e.clipboardData.getData('text/plain');const rc=t&&clipGet(t);if(rc){e.preventDefault();return clipPaste(rc)}if(!t||!parseTSV(t).some(r=>r.some(pasteCode)))return;e.preventDefault();openPaste(t)});
@@ -2208,7 +2243,7 @@ function renderInspReal(p,c){const el=$('#insp'),R=c.R,I=c.I;
   <div class="sect"><h5>Ресурсы</h5><table class="comp"><tbody>${c.lines.map(l=>`<tr><td><span class="ty" style="background:${TYC[l.t]}">${l.t}</span>${esc(l.name)}</td><td class="r u num">${l.norm==='П'?'П':fq(l.norm)} ${pu(l.unit)}</td></tr>`).join('')}</tbody></table></div>
   ${c.warn&&c.warn.length?`<div class="tip">${ic('bolt')}<div>${c.warn.map(esc).join('<br>')}</div></div>`:''}
   <div class="tip" style="background:var(--surface2);color:var(--ink2)">${ic('bolt')}<div>${tip?tip+'<br>':''}${basisTxt()}</div></div>
-  <div class="u" style="padding:6px 16px 16px">${esc(baseTxt())}. ${esc(nrspTxt())}.<br>Источник: ФСНБ-2022 (ГЭСН, ФСБЦ), цены и индексы ФГИС ЦС (ФАУ «Главгосэкспертиза России», fgiscs.minstroyrf.ru). Нормы: данные от 12.08.2026, доп. № 19. Цены: выгрузка от 20.11.2026.</div>`;
+  <div class="u" style="padding:6px 16px 16px">${esc(baseTxt())}. ${esc(nrspTxt())}.<br>Источник: ФСНБ-2022 (ГЭСН, ФСБЦ), цены и индексы ФГИС ЦС (ФАУ «Главгосэкспертиза России», fgiscs.minstroyrf.ru). Нормы: ${esc(edName(edOfS()))}, ${esc(edAct(edOfS()))}. Цены: выгрузка от 20.11.2026.</div>`;
   $('#qside').onchange=e=>setQty(p.id,e.target.value);$('#krside').onchange=e=>setKr(p.id,e.target.value);kcBind(p);nkBind(p);kallBind(p);
   const eb=$('#eqadd');if(eb){eb.onclick=()=>{sel=p.id;eqNew()};$('#eqka').onclick=()=>{sel=p.id;kaNew('eq')}}
   $$('.kr .switch[data-k]',el).forEach(s=>{s.onclick=()=>toggleK(p.id,s.dataset.k);s.onkeydown=e=>{if(e.key===' '||e.key==='Enter'){e.preventDefault();toggleK(p.id,s.dataset.k)}}});
