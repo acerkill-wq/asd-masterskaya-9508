@@ -601,9 +601,13 @@ body.insp-off #insp>.ph .cbtn{margin:0;order:-1}
  function ok(until){document.documentElement.style.overflow='';g.remove();note(until)}
  function show(err){F.style.visibility='';document.documentElement.style.overflow='hidden';if(err){E.textContent=MSG[err]||MSG.unknown;E.style.display='block'}
   setTimeout(function(){var c=document.getElementById('gateC');if(c)c.focus()},50)}
+ // статистика для кабинета администратора: число смет и последняя правка на этом устройстве, SHA-256 ключа облака
+ function stats(){var n=0,u=0,k=null;try{var L=JSON.parse(localStorage.getItem('sm_docs_v1')||'[]');if(Array.isArray(L)){n=L.length;L.forEach(function(x){if(x&&x.updated>u)u=x.updated})}}catch(e){}
+  try{k=localStorage.getItem('sm_cloud_key')}catch(e){}
+  return (k?sha(k):Promise.resolve('')).then(function(ck){var o={n:n};if(u)o.upd=u;if(ck)o.ck=ck;return o},function(){return {n:n}})}
  // личный код: спрашиваем сервер; t — сколько ждать ответа, после этого без связи пускаем (если код уже проверялся раньше)
  function check(h,t){var ctl=new AbortController(),tm=setTimeout(function(){ctl.abort()},t);
-  return fetch(API+'/v1/access/check',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({h:h}),signal:ctl.signal})
+  return stats().then(function(st){return fetch(API+'/v1/access/check',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({h:h,st:st}),signal:ctl.signal})})
    .then(function(r){clearTimeout(tm);return r.json().then(function(j){return r.ok?{ok:1,until:j.until}:{err:j.error||'unknown'}})})
    .catch(function(){clearTimeout(tm);return {err:'net'}})}
  var m=null;try{m=localStorage.getItem(K)}catch(e){}

@@ -6,7 +6,9 @@
 <meta name="robots" content="noindex,nofollow">
 <title>Римора · доступ</title>
 <!-- Кабинет администратора Риморы: личные коды доступа и сроки. Данные на сервере облака (/v1/admin/users).
-     Ключ администратора вводится вручную и живёт только в этой вкладке (sessionStorage); в файлах его нет. -->
+     Ключ администратора вводится вручную и живёт только в этой вкладке (sessionStorage); в файлах его нет.
+     Выданный код кабинет шифрует ключом администратора (AES-GCM, ключ из PBKDF2) и хранит на сервере только шифр:
+     посмотреть код снова можно здесь, сервер его прочитать не может. -->
 <style>
 :root{--bg:#EDF0F4;--card:#fff;--ink:#121A24;--ink2:#465366;--ink3:#7A8696;--line:#DDE3EA;--brand:#0EA5A4;--brand-ink:#0B7F7E;--brand-soft:#E1F6F5;
   --ok:#1E8E5A;--ok-soft:#E3F5EC;--warn:#B7791F;--warn-soft:#FDF3E1;--bad:#C0392B;--bad-soft:#FBE9E7;--mute-soft:#EEF1F5}
@@ -33,6 +35,7 @@ label.f{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--in
 .stat.on{border-color:var(--brand)}
 .stat b{display:block;font-size:20px}.stat span{font-size:12px;color:var(--ink3)}
 .chip{display:inline-block;padding:2px 8px;border-radius:20px;font-size:12px;font-weight:600;white-space:nowrap}
+.cell2{font-size:12px;color:var(--ink3)}
 .c-ok{background:var(--ok-soft);color:var(--ok)}.c-warn{background:var(--warn-soft);color:var(--warn)}.c-bad{background:var(--bad-soft);color:var(--bad)}.c-mute{background:var(--mute-soft);color:var(--ink2)}
 table{width:100%;border-collapse:collapse}
 th{text-align:left;font-size:12px;color:var(--ink3);font-weight:600;padding:6px 8px;border-bottom:1px solid var(--line)}
@@ -95,7 +98,7 @@ dialog::backdrop{background:rgba(18,26,36,.35)}
       <b id="iwho"></b>
       <div class="code" id="icode"></div>
       <div class="muted" id="iterm"></div>
-      <p style="margin:8px 0">Код показывается один раз. Скопируйте и отправьте его пользователю. Если потеряется, выдайте новый кнопкой «Новый код».</p>
+      <p style="margin:8px 0" id="inote"></p>
       <button class="btn pri" id="icopy">Скопировать текст для пользователя</button> <button class="btn" id="iclose">Готово</button>
     </div>
 
@@ -121,6 +124,21 @@ const dt = ms => { const d = new Date(ms); return String(d.getDate()).padStart(2
 const dtt = ms => ms ? dt(ms) + ' ' + String(new Date(ms).getHours()).padStart(2,'0') + ':' + String(new Date(ms).getMinutes()).padStart(2,'0') : '—';
 const endOfDay = s => { const [y,m,d] = s.split('-').map(Number); return new Date(y, m-1, d, 23, 59, 59).getTime(); };
 const toast = t => { const n = document.createElement('div'); n.className = 'toast'; n.textContent = t; document.body.appendChild(n); setTimeout(() => n.remove(), 2600); };
+// код пользователя шифруется ключом администратора: AES-GCM 256, ключ из PBKDF2-SHA-256 (200 000 повторов)
+const CK = {};
+function codeKey() {
+  if (!CK[KEY]) { const k = KEY; CK[k] = crypto.subtle.importKey('raw', new TextEncoder().encode(k), 'PBKDF2', false, ['deriveKey'])
+    .then(b => crypto.subtle.deriveKey({ name: 'PBKDF2', salt: new TextEncoder().encode('rimora-user-code-v1'), iterations: 200000, hash: 'SHA-256' }, b, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt'])); }
+  return CK[KEY];
+}
+const b64 = u => btoa(String.fromCharCode(...u)), unb64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+async function encCode(code) { const iv = crypto.getRandomValues(new Uint8Array(12)); const ct = new Uint8Array(await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, await codeKey(), new TextEncoder().encode(code))); const o = new Uint8Array(12 + ct.length); o.set(iv); o.set(ct, 12); return b64(o); }
+async function decCode(s) { const u = unb64(s); return new TextDecoder().decode(await crypto.subtle.decrypt({ name: 'AES-GCM', iv: u.slice(0, 12) }, await codeKey(), u.slice(12))); }
+// после выдачи: шифр кода на сервер, чтобы его можно было посмотреть снова
+async function saveCode(u, code) {
+  try { const j = await api('PUT', '/v1/admin/users/' + u.id, { code_enc: await encCode(code) }); Object.assign(u, j.user); render(); return true; }
+  catch (e) { if (e.message !== '401') toast('Код не сохранился для просмотра: запишите его сейчас'); return false; }
+}
 let KEY = ''; try { KEY = sessionStorage.getItem('rimora_admin') || ''; } catch (e) {}
 let USERS = [], NOW = Date.now(), FILTER = 'all';
 
@@ -162,14 +180,22 @@ function render() {
   });
   if (!USERS.length) { $('#list').innerHTML = '<p class="muted">Пока никому не выдано личных кодов. Заполните форму «Выдать доступ» выше.</p>'; return; }
   if (!L.length) { $('#list').innerHTML = '<p class="muted">Никого не нашлось.</p>'; return; }
-  $('#list').innerHTML = `<table><thead><tr><th>Пользователь</th><th>Доступ</th><th>Последний вход</th><th>Входов</th><th></th></tr></thead><tbody>${L.map(u => {
+  $('#list').innerHTML = `<table><thead><tr><th>Пользователь</th><th>Доступ</th><th>Последний вход</th><th>Входов</th><th>Сметы</th><th></th></tr></thead><tbody>${L.map(u => {
     const [s, t, c] = state(u);
     return `<tr data-id="${u.id}"><td><b>${esc(u.name)}</b>${u.note ? `<div class="u">${esc(u.note)}</div>` : ''}<div class="u">выдан ${dt(u.created)}</div></td>
-      <td><span class="chip ${c}">${t}</span></td><td><span class="ml">Последний вход: </span>${dtt(u.last_seen)}</td><td><span class="ml">Входов: </span>${u.visits}</td>
+      <td><span class="chip ${c}">${t}</span></td><td><span class="ml">Последний вход: </span>${dtt(u.last_seen)}</td><td><span class="ml">Входов: </span>${u.visits}</td><td><span class="ml">Сметы: </span>${smetas(u)}</td>
       <td class="acts">${s !== 'closed' ? `<button class="btn sm" data-a="d30">+30 дней</button><button class="btn sm" data-a="d365">+1 год</button>` : ''}<button class="btn sm" data-a="term">Срок…</button>
       ${u.blocked ? '<button class="btn sm" data-a="open">Открыть доступ</button>' : '<button class="btn sm dng" data-a="close">Закрыть доступ</button>'}
-      <button class="btn sm" data-a="code">Новый код</button><button class="btn sm" data-a="edit">Изменить</button></td></tr>`;
+      ${u.code_enc ? '<button class="btn sm" data-a="show">Показать код</button>' : ''}<button class="btn sm" data-a="code">Новый код</button><button class="btn sm" data-a="edit">Изменить</button></td></tr>`;
   }).join('')}</tbody></table>`;
+}
+// сметы пользователя: на устройстве, где он последний раз открывал программу, и в облаке, если оно включено
+function smetas(u) {
+  if (u.smetas == null && !u.cloud) return '<span class="muted">—</span>';
+  const a = [];
+  if (u.smetas != null) a.push(`<b>${u.smetas}</b> <span class="cell2">на устройстве${u.last_edit ? ', правка ' + dtt(u.last_edit) : ''}</span>`);
+  if (u.cloud) a.push(`<b>${u.cloud.docs}</b> <span class="cell2">в облаке${u.cloud.last ? ', сохранено ' + dtt(u.cloud.last) : ''}</span>`);
+  return a.join('<br>');
 }
 function ask(html) {
   return new Promise(res => {
@@ -178,8 +204,10 @@ function ask(html) {
   });
 }
 function termText(until) { return until == null ? 'Доступ бессрочный.' : 'Доступ до ' + dt(until) + '.'; }
-function showIssued(u, code) {
+function showIssued(u, code, saved) {
   $('#iwho').textContent = 'Код для: ' + u.name; $('#icode').textContent = code; $('#iterm').textContent = termText(u.until);
+  $('#inote').textContent = saved ? 'Код сохранён в кабинете зашифрованным: посмотреть его снова можно кнопкой «Показать код» в строке пользователя.'
+    : 'Скопируйте и отправьте код пользователю. Если потеряется, выдайте новый кнопкой «Новый код».';
   $('#icopy').onclick = () => {
     const txt = `Ваш доступ к Риморе\nАдрес: ${SITE}\nКод доступа: ${code}\n${termText(u.until)}\nОткройте адрес в Chrome, Яндекс Браузере или Edge и введите код.`;
     (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).then(() => toast('Текст скопирован'), () => toast('Не удалось скопировать: выделите код вручную'));
@@ -201,7 +229,7 @@ $('#add').onsubmit = async e => {
   else if (v) until = endOfDay(new Date(Date.now() + (+v) * DAY).toISOString().slice(0, 10));
   try {
     const j = await api('POST', '/v1/admin/users', { name: $('#aname').value, note: $('#anote').value, until });
-    USERS.unshift(j.user); render(); showIssued(j.user, j.code); $('#aname').value = ''; $('#anote').value = '';
+    USERS.unshift(j.user); render(); $('#aname').value = ''; $('#anote').value = ''; showIssued(j.user, j.code, await saveCode(j.user, j.code));
   } catch (err) { if (err.message !== '401') { $('#aerr').textContent = 'Не получилось: ' + err.message; $('#aerr').classList.remove('hide'); } }
 };
 $('#iclose').onclick = () => $('#issued').classList.add('hide');
@@ -225,7 +253,8 @@ $('#list').onclick = async e => {
     }
     else if (a === 'close') { if (!confirm(`Закрыть доступ для «${u.name}»? Код перестанет работать сразу, в том числе у уже вошедших (при следующем открытии программы).`)) return; await put({ blocked: true }); toast('Доступ закрыт'); }
     else if (a === 'open') { await put({ blocked: false }); toast('Доступ открыт'); }
-    else if (a === 'code') { if (!confirm(`Выдать «${u.name}» новый код? Старый код перестанет работать.`)) return; const j = await api('POST', '/v1/admin/users/' + id + '/code'); showIssued(u, j.code); }
+    else if (a === 'code') { if (!confirm(`Выдать «${u.name}» новый код? Старый код перестанет работать.`)) return; const j = await api('POST', '/v1/admin/users/' + id + '/code'); u.code_enc = null; render(); showIssued(u, j.code, await saveCode(u, j.code)); }
+    else if (a === 'show') { let code; try { code = await decCode(u.code_enc); } catch (e) { return toast('Код зашифрован другим ключом администратора: выдайте новый код'); } showIssued(u, code, true); }
     else if (a === 'edit') {
       const d = await ask(`<b>Изменить</b><label class="f" style="margin-top:10px">Имя<input type="text" name="n" maxlength="120" value="${esc(u.name)}" required></label>
         <label class="f" style="margin-top:10px">Заметка<input type="text" name="t" maxlength="500" value="${esc(u.note)}"></label>`);
