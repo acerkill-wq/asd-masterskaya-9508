@@ -844,8 +844,10 @@ const syncPR=()=>{const k=prKey();if(!k)return PR=window.PRICES;if(useSplit(k))r
 const UCH=window.UCHEB||{norms:{}};
 const ucNorm=(code,rc,n)=>S.base==='ucheb'&&UCH.norms[code]&&UCH.norms[code][rc]!=null?UCH.norms[code][rc]:n;
 const TERR={t:['обычная территория',0,1],mprks:['местности, приравненные к районам Крайнего Севера',1,2],rks:['районы Крайнего Севера',2,3]},terrOf=()=>TERR[S.terr]||TERR.t,nrSfx=()=>'-'+terrOf()[2];window.nrSfx=nrSfx;
-const NRSET=()=>S.nrsp==='old'&&window.REAL_NRSP_OLD?window.REAL_NRSP_OLD:RN;
-const nrspTxt=()=>S.nrsp==='old'?'НР: 812/пр (ред. 611/пр), СП: 774/пр (ред. 22.04.2022), действовали до 20.10.2026':'НР: 812/пр (изм. 209/пр), СП: 774/пр (изм. 210/пр), действуют с 20.10.2026';
+// новой редакции НР и СП (с 20.10.2026) ещё нет в федеральном реестре: считаем по прежней, выбор скрыт; включить — NRSP_NEW_OFF=false
+const NRSP_NEW_OFF=true,nrspOf=()=>NRSP_NEW_OFF?'old':(S.nrsp||'new');
+const NRSET=()=>nrspOf()==='old'&&window.REAL_NRSP_OLD?window.REAL_NRSP_OLD:RN;
+const nrspTxt=()=>nrspOf()==='old'?'НР: 812/пр (ред. 611/пр), СП: 774/пр (ред. 22.04.2022)'+(NRSP_NEW_OFF?'':', действовали до 20.10.2026'):'НР: 812/пр (изм. 209/пр), СП: 774/пр (изм. 210/пр), действуют с 20.10.2026';
 const baseTxt=()=>S.base==='ucheb'?'Учебная база: ФСНБ-2022 с нормами из учебных смет курса':'ФСНБ-2022 (ГЭСН, ФСБЦ), доп. № 19 (приказ Минстроя от 12.08.2026 № 527/пр)';
 const basisTxt=()=>syncPR()&&S.level==='base'?'Цены: базис 01.01.2022 (ФСБЦ-2022). Оплата труда рабочих: ориентир по шкале машинистов.':'Цены: ФГИС ЦС, '+PR.meta.subject+', '+PR.meta.quarter+'. Если цены ресурса нет в ФГИС ЦС, берётся базисная цена 01.01.2022 × индекс группы однородных ресурсов (пп. 95, 97 Методики 421/пр).';
 /* оплата машинистов на 1 маш.-ч к текущей цене ФГИС ЦС: затраты труда машинистов × ставка машиниста по его коду (4-100-…).
@@ -1724,7 +1726,7 @@ function buildRibbon(){
    <div class="ctl" title="Субъект РФ и ценовая зона ФГИС ЦС"><span class="lb">Регион</span><select id="zonesel" style="max-width:190px">${zoneOpts()}</select></div>
    <div class="ctl" title="Уровень цен ресурсов для расценок ГЭСН"><span class="lb">Цены</span><select id="lvlsel">${lvlOpts(zoneOf())}</select></div>
    <div class="ctl" title="Графа норматива накладных расходов по приказу 812/пр"><span class="lb-l">Территория</span><span class="lb-s">Терр.</span><select id="terrsel"><option value="t">обычная</option><option value="mprks">МПРКС</option><option value="rks">Крайний Север</option></select></div>
-   <div class="ctl" title="Редакция приказов 812/пр и 774/пр"><span class="lb-l">НР и СП</span><span class="lb-s">НР/СП</span><select id="nrspsel"><option value="new">с 20.10.2026</option><option value="old">до 20.10.2026</option></select></div>
+   <div class="ctl" title="Редакция приказов 812/пр и 774/пр"${NRSP_NEW_OFF?' style="display:none"':''}><span class="lb-l">НР и СП</span><span class="lb-s">НР/СП</span><select id="nrspsel"><option value="new">с 20.10.2026</option><option value="old">до 20.10.2026</option></select></div>
    <div class="ctl"><span class="switch" id="ndssw"><i></i>НДС ${B.nds}%</span></div>`;
   $$('.rb').forEach(el=>{const f=RIB.flat().find(x=>x[0]===el.dataset.r);el.onclick=f[2]});
   $('#idxsel').onchange=e=>setIdx(e.target.value);$('#lvlsel').onchange=e=>setLevel(e.target.value);$('#zonesel').onchange=e=>setZone(+e.target.value);$('#basesel').onchange=e=>{if(e.target.value==='cfg'){e.target.value=S.base||'fsnb';return openBases()}setBase(e.target.value)};$('#nrspsel').onchange=e=>{S.nrsp=e.target.value;commit()};$('#terrsel').onchange=e=>{S.terr=e.target.value==='t'?undefined:e.target.value;commit();toast('НР по графе: '+terrOf()[0])};$('#ndssw').onclick=()=>setNds(!S.nds);
@@ -2198,7 +2200,7 @@ function renderInspReal(p,c){const el=$('#insp'),R=c.R,I=c.I;
    ${line('М · материалы',TYC.М,`расход × цена${I?' × '+fq(I.m):''}`,c.mat)}
    ${line('ФОТ','var(--sp)','ОТ + ОТм',c.fot)}
    ${c.vn?line('Вспомогательные материалы','var(--m)',`${c.vnp} % от ОТ · ${c.vnp===3?'ГЭСНмр, Методика 421/пр, п. 75 «б»':'ГЭСНм, Методика 421/пр, п. 75 «а»'}${c.vk!==1?' · коэффициент '+fq(c.vk):''} · входят в материалы`,c.vn):''}
-   ${line('НР · накладные','var(--nr)',`ФОТ × ${c.nrp}%${c.rem?' × 0,9':''} · Пр/812-${R.nk}${S.terr?' · '+terrOf()[0]:''}${c.nrName?' · '+esc(c.nrName):''}${S.nrsp==='old'?' · до 20.10.2026':''}`,c.nr)}
+   ${line('НР · накладные','var(--nr)',`ФОТ × ${c.nrp}%${c.rem?' × 0,9':''} · Пр/812-${R.nk}${S.terr?' · '+terrOf()[0]:''}${c.nrName?' · '+esc(c.nrName):''}${!NRSP_NEW_OFF&&nrspOf()==='old'?' · до 20.10.2026':''}`,c.nr)}
    ${line('СП · сметная прибыль','var(--sp)',`ФОТ × ${c.spp}%${c.rem?' × 0,85':''} · Пр/774-${R.sk}`,c.sp)}
    ${line('Итого по позиции','var(--brand)','ОТ + ЭМ + М + НР + СП',c.total,true)}
   </div></div>
@@ -3949,7 +3951,7 @@ function renderInspTR(p,c){if(p.tr.mode==='load')return renderInspTRload(p,c);if
 }
 function setBase(v){if((S.base||'fsnb')===v)return;S.base=v;commit();const n=S.pos.filter(p=>p.code&&UCH.comp&&(UCH.comp[p.code]||UADD[p.code])).length;
   toast(v==='ucheb'?'Учебная база: '+(Object.keys(UCH.comp||{}).length+Object.keys(UADD).length)+' расценок курса считаются по нормам учебной базы, остальные как в ФСНБ-2022'+(n?'. В этой смете таких позиций: '+n:'. В этой смете таких позиций нет, суммы не изменятся'):'Работаем в ФСНБ-2022'+(n?'. Позиций с другими нормами: '+n:''))}
-function setLevel(v){S.level=v;S.nrsp=(lvPeriod(v)||427)<427&&v!=='base'?'old':'new';commit();toast('Цены: '+PSET[v]+'. НР и СП: '+(S.nrsp==='old'?'до 20.10.2026':'с 20.10.2026'))}
+function setLevel(v){S.level=v;S.nrsp=(lvPeriod(v)||427)<427&&v!=='base'?'old':'new';commit();toast('Цены: '+PSET[v]+(NRSP_NEW_OFF?'':'. НР и СП: '+(S.nrsp==='old'?'до 20.10.2026':'с 20.10.2026')))}
 // список регионов: субъект, у кого несколько ценовых зон — группой
 function zoneOpts(){if(!PIDX)return '<option value="166">Волгоградская область</option>';
   return PIDX.subjects.map(s=>s.zones.length>1?`<optgroup label="${esc(s.name)}">${s.zones.map(z=>`<option value="${z.id}">${esc(z.name)}</option>`).join('')}</optgroup>`:`<option value="${s.zones[0].id}">${esc(s.name)}</option>`).join('')}
