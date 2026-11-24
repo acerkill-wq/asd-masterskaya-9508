@@ -1598,7 +1598,7 @@ function aiHistAdd(q,a){aiHist().push({q:String(q||'').slice(0,500),a:String(a||
 function aiOpenCtx(q){
   if(NM()){const o={смета:S.name,вид:'расчёт по НЦС'};try{const C=ncsCalc();Object.assign(o,{сборник:C.S?C.S.code:'',итого_уровень_01_01_2026_тыс_руб:C.T0,итого_тыс_руб:C.T,НДС:C.nds,всего:C.A,
     показатели:C.L.slice(0,60).map(x=>`${x.code}: ${String(x.txt||'').slice(0,300)} = ${aiN(x.reg)} тыс. руб.`),предупреждения:C.W.slice(0,30)})}catch(e){}return o}
-  if(PM())return {смета:S.name,вид:'смета на проектные работы',примечание:'строки сметы на проектные работы помощнику пока не передаются'};
+  if(PM()){try{return {смета:S.name,...aiPirCtx(ssrModel().pir)}}catch(e){return {смета:S.name,вид:'смета на проектные работы'}}}
   const T=totals(),P=S.pos.filter(p=>p.sec===undefined),o={смета:S.name,база:baseTxt(),цены:basisTxt(),нормативы_НР_СП:nrspTxt(),НДС:S.nds?B.nds+'%':'не начисляется',позиций:P.length,
     итоги:{ОТ:T.ot,ЭМ:T.em,ОТм:T.otm,М:T.mat,оборудование:T.ob,перевозка:T.per,прямые:T.direct,ФОТ:T.fot,НР:T.nr,СП:T.sp,всего_без_НДС:T.total,НДС:T.nds,всего_с_НДС:T.all,ЗТ_чел_ч:T.zt,ЗТм_чел_ч:T.ztm}};
   const secs=[],rows=[];let cs=null,n=0;
@@ -1612,7 +1612,31 @@ function aiOpenCtx(q){
   const want=new Set([...String(q||'').matchAll(/(?:поз[а-я]*\.?|№)\s*(\d{1,4})/gi)].map(m=>+m[1])),codes=[...String(q||'').matchAll(/\d{2}-\d{2}-\d{3}-\d{2}/g)].map(m=>m[0]),det=[];
   if(!want.size&&!codes.length&&aiHist().length){const L=AIH[AIH.length-1],s=L.q+' '+L.a;for(const m of s.matchAll(/(?:поз[а-я]*\.?|№)\s*(\d{1,4})/gi))want.add(+m[1]);for(const m of s.matchAll(/\d{2}-\d{2}-\d{3}-\d{2}/g))codes.push(m[0])}
   P.forEach((p,i)=>{if(det.length<3&&p.id!==sel&&(want.has(i+1)||codes.some(c=>String(p.code||'').includes(c))))det.push(aiPosCtx(p))});
-  const ps=P.find(p=>p.id===sel);if(ps)o.выбранная_позиция=aiPosCtx(ps);if(det.length)o.позиции_из_вопроса=det;return o}
+  const ps=P.find(p=>p.id===sel);if(ps)o.выбранная_позиция=aiPosCtx(ps);if(det.length)o.позиции_из_вопроса=det;
+  const sc=aiStroyCtx(q);if(sc)o.стройка=sc;return o}
+// смета на проектные работы (Методика 707/пр): строки с обоснованием и расчётом
+function aiPirCtx(C){return {вид:'смета на проектные работы (Методика 707/пр)',номер:C.P.num,единицы:'руб.',
+  стоимость_строительства_Сстр:C.Sb?`${aiN(C.Sb)} руб., ${C.sbTxt}`:'нет',
+  строки:C.L.map((x,i)=>`${i+1}. ${String(x.name).slice(0,160)} | способ: ${PIR_M[x.l.m]||x.l.m} | обоснование: ${String(x.osn).slice(0,500)} | расчёт: ${String(x.how).slice(0,300)} | ${aiN(x.C)}`),
+  итого_без_НДС:aiN(C.T),НДС:aiN(C.nds),всего_с_НДС:aiN(C.A),предупреждения:C.W.slice(0,30)}}
+// ОСР, ССР, смета ПИР, НМЦК: если стройка заполнена, открыто окно стройки или вопрос о них (в том числе прошлый вопрос)
+const AI_STROY=/оср|объектн|сср|сводн|глав[аеуы]|нмцк|начальн\S* (?:максим|цен)|контракт|пир(?:[^а-яё]|$)|проектн\S* работ|резерв|строительн\S* контрол|(?:^|[^а-яё])тим(?:[^а-яё]|$)|информационн\S* модел|зимн|временн\S* здан|вахт|пусконалад|инфляц|дефлятор/i,AI_NMCK=/нмцк|начальн\S* (?:максим|цен)|контракт|инфляц|дефлятор/i;
+function aiStroyCtx(q){const L=aiHist().length?AIH[AIH.length-1].q:'',qq=q+' '+L,open=$('#dlgbg').classList.contains('on')&&!!$('#dlg .osw'),s0=S.stroy&&typeof S.stroy==='object'?S.stroy:{};
+  const filled=s0.lsr?.length||s0.rows?.length||s0.pir?.lines?.length||s0.sk?.on||s0.vz?.on||s0.win?.on||s0.tim?.on||!!s0.nmck?.dur;
+  if(!open&&!filled&&!AI_STROY.test(qq))return null;const st=ST();
+  const o={},f=aiN,ln=r=>`${String(r.name).slice(0,140)}${r.osn?' ['+String(r.osn).slice(0,120)+']':''} | ${f(r.b)} | ${f(r.m)} | ${f(r.e)} | ${f(r.o)} | ${f(gsum(r))}`;
+  try{const M=ssrModel(),O=M.O;
+    o.ОСР={номер:st.osrNum,единицы:'тыс. руб.',графы:'строительные | монтажные | оборудование | прочие | всего',строки:[...O.rows.map(ln),...O.steps.filter(s=>s.k==='add').map(ln)],всего:f(O.tot),
+      ...(O.izm?{показатель_на_измеритель:`${f(O.unitCost)} тыс. руб. на 1 ${st.izmU}`}:{})};
+    o.ССР={номер:st.ssrNum,уровень_цен:M.cur?'текущий':'базисный',единицы:'тыс. руб.',графы:'строительные | монтажные | оборудование | прочие | всего',
+      строки:M.out.slice(0,150).map(r=>r.k==='ch'?'§ '+r.t:r.k==='row'?ln(r):`${r.name}: ${f(gsum(r))}`),всего:f(gsum(M.total)),замечания:M.W.slice(0,30)};
+    if(st.pir.lines.length)o.смета_ПИР=aiPirCtx(M.pir)}catch(e){}
+  if(st.nmck.dur||AI_NMCK.test(qq)||open&&osTab==='nmck')try{const C=nmckCalc();
+    o.НМЦК={дата_определения:ymTxt(C.nm),начало_работ:ymTxt(C.s),продолжительность_мес:C.d,индекс_фактической_инфляции:C.Kf,индекс_прогнозной_инфляции:C.Kp,
+      расчёт_индекса:C.parts.map(x=>`${x.y} год: ${x.mo} мес., ${x.how} = ${f(x.K)}, доля ${f(x.D*100)}%`),единицы:'руб.',
+      графы:'стоимость в ценах утверждения сметной документации → с индексом фактической инфляции → НМЦК с индексом прогнозной инфляции',
+      строки:C.rows.map(r=>`${r.name}: ${f(r.c2)} → ${f(r.c4)} → ${f(r.c6)}`),без_НДС:f(C.T.c6),НДС:f(C.N.c6),НМЦК_с_НДС:f(C.A.c6),замечания:C.W.slice(0,20)}}catch(e){}
+  return Object.keys(o).length?o:null}
 function aiCands(q){if(!RLOW)RLOW=RFULL.map((t,i)=>('гэсн'+RI.r[i][0]+' '+t).toLowerCase().replace(/ё/g,'е'));
   const ws=[...new Set(q.toLowerCase().replace(/ё/g,'е').match(/[а-яa-z0-9]{2,}/g)||[])].map(ruStem).slice(0,12);if(!ws.length)return [];
   const df=ws.map(()=>0),hit=[];for(let i=0;i<RLOW.length;i++){let m=0;ws.forEach((w,j)=>{if(RLOW[i].includes(w)){df[j]++;m|=1<<j}});if(m)hit.push([m,i])}
