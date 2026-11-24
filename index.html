@@ -1586,7 +1586,29 @@ function aiPosCtx(p){const c=calc(p),R=c.R,n=S.pos.filter(x=>x.sec===undefined).
     o.ресурсы=(c.lines||[]).map(l=>({код:l.rc,тип:l.t,наим:l.name,ед:pu(l.unit||''),норма:aiQ(l.norm),кол_во:aiQ(l.qty),цена:l.price,в_т_ч_ОТм:l.otm||undefined,сумма:aiR(l.sum),источник_цены:l.src||''}))}
   if(c.warn&&c.warn.length)o.предупреждения=c.warn;return o}
 function aiSmetaCtx(){const T=totals();return {смета:S.name,база:baseTxt(),цены:basisTxt(),нормативы_НР_СП:nrspTxt(),позиций:S.pos.filter(p=>p.sec===undefined).length,
-  итоги:{ОТ:T.ot,ЭМ:T.em,ОТм:T.otm,М:T.mat,перевозка:T.per,прямые:T.direct,ФОТ:T.fot,НР:T.nr,СП:T.sp,всего:T.total}}}
+  итоги:{ОТ:T.ot,ЭМ:T.em,ОТм:T.otm,М:T.mat,оборудование:T.ob,перевозка:T.per,прямые:T.direct,ФОТ:T.fot,НР:T.nr,СП:T.sp,всего:T.total}}}
+// открытая смета для вопроса помощнику: позиции строками «№ | шифр | наименование | объём | ОТ | ЭМ | М | НР | СП | итого | К | !», до AI_LIM позиций
+const AI_LIM=400,aiN=x=>x==null?'':String(aiR(x)).replace('.',',');
+function aiRow(p,n,c){const R=c.R,k=ksOf(p).map(k=>RC[k]?RC[k].g+' '+String(RC[k].v).replace('.',','):k);if(c.kr&&c.kr!==1)k.unshift('кратность '+String(c.kr).replace('.',','));
+  return [n,R.real?'ГЭСН'+p.code:(R.disp||p.code||''),String(R.name||'').slice(0,110),(typeof p.qty==='number'?String(aiQ(p.qty)):String(p.qty)).replace('.',',')+' '+pu(R.nat||R.unit||''),'ОТ '+aiN(c.ot),'ЭМ '+aiN(c.em),'М '+aiN(c.mat),c.ob?'оборудование '+aiN(c.ob):'',c.per?'перевозка '+aiN(c.per):'',
+    'НР '+aiN(c.nrp)+'% '+aiN(c.nr),'СП '+aiN(c.spp)+'% '+aiN(c.sp),'итого '+aiN(c.total),k.length?'К: '+k.join('; '):'',c.warn&&c.warn.length?'! '+c.warn.join('; ').slice(0,220):''].filter(x=>x!=='').join(' | ')}
+function aiOpenCtx(q){
+  if(NM()){const o={смета:S.name,вид:'расчёт по НЦС'};try{const C=ncsCalc();Object.assign(o,{сборник:C.S?C.S.code:'',итого_уровень_01_01_2026_тыс_руб:C.T0,итого_тыс_руб:C.T,НДС:C.nds,всего:C.A,
+    показатели:C.L.slice(0,60).map(x=>`${x.code}: ${String(x.txt||'').slice(0,300)} = ${aiN(x.reg)} тыс. руб.`),предупреждения:C.W.slice(0,30)})}catch(e){}return o}
+  if(PM())return {смета:S.name,вид:'смета на проектные работы',примечание:'строки сметы на проектные работы помощнику пока не передаются'};
+  const T=totals(),P=S.pos.filter(p=>p.sec===undefined),o={смета:S.name,база:baseTxt(),цены:basisTxt(),нормативы_НР_СП:nrspTxt(),НДС:S.nds?B.nds+'%':'не начисляется',позиций:P.length,
+    итоги:{ОТ:T.ot,ЭМ:T.em,ОТм:T.otm,М:T.mat,оборудование:T.ob,перевозка:T.per,прямые:T.direct,ФОТ:T.fot,НР:T.nr,СП:T.sp,всего_без_НДС:T.total,НДС:T.nds,всего_с_НДС:T.all,ЗТ_чел_ч:T.zt,ЗТм_чел_ч:T.ztm}};
+  const secs=[],rows=[];let cs=null,n=0;
+  for(const p of S.pos){if(p.sec!==undefined){cs={раздел:String(p.sec),позиций:0,итого:0};secs.push(cs);if(n<AI_LIM)rows.push('§ '+p.sec);continue}
+    n++;const c=calc(p);if(!cs){cs={раздел:'(без раздела)',позиций:0,итого:0};secs.push(cs)}cs.позиций++;cs.итого+=c.total||0;if(n<=AI_LIM)rows.push(aiRow(p,n,c))}
+  secs.forEach(s=>s.итого=aiR(s.итого));if(secs.length)o.разделы=secs;
+  o.позиции_формат='№ | шифр | наименование | объём в единицах проекта | ОТ | ЭМ (с ОТм) | М | оборудование и перевозка (если есть) | НР % и сумма | СП % и сумма | итого по позиции | коэффициенты | предупреждения; строка «§» — заголовок раздела';
+  o.позиции=rows;if(P.length>AI_LIM)o.позиции_примечание=`показаны первые ${AI_LIM} позиций из ${P.length}`;
+  try{const F=checkSmeta();o.протокол_проверки=F.slice(0,40).map(f=>({e:'ошибка',w:'предупреждение',i:'подсказка'}[f.lv]||'')+(f.pn?' поз. '+f.pn:'')+(f.code?' '+f.code:'')+': '+f.t+(f.ref?' ('+f.ref+')':''));if(F.length>40)o.протокол_примечание=`показаны 40 замечаний из ${F.length}`}catch(e){}
+  // подробный расчёт: выбранная позиция и позиции, названные в вопросе номером («поз. 12», «позиция 12», «№ 12») или шифром
+  const want=new Set([...String(q||'').matchAll(/(?:поз[а-я]*\.?|№)\s*(\d{1,4})/gi)].map(m=>+m[1])),codes=[...String(q||'').matchAll(/\d{2}-\d{2}-\d{3}-\d{2}/g)].map(m=>m[0]),det=[];
+  P.forEach((p,i)=>{if(det.length<3&&p.id!==sel&&(want.has(i+1)||codes.some(c=>String(p.code||'').includes(c))))det.push(aiPosCtx(p))});
+  const ps=P.find(p=>p.id===sel);if(ps)o.выбранная_позиция=aiPosCtx(ps);if(det.length)o.позиции_из_вопроса=det;return o}
 function aiCands(q){if(!RLOW)RLOW=RFULL.map((t,i)=>('гэсн'+RI.r[i][0]+' '+t).toLowerCase().replace(/ё/g,'е'));
   const ws=[...new Set(q.toLowerCase().replace(/ё/g,'е').match(/[а-яa-z0-9]{2,}/g)||[])].map(ruStem).slice(0,12);if(!ws.length)return [];
   const df=ws.map(()=>0),hit=[];for(let i=0;i<RLOW.length;i++){let m=0;ws.forEach((w,j)=>{if(RLOW[i].includes(w)){df[j]++;m|=1<<j}});if(m)hit.push([m,i])}
@@ -1612,7 +1634,7 @@ async function aiRun(task,text,opt={}){
   let ctx={};if(task==='explain')ctx=aiPosCtx(S.pos.find(x=>x.id===sel));
   else if(task==='check')ctx={...aiSmetaCtx(),протокол:checkSmeta().slice(0,60).map(f=>({уровень:{e:'ошибка',w:'предупреждение',i:'подсказка'}[f.lv],позиция:f.pn||'смета',шифр:f.code,текст:f.t,основание:f.ref}))};
   else if(task==='find'){const cand=aiCands(text);if(!cand.length)return aiMsg('a err','В каталоге ничего не нашлось по этим словам. Попробуйте другие слова.');ctx={описание:text,candidates:cand}}
-  else{ctx=aiSmetaCtx();const p=S.pos.find(x=>x.id===sel&&x.sec===undefined);if(p)ctx.выбранная_позиция=aiPosCtx(p)}
+  else ctx=aiOpenCtx(text);
   if(aiUp===null)await aiPing();
   if(!aiUp){ // без ИИ: то, что может программа сама
     if(task==='explain')return aiMsg('a',aiTxt(aiExplainLocal(ctx))+'<div class="src">Без ИИ: расчёт программы. Помощник не запущен.</div>');
@@ -1641,7 +1663,7 @@ async function aiAnswers(){const L=aiWaitList();if(!L.length)return;
 function aiHelp(){let el=$('#aip');
   if(!el){el=document.createElement('div');el.id='aip';el.className='aip';
     el.innerHTML=`<div class="ah">${ic('ai')}Помощь ИИ<span class="st">проверяю…</span><button class="ax" title="Закрыть (Esc)">${ic('x')}</button></div>
-    <div class="ab"><div class="hint">Объясню расчёт позиции, подберу расценку по описанию работ, разберу протокол проверки и отвечу по Методике 421/пр, приказам о накладных расходах, сметной прибыли, зимних затратах и временных зданиях со ссылкой на пункт. По документам объекта (спецификации, ведомости, дефектная ведомость) соберу ведомость объёмов и подберу расценки. Все суммы считает программа.</div></div>
+    <div class="ab"><div class="hint">Объясню расчёт позиции, подберу расценку по описанию работ, разберу протокол проверки отвечу на вопросы по открытой смете (итоги, разделы, позиции, коэффициенты, замечания проверки) и по Методике 421/пр, приказам о накладных расходах, сметной прибыли, зимних затратах и временных зданиях со ссылкой на пункт. По документам объекта (спецификации, ведомости, дефектная ведомость) соберу ведомость объёмов и подберу расценки. Все суммы считает программа.</div></div>
     <div class="aq"><button data-t="explain">Объяснить позицию</button><button data-t="find">Подобрать расценку</button><button data-t="check">Проверить смету</button><button data-t="docs">Смета по документам</button></div>
     <div class="ai"><textarea placeholder="Вопрос по методике или описание работы для подбора"></textarea><button title="Спросить (Enter)">${ic('send')}</button></div>`;
     document.body.appendChild(el);const ta=$('textarea',el);
