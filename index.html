@@ -427,6 +427,16 @@ tr:hover>td>.rxb,.rxb:focus{opacity:1}.rxb:hover{background:var(--line2);color:v
 .psl td{padding:4px 6px;border-bottom:1px solid var(--line2);white-space:nowrap;max-width:220px;overflow:hidden;text-overflow:ellipsis}.psl td.psr{white-space:normal;max-width:none;min-width:320px}
 .psl tr.skip td{color:var(--muted)}.psl tr.sec td{background:var(--surface2);font-weight:600}
 .pst{display:inline-block;min-width:22px;text-align:center;font-weight:700;color:var(--muted)}.pst.ok{color:var(--brand)}.pst.bad{color:#d64545}.pst.sec{font-size:10px;color:var(--ink2)}
+/* окно «Смета по документам объекта» */
+.pdocs .sp{flex:1}
+.dvdrop{margin-top:10px;padding:18px;border:2px dashed var(--line);border-radius:12px;background:var(--surface2);text-align:center;color:var(--ink2)}
+.dvdrop.on{border-color:var(--brand);background:var(--brand-soft)}
+.dvfiles table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px}.dvfiles td{padding:5px 6px;border-bottom:1px solid var(--line2);vertical-align:top}
+.dvfiles tr.bad td{color:var(--muted)}.dvfiles .wn{margin-top:3px}
+.dvout{display:flex;flex-direction:column;min-height:0;flex:1}.dvout .psl td.num{text-align:right;white-space:nowrap}
+.dvwait{padding:14px 0}
+.pdocs.dvhas .dvi{display:none}.pdocs.dvhas .dvdrop{padding:8px}
+.vfprog{padding:18px 0;font-size:14px}
 .ppaste .wn{display:inline-block;padding:1px 7px;border-radius:7px;background:var(--warn-bg);color:var(--warn);font-size:11px;font-weight:600}
 .rpick .wn{display:inline-block;margin:0;padding:2px 8px;border-radius:8px;background:var(--warn-bg);color:var(--warn);font-size:11px;font-weight:600}
 .chip.warn{background:var(--warn-bg);color:var(--warn);cursor:pointer}
@@ -1561,6 +1571,7 @@ function aiExplainLocal(o){const L=[`${o.шифр}: ${o.наименование
   L.push(`ФОТ ${fmt(o.ФОТ)} ₽ = ОТ + ОТм. НР ${o.НР_проц}% от ФОТ = ${fmt(o.НР)} ₽, СП ${o.СП_проц}% = ${fmt(o.СП)} ₽.`);L.push(`Итого по позиции ${fmt(o.итого_по_позиции)} ₽.`);
   if(o.предупреждения)L.push('Обратите внимание: '+o.предупреждения.join('; ')+'.');return L.join('\n')}
 async function aiRun(task,text,opt={}){
+  if(task==='docs')return openDocsVor();
   if(task==='explain'){const p=S.pos.find(x=>x.id===sel&&x.sec===undefined);if(!p)return aiMsg('a err','Выберите позицию в смете, затем нажмите «Объяснить позицию».')}
   if(task==='check'&&!S.pos.some(p=>p.sec===undefined))return aiMsg('a err','Смета пуста: проверять нечего.');
   if((task==='find'||task==='ask')&&!text)return aiMsg('a err',task==='find'?'Опишите работу в поле ниже, например «стяжка цементная 50 мм», и нажмите «Подобрать расценку».':'Напишите вопрос в поле ниже.');
@@ -1597,8 +1608,8 @@ async function aiAnswers(){const L=aiWaitList();if(!L.length)return;
 function aiHelp(){let el=$('#aip');
   if(!el){el=document.createElement('div');el.id='aip';el.className='aip';
     el.innerHTML=`<div class="ah">${ic('ai')}Помощь ИИ<span class="st">проверяю…</span><button class="ax" title="Закрыть (Esc)">${ic('x')}</button></div>
-    <div class="ab"><div class="hint">Объясню расчёт позиции, подберу расценку по описанию работ, разберу протокол проверки и отвечу по Методике 421/пр, приказам о накладных расходах, сметной прибыли, зимних затратах и временных зданиях со ссылкой на пункт. Все суммы считает программа.</div></div>
-    <div class="aq"><button data-t="explain">Объяснить позицию</button><button data-t="find">Подобрать расценку</button><button data-t="check">Проверить смету</button></div>
+    <div class="ab"><div class="hint">Объясню расчёт позиции, подберу расценку по описанию работ, разберу протокол проверки и отвечу по Методике 421/пр, приказам о накладных расходах, сметной прибыли, зимних затратах и временных зданиях со ссылкой на пункт. По документам объекта (спецификации, ведомости, дефектная ведомость) соберу ведомость объёмов и подберу расценки. Все суммы считает программа.</div></div>
+    <div class="aq"><button data-t="explain">Объяснить позицию</button><button data-t="find">Подобрать расценку</button><button data-t="check">Проверить смету</button><button data-t="docs">Смета по документам</button></div>
     <div class="ai"><textarea placeholder="Вопрос по методике или описание работы для подбора"></textarea><button title="Спросить (Enter)">${ic('send')}</button></div>`;
     document.body.appendChild(el);const ta=$('textarea',el);
     $('.ax',el).onclick=()=>el.classList.remove('on');
@@ -1668,7 +1679,7 @@ function exportPack(){const X=xmlx();if(!X)return toast('Модуль XML не �
 function exportXML(){const X=xmlx();if(!X)return toast('Модуль XML не загрузился, обновите страницу');X.exportXML()}
 /* ---------- меню и лента ---------- */
 const MENUS={
- file:[['Новая смета',newDoc],['Примеры (демо)…',openDemos],['Мои сметы…',openDocs,'Ctrl+O'],['Сохранить',save,'Ctrl+S'],['Сохранить как копию…',saveAs],['Сохранить как шаблон…',tplSave],['Новая смета из шаблона…',()=>tplOpen(true)],['Сохранить в файл (.smeta.json)',()=>exportDocFile()],['Открыть из файла…',importDocFile],['Открыть смету из Excel (.xlsx)…',()=>openXlsx()],['Открыть смету из XML Минстроя (ЛС РИМ)…',()=>openXml()],['Загрузить сплит-форму цен (Excel)…',openSplit],['Открыть модель IFC (ТИМ)…',openBim],['На другое устройство (ссылка, QR)…',openShare],'-',['Выходные формы: ЛСР (прил. 3)…',openForms,'Ctrl+P'],['Акты КС-2 и справки КС-3…',openActs],['Объектный и сводный расчёты (ОСР, ССРСС)…',()=>openOsrTab('set')],['Смета на проектные работы (ПИР)…',()=>openOsrTab('pir'),null,null,'pir'],['НМЦК: расчёт и протокол…',()=>openOsrTab('nmck'),null,null,'nmck'],['НЦС: укрупнённые нормативы…',()=>openOsrTab('ncs'),null,null,'ncs'],['Ведомость ресурсов в Excel (.xlsx)',exportResXlsx],['ЛСР в Excel (.xlsx)',exportLsrXlsx],['Экспорт таблицы (.csv)',exportCsv],['Конъюнктурный анализ, прил. 1 (Excel)',exportKaCsv],['Экспорт в XML (схема Минстроя, ЛС РИМ 3.01)',exportXML],['Пакет XML для экспертизы: ЛСР, ОСР, ССРСС, записка (.zip)',exportPack],['Печать или PDF по форме ЛСР',printLsr]],
+ file:[['Новая смета',newDoc],['Примеры (демо)…',openDemos],['Мои сметы…',openDocs,'Ctrl+O'],['Сохранить',save,'Ctrl+S'],['Сохранить как копию…',saveAs],['Сохранить как шаблон…',tplSave],['Новая смета из шаблона…',()=>tplOpen(true)],['Сохранить в файл (.smeta.json)',()=>exportDocFile()],['Открыть из файла…',importDocFile],['Открыть смету из Excel (.xlsx)…',()=>openXlsx()],['Открыть смету из XML Минстроя (ЛС РИМ)…',()=>openXml()],['Загрузить сплит-форму цен (Excel)…',openSplit],['Открыть модель IFC (ТИМ)…',openBim],['Смета по документам объекта (ИИ)…',openDocsVor],['На другое устройство (ссылка, QR)…',openShare],'-',['Выходные формы: ЛСР (прил. 3)…',openForms,'Ctrl+P'],['Акты КС-2 и справки КС-3…',openActs],['Объектный и сводный расчёты (ОСР, ССРСС)…',()=>openOsrTab('set')],['Смета на проектные работы (ПИР)…',()=>openOsrTab('pir'),null,null,'pir'],['НМЦК: расчёт и протокол…',()=>openOsrTab('nmck'),null,null,'nmck'],['НЦС: укрупнённые нормативы…',()=>openOsrTab('ncs'),null,null,'ncs'],['Ведомость ресурсов в Excel (.xlsx)',exportResXlsx],['ЛСР в Excel (.xlsx)',exportLsrXlsx],['Экспорт таблицы (.csv)',exportCsv],['Конъюнктурный анализ, прил. 1 (Excel)',exportKaCsv],['Экспорт в XML (схема Минстроя, ЛС РИМ 3.01)',exportXML],['Пакет XML для экспертизы: ЛСР, ОСР, ССРСС, записка (.zip)',exportPack],['Печать или PDF по форме ЛСР',printLsr]],
  edit:[['Отменить',undo,'Ctrl+Z'],['Вернуть',redoF,'Ctrl+Y'],'-',['Копировать строки',()=>clipMenu(false),'Ctrl+C'],['Вырезать строки',()=>clipMenu(true),'Ctrl+X'],['Вставить строки',pasteMenu,'Ctrl+V'],['Выделить все строки',selAll,'Ctrl+A'],['Найти в смете',findOpen,'Ctrl+F'],'-',['Вставить список из Excel…',()=>openPaste()],['Дублировать',dup,'Ctrl+D'],['Удалить',del,'Del'],['Спрашивать перед удалением',delAskToggle,null,()=>delAsk()],['Переместить вверх',()=>move(-1),'Alt+↑'],['Переместить вниз',()=>move(1),'Alt+↓']],
  ins:[['Расценка из каталога',focusCat,'/'],['Из шаблона…',()=>tplOpen(false)],['Список расценок из Excel…',()=>openPaste(),'Ctrl+V'],['Ресурс в выбранную позицию…',()=>{const p=S.pos.find(x=>x.id===sel);if(!p||!p.code||p.ka||p.tr||!B.rates[p.code]||!B.rates[p.code].real)return toast('Выберите позицию с расценкой ГЭСН');resPick(p,null)}],['Раздел сметы…',askSection],['Коэффициент к позиции',()=>{if(sel)$('#insp .kr .switch')?.focus();toast('Коэффициенты справа в карточке позиции')}],['Материал из ФСБЦ отдельной позицией…',()=>mrNew()],['Материал вне базы (конъюнктурный анализ)',()=>kaNew()],['Оборудование из ФСБЦ…',eqNew],['Оборудование вне базы (конъюнктурный анализ)',()=>kaNew('eq')],['Своя позиция (вне базы)…',ownNew],['Перевозка грузов',()=>trNew()],['Погрузка и разгрузка (ФГИС ЦС)',()=>trNew('load')]],
  calc:[['Подключённые базы…',openBases],'-',['Базисный уровень цен',()=>setIdx(''),null,()=>!S.idx],...Object.entries(B.idx).map(([k,v])=>[`Индексы: ${v.region}, ${v.q}`,()=>setIdx(k),null,()=>S.idx===k]),'-',['Коэффициенты на всю смету…',openKall,null,()=>kallN()>0],['НДС '+B.nds+'%',()=>setNds(!S.nds),null,()=>S.nds],['Пересчитать',()=>{render();toast('Пересчитано')}]],
@@ -4165,6 +4176,117 @@ function evalF(src){
   const ex=()=>{let v=term();while(t[i]==='+'||t[i]==='-'){const o=t[i++];const w=term();v=o==='+'?v+w:v-w}return v};
   const v=ex();if(i<t.length)throw new Error('лишний символ «'+t[i]+'»');return Math.round(v*1e6)/1e6}
 const isFormula=v=>/[+\-*/×xх:()^]/.test(String(v).trim().replace(/^-/,''));
+/* ---------- смета по документам объекта: файлы читаются в браузере, помощнику уходит только их текст.
+   Помощник выписывает работы и объёмы в ВОР (объёмы только из документов, каждое число сверяется с текстом), затем подбирает расценки из каталога.
+   Позиции связываются со строками ВОР, объём считает программа ---------- */
+const DV={files:[],rows:null,busy:false,note:''},DV_MAX=150000;let VF=[];
+async function zipOpen(file){const buf=await file.arrayBuffer(),dv=new DataView(buf),u8=new Uint8Array(buf);let e=-1;
+  for(let i=buf.byteLength-22;i>=Math.max(0,buf.byteLength-66000);i--)if(dv.getUint32(i,true)===0x06054b50){e=i;break}
+  if(e<0)throw new Error('файл повреждён');
+  const cnt=dv.getUint16(e+10,true),Z={},td=new TextDecoder();let o=dv.getUint32(e+16,true);
+  for(let i=0;i<cnt;i++){if(dv.getUint32(o,true)!==0x02014b50)throw new Error('файл повреждён');const nl=dv.getUint16(o+28,true),xl=dv.getUint16(o+30,true),cl=dv.getUint16(o+32,true);
+    Z[td.decode(u8.subarray(o+46,o+46+nl))]={meth:dv.getUint16(o+10,true),cs:dv.getUint32(o+20,true),lho:dv.getUint32(o+42,true)};o+=46+nl+xl+cl}
+  return async k=>{const en=Z[k];if(!en)return '';const l=en.lho,st=l+30+dv.getUint16(l+26,true)+dv.getUint16(l+28,true);
+    let s=new Blob([u8.subarray(st,st+en.cs)]).stream();if(en.meth===8)s=s.pipeThrough(new DecompressionStream('deflate-raw'));else if(en.meth)throw new Error('сжатие');return new Response(s).text()}}
+const xmlUn=s=>s.replace(/&(#x[0-9a-f]+|#\d+|amp|lt|gt|quot|apos);/gi,(m,c)=>c[0]==='#'?String.fromCodePoint(c[1]==='x'||c[1]==='X'?parseInt(c.slice(2),16):+c.slice(1)):({amp:'&',lt:'<',gt:'>',quot:'"',apos:"'"})[c.toLowerCase()]);
+async function docxText(file){const x=await (await zipOpen(file))('word/document.xml');if(!x)throw new Error('не документ Word (.docx)');
+  return xmlUn(x.replace(/<w:tc\b[\s\S]*?<\/w:tc>/g,m=>m.replace(/<\/w:p>/g,' ')+'\u0001').replace(/<w:tab\/>/g,' ').replace(/<\/w:tr>/g,'\n').replace(/<\/w:p>/g,'\n').replace(/<[^>]+>/g,''))
+    .replace(/\u0001/g,' | ').replace(/[ \t]+/g,' ').replace(/ ?\| ?\n/g,'\n').replace(/\n{3,}/g,'\n\n').trim()}
+let pdfjsP=null;
+function pdfLib(){return pdfjsP||(pdfjsP=import(new URL('vendor/pdfjs/pdf.min.mjs',location.href).href).then(m=>{m.GlobalWorkerOptions.workerSrc=new URL('vendor/pdfjs/pdf.worker.min.mjs',location.href).href;return m})
+  .catch(()=>{pdfjsP=null;throw new Error('не загрузилась библиотека чтения PDF')}))}
+// текст PDF построчно: элементы одной строки по высоте, большой промежуток между ними — граница столбца « | »
+async function pdfText(file,onp){const pj=await pdfLib(),d=await pj.getDocument({data:new Uint8Array(await file.arrayBuffer()),isEvalSupported:false}).promise,out=[],N=Math.min(d.numPages,300);
+  for(let n=1;n<=N;n++){const tc=await (await d.getPage(n)).getTextContent();
+    const its=tc.items.filter(it=>it.str&&it.str.trim()).map(it=>({s:it.str,x:it.transform[4],y:it.transform[5],w:it.width||0,h:Math.abs(it.transform[3])||8})).sort((a,b)=>b.y-a.y||a.x-b.x);
+    const L=[];for(const it of its){const l=L[L.length-1];if(l&&Math.abs(l.y-it.y)<=Math.max(2,it.h*0.4))l.a.push(it);else L.push({y:it.y,a:[it]})}
+    const lines=L.map(l=>{l.a.sort((a,b)=>a.x-b.x);let s='',end=null;for(const it of l.a){if(end!=null){const g=it.x-end;s+=g>Math.max(6,it.h*0.8)?' | ':g>0.5?' ':''}s+=it.s;end=it.x+it.w}return s.trim()}).filter(Boolean);
+    out.push(`[стр. ${n}]\n`+lines.join('\n'));onp&&onp(n,N)}
+  return {text:out.join('\n'),info:d.numPages+' стр.'}}
+async function dvRead(f,onp){const n=f.name.toLowerCase();
+  if(/\.pdf$/.test(n))return pdfText(f,onp);
+  if(/\.xlsx$/.test(n)){const rows=await xlsxRead(f);return {text:rows.map(r=>r.map(c=>String(c??'').trim()).filter(Boolean).join(' | ')).filter(Boolean).join('\n'),info:'Excel, '+rows.length+' строк'}}
+  if(/\.docx$/.test(n))return {text:await docxText(f),info:'Word'};
+  if(/\.(txt|csv|md)$/.test(n))return {text:await f.text(),info:'текст'};
+  if(/\.(xls|doc)$/.test(n))throw new Error('старый формат: сохраните файл как .xlsx или .docx');
+  throw new Error('этот формат не читается: нужен PDF, Excel (.xlsx), Word (.docx) или текст')}
+const dvN=n=>Number(n).toLocaleString('ru-RU');
+function openDocsVor(){if(S.mode)return toast('Смета по документам работает в локальной смете');
+  dlg(`<div class="dch"><h3>${ic('ai')} Смета по документам объекта</h3><button class="x" onclick="dlgClose()" aria-label="Закрыть">×</button></div>
+   <p class="u dvi">Загрузите документы объекта со сведениями о работах и объёмах: спецификации, ведомости объёмов, дефектную ведомость, техническое задание, экспликации, пояснительную записку. Подходят PDF с текстом, Excel (.xlsx) и Word (.docx). Файлы читаются в браузере, помощнику уходит только их текст.</p>
+   <p class="u dvi">Помощник выпишет работы и объёмы в ведомость объёмов работ и подберёт расценки. Объёмы он берёт только из документов, каждое число сверяется с текстом. Сканы и чертежи без спецификаций он не прочитает.</p>
+   <div class="dvdrop" id="dvdrop">Перетащите файлы сюда или <button class="btn" id="dvpick">${ic('open')}Выбрать файлы…</button></div>
+   <div id="dvfiles" class="dvfiles"></div><div id="dvout" class="dvout"></div>`,true);
+  $('#dlg').classList.add('ppaste','pdocs');DV.files=[];DV.rows=null;DV.busy=false;DV.note='';
+  $('#dvpick').onclick=()=>{const inp=document.createElement('input');inp.type='file';inp.multiple=true;inp.accept='.pdf,.xlsx,.docx,.txt,.csv,application/pdf';inp.onchange=()=>dvAdd([...inp.files]);inp.click()};
+  const dz=$('#dvdrop');dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('on')});dz.addEventListener('dragleave',()=>dz.classList.remove('on'));
+  dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('on');dvAdd([...e.dataTransfer.files])})}
+async function dvAdd(fs){for(const f of fs){if(DV.files.some(x=>x.name===f.name&&x.size===f.size))continue;const x={name:f.name,size:f.size,st:'читаю…',text:''};DV.files.push(x);dvRender();
+    try{if(f.size>60e6)throw new Error('файл больше 60 МБ');const r=await dvRead(f,(n,N)=>{x.st=`читаю: стр. ${n} из ${N}`;dvRender()});
+      x.text=r.text.replace(/[ \t]+/g,' ').trim();const len=x.text.replace(/\[стр\. \d+\]/g,'').replace(/\s/g,'').length;
+      if(len<40){x.bad=true;x.st='нет текста';x.why='Похоже на скан или картинку. Нужен PDF с текстом, Excel или Word.'}else x.st=r.info+' · '+dvN(x.text.length)+' знаков'}
+    catch(e){x.bad=true;x.st='не прочитан';x.why=e.message}dvRender()}}
+function dvDoc(){let s='';for(const f of DV.files.filter(x=>!x.bad&&!x.off)){const h=`\n=== Файл: ${f.name} ===\n`;if(s.length+h.length>=DV_MAX)break;s+=h+f.text.slice(0,DV_MAX-s.length-h.length)}return s.trim()}
+function dvRender(){const w=$('#dvfiles');if(!w)return;const ok=DV.files.filter(x=>!x.bad&&!x.off),len=ok.reduce((a,f)=>a+f.text.length,0);
+  w.innerHTML=DV.files.length?`<table>${DV.files.map((f,i)=>`<tr class="${f.bad?'bad':''}"><td style="width:24px"><input type="checkbox" data-dvon="${i}" ${f.bad?'disabled':f.off?'':'checked'}></td><td>${esc(f.name)}</td><td class="u">${esc(f.st)}${f.why?`<div class="wn">${esc(f.why)}</div>`:''}</td><td style="width:30px"><button class="vdel" data-dvdel="${i}" title="Убрать файл">×</button></td></tr>`).join('')}</table>
+   <div class="pss">${len>DV_MAX?`<span class="wn">Текста больше, чем помощник прочитает за раз: возьмём первые ${dvN(DV_MAX)} знаков. Снимите галочки с лишних файлов.</span>`:''}<span class="sp"></span>
+   <button class="btn pri" id="dvgo" ${ok.length&&!DV.busy&&!DV.files.some(x=>x.st==='читаю…'||/^читаю:/.test(x.st))?'':'disabled'}>${ic('ai')}${DV.rows?'Собрать заново':'Собрать ведомость объёмов'}</button></div>`:'';
+  w.querySelectorAll('[data-dvon]').forEach(b=>b.onchange=()=>{DV.files[+b.dataset.dvon].off=!b.checked;dvRender()});
+  w.querySelectorAll('[data-dvdel]').forEach(b=>b.onclick=()=>{DV.files.splice(+b.dataset.dvdel,1);dvRender()});
+  const g=$('#dvgo');g&&(g.onclick=dvGo)}
+async function dvGo(){const doc=dvDoc();if(!doc)return;const o=$('#dvout');DV.busy=true;dvRender();
+  o.innerHTML='<div class="u dvwait">Помощник читает документы и выписывает работы. Обычно это 1–3 минуты, окно можно не закрывать…</div>';
+  if(aiUp===null)await aiPing();
+  if(!aiUp){DV.busy=false;dvRender();o.innerHTML='<div class="wn">Помощник ИИ сейчас недоступен. Попробуйте позже.</div>';return}
+  try{const r=await fetch(AI_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({task:'vor',doc})});const d=await r.json();if(!r.ok)throw new Error(d.error||r.status);
+    DV.rows=(d.rows||[]).map(x=>{let v=null;try{v=x.f?evalF(x.f):null}catch(e){}return {...x,v,on:true}});DV.note=d.note||''}
+  catch(e){DV.busy=false;dvRender();o.innerHTML=`<div class="wn">Помощник не ответил: ${esc(e.message)}</div>`;aiUp=null;return}
+  DV.busy=false;dvRender();dvRows()}
+function dvRows(){const o=$('#dvout');if(!o||!DV.rows)return;const R=DV.rows;$('#dlg').classList.add('dvhas');
+  if(!R.length){o.innerHTML=`<div class="pss"><span class="wn">В документах не нашлось работ с объёмами</span></div>${DV.note?`<p class="u">${esc(DV.note)}</p>`:''}`;return}
+  const n=R.filter(r=>r.on).length,chk=R.filter(r=>r.v==null||r.miss&&r.miss.length).length;let sec=null;
+  o.innerHTML=`<div class="pss"><b>Найдено строк: ${R.length}</b>${chk?`<span class="wn">проверить: ${chk}</span>`:''}</div>${DV.note?`<p class="u" style="margin:0 0 8px">${esc(DV.note)}</p>`:''}
+   <div class="psl"><table><thead><tr><th><input type="checkbox" id="dvall" ${n===R.length?'checked':''} title="Все строки"></th><th>Наименование работы</th><th>Ед.</th><th>Объём</th><th>Откуда</th><th></th></tr></thead><tbody>${R.map((r,i)=>{let h='';
+     if(r.sec&&r.sec!==sec){sec=r.sec;h+=`<tr class="sec"><td></td><td colspan="5">${esc(r.sec)}</td></tr>`}
+     const st=r.v==null?'<span class="wn">нет объёма</span>':r.miss&&r.miss.length?`<span class="wn" title="Этих чисел нет в тексте документов">проверьте: ${esc(r.miss.join('; '))}</span>`:'<span class="pst ok">✓</span>';
+     return h+`<tr class="${r.on?'':'skip'}"><td><input type="checkbox" data-dvr="${i}" ${r.on?'checked':''}></td><td class="psr">${r.res?'↳ ':''}${esc(r.name)}</td><td>${esc(pu(r.unit||''))}</td><td class="num">${r.v!=null?fq(r.v):'—'}${r.f&&isFormula(r.f)?`<div class="u" style="font-size:11px">${esc(r.f)}</div>`:''}</td><td class="u">${esc(r.src||'')}</td><td>${st}</td></tr>`}).join('')}</tbody></table></div>
+   <div class="pss"><label><input type="checkbox" id="dvfind" checked> сразу подобрать расценки</label><span class="sp"></span><button class="btn pri" id="dvadd" ${n?'':'disabled'}>Добавить в ведомость объёмов: ${n} ${rowsWord(n)}</button></div>`;
+  o.querySelectorAll('[data-dvr]').forEach(b=>b.onchange=()=>{R[+b.dataset.dvr].on=b.checked;dvRows()});
+  $('#dvall').onchange=e=>{R.forEach(r=>r.on=e.target.checked);dvRows()};$('#dvadd').onclick=dvToVor}
+function dvToVor(){const R=(DV.rows||[]).filter(r=>r.on);if(!R.length)return;S.vor=S.vor||[];const ids=[];let sec=null;
+  for(const r of R){if(r.sec&&r.sec!==sec){sec=r.sec;S.vor.push({id:uid++,sec:r.sec})}
+    const x={id:uid++,name:r.name,unit:r.unit||'',f:r.f||'',ref:(r.src||'')+(r.v==null?' · нет объёма':r.miss&&r.miss.length?' · проверить: '+r.miss.join('; '):'')};
+    if(r.res){x.res=true;x.rt='материал'}S.vor.push(x);if(!r.res)ids.push(x.id)}
+  const find=$('#dvfind')&&$('#dvfind').checked;dlgClose();vorPick=null;setTab('vor');commit();toast(`В ведомость объёмов добавлено строк: ${R.length}`);
+  if(find)vorFindAll(ids)}
+// подбор расценок ко всем строкам ВОР без расценки: кандидаты ищет каталог программы, помощник выбирает из них по 12 строк за запрос
+function vfDlg(h){dlg(`<div class="dch"><h3>${ic('ai')} Подбор расценок к ведомости объёмов</h3><button class="x" onclick="dlgClose()" aria-label="Закрыть">×</button></div>`+h,true);$('#dlg').classList.add('ppaste','pdocs')}
+async function vorFindAll(ids){if(S.mode)return toast('Подбор расценок работает в локальной смете');
+  const V=(S.vor||[]).filter(r=>r.sec===undefined&&!r.res&&(!ids||ids.includes(r.id))&&String(r.name||'').trim()&&!S.pos.some(p=>p.vor===r.id));
+  if(!V.length)return toast('У всех строк ведомости уже есть расценки');
+  if(aiUp===null)await aiPing();if(!aiUp)return toast('Помощник ИИ недоступен: подберите расценки кнопкой «Подобрать» в строках');
+  const rows=V.map(r=>({r,cands:aiCands(vorAiText(r)).slice(0,20)})).filter(x=>x.cands.length),P=[];
+  const prog=k=>vfDlg(`<div class="vfprog">Подбираю расценки: ${k} из ${rows.length} строк…</div>`);prog(0);
+  for(let k=0;k<rows.length;k+=12){const part=rows.slice(k,k+12);
+    try{const res=await fetch(AI_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({task:'vorfind',rows:part.map((x,j)=>({i:k+j,name:x.r.name,unit:pu(x.r.unit||''),cands:x.cands}))})});
+      const d=await res.json();if(!res.ok)throw new Error(d.error||res.status);for(const p of d.picks||[])if(p.code&&rows[p.i])P.push({...p,r:rows[p.i].r})}
+    catch(e){toast('Помощник не ответил: '+e.message);aiUp=null;break}
+    prog(Math.min(k+12,rows.length))}
+  vfShow(P,V.length)}
+function vfShow(P,total){VF=P.map(p=>({...p,on:true}));
+  if(!VF.length)return vfDlg('<p>Помощник не нашёл подходящих расценок. Подберите их в строках ведомости кнопками «Подобрать» или «ИИ».</p>');
+  vfDlg(`<p class="u">Подобрано ${VF.length} из ${total}. Проверьте расценки и снимите галочки с неподходящих. Объём позиции берётся из строки ведомости и обновляется вместе с ней.</p>
+   <div class="psl"><table><thead><tr><th></th><th>Строка ведомости</th><th>Расценка</th><th>Почему она</th></tr></thead><tbody>${VF.map((p,i)=>{const ri=RPOS.get(p.code),nu=ri!=null?String(RI.r[ri][4]||''):'',nat=pu(nu),um=nu&&VU((parseUnit(nu)||{}).nat||nu)!==VU(p.r.unit),v=vorVal(p.r);
+     return `<tr><td><input type="checkbox" data-vf="${i}" checked></td><td class="psr"><b>${vorLbl(p.r.id)}</b> ${esc(p.r.name)}<div class="u">${v!=null?fq(v):'—'} ${esc(pu(p.r.unit||''))}</div></td><td class="psr"><span class="mono">ГЭСН${esc(p.code)}</span> · ${esc(nat)}<div>${esc(ri!=null?RFULL[ri]:'')}</div>${um?`<span class="wn">единицы разные: в ведомости «${esc(pu(p.r.unit||''))}», у расценки «${esc(pu((parseUnit(nu)||{}).nat||nu))}»</span>`:''}</td><td class="u psr">${esc(p.why||'')}</td></tr>`}).join('')}</tbody></table></div>
+   <div class="pss"><span class="sp"></span><button class="btn" onclick="dlgClose()">Не добавлять</button><button class="btn pri" id="vfadd">Добавить в смету выбранные</button></div>`);
+  $$('#dlg [data-vf]').forEach(b=>b.onchange=()=>{VF[+b.dataset.vf].on=b.checked});$('#vfadd').onclick=vfApply}
+async function vfApply(){const L=VF.filter(p=>p.on&&!S.pos.some(q=>q.vor===p.r.id));if(!L.length)return dlgClose();
+  try{await ensureReal(L.map(p=>p.code))}catch(e){return toast('Не удалось загрузить данные расценок')}
+  const secOf=r=>{let s='';for(const x of S.vor){if(x.sec!==undefined)s=x.sec;if(x.id===r.id)return s}return ''};let n=0;
+  for(const p of L){const R=B.rates[p.code];if(!R)continue;const v=vorVal(p.r),pos={id:uid++,code:p.code,qty:v!=null&&v>=0?v:R.mult,ks:[],vor:p.r.id},sn=secOf(p.r);
+    let at=S.pos.length;if(sn){const si=S.pos.findIndex(x=>x.sec===sn);if(si<0){S.pos.push({id:uid++,sec:sn});at=S.pos.length}else{at=si+1;while(at<S.pos.length&&S.pos[at].sec===undefined)at++}}
+    S.pos.splice(sn?at:S.pos.length,0,pos);n++}
+  dlgClose();setTab('lsr');commit();toast(`Добавлено позиций: ${n}. Проверьте расценки, коэффициенты и единицы`)}
 /* ---------- ведомость объёмов работ (ВОР) ---------- */
 let vorPick=null;
 const VU=u=>pu(String(u||'').trim().toLowerCase().replace(/\.$/,''));
@@ -4206,7 +4328,7 @@ function vorGo(pid){sel=pid;setTab('lsr');requestAnimationFrame(()=>{const tr=$(
 function renderVor(){
   const V=S.vor||[];
   const head=`<div class="vbar"><b>Ведомость объёмов работ</b><span class="u">объём считается по формуле, связанные позиции сметы обновляются сами</span><span class="sp"></span>
-    <button class="btn" id="vAddSec">${ic('sec')}Раздел</button><button class="btn pri" id="vAdd">${ic('rate')}Строка</button><button class="btn" id="vCsv">${ic('xls')}В Excel</button><button class="btn" id="vXml" title="Ведомость объёмов работ по схеме Минстроя 3.01 (.gge); в XML сметы позиции получают ссылки на строки ВОР">XML ВОР</button></div>
+    <button class="btn" id="vAddSec">${ic('sec')}Раздел</button><button class="btn pri" id="vAdd">${ic('rate')}Строка</button><button class="btn" id="vCsv">${ic('xls')}В Excel</button><button class="btn" id="vXml" title="Ведомость объёмов работ по схеме Минстроя 3.01 (.gge); в XML сметы позиции получают ссылки на строки ВОР">XML ВОР</button><button class="btn" id="vDocs" title="Помощник ИИ выпишет работы и объёмы из спецификаций, ведомостей и других документов объекта">${ic('ai')}Из документов</button><button class="btn" id="vFindAll" title="Помощник ИИ подберёт расценки ко всем строкам без расценки">${ic('ai')}Подобрать ко всем</button></div>
     ${(S.vor||[]).length?`<div class="vbar" style="padding-top:0;flex-wrap:wrap"><span class="u">Номер ВОР (шифр комплекта чертежей):</span><input id="vDoc" value="${esc(S.vorDoc||'')}" placeholder="например 01-2026-КЖ" style="width:170px">
       <span class="u" title="Несколько файлов — через точку с запятой. В «Лист проекта» напишите имя файла и лист, например «КЖ л. 3»; без имени берётся первый файл">Файлы чертежей для XML ВОР:</span><input id="vPdf" value="${esc(S.vorPdf||'')}" placeholder="${esc(String(req().osn||'Проектная документация').replace(/[\\/:*?"<>|]/g,'').trim()+'.pdf')}; КЖ.pdf" style="min-width:260px"></div>`:''}`;
   if(!V.length)return head+`<div class="empty" style="height:auto;padding:40px 20px"><div><h3>Ведомость пока пуста</h3><p>Перенесите сюда работы и объёмы из проекта. В поле «Расчёт объёма» можно писать формулу, например <span class="mono">2*(6+9)*2,4*2,5</span>. Потом к каждой строке подберите расценку.</p></div></div>`;
@@ -4231,7 +4353,7 @@ function renderVor(){
 function bindVor(){
   const w=$('#tablewrap');
   $('#vAdd')&&($('#vAdd').onclick=()=>vorAdd());$('#vAddSec')&&($('#vAddSec').onclick=()=>{const v=prompt('Название раздела ВОР:','Новый раздел');if(v)vorAdd(v)});
-  $('#vCsv')&&($('#vCsv').onclick=exportVorCsv);
+  $('#vCsv')&&($('#vCsv').onclick=exportVorCsv);$('#vDocs')&&($('#vDocs').onclick=openDocsVor);$('#vFindAll')&&($('#vFindAll').onclick=()=>vorFindAll());
   $('#vXml')&&($('#vXml').onclick=()=>{const X=xmlx();X?X.exportVOR():toast('Модуль XML не загрузился')});
   $('#vPdf')&&($('#vPdf').onchange=e=>{S.vorPdf=e.target.value.trim();commit()});$('#vDoc')&&($('#vDoc').onchange=e=>{S.vorDoc=e.target.value.trim();commit()});
   w.querySelectorAll('[data-vres]').forEach(b=>b.onclick=()=>{const r=S.vor.find(x=>x.id===+b.dataset.vres);if(!r)return;if(r.res)delete r.res;else{r.res=true;r.rt=r.rt||'материал'}commit()});
