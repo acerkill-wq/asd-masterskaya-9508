@@ -432,7 +432,7 @@ tr:hover>td>.rxb,.rxb:focus{opacity:1}.rxb:hover{background:var(--line2);color:v
 .dvdrop{margin-top:10px;padding:18px;border:2px dashed var(--line);border-radius:12px;background:var(--surface2);text-align:center;color:var(--ink2)}
 .dvdrop.on{border-color:var(--brand);background:var(--brand-soft)}
 .dvfiles table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px}.dvfiles td{padding:5px 6px;border-bottom:1px solid var(--line2);vertical-align:top}
-.dvfiles tr.bad td{color:var(--muted)}.dvfiles .wn{margin-top:3px}
+.dvfiles tr.bad td{color:var(--muted)}.dvfiles tr.ocr .wn{background:var(--surface2);color:var(--ink2)}.dvfiles .wn{margin-top:3px}
 .dvout{display:flex;flex-direction:column;min-height:0;flex:1}.dvout .psl td.num{text-align:right;white-space:nowrap}
 .dvwait{padding:14px 0}
 .pdocs.dvhas .dvi{display:none}.pdocs.dvhas .dvdrop{padding:8px}
@@ -1315,8 +1315,8 @@ function delDoc(id){const m=docIndex().find(x=>x.id===id);if(!m)return;if(!confi
 function exportDocFile(id){let doc;try{doc=id?JSON.parse(lsGet(SKD+id)):JSON.parse(snap())}catch(e){return toast('Не удалось подготовить файл')}
   const data=JSON.stringify({format:'smeta-masterskaya',ver:1,app:APPV,saved:new Date().toISOString(),doc},null,1);
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data],{type:'application/json'}));a.download=(doc.name||'smeta').replace(/[\\/:*?"<>|]/g,'')+'.smeta.json';a.click();toast('Файл сметы скачан (.smeta.json)')}
-function importDocFile(){const inp=document.createElement('input');inp.type='file';inp.accept='.json,application/json,.xlsx,.xml,.gge';
-  inp.onchange=async()=>{const f=inp.files&&inp.files[0];if(!f)return;if(/\.(xlsx?|xml|gge)$/i.test(f.name))return openXlsx(f);try{const j=JSON.parse(await f.text()),n=j&&j.doc?j.doc:j;
+function importDocFile(){const inp=document.createElement('input');inp.type='file';inp.accept='.json,application/json,.xlsx,.xml,.gge,.gsfx';
+  inp.onchange=async()=>{const f=inp.files&&inp.files[0];if(!f)return;if(/\.(xlsx?|xml|gge|gsfx)$/i.test(f.name))return openXlsx(f);try{const j=JSON.parse(await f.text()),n=j&&j.doc?j.doc:j;
       if(!n||!Array.isArray(n.pos))throw new Error('format');n.docId=newId();n.created=Date.now();n.name=n.name||f.name.replace(/\.smeta\.json$|\.json$/,'');
       if(tabBusy())tabNew();await loadDoc(n,true);storeDoc(true);$('#dlgbg').classList.remove('on');toast('Открыто из файла и добавлено в «Мои сметы»: '+S.name)}
     catch(e){toast('Это не файл сметы Риморы (.smeta.json)')}};inp.click()}
@@ -1679,7 +1679,7 @@ function exportPack(){const X=xmlx();if(!X)return toast('Модуль XML не �
 function exportXML(){const X=xmlx();if(!X)return toast('Модуль XML не загрузился, обновите страницу');X.exportXML()}
 /* ---------- меню и лента ---------- */
 const MENUS={
- file:[['Новая смета',newDoc],['Примеры (демо)…',openDemos],['Мои сметы…',openDocs,'Ctrl+O'],['Сохранить',save,'Ctrl+S'],['Сохранить как копию…',saveAs],['Сохранить как шаблон…',tplSave],['Новая смета из шаблона…',()=>tplOpen(true)],['Сохранить в файл (.smeta.json)',()=>exportDocFile()],['Открыть из файла…',importDocFile],['Открыть смету из Excel (.xlsx)…',()=>openXlsx()],['Открыть смету из XML Минстроя (ЛС РИМ)…',()=>openXml()],['Загрузить сплит-форму цен (Excel)…',openSplit],['Открыть модель IFC (ТИМ)…',openBim],['Смета по документам объекта (ИИ)…',openDocsVor],['На другое устройство (ссылка, QR)…',openShare],'-',['Выходные формы: ЛСР (прил. 3)…',openForms,'Ctrl+P'],['Акты КС-2 и справки КС-3…',openActs],['Объектный и сводный расчёты (ОСР, ССРСС)…',()=>openOsrTab('set')],['Смета на проектные работы (ПИР)…',()=>openOsrTab('pir'),null,null,'pir'],['НМЦК: расчёт и протокол…',()=>openOsrTab('nmck'),null,null,'nmck'],['НЦС: укрупнённые нормативы…',()=>openOsrTab('ncs'),null,null,'ncs'],['Ведомость ресурсов в Excel (.xlsx)',exportResXlsx],['ЛСР в Excel (.xlsx)',exportLsrXlsx],['Экспорт таблицы (.csv)',exportCsv],['Конъюнктурный анализ, прил. 1 (Excel)',exportKaCsv],['Экспорт в XML (схема Минстроя, ЛС РИМ 3.01)',exportXML],['Пакет XML для экспертизы: ЛСР, ОСР, ССРСС, записка (.zip)',exportPack],['Печать или PDF по форме ЛСР',printLsr]],
+ file:[['Новая смета',newDoc],['Примеры (демо)…',openDemos],['Мои сметы…',openDocs,'Ctrl+O'],['Сохранить',save,'Ctrl+S'],['Сохранить как копию…',saveAs],['Сохранить как шаблон…',tplSave],['Новая смета из шаблона…',()=>tplOpen(true)],['Сохранить в файл (.smeta.json)',()=>exportDocFile()],['Открыть из файла…',importDocFile],['Открыть смету из Excel (.xlsx)…',()=>openXlsx()],['Открыть смету из XML Минстроя (ЛС РИМ)…',()=>openXml()],['Открыть смету ГРАНД-Сметы (.gsfx, .xml)…',()=>openXml()],['Загрузить сплит-форму цен (Excel)…',openSplit],['Открыть модель IFC (ТИМ)…',openBim],['Смета по документам объекта (ИИ)…',openDocsVor],['На другое устройство (ссылка, QR)…',openShare],'-',['Выходные формы: ЛСР (прил. 3)…',openForms,'Ctrl+P'],['Акты КС-2 и справки КС-3…',openActs],['Объектный и сводный расчёты (ОСР, ССРСС)…',()=>openOsrTab('set')],['Смета на проектные работы (ПИР)…',()=>openOsrTab('pir'),null,null,'pir'],['НМЦК: расчёт и протокол…',()=>openOsrTab('nmck'),null,null,'nmck'],['НЦС: укрупнённые нормативы…',()=>openOsrTab('ncs'),null,null,'ncs'],['Ведомость ресурсов в Excel (.xlsx)',exportResXlsx],['ЛСР в Excel (.xlsx)',exportLsrXlsx],['Экспорт таблицы (.csv)',exportCsv],['Конъюнктурный анализ, прил. 1 (Excel)',exportKaCsv],['Экспорт в XML (схема Минстроя, ЛС РИМ 3.01)',exportXML],['Пакет XML для экспертизы: ЛСР, ОСР, ССРСС, записка (.zip)',exportPack],['Печать или PDF по форме ЛСР',printLsr]],
  edit:[['Отменить',undo,'Ctrl+Z'],['Вернуть',redoF,'Ctrl+Y'],'-',['Копировать строки',()=>clipMenu(false),'Ctrl+C'],['Вырезать строки',()=>clipMenu(true),'Ctrl+X'],['Вставить строки',pasteMenu,'Ctrl+V'],['Выделить все строки',selAll,'Ctrl+A'],['Найти в смете',findOpen,'Ctrl+F'],'-',['Вставить список из Excel…',()=>openPaste()],['Дублировать',dup,'Ctrl+D'],['Удалить',del,'Del'],['Спрашивать перед удалением',delAskToggle,null,()=>delAsk()],['Переместить вверх',()=>move(-1),'Alt+↑'],['Переместить вниз',()=>move(1),'Alt+↓']],
  ins:[['Расценка из каталога',focusCat,'/'],['Из шаблона…',()=>tplOpen(false)],['Список расценок из Excel…',()=>openPaste(),'Ctrl+V'],['Ресурс в выбранную позицию…',()=>{const p=S.pos.find(x=>x.id===sel);if(!p||!p.code||p.ka||p.tr||!B.rates[p.code]||!B.rates[p.code].real)return toast('Выберите позицию с расценкой ГЭСН');resPick(p,null)}],['Раздел сметы…',askSection],['Коэффициент к позиции',()=>{if(sel)$('#insp .kr .switch')?.focus();toast('Коэффициенты справа в карточке позиции')}],['Материал из ФСБЦ отдельной позицией…',()=>mrNew()],['Материал вне базы (конъюнктурный анализ)',()=>kaNew()],['Оборудование из ФСБЦ…',eqNew],['Оборудование вне базы (конъюнктурный анализ)',()=>kaNew('eq')],['Своя позиция (вне базы)…',ownNew],['Перевозка грузов',()=>trNew()],['Погрузка и разгрузка (ФГИС ЦС)',()=>trNew('load')]],
  calc:[['Подключённые базы…',openBases],'-',['Базисный уровень цен',()=>setIdx(''),null,()=>!S.idx],...Object.entries(B.idx).map(([k,v])=>[`Индексы: ${v.region}, ${v.q}`,()=>setIdx(k),null,()=>S.idx===k]),'-',['Коэффициенты на всю смету…',openKall,null,()=>kallN()>0],['НДС '+B.nds+'%',()=>setNds(!S.nds),null,()=>S.nds],['Пересчитать',()=>{render();toast('Пересчитано')}]],
@@ -2027,9 +2027,9 @@ function xlsxSmeta(rows){const L=v=>String(v??'').replace(/\s+/g,' ').trim();let
     if(n&&!/^\d/.test(n)&&!c&&!nm&&!/^(Итог|Всего|в том числе|Справочно)/i.test(n)&&(!tail||/^Раздел/i.test(n))){tail=false;const row=['','',n,'','',''];secs.add(row);out.push(row)}}
   while(out.length&&secs.has(out[out.length-1]))out.pop();
   return out.length?{rows:out,roles:['','code','name','unit','qty',cS>=0?'sum':''],secs,name}:null}
-function openXlsx(f,xml){if(!f){const inp=document.createElement('input');inp.type='file';inp.accept=xml?'.xml,.gge,text/xml,application/xml':'.xlsx,.xls,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+function openXlsx(f,xml){if(!f){const inp=document.createElement('input');inp.type='file';inp.accept=xml?'.xml,.gge,.gsfx,text/xml,application/xml':'.xlsx,.xls,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
     inp.onchange=()=>{if(inp.files&&inp.files[0])openXlsx(inp.files[0],xml)};return inp.click()}
-  if(/\.(xml|gge)$/i.test(f.name))return openXml(f);
+  if(/\.(xml|gge|gsfx)$/i.test(f.name))return openXml(f);
   if(/\.xls$/i.test(f.name))return toast('Это старый формат .xls. Откройте файл в Excel и сохраните как .xlsx');
   dlg(`<div class="dch"><h3>${ic('paste')} Открыть смету из Excel</h3><button class="x" onclick="document.getElementById('dlgbg').classList.remove('on')" aria-label="Закрыть">×</button></div>
    <p class="u">${esc(f.name)}</p><div id="psw"><div class="u" style="padding:12px">Читаю файл…</div></div>`,true);
@@ -2046,8 +2046,9 @@ function openXlsx(f,xml){if(!f){const inp=document.createElement('input');inp.ty
 function xmlSmeta(txt){const d=new DOMParser().parseFromString(txt,'application/xml');if(d.getElementsByTagName('parsererror').length)return {err:'Файл XML повреждён или это не XML'};
   const kid=(el,n)=>el?[...el.children].find(c=>c.localName===n):null,tx=(el,n)=>{const c=kid(el,n);return c?c.textContent.trim():''};
   const root=d.documentElement,ty=tx(kid(kid(root,'Meta'),'File'),'Type');
+  if(root.localName==='Document'&&(/grand/i.test(root.getAttribute('Generator')||'')||kid(root,'Chapters')))return gsSmeta(d);
   const est=root.getElementsByTagName('Estimate')[0];
-  if(!est||ty&&!/^ЛС/i.test(ty))return {err:`Это не локальный сметный расчёт${ty?` (в файле: ${ty})`:''}. Откройте файл ЛСР (ЛС РИМ)`};
+  if(!est||ty&&!/^ЛС/i.test(ty))return {err:`Это не локальный сметный расчёт${ty?` (в файле: ${ty})`:''}. Откройте файл ЛСР (ЛС РИМ) или смету ГРАНД-Сметы (.gsfx, XML)`};
   const name=tx(est,'Name')||tx(kid(root,'Object'),'Name')||'',out=[],secs=new Set();
   const sumOf=it=>tx(kid(it,'Totals'),'Current');
   // коэффициенты позиции: «Кратность …» → кратность, остальные → свои коэффициенты (ОТ и ЗТ → ot, ЭМ → em, МАТ → m)
@@ -2070,14 +2071,50 @@ function xmlSmeta(txt){const d=new DOMParser().parseFromString(txt,'application/
   walk(est);while(out.length&&secs.has(out[out.length-1]))out.pop();
   if(!out.some(r=>r[1]))return {err:'В файле не нашлось позиций сметы'};
   return {rows:out,roles:['','code','name','unit','qty','sum'],secs,name}}
-function openXml(f){if(!f)return openXlsx(null,true);
-  dlg(`<div class="dch"><h3>${ic('paste')} Открыть смету из XML Минстроя</h3><button class="x" onclick="document.getElementById('dlgbg').classList.remove('on')" aria-label="Закрыть">×</button></div>
+/* ---------- смета ГРАНД-Сметы: свой XML программы (Document Generator="GrandSmeta"), он же Data.xml внутри .gsfx ---------- */
+function gsSmeta(d){const root=d.documentElement,kids=(el,n)=>el?[...el.children].filter(c=>c.localName===n):[],kid=(el,n)=>kids(el,n)[0]||null;
+  const at=(el,n)=>el&&el.getAttribute(n)||'',num=s=>{const v=parseFloat(String(s||'').replace(/\s/g,'').replace(',','.'));return isFinite(v)?v:null};
+  const pr=kid(root,'Properties'),ln=at(pr,'LocNum').trim(),ds=at(pr,'Description').trim();
+  let name=ds?(ln&&!ds.includes(ln)?ln+' '+ds:ds):ln;if(name.length>150)name=name.slice(0,147).trim()+'…';
+  // коэффициент ГРАНД-Сметы: PZ — ко всей позиции, OZ — к оплате труда, EM — к машинам, MT — к материалам; выключенные и в процентах не берём
+  const kof=k=>{const o=' '+at(k,'Options')+' ';if(/ (Disabled|Percent) /.test(o))return null;const pz=num(at(k,'Value_PZ'))||1;
+    const r={j:at(k,'Code').trim(),n:at(k,'Caption').trim(),ot:pz*(num(at(k,'Value_OZ'))||1),em:pz*(num(at(k,'Value_EM'))||1),m:pz*(num(at(k,'Value_MT'))||1)};
+    return r.ot===1&&r.em===1&&r.m===1?null:r};
+  const ids=s=>new Set(String(s||'').replace(/[()\s]/g,'').split(',').filter(Boolean));
+  // общие коэффициенты сметы: ко всем позициям или к видам работ и разделам из ссылок
+  const glob=[];for(const k of kids(kid(root,'Koefficients'),'K')){const r=kof(k);if(!r)continue;
+    glob.push({r,vr:at(k,'AllVidRabs')==='No'?ids(at(k,'VrsLinks')):null,ch:at(k,'AllChapters')==='No'?ids(at(k,'ChaptersLinks')):null})}
+  const out=[],secs=new Set(),add=(row,ks)=>{let kr=0;const kc=[];
+    for(const x of ks){if(/кратн/i.test(x.n)&&x.ot===x.em&&x.em===x.m){kr=(kr||1)*x.ot;continue}kc.push({j:x.j,n:x.n,ot:x.ot,em:x.em,m:x.m})}
+    if(kr&&kr!==1)row.kr=kr;if(kc.length)row.kc=kc;out.push(row)};
+  const total=p=>{let s='';for(const it of p.getElementsByTagName('Itog'))if(at(it,'DataType')==='TotalWithNP')s=at(it,'TotalCurr');
+    if(!s)for(const it of p.getElementsByTagName('Itog'))if(at(it,'DataType')==='TotalPos')s=at(it,'TotalCurr');return s};
+  const walk=(el,chs,cks)=>{for(const c of el.children){
+    if(c.localName==='Chapter'){const tl=at(c,'Caption').trim();if(tl){const row=['','',tl,'','',''];secs.add(row);out.push(row)}
+      const ck=kids(kid(c,'Koefficients'),'K').map(kof).filter(Boolean);walk(c,[...chs,at(c,'SysID')],[...cks,...ck]);continue}
+    if(c.localName!=='Position')continue;
+    const q=kid(c,'Quantity'),qt=at(q,'Result')||(/^\s*(?:ОКР\()?\s*([\d\s]+(?:[.,]\d+)?)\s*(?:;|\)|$)/.exec(at(c,'Quantity'))||[])[1]||'',vr=at(c,'Vr2001');
+    const ks=[...glob.filter(g=>(!g.vr||g.vr.has(vr))&&(!g.ch||chs.some(x=>g.ch.has(x)))).map(g=>g.r),...cks,...kids(kid(c,'Koefficients'),'K').map(kof).filter(Boolean)];
+    add([at(c,'Number'),at(c,'Code').trim(),at(c,'Caption').trim(),at(c,'Units').trim(),qt.replace(/\s/g,''),total(c)],ks)}};
+  const chs=kid(root,'Chapters');walk(chs||root,[],[]);while(out.length&&secs.has(out[out.length-1]))out.pop();
+  if(!out.some(r=>r[1]))return {err:'В файле ГРАНД-Сметы не нашлось позиций сметы'};
+  return {rows:out,roles:['','code','name','unit','qty','sum'],secs,name}}
+const xmlDecode=buf=>{const head=new TextDecoder('latin1').decode(new Uint8Array(buf,0,Math.min(300,buf.byteLength))),enc=(/encoding=["']([\w-]+)["']/i.exec(head)||[])[1]||'utf-8';
+  try{return new TextDecoder(enc).decode(buf)}catch(e){return new TextDecoder('utf-8').decode(buf)}};
+// .gsfx — архив ГРАНД-Сметы: Properties.txt и Data.xml (windows-1251)
+async function gsfxText(f){let z;try{z=await zipOpen(f)}catch(e){throw new Error('Файл .gsfx не открылся: похоже, он повреждён или это не смета ГРАНД-Сметы')}
+  const pb=await z('Properties.txt',true),props=pb?new TextDecoder('windows-1251').decode(pb):'';
+  if(/^\s*Crypted\s*=\s*True/im.test(props))throw new Error('Смета в ГРАНД-Смете зашифрована. Сохраните её в ГРАНД-Смете без шифрования или выгрузите в XML и откройте этот файл');
+  if(props&&!/DocType\s*=\s*sdtSmeta/i.test(props))throw new Error('Это не локальная смета ГРАНД-Сметы. Откройте файл .gsfx локальной сметы (ЛСР)');
+  const db=await z('Data.xml',true);if(!db)throw new Error('В файле .gsfx нет данных сметы. Выгрузите смету из ГРАНД-Сметы в XML и откройте этот файл');
+  return xmlDecode(db)}
+function openXml(f){if(!f)return openXlsx(null,true);const gs=/\.gsfx$/i.test(f.name);
+  dlg(`<div class="dch"><h3>${ic('paste')} ${gs?'Открыть смету ГРАНД-Сметы':'Открыть смету из XML'}</h3><button class="x" onclick="document.getElementById('dlgbg').classList.remove('on')" aria-label="Закрыть">×</button></div>
    <p class="u">${esc(f.name)}</p><div id="psw"><div class="u" style="padding:12px">Читаю файл…</div></div>`,true);
   $('#dlg').classList.add('ppaste');
-  (async()=>{let g;try{const buf=await f.arrayBuffer(),head=new TextDecoder('latin1').decode(new Uint8Array(buf,0,Math.min(300,buf.byteLength))),enc=(/encoding=["']([\w-]+)["']/i.exec(head)||[])[1]||'utf-8';
-      let txt;try{txt=new TextDecoder(enc).decode(buf)}catch(e){txt=new TextDecoder('utf-8').decode(buf)}g=xmlSmeta(txt)}catch(e){g={err:'Не удалось прочитать файл'}}
+  (async()=>{let g;try{g=xmlSmeta(gs?await gsfxText(f):xmlDecode(await f.arrayBuffer()))}catch(e){g={err:gs&&e.message||'Не удалось прочитать файл'}}
     if(g.err)return $('#psw').innerHTML=`<div class="u" style="padding:12px">${esc(g.err)}</div>`;
-    pasteLoad(g.rows,{roles:g.roles,nd:{name:g.name||f.name.replace(/\.(xml|gge)$/i,''),secs:g.secs,form:true,xml:true}})})()}
+    pasteLoad(g.rows,{roles:g.roles,nd:{name:g.name||f.name.replace(/\.(xml|gge|gsfx)$/i,''),secs:g.secs,form:true,xml:true}})})()}
 // Ctrl+V (⌘V) в смете, а не в поле ввода: если в буфере есть шифры расценок — открываем окно вставки
 document.addEventListener('paste',e=>{const a=document.activeElement;if(/INPUT|SELECT|TEXTAREA/.test(a.tagName)||a.isContentEditable||$('#dlgbg').classList.contains('on')||$('#palbg').classList.contains('on'))return;
   const t=e.clipboardData&&e.clipboardData.getData('text/plain');const rc=t&&clipGet(t);if(rc){e.preventDefault();return clipPaste(rc)}if(!t||!parseTSV(t).some(r=>r.some(pasteCode)))return;e.preventDefault();openPaste(t)});
@@ -4186,51 +4223,76 @@ async function zipOpen(file){const buf=await file.arrayBuffer(),dv=new DataView(
   const cnt=dv.getUint16(e+10,true),Z={},td=new TextDecoder();let o=dv.getUint32(e+16,true);
   for(let i=0;i<cnt;i++){if(dv.getUint32(o,true)!==0x02014b50)throw new Error('файл повреждён');const nl=dv.getUint16(o+28,true),xl=dv.getUint16(o+30,true),cl=dv.getUint16(o+32,true);
     Z[td.decode(u8.subarray(o+46,o+46+nl))]={meth:dv.getUint16(o+10,true),cs:dv.getUint32(o+20,true),lho:dv.getUint32(o+42,true)};o+=46+nl+xl+cl}
-  return async k=>{const en=Z[k];if(!en)return '';const l=en.lho,st=l+30+dv.getUint16(l+26,true)+dv.getUint16(l+28,true);
-    let s=new Blob([u8.subarray(st,st+en.cs)]).stream();if(en.meth===8)s=s.pipeThrough(new DecompressionStream('deflate-raw'));else if(en.meth)throw new Error('сжатие');return new Response(s).text()}}
+  return async (k,raw)=>{const en=Z[k];if(!en)return raw?null:'';const l=en.lho,st=l+30+dv.getUint16(l+26,true)+dv.getUint16(l+28,true);
+    let s=new Blob([u8.subarray(st,st+en.cs)]).stream();if(en.meth===8)s=s.pipeThrough(new DecompressionStream('deflate-raw'));else if(en.meth)throw new Error('сжатие');return raw?new Response(s).arrayBuffer():new Response(s).text()}}
 const xmlUn=s=>s.replace(/&(#x[0-9a-f]+|#\d+|amp|lt|gt|quot|apos);/gi,(m,c)=>c[0]==='#'?String.fromCodePoint(c[1]==='x'||c[1]==='X'?parseInt(c.slice(2),16):+c.slice(1)):({amp:'&',lt:'<',gt:'>',quot:'"',apos:"'"})[c.toLowerCase()]);
 async function docxText(file){const x=await (await zipOpen(file))('word/document.xml');if(!x)throw new Error('не документ Word (.docx)');
   return xmlUn(x.replace(/<w:tc\b[\s\S]*?<\/w:tc>/g,m=>m.replace(/<\/w:p>/g,' ')+'\u0001').replace(/<w:tab\/>/g,' ').replace(/<\/w:tr>/g,'\n').replace(/<\/w:p>/g,'\n').replace(/<[^>]+>/g,''))
     .replace(/\u0001/g,' | ').replace(/[ \t]+/g,' ').replace(/ ?\| ?\n/g,'\n').replace(/\n{3,}/g,'\n\n').trim()}
+let tessP=null,ocrLog=null;const vurl=s=>new URL('vendor/'+s,location.href).href;
+function ocrLib(){return tessP||(tessP=(window.Tesseract?Promise.resolve():new Promise((ok,bad)=>{const s=document.createElement('script');s.src='vendor/tesseract/tesseract.min.js';s.onload=ok;s.onerror=bad;document.head.appendChild(s)}))
+  .then(()=>Tesseract.createWorker(['rus','eng'],1,{workerPath:vurl('tesseract/worker.min.js'),corePath:vurl('tesseract/core'),langPath:vurl('tesseract/lang'),logger:m=>{ocrLog&&ocrLog(m)}}))
+  .catch(()=>{tessP=null;throw new Error('не загрузилось распознавание текста')}))}
+// большие фото уменьшаем до 3000 px по длинной стороне: так быстрее, а текст документа ещё читается
+async function imgCanvas(blob,max=3000){let b;try{b=await createImageBitmap(blob,{imageOrientation:'from-image'})}catch(e){throw new Error('картинка не открылась: сохраните её как JPG или PNG')}
+  const k=Math.min(1,max/Math.max(b.width,b.height)),c=document.createElement('canvas');c.width=Math.round(b.width*k);c.height=Math.round(b.height*k);c.getContext('2d').drawImage(b,0,0,c.width,c.height);b.close&&b.close();return c}
+// линии таблиц мешают распознаванию (вертикальная черта читается как «1»): перед распознаванием стираем длинные тёмные линии.
+// вертикаль ищем с допуском в 1 px вбок, чтобы снять и линии чуть наклонного фото; буквы короче порога и остаются
+function clearLines(c){const w=c.width,h=c.height,g=c.getContext('2d'),im=g.getImageData(0,0,w,h),d=im.data,dk=new Uint8Array(w*h),kill=new Uint8Array(w*h);
+  for(let i=0,j=0;j<dk.length;i+=4,j++)dk[j]=d[i]*0.3+d[i+1]*0.59+d[i+2]*0.11<150?1:0;
+  const HV=Math.max(120,w*0.08),VV=Math.max(60,h*0.03);
+  for(let y=0;y<h;y++){let s=-1;for(let x=0;x<=w;x++){const on=x<w&&dk[y*w+x];if(on&&s<0)s=x;else if(!on&&s>=0){if(x-s>=HV)kill.fill(1,y*w+s,y*w+x);s=-1}}}
+  for(let x=1;x<w-1;x++){let s=-1;for(let y=0;y<=h;y++){const on=y<h&&(dk[y*w+x]|dk[y*w+x-1]|dk[y*w+x+1]);if(on&&s<0)s=y;else if(!on&&s>=0){if(y-s>=VV)for(let k=s;k<y;k++){kill[k*w+x]=1}s=-1}}}
+  for(let j=0;j<kill.length;j++)if(kill[j]&&dk[j]){const i=j*4;d[i]=d[i+1]=d[i+2]=255}
+  g.putImageData(im,0,0);return c}
+async function ocrImage(src,onp){const w=await ocrLib();clearLines(src);ocrLog=m=>{if(!onp)return;if(m.status==='recognizing text')onp(Math.round(m.progress*100)+'%');else if(/loading|initializ/.test(m.status))onp('загружаю распознавание текста (один раз)')};
+  try{return (await w.recognize(src)).data.text||''}finally{ocrLog=null}}
+const OCR_MAX=40;
 let pdfjsP=null;
 function pdfLib(){return pdfjsP||(pdfjsP=import(new URL('vendor/pdfjs/pdf.min.mjs',location.href).href).then(m=>{m.GlobalWorkerOptions.workerSrc=new URL('vendor/pdfjs/pdf.worker.min.mjs',location.href).href;return m})
   .catch(()=>{pdfjsP=null;throw new Error('не загрузилась библиотека чтения PDF')}))}
 // текст PDF построчно: элементы одной строки по высоте, большой промежуток между ними — граница столбца « | »
 async function pdfText(file,onp){const pj=await pdfLib(),d=await pj.getDocument({data:new Uint8Array(await file.arrayBuffer()),isEvalSupported:false}).promise,out=[],N=Math.min(d.numPages,300);
-  for(let n=1;n<=N;n++){const tc=await (await d.getPage(n)).getTextContent();
+  let ocr=0;
+  for(let n=1;n<=N;n++){const pg=await d.getPage(n),tc=await pg.getTextContent();
     const its=tc.items.filter(it=>it.str&&it.str.trim()).map(it=>({s:it.str,x:it.transform[4],y:it.transform[5],w:it.width||0,h:Math.abs(it.transform[3])||8})).sort((a,b)=>b.y-a.y||a.x-b.x);
     const L=[];for(const it of its){const l=L[L.length-1];if(l&&Math.abs(l.y-it.y)<=Math.max(2,it.h*0.4))l.a.push(it);else L.push({y:it.y,a:[it]})}
     const lines=L.map(l=>{l.a.sort((a,b)=>a.x-b.x);let s='',end=null;for(const it of l.a){if(end!=null){const g=it.x-end;s+=g>Math.max(6,it.h*0.8)?' | ':g>0.5?' ':''}s+=it.s;end=it.x+it.w}return s.trim()}).filter(Boolean);
-    out.push(`[стр. ${n}]\n`+lines.join('\n'));onp&&onp(n,N)}
-  return {text:out.join('\n'),info:d.numPages+' стр.'}}
+    if(lines.join('').replace(/\s/g,'').length<20&&ocr<OCR_MAX){ocr++;const v0=pg.getViewport({scale:1}),v=pg.getViewport({scale:Math.min(4,2400/Math.max(v0.width,v0.height))}),c=document.createElement('canvas');
+      c.width=Math.round(v.width);c.height=Math.round(v.height);const g=c.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,c.width,c.height);await pg.render({canvasContext:g,viewport:v}).promise;
+      const tx=await ocrImage(c,s=>onp&&onp(`распознаю скан: стр. ${n} из ${N}, ${s}`));out.push(`[стр. ${n}, распознано со скана]\n`+tx.trim());continue}
+    out.push(`[стр. ${n}]\n`+lines.join('\n'));onp&&onp(`читаю: стр. ${n} из ${N}`)}
+  return {text:out.join('\n'),info:d.numPages+' стр.'+(ocr?`, со скана ${ocr}`:''),ocr:ocr>0}}
 async function dvRead(f,onp){const n=f.name.toLowerCase();
   if(/\.pdf$/.test(n))return pdfText(f,onp);
   if(/\.xlsx$/.test(n)){const rows=await xlsxRead(f);return {text:rows.map(r=>r.map(c=>String(c??'').trim()).filter(Boolean).join(' | ')).filter(Boolean).join('\n'),info:'Excel, '+rows.length+' строк'}}
   if(/\.docx$/.test(n))return {text:await docxText(f),info:'Word'};
   if(/\.(txt|csv|md)$/.test(n))return {text:await f.text(),info:'текст'};
+  if(/\.(jpe?g|png|webp|bmp|gif)$/.test(n)||/^image\/(jpeg|png|webp|bmp|gif)$/.test(f.type)){const c=await imgCanvas(f);return {text:'[фото, распознано]\n'+(await ocrImage(c,s=>onp&&onp('распознаю фото, '+s))).trim(),info:'фото',ocr:true}}
+  if(/\.(heic|heif)$/.test(n))throw new Error('фото HEIC: на iPhone выберите «Наиболее совместимый» формат или сохраните как JPG');
   if(/\.(xls|doc)$/.test(n))throw new Error('старый формат: сохраните файл как .xlsx или .docx');
-  throw new Error('этот формат не читается: нужен PDF, Excel (.xlsx), Word (.docx) или текст')}
+  throw new Error('этот формат не читается: нужен PDF, Excel (.xlsx), Word (.docx), фото (JPG, PNG) или текст')}
 const dvN=n=>Number(n).toLocaleString('ru-RU');
 function openDocsVor(){if(S.mode)return toast('Смета по документам работает в локальной смете');
   dlg(`<div class="dch"><h3>${ic('ai')} Смета по документам объекта</h3><button class="x" onclick="dlgClose()" aria-label="Закрыть">×</button></div>
-   <p class="u dvi">Загрузите документы объекта со сведениями о работах и объёмах: спецификации, ведомости объёмов, дефектную ведомость, техническое задание, экспликации, пояснительную записку. Подходят PDF с текстом, Excel (.xlsx) и Word (.docx). Файлы читаются в браузере, помощнику уходит только их текст.</p>
-   <p class="u dvi">Помощник выпишет работы и объёмы в ведомость объёмов работ и подберёт расценки. Объёмы он берёт только из документов, каждое число сверяется с текстом. Сканы и чертежи без спецификаций он не прочитает.</p>
+   <p class="u dvi">Загрузите документы объекта со сведениями о работах и объёмах: спецификации, ведомости объёмов, дефектную ведомость, техническое задание, экспликации, пояснительную записку. Подходят PDF, Excel (.xlsx), Word (.docx), а также сканы и фото документов (JPG, PNG): их текст программа распознаёт сама. Файлы читаются в браузере, помощнику уходит только их текст.</p>
+   <p class="u dvi">Помощник выпишет работы и объёмы в ведомость объёмов работ и подберёт расценки. Объёмы он берёт только из документов, каждое число сверяется с текстом. Распознавание скана занимает 5–20 секунд на страницу. Чертежи без спецификаций и ведомостей объёмов не дадут.</p>
    <div class="dvdrop" id="dvdrop">Перетащите файлы сюда или <button class="btn" id="dvpick">${ic('open')}Выбрать файлы…</button></div>
    <div id="dvfiles" class="dvfiles"></div><div id="dvout" class="dvout"></div>`,true);
   $('#dlg').classList.add('ppaste','pdocs');DV.files=[];DV.rows=null;DV.busy=false;DV.note='';
-  $('#dvpick').onclick=()=>{const inp=document.createElement('input');inp.type='file';inp.multiple=true;inp.accept='.pdf,.xlsx,.docx,.txt,.csv,application/pdf';inp.onchange=()=>dvAdd([...inp.files]);inp.click()};
+  $('#dvpick').onclick=()=>{const inp=document.createElement('input');inp.type='file';inp.multiple=true;inp.accept='.pdf,.xlsx,.docx,.txt,.csv,.jpg,.jpeg,.png,.webp,application/pdf,image/*';inp.onchange=()=>dvAdd([...inp.files]);inp.click()};
   const dz=$('#dvdrop');dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('on')});dz.addEventListener('dragleave',()=>dz.classList.remove('on'));
   dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('on');dvAdd([...e.dataTransfer.files])})}
-async function dvAdd(fs){for(const f of fs){if(DV.files.some(x=>x.name===f.name&&x.size===f.size))continue;const x={name:f.name,size:f.size,st:'читаю…',text:''};DV.files.push(x);dvRender();
-    try{if(f.size>60e6)throw new Error('файл больше 60 МБ');const r=await dvRead(f,(n,N)=>{x.st=`читаю: стр. ${n} из ${N}`;dvRender()});
+async function dvAdd(fs){for(const f of fs){if(DV.files.some(x=>x.name===f.name&&x.size===f.size))continue;const x={name:f.name,size:f.size,st:'читаю…',text:'',busy:true};DV.files.push(x);dvRender();
+    try{if(f.size>60e6)throw new Error('файл больше 60 МБ');const r=await dvRead(f,s=>{x.st=s;dvRender()});x.ocr=!!r.ocr;
       x.text=r.text.replace(/[ \t]+/g,' ').trim();const len=x.text.replace(/\[стр\. \d+\]/g,'').replace(/\s/g,'').length;
-      if(len<40){x.bad=true;x.st='нет текста';x.why='Похоже на скан или картинку. Нужен PDF с текстом, Excel или Word.'}else x.st=r.info+' · '+dvN(x.text.length)+' знаков'}
-    catch(e){x.bad=true;x.st='не прочитан';x.why=e.message}dvRender()}}
+      if(len<40){x.bad=true;x.st='нет текста';x.why='Текст не распознался. Нужен чёткий скан или фото при хорошем свете, страница прямо.'}else{x.st=r.info+' · '+dvN(x.text.length)+' знаков';if(x.ocr)x.why='Распознано со скана: цифры могут быть прочитаны с ошибкой, сверьте объёмы с оригиналом.'}}
+    catch(e){x.bad=true;x.st='не прочитан';x.why=e.message}x.busy=false;dvRender()}}
 function dvDoc(){let s='';for(const f of DV.files.filter(x=>!x.bad&&!x.off)){const h=`\n=== Файл: ${f.name} ===\n`;if(s.length+h.length>=DV_MAX)break;s+=h+f.text.slice(0,DV_MAX-s.length-h.length)}return s.trim()}
 function dvRender(){const w=$('#dvfiles');if(!w)return;const ok=DV.files.filter(x=>!x.bad&&!x.off),len=ok.reduce((a,f)=>a+f.text.length,0);
-  w.innerHTML=DV.files.length?`<table>${DV.files.map((f,i)=>`<tr class="${f.bad?'bad':''}"><td style="width:24px"><input type="checkbox" data-dvon="${i}" ${f.bad?'disabled':f.off?'':'checked'}></td><td>${esc(f.name)}</td><td class="u">${esc(f.st)}${f.why?`<div class="wn">${esc(f.why)}</div>`:''}</td><td style="width:30px"><button class="vdel" data-dvdel="${i}" title="Убрать файл">×</button></td></tr>`).join('')}</table>
+  w.innerHTML=DV.files.length?`<table>${DV.files.map((f,i)=>`<tr class="${f.bad?'bad':''}${f.ocr&&!f.bad?' ocr':''}"><td style="width:24px"><input type="checkbox" data-dvon="${i}" ${f.bad?'disabled':f.off?'':'checked'}></td><td>${esc(f.name)}</td><td class="u">${esc(f.st)}${f.why?`<div class="wn">${esc(f.why)}</div>`:''}</td><td style="width:30px"><button class="vdel" data-dvdel="${i}" title="Убрать файл">×</button></td></tr>`).join('')}</table>
    <div class="pss">${len>DV_MAX?`<span class="wn">Текста больше, чем помощник прочитает за раз: возьмём первые ${dvN(DV_MAX)} знаков. Снимите галочки с лишних файлов.</span>`:''}<span class="sp"></span>
-   <button class="btn pri" id="dvgo" ${ok.length&&!DV.busy&&!DV.files.some(x=>x.st==='читаю…'||/^читаю:/.test(x.st))?'':'disabled'}>${ic('ai')}${DV.rows?'Собрать заново':'Собрать ведомость объёмов'}</button></div>`:'';
+   <button class="btn pri" id="dvgo" ${ok.length&&!DV.busy&&!DV.files.some(x=>x.busy)?'':'disabled'}>${ic('ai')}${DV.rows?'Собрать заново':'Собрать ведомость объёмов'}</button></div>`:'';
   w.querySelectorAll('[data-dvon]').forEach(b=>b.onchange=()=>{DV.files[+b.dataset.dvon].off=!b.checked;dvRender()});
   w.querySelectorAll('[data-dvdel]').forEach(b=>b.onclick=()=>{DV.files.splice(+b.dataset.dvdel,1);dvRender()});
   const g=$('#dvgo');g&&(g.onclick=dvGo)}
@@ -4416,7 +4478,7 @@ $('#tablewrap').addEventListener('keydown',e=>{if((e.target.classList.contains('
 let palItems=[],palI=0;
 function palList(q){
   q=q.trim().toLowerCase();const out=[];
-  const cmds=[['Проверить смету',openCheck],['Шаблоны смет',()=>tplOpen(false)],['Сохранить как шаблон',tplSave],['Знакомство с программой',tour],['Вид сметы: форма ЛСР',()=>setLsrView('form')],['Вид сметы: компактный',()=>setLsrView('cmp')],['Давальческие материалы заказчика',openDav],['Коэффициенты на всю смету',openKall],['Экспертиза сметы: уведомление с замечаниями',openExpert],['Материал из ФСБЦ отдельной позицией…',()=>mrNew()],['Материал вне базы (конъюнктурный анализ)',()=>kaNew()],['Оборудование из ФСБЦ…',eqNew],['Оборудование вне базы (конъюнктурный анализ)',()=>kaNew('eq')],['Погрузка и разгрузка (ФГИС ЦС)',()=>trNew('load')],['Новая смета',newDoc],['Примеры (демо)',openDemos],['Своя позиция (вне базы)',ownNew],['Загрузить пример',sample],['Смета на проектные работы (ПИР)',()=>openOsrTab('pir')],['НМЦК',()=>openOsrTab('nmck')],['НЦС',()=>openOsrTab('ncs')],['Сохранить',save],['Мои сметы',openDocs],['Открыть смету из Excel',()=>openXlsx()],['Открыть смету из XML Минстроя',()=>openXml()],['На другое устройство (ссылка, QR)',openShare],['Сохранить как копию',saveAs],['Сохранить в файл',()=>exportDocFile()],['Открыть смету из файла',importDocFile],['Загрузить сплит-форму цен (Excel)',openSplit],['Модель IFC (ТИМ): открыть',openBim],['Модель IFC (ТИМ): вкладка',()=>setTab('bim')],['Выходные формы (ЛСР, печать)',openForms],['Акты КС-2 и справки КС-3',openActs],['Объектный и сводный сметные расчёты (ОСР, ССРСС)',openOsr],['Ведомость ресурсов в Excel',exportResXlsx],['Ведомость ресурсов: печать',printRes],['ЛСР в Excel (.xlsx)',exportLsrXlsx],['Экспорт таблицы (.csv)',exportCsv],['Отменить',undo],['Вернуть',redoF],['Удалить строку',del],['Дублировать позицию',dup],['Добавить раздел',askSection],['Тёмная / светлая тема',toggleTheme],['Краткий / полный вид',toggleCompact],['Включить / выключить НДС',()=>setNds(!S.nds)],['Базисный уровень цен',()=>setIdx('')],...Object.entries(B.idx).map(([k,v])=>['Индексы: '+v.q,()=>setIdx(k)]),['Ведомость объёмов',()=>setTab('vor')],['Ресурсная ведомость',()=>setTab('res')],['Объектная смета',()=>setTab('obj')],['Помощь ИИ',aiHelp],['Подбор расценки',focusCat],['Экспорт в XML (схема Минстроя)',exportXML],['Пакет XML для экспертизы (ЛСР, ОСР, ССРСС, записка)',exportPack],['Руководство пользователя',openGuide],['Горячие клавиши',keys],['О программе',about]];
+  const cmds=[['Проверить смету',openCheck],['Шаблоны смет',()=>tplOpen(false)],['Сохранить как шаблон',tplSave],['Знакомство с программой',tour],['Вид сметы: форма ЛСР',()=>setLsrView('form')],['Вид сметы: компактный',()=>setLsrView('cmp')],['Давальческие материалы заказчика',openDav],['Коэффициенты на всю смету',openKall],['Экспертиза сметы: уведомление с замечаниями',openExpert],['Материал из ФСБЦ отдельной позицией…',()=>mrNew()],['Материал вне базы (конъюнктурный анализ)',()=>kaNew()],['Оборудование из ФСБЦ…',eqNew],['Оборудование вне базы (конъюнктурный анализ)',()=>kaNew('eq')],['Погрузка и разгрузка (ФГИС ЦС)',()=>trNew('load')],['Новая смета',newDoc],['Примеры (демо)',openDemos],['Своя позиция (вне базы)',ownNew],['Загрузить пример',sample],['Смета на проектные работы (ПИР)',()=>openOsrTab('pir')],['НМЦК',()=>openOsrTab('nmck')],['НЦС',()=>openOsrTab('ncs')],['Сохранить',save],['Мои сметы',openDocs],['Открыть смету из Excel',()=>openXlsx()],['Открыть смету из XML Минстроя',()=>openXml()],['Открыть смету ГРАНД-Сметы (.gsfx)',()=>openXml()],['На другое устройство (ссылка, QR)',openShare],['Сохранить как копию',saveAs],['Сохранить в файл',()=>exportDocFile()],['Открыть смету из файла',importDocFile],['Загрузить сплит-форму цен (Excel)',openSplit],['Модель IFC (ТИМ): открыть',openBim],['Модель IFC (ТИМ): вкладка',()=>setTab('bim')],['Выходные формы (ЛСР, печать)',openForms],['Акты КС-2 и справки КС-3',openActs],['Объектный и сводный сметные расчёты (ОСР, ССРСС)',openOsr],['Ведомость ресурсов в Excel',exportResXlsx],['Ведомость ресурсов: печать',printRes],['ЛСР в Excel (.xlsx)',exportLsrXlsx],['Экспорт таблицы (.csv)',exportCsv],['Отменить',undo],['Вернуть',redoF],['Удалить строку',del],['Дублировать позицию',dup],['Добавить раздел',askSection],['Тёмная / светлая тема',toggleTheme],['Краткий / полный вид',toggleCompact],['Включить / выключить НДС',()=>setNds(!S.nds)],['Базисный уровень цен',()=>setIdx('')],...Object.entries(B.idx).map(([k,v])=>['Индексы: '+v.q,()=>setIdx(k)]),['Ведомость объёмов',()=>setTab('vor')],['Ресурсная ведомость',()=>setTab('res')],['Объектная смета',()=>setTab('obj')],['Помощь ИИ',aiHelp],['Подбор расценки',focusCat],['Экспорт в XML (схема Минстроя)',exportXML],['Пакет XML для экспертизы (ЛСР, ОСР, ССРСС, записка)',exportPack],['Руководство пользователя',openGuide],['Горячие клавиши',keys],['О программе',about]];
   const c=cmds.filter(x=>!q||x[0].toLowerCase().includes(q)).slice(0,q?6:8);
   c.forEach(x=>out.push({g:'Команды',t:x[0],fn:x[1],s:''}));
   if(q){Object.entries(B.rates).filter(([k,r])=>!r.real&&rateHas(k+' '+r.name,q)).slice(0,4).forEach(([k,r])=>out.push({g:'Учебная база · добавить в смету',t:k+'  '+r.name,fn:()=>addRate(k),s:pu(r.unit)}));
