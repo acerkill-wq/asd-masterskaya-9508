@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <title>Римора · доступ</title>
+<!-- Модули (бэклог №25): тарифы /v1/admin/plans и набор модулей пользователя. Список MODS ниже = const SVC в index.html (сверяет tools/module_map.py). -->
 <!-- Кабинет администратора Риморы: личные коды доступа и сроки. Данные на сервере облака (/v1/admin/users).
      Ключ администратора вводится вручную и живёт только в этой вкладке (sessionStorage); в файлах его нет.
      Выданный код кабинет шифрует ключом администратора (AES-GCM, ключ из PBKDF2) и хранит на сервере только шифр:
@@ -30,9 +31,9 @@ input[type=text],input[type=password],input[type=date],input[type=search],select
 label.f{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--ink3)}
 .row{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
 .row>label.f{flex:1 1 180px}
-.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:14px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:14px}
 .stat{background:var(--card);border-radius:12px;padding:10px 12px;cursor:pointer;border:2px solid transparent}
-.stat.on{border-color:var(--brand)}
+.stat.on{border-color:var(--brand)}.stat.info{cursor:default}
 .stat b{display:block;font-size:20px}.stat span{font-size:12px;color:var(--ink3)}
 .chip{display:inline-block;padding:2px 8px;border-radius:20px;font-size:12px;font-weight:600;white-space:nowrap}
 .cell2{font-size:12px;color:var(--ink3)}
@@ -50,6 +51,9 @@ td.acts .btn{margin:2px 0 2px 4px}
 dialog{border:0;border-radius:14px;padding:18px;background:var(--card);color:var(--ink);width:min(380px,calc(100vw - 32px));box-shadow:0 10px 40px rgba(0,0,0,.25)}
 dialog::backdrop{background:rgba(18,26,36,.35)}
 .ml{display:none;color:var(--ink3)}
+.mods{display:grid;grid-template-columns:1fr 1fr;gap:4px 14px;margin-top:8px}.mods label{display:flex;gap:6px;align-items:flex-start;font-size:13px}.mods label input{margin-top:3px}
+.pl{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--line)}.pl:last-child{border:0}.pl b{flex:0 0 auto}.pl .u{flex:1;color:var(--ink3);font-size:12px}
+@media (max-width:560px){.mods{grid-template-columns:1fr}}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 14px;border-radius:10px;font-size:13px;z-index:9}
 @media (max-width:760px){
   .stats{grid-template-columns:repeat(3,1fr)}
@@ -88,6 +92,7 @@ dialog::backdrop{background:rgba(18,26,36,.35)}
         <label class="f" style="flex:0 1 170px">Срок
           <select id="aterm"><option value="30">30 дней</option><option value="90">90 дней</option><option value="182">6 месяцев</option><option value="365" selected>1 год</option><option value="date">До даты…</option><option value="">Бессрочно</option></select></label>
         <label class="f hide" id="adatew" style="flex:0 1 160px">Дата<input type="date" id="adate"></label>
+        <label class="f" style="flex:0 1 190px">Модули<select id="aplan"><option value="">Все модули</option></select></label>
         <button class="btn pri">Выдать код</button>
       </div>
       <div class="msg hide" id="aerr"></div>
@@ -100,6 +105,13 @@ dialog::backdrop{background:rgba(18,26,36,.35)}
       <div class="muted" id="iterm"></div>
       <p style="margin:8px 0" id="inote"></p>
       <button class="btn pri" id="icopy">Скопировать текст для пользователя</button> <button class="btn" id="iclose">Готово</button>
+    </div>
+
+    <!-- тарифы: какие модули программы даём -->
+    <div class="card" id="plansc">
+      <div class="row" style="align-items:center"><b style="flex:1">Тарифы и наборы модулей</b><button class="btn sm" id="padd">+ Тариф</button></div>
+      <p class="muted" style="margin:6px 0 4px">Тариф задаёт, какие модули программы видит пользователь. Без тарифа доступны все модули. В строке пользователя можно задать и свой набор: он важнее тарифа. Внутри доступного пользователь сам включает и выключает сервисы (Вид → Сервисы).</p>
+      <div id="plans"></div>
     </div>
 
     <div class="stats" id="stats"></div>
@@ -140,7 +152,21 @@ async function saveCode(u, code) {
   catch (e) { if (e.message !== '401') toast('Код не сохранился для просмотра: запишите его сейчас'); return false; }
 }
 let KEY = ''; try { KEY = sessionStorage.getItem('rimora_admin') || ''; } catch (e) {}
-let USERS = [], NOW = Date.now(), FILTER = 'all';
+let USERS = [], PLANS = [], HASPLANS = false, NOW = Date.now(), FILTER = 'all', AIM, HASAI = false;
+const MON = ['январе', 'феврале', 'марте', 'апреле', 'мае', 'июне', 'июле', 'августе', 'сентябре', 'октябре', 'ноябре', 'декабре'];
+// модули программы: ключ как в const SVC (maket/index.html) и название как в окне «Сервисы»
+const MODS = [['examples','Сметы-примеры'],['measure','Обмер на объекте'],['nonorm','Работа без нормы'],['contract','Смета контракта и выполнение'],['addwork','Дополнительные работы'],
+  ['remarks','Ответ на замечания'],['coefs','Обоснование коэффициентов'],['compare','Сравнение двух смет'],['requarter','Пересчёт в новый квартал'],
+  ['pricehist','История цены ресурса'],['feed','Изменения для моих смет'],['freelance','Кабинет фрилансера'],['portfolio','Портфолио'],['diy','Ремонт для себя']];
+const modName = k => (MODS.find(m => m[0] === k) || [k, k])[1];
+const modsText = L => L == null ? 'все модули' : !L.length ? 'ни одного модуля' : L.length + ' из ' + MODS.length + ': ' + L.map(modName).join(', ');
+const modsBoxes = (sel, name) => `<div class="mods">${MODS.map(([k, n]) => `<label><input type="checkbox" name="${name}" value="${k}"${sel == null || sel.includes(k) ? ' checked' : ''} onchange="if(this.form.mm)this.form.mm.value='own'"> ${esc(n)}</label>`).join('')}</div>`;
+// модули пользователя: свой набор, тариф или все
+function userMods(u) {
+  if (u.modules) return ['свой набор', u.modules];
+  const p = PLANS.find(x => x.id === u.plan); if (p) return [p.name, p.modules];
+  return ['все модули', null];
+}
 
 async function api(method, path, body) {
   const r = await fetch(API + path, { method, headers: { 'Authorization': 'Bearer ' + KEY, ...(body ? { 'Content-Type': 'application/json' } : {}) }, body: body ? JSON.stringify(body) : undefined });
@@ -164,14 +190,34 @@ function logout(msg) {
 async function load() {
   const j = await api('GET', '/v1/admin/users');
   USERS = j.users; NOW = j.now || Date.now();
+  // личный кабинет (№17): лимит Помощи ИИ и места на коде; старый сервер их не присылает — колонка скрыта
+  AIM = j.ai_month; HASAI = USERS.length ? 'ai_limit' in USERS[0] : AIM !== undefined;
+  // старый сервер без тарифов (до №25): кабинет работает как раньше, блок тарифов и модулей скрыт
+  try { PLANS = (await api('GET', '/v1/admin/plans')).plans; HASPLANS = true; } catch (e) { if (e.message === '401') throw e; PLANS = []; HASPLANS = false; }
+  $('#plansc').classList.toggle('hide', !HASPLANS); $('#aplan').closest('label').classList.toggle('hide', !HASPLANS);
   $('#login').classList.add('hide'); $('#main').classList.remove('hide'); $('#out').classList.remove('hide');
   render();
 }
+function renderPlans() {
+  $('#aplan').innerHTML = '<option value="">Все модули</option>' + PLANS.map(p => `<option value="${p.id}">${esc(p.name)}</option>`).join('');
+  $('#plans').innerHTML = PLANS.length ? PLANS.map(p => `<div class="pl" data-p="${p.id}"><b>${esc(p.name)}</b><span class="u">${esc(modsText(p.modules))} · пользователей: ${p.users ?? 0}</span>
+    <button class="btn sm" data-pa="edit">Изменить</button><button class="btn sm dng" data-pa="del">Удалить</button></div>`).join('')
+    : '<p class="muted" style="margin:6px 0 0">Тарифов пока нет: всем пользователям доступны все модули.</p>';
+}
+async function planDlg(p) {
+  const d = await ask(`<b>${p ? 'Тариф: ' + esc(p.name) : 'Новый тариф'}</b><label class="f" style="margin-top:10px">Название<input type="text" name="n" maxlength="120" value="${esc(p ? p.name : '')}" placeholder="Подрядчик, Проектный отдел, Пробный" required></label>
+    <div class="muted" style="margin-top:10px;font-size:12px">Модули в тарифе</div>${modsBoxes(p ? p.modules : null, 'm')}`);
+  if (!d) return null; const f = $('#dlgf');
+  const sel = [...f.querySelectorAll('input[name=m]:checked')].map(x => x.value);
+  return { name: f.n.value, modules: sel.length === MODS.length ? null : sel };
+}
 function render() {
+  renderPlans();
   const cnt = { all: USERS.length, ok: 0, soon: 0, expired: 0, closed: 0 };
   USERS.forEach(u => { const s = state(u)[0]; cnt[s]++; if (s === 'soon') cnt.ok++; });
   const ST = [['all', 'Всего'], ['ok', 'Действуют'], ['soon', 'Истекают за 7 дней'], ['expired', 'Срок истёк'], ['closed', 'Закрыты']];
-  $('#stats').innerHTML = ST.map(([k, t]) => `<div class="stat${FILTER === k ? ' on' : ''}" data-f="${k}"><b>${cnt[k]}</b><span>${t}</span></div>`).join('');
+  $('#stats').innerHTML = ST.map(([k, t]) => `<div class="stat${FILTER === k ? ' on' : ''}" data-f="${k}"><b>${cnt[k]}</b><span>${t}</span></div>`).join('')
+    + (HASAI ? `<div class="stat info" title="Вопросы к Помощи ИИ от пользователей с личным кодом в этом месяце"><b>${AIM ?? 0}</b><span>Вопросов ИИ в ${MON[new Date().getMonth()]}</span></div>` : '');
   const q = $('#q').value.trim().toLowerCase();
   const L = USERS.filter(u => {
     const s = state(u)[0];
@@ -180,14 +226,20 @@ function render() {
   });
   if (!USERS.length) { $('#list').innerHTML = '<p class="muted">Пока никому не выдано личных кодов. Заполните форму «Выдать доступ» выше.</p>'; return; }
   if (!L.length) { $('#list').innerHTML = '<p class="muted">Никого не нашлось.</p>'; return; }
-  $('#list').innerHTML = `<table><thead><tr><th>Пользователь</th><th>Доступ</th><th>Последний вход</th><th>Входов</th><th>Сметы</th><th></th></tr></thead><tbody>${L.map(u => {
+  $('#list').innerHTML = `<table><thead><tr><th>Пользователь</th><th>Доступ</th><th>Последний вход</th><th>Входов</th><th>Сметы</th><th>Модули</th>${HASAI ? '<th>ИИ и устройства</th>' : ''}<th></th></tr></thead><tbody>${L.map(u => {
     const [s, t, c] = state(u);
     return `<tr data-id="${u.id}"><td><b>${esc(u.name)}</b>${u.note ? `<div class="u">${esc(u.note)}</div>` : ''}<div class="u">выдан ${dt(u.created)}</div></td>
-      <td><span class="chip ${c}">${t}</span></td><td><span class="ml">Последний вход: </span>${dtt(u.last_seen)}</td><td><span class="ml">Входов: </span>${u.visits}</td><td><span class="ml">Сметы: </span>${smetas(u)}</td>
+      <td><span class="chip ${c}">${t}</span></td><td><span class="ml">Последний вход: </span>${dtt(u.last_seen)}</td><td><span class="ml">Входов: </span>${u.visits}</td><td><span class="ml">Сметы: </span>${smetas(u)}</td><td><span class="ml">Модули: </span>${!HASPLANS ? '<span class="muted">—</span>' : (() => { const [n, L] = userMods(u); return `<span class="chip ${L == null ? 'c-ok' : 'c-mute'}" title="${esc(modsText(L))}">${esc(n)}</span>${L ? `<div class="u">${L.length} из ${MODS.length}</div>` : ''}`; })()}</td>${HASAI ? `<td><span class="ml">ИИ и устройства: </span>${aiDev(u)}</td>` : ''}
       <td class="acts">${s !== 'closed' ? `<button class="btn sm" data-a="d30">+30 дней</button><button class="btn sm" data-a="d365">+1 год</button>` : ''}<button class="btn sm" data-a="term">Срок…</button>
       ${u.blocked ? '<button class="btn sm" data-a="open">Открыть доступ</button>' : '<button class="btn sm dng" data-a="close">Закрыть доступ</button>'}
-      ${u.code_enc ? '<button class="btn sm" data-a="show">Показать код</button>' : ''}<button class="btn sm" data-a="code">Новый код</button><button class="btn sm" data-a="edit">Изменить</button></td></tr>`;
+      ${u.code_enc ? '<button class="btn sm" data-a="show">Показать код</button>' : ''}${HASPLANS ? '<button class="btn sm" data-a="mods">Модули…</button>' : ''}${HASAI ? '<button class="btn sm" data-a="lim">Лимиты…</button>' : ''}<button class="btn sm" data-a="code">Новый код</button><button class="btn sm" data-a="edit">Изменить</button></td></tr>`;
   }).join('')}</tbody></table>`;
+}
+// Помощь ИИ за месяц и устройства за 90 дней (№17); красным, когда лимит или места исчерпаны
+function aiDev(u) {
+  const full = (n, m) => m != null && n >= m ? ' style="color:var(--dng,#C0392B)"' : '';
+  return `<b${full(u.ai_used, u.ai_limit)}>${u.ai_used ?? 0}${u.ai_limit != null ? ' из ' + u.ai_limit : ''}</b> <span class="cell2">вопросов ИИ${u.ai_limit == null ? ', без лимита' : ''}</span><br>`
+    + `<b${full(u.devices, u.seats)}>${u.devices ?? 0}${u.seats != null ? ' из ' + u.seats : ''}</b> <span class="cell2">${u.seats != null ? 'мест занято' : 'устройств, без ограничения'}</span>`;
 }
 // сметы пользователя: на устройстве, где он последний раз открывал программу, и в облаке, если оно включено
 function smetas(u) {
@@ -228,7 +280,7 @@ $('#add').onsubmit = async e => {
   if (v === 'date') { if (!$('#adate').value) { $('#aerr').textContent = 'Укажите дату'; $('#aerr').classList.remove('hide'); return; } until = endOfDay($('#adate').value); }
   else if (v) until = endOfDay(new Date(Date.now() + (+v) * DAY).toISOString().slice(0, 10));
   try {
-    const j = await api('POST', '/v1/admin/users', { name: $('#aname').value, note: $('#anote').value, until });
+    const j = await api('POST', '/v1/admin/users', { name: $('#aname').value, note: $('#anote').value, until, plan: $('#aplan').value ? +$('#aplan').value : null });
     USERS.unshift(j.user); render(); $('#aname').value = ''; $('#anote').value = ''; showIssued(j.user, j.code, await saveCode(j.user, j.code));
   } catch (err) { if (err.message !== '401') { $('#aerr').textContent = 'Не получилось: ' + err.message; $('#aerr').classList.remove('hide'); } }
 };
@@ -254,12 +306,47 @@ $('#list').onclick = async e => {
     else if (a === 'close') { if (!confirm(`Закрыть доступ для «${u.name}»? Код перестанет работать сразу, в том числе у уже вошедших (при следующем открытии программы).`)) return; await put({ blocked: true }); toast('Доступ закрыт'); }
     else if (a === 'open') { await put({ blocked: false }); toast('Доступ открыт'); }
     else if (a === 'code') { if (!confirm(`Выдать «${u.name}» новый код? Старый код перестанет работать.`)) return; const j = await api('POST', '/v1/admin/users/' + id + '/code'); u.code_enc = null; render(); showIssued(u, j.code, await saveCode(u, j.code)); }
+    else if (a === 'lim') {
+      const d = await ask(`<b>Лимиты: ${esc(u.name)}</b>
+        <label class="f" style="margin-top:10px">Вопросов к Помощи ИИ в месяц<input type="number" name="ai" min="0" max="100000" value="${u.ai_limit ?? ''}" placeholder="без лимита"></label>
+        <div class="muted" style="font-size:12px;margin-top:4px">В этом месяце задано: ${u.ai_used ?? 0}. Пусто — без лимита. Лимит обновляется 1-го числа.</div>
+        <label class="f" style="margin-top:12px">Мест (устройств) на коде<input type="number" name="se" min="0" max="1000" value="${u.seats ?? ''}" placeholder="без ограничения"></label>
+        <div class="muted" style="font-size:12px;margin-top:4px">Для кода группы: сколько компьютеров и телефонов могут работать по одному коду. Считаются устройства за 90 дней, сейчас: ${u.devices ?? 0}.</div>
+        <label style="display:flex;gap:6px;align-items:center;margin-top:10px"><input type="checkbox" name="rd"> Сбросить устройства (сменил компьютер или телефон)</label>`);
+      if (!d) return; const f = $('#dlgf'), num = v => v.trim() === '' ? null : Math.max(0, Math.round(+v));
+      const body = { ai_limit: num(f.ai.value), seats: num(f.se.value) }; if (f.rd.checked) body.devices = null;
+      await put(body); toast('Лимиты сохранены');
+    }
+    else if (a === 'mods') {
+      const mode = u.modules ? 'own' : u.plan ? 'plan' : 'all';
+      const d = await ask(`<b>Модули: ${esc(u.name)}</b>
+        <label style="display:flex;gap:6px;margin-top:10px"><input type="radio" name="mm" value="all"${mode === 'all' ? ' checked' : ''}> Все модули</label>
+        <label style="display:flex;gap:6px;align-items:center;margin-top:6px"><input type="radio" name="mm" value="plan"${mode === 'plan' ? ' checked' : ''}${PLANS.length ? '' : ' disabled'}> По тарифу
+          <select name="pl" style="flex:1">${PLANS.map(p => `<option value="${p.id}"${p.id === u.plan ? ' selected' : ''}>${esc(p.name)}</option>`).join('') || '<option value="">тарифов нет</option>'}</select></label>
+        <label style="display:flex;gap:6px;margin-top:6px"><input type="radio" name="mm" value="own"${mode === 'own' ? ' checked' : ''}> Свой набор</label>${modsBoxes(u.modules || userMods(u)[1], 'm')}
+        <p class="muted" style="font-size:12px;margin:8px 0 0">Изменения дойдут до пользователя при следующем открытии программы.</p>`);
+      if (!d) return; const f = $('#dlgf'), mm = f.mm.value;
+      if (mm === 'all') await put({ modules: null, plan: null });
+      else if (mm === 'plan') { if (!f.pl.value) return toast('Сначала создайте тариф'); await put({ modules: null, plan: +f.pl.value }); }
+      else await put({ modules: [...f.querySelectorAll('input[name=m]:checked')].map(x => x.value) });
+      toast(u.name + ': ' + modsText(userMods(u)[1]));
+    }
     else if (a === 'show') { let code; try { code = await decCode(u.code_enc); } catch (e) { return toast('Код зашифрован другим ключом администратора: выдайте новый код'); } showIssued(u, code, true); }
     else if (a === 'edit') {
       const d = await ask(`<b>Изменить</b><label class="f" style="margin-top:10px">Имя<input type="text" name="n" maxlength="120" value="${esc(u.name)}" required></label>
         <label class="f" style="margin-top:10px">Заметка<input type="text" name="t" maxlength="500" value="${esc(u.note)}"></label>`);
       if (!d) return; const f = $('#dlgf'); await put({ name: f.n.value, note: f.t.value }); toast('Сохранено');
     }
+  } catch (err) { if (err.message !== '401') toast('Не получилось: ' + err.message); }
+};
+$('#padd').onclick = async () => { const v = await planDlg(null); if (!v) return;
+  try { const j = await api('POST', '/v1/admin/plans', v); PLANS.push(j.plan); render(); toast('Тариф создан: ' + j.plan.name); } catch (err) { if (err.message !== '401') toast('Не получилось: ' + err.message); } };
+$('#plans').onclick = async e => {
+  const b = e.target.closest('[data-pa]'); if (!b) return; const p = PLANS.find(x => x.id === +b.closest('[data-p]').dataset.p);
+  try {
+    if (b.dataset.pa === 'edit') { const v = await planDlg(p); if (!v) return; const j = await api('PUT', '/v1/admin/plans/' + p.id, v); Object.assign(p, j.plan); render(); toast('Тариф сохранён'); }
+    else { if (!confirm(`Удалить тариф «${p.name}»? Пользователям с этим тарифом станут доступны все модули.`)) return;
+      await api('DELETE', '/v1/admin/plans/' + p.id); PLANS = PLANS.filter(x => x !== p); USERS.forEach(u => { if (u.plan === p.id) u.plan = null; }); render(); toast('Тариф удалён'); }
   } catch (err) { if (err.message !== '401') toast('Не получилось: ' + err.message); }
 };
 if (KEY) load().catch(err => { if (err.message !== '401') logout('Нет связи с сервером: ' + err.message); });
