@@ -856,6 +856,8 @@ const zShort=z=>{if(z===ZDEF)return 'Волгоград';const i=ZINFO(z);return
 const lvName=(lv,z)=>{lv=lv||'cur';if(lv==='base')return 'Базис 01.01.2022';const p=lvPeriod(lv);return zShort(+(z||ZDEF))+', '+qShort(PIDX&&PIDX.periods[p]||PNAME[p]||'')+(useSplit(+(z||ZDEF)+'_'+p)?' (сплит-форма)':'')};
 const PSET=new Proxy({},{get:(o,k)=>typeof k==='string'?lvName(k,zoneOf()):undefined});
 const zonePeriods=z=>{const i=ZINFO(z);return i?i.z.p:(z===ZDEF?[427,423]:[])};
+/* квартал новых смет: самый свежий квартал Волгограда в оглавлении цен (с 25.11.2026 это 4 кв. 2026); сметы без level остаются на 'cur' = 3 кв. 2026 */
+const LV_NEW=(()=>{const p=zonePeriods(ZDEF)[0];return p?lvOf(p):'cur'})();
 const prKey=()=>{const p=S.level==='base'?null:lvPeriod(S.level);return p?zoneOf()+'_'+p:null};
 const builtinPR=k=>k===ZDEF+'_427'?window.PRICES:k===ZDEF+'_423'&&window.PRICES_2025Q3?window.PRICES_2025Q3:null;
 const REGPR={},PRL={};
@@ -983,7 +985,7 @@ async function ensureExtRes(pos){const need=new Set();
 
 
 /* ---------- состояние ---------- */
-let S={name:'Новая смета',pos:[],idx:'',nds:false};
+let S={name:'Новая смета',pos:[],idx:'',nds:false,level:LV_NEW};
 const openRows=new Set();
 let sel=null, uid=1, hist=[], redo=[], tab='lsr', compact=false, saved=true;
 let pirSel=0,pirTab='t',pirParOpen=false,treeMode='',PIR_N=0;const PM=()=>S.mode==='pir';let ncsSel=0,ncsTab='t',ncsParOpen=false;const NM=()=>S.mode==='ncs';let TABS=[{}],TI=0;const TBK='rimora.tabs';
@@ -1178,7 +1180,7 @@ $('#tablewrap').addEventListener('dragover',e=>{if(!DRG)return;const tr=e.target
 $('#tablewrap').addEventListener('drop',e=>{if(!DRG)return;const tr=e.target.closest('tr[data-id]');dropClr();if(!tr){DRG=null;return}e.preventDefault();const r=tr.getBoundingClientRect();moveTo(DRG,+tr.dataset.id,e.clientY>r.top+r.height/2);DRG=null});
 $('#tablewrap').addEventListener('dragend',()=>{DRG=null;dropClr()});
 function findClose(){FQ='';$('#fbar')?.remove();$$('#tablewrap tr.fhit').forEach(x=>x.classList.remove('fhit','fcur'))}
-function newDocRaw(){if(S.pos.length&&!S.docId&&!saved&&!confirm('Начать новую смету? Эта смета не сохранена и пропадёт.'))return false;S={name:'Новая смета',pos:[],idx:'',nds:false,ed:ED_LATEST};vorPick=null;renderPickBar();sel=null;hist=[];redo=[];$('#docname').value=S.name;markDirty();render();return true}
+function newDocRaw(){if(S.pos.length&&!S.docId&&!saved&&!confirm('Начать новую смету? Эта смета не сохранена и пропадёт.'))return false;S={name:'Новая смета',pos:[],idx:'',nds:false,ed:ED_LATEST,level:LV_NEW};vorPick=null;renderPickBar();sel=null;hist=[];redo=[];$('#docname').value=S.name;markDirty();render();return true}
 /* ---------- подключённые базы: сметчик включает одну или несколько (хранится в этом браузере) ---------- */
 const BASES=[['fsnb','ФСНБ-2022','ГЭСН и ФСБЦ, текущие цены и индексы ФГИС ЦС. Для локальных смет'],['ucheb','Учебная база курса','ФСНБ-2022 с нормами из учебных смет курса. Для локальных смет'],['pir','НЗ и СБЦ на проектные работы','Нормативы затрат и справочники базовых цен. Смета на проектные работы'],['ncs','НЦС-2026','Укрупнённые нормативы цены строительства, 23 сборника'],['nmck','НМЦК, приказ 841/пр','Расчёт начальной (максимальной) цены контракта от ССРСС с индексами инфляции']];
 const BSK='rimora.basesOff',basesOff=()=>{try{return JSON.parse(lsGet(BSK)||'[]')}catch(e){return []}},baseOn=k=>!basesOff().includes(k);
@@ -1274,7 +1276,7 @@ async function sample(real=true){if(keepAsk('Открыть пример?'))retu
   const list=real?[['01-01-009-02',180],['01-01-033-05',114.56],['11-01-002-01',13.44],['06-01-001-01',6],['06-01-005-06',46],['11-01-011-01',54],['11-01-011-02',54,4]]
     :[['УЧ01-01-002-01',180],['УЧ01-02-001-01',12],['УЧ11-01-001-01',14],['УЧ11-01-003-01',6],['УЧ06-01-001-01',46],['УЧ01-01-003-01',130]];
   try{await ensureReal(list.map(x=>x[0]))}catch(e){return toast('Не удалось загрузить данные примера')}
-  S={name:real?'Фундамент гаража (пример, ГЭСН-2022)':'Фундамент гаража (учебная база)',pos:[],idx:'',nds:false};
+  S={name:real?'Фундамент гаража (пример, ГЭСН-2022)':'Фундамент гаража (учебная база)',pos:[],idx:'',nds:false,level:LV_NEW};
   S.pos.push({id:uid++,sec:'Земляные работы и фундамент'});
   list.forEach(([c,q,kr])=>S.pos.push(kr?{id:uid++,code:c,qty:q,ks:[],kr}:{id:uid++,code:c,qty:q,ks:[]}));
   if(real){const VS=[['Разработка грунта в траншеях экскаватором, грунт 2 группы','м3','2*(6+9)*2,4*2,5','АР-3'],
@@ -4155,7 +4157,7 @@ function tplSave(){if(!S.pos.length)return toast('Смета пуста: шаб�
     if(tplStore(a)){dlgClose();toast(`Шаблон «${name}» сохранён: ${tplCount(pos)} ${tplWord(tplCount(pos))}`)}}}
 function dlgClose(){$('#dlgbg').classList.toggle('on',false)}
 async function tplInsert(t,asNew){if(asNew){if(S.pos.length&&!S.docId&&!saved&&!confirm('Начать новую смету из шаблона? Эта смета не сохранена и пропадёт.'))return;
-    S={name:t.name,pos:[],idx:'',nds:false};sel=null;msel.clear();hist=[];redo=[];lastSnap=null;vorPick=null;renderPickBar();$('#docname').value=S.name;if(t.base&&t.base!=='fsnb')S.base=t.base}
+    S={name:t.name,pos:[],idx:'',nds:false,level:LV_NEW};sel=null;msel.clear();hist=[];redo=[];lastSnap=null;vorPick=null;renderPickBar();$('#docname').value=S.name;if(t.base&&t.base!=='fsnb')S.base=t.base}
   const add=t.pos.map(p=>{const c=JSON.parse(JSON.stringify(p));c.id=uid++;return c});
   try{await ensureReal(add.filter(x=>x.code&&!x.ka&&!x.tr&&!x.mr).map(x=>x.code));await ensureExtRes(add);if(add.some(x=>x.tr||x.ka&&x.ka.tr&&x.ka.tr.on))await ensureTR()}catch(e){}
   dlgClose();if(tab!=='lsr')setTab('lsr');const i=sel?S.pos.findIndex(x=>x.id===(selIds().slice(-1)[0]??sel)):-1;S.pos.splice(i>=0?i+1:S.pos.length,0,...add);msel.clear();sel=add.length?add[add.length-1].id:sel;
