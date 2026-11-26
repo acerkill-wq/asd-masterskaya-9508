@@ -336,7 +336,7 @@ table.lsrf tr.sel td{background:color-mix(in srgb,var(--brand) 12%,transparent)}
 .ctg{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px;margin:10px 0}.ctc{border:1px solid var(--line);border-radius:10px;padding:8px 12px}.ctc b{display:block;font-size:20px;margin:2px 0}
 .ctbar{height:6px;border-radius:9px;background:var(--line2);overflow:hidden;margin:4px 0}.ctbar i{display:block;height:100%;background:var(--brand)}.ctbar.w i{background:var(--warn,#e0a030)}.ctw{font-size:11px;color:var(--warn-ink,#9a6400)}.rmg{display:grid;grid-template-columns:minmax(220px,1fr) minmax(320px,1.6fr) minmax(220px,1fr);gap:10px;margin-top:10px}.rmc{border:1px solid var(--line);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:8px;min-width:0}.rmh{font-weight:600;text-transform:uppercase;letter-spacing:.04em;font-size:11px}
 #rmTxt{min-height:240px;font:inherit;font-size:12.5px;padding:8px;border:1px dashed var(--line);border-radius:8px;background:var(--surface);color:inherit;resize:vertical}.rmm{max-height:62vh;overflow:auto}.rmi{border:1px solid var(--line);border-radius:8px;padding:8px;display:flex;flex-direction:column;gap:5px}.rmt{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.rmq{font-weight:600;font-size:12.5px}.rmk{font-size:11.5px;background:var(--warn-bg);border-radius:6px;padding:3px 6px}.rmb{display:flex;gap:6px;flex-wrap:wrap}.rmb .btn{height:26px;font-size:12px}.rmi textarea{width:100%;font:inherit;font-size:12.5px;padding:5px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:inherit;resize:vertical}
-.rms{font:inherit;font-size:11.5px;border-radius:99px;padding:1px 6px;border:1px solid var(--line);background:var(--surface);color:inherit}.rms.ok{background:var(--brand-soft);color:var(--brand-ink)}.rms.w{background:var(--warn-bg)}.rms.e{background:#fde2e1;color:#9b1c1c}.rmd{white-space:pre-wrap;font:inherit;font-size:12.5px;margin:0;flex:1;max-height:48vh;overflow:auto}
+.rmmiss{font-size:11.5px;font-weight:600;color:#9b1c1c;background:#fde2e1;border-radius:99px;padding:1px 8px}.rms{font:inherit;font-size:11.5px;border-radius:99px;padding:1px 6px;border:1px solid var(--line);background:var(--surface);color:inherit}.rms.ok{background:var(--brand-soft);color:var(--brand-ink)}.rms.w{background:var(--warn-bg)}.rms.e{background:#fde2e1;color:#9b1c1c}.rmd{white-space:pre-wrap;font:inherit;font-size:12.5px;margin:0;flex:1;max-height:48vh;overflow:auto}
 @media(max-width:900px){.rmg{grid-template-columns:1fr}}
 .nno{display:grid;grid-template-columns:26px minmax(0,1fr) auto auto;gap:8px;align-items:start;padding:8px 0;border-bottom:1px solid var(--line)}.nnn{width:24px;height:24px;border-radius:99px;background:var(--brand-soft);color:var(--brand-ink);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px}
 .nnb{display:flex;flex-direction:column;gap:4px;min-width:0}.nnt,.nns,#nnW{font:inherit;font-size:12.5px;padding:4px 6px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);min-width:0;width:100%}.nnt{font-weight:600}.nnr{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
@@ -403,6 +403,23 @@ table.lsrf tr.sel td{background:color-mix(in srgb,var(--brand) 12%,transparent)}
 @media(max-width:980px){.svw{grid-template-columns:1fr 1fr}.svc2{grid-column:1/-1;order:-1}}
 @media(max-width:640px){.svw,.svgs,.svask{grid-template-columns:1fr}.svc2{order:0}}
 .avatar{cursor:pointer}.avatar:hover{filter:brightness(1.08)}.cbhd{display:flex;gap:12px;align-items:center;min-width:0}.cbhd h3{margin:0}.cbav{width:46px;height:46px;font-size:17px;flex:none;cursor:default}.cbts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:4px 0 16px}.cbt{border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:2px;min-width:0}.cbt span{font-size:12px;color:var(--muted)}.cbt b{font-size:20px}.cbt em{font-style:normal;font-size:12px;color:var(--muted)}.cbt.warn{border-color:var(--warn);background:var(--warn-bg)}.cbg{display:grid;grid-template-columns:1.25fr 1fr;gap:18px}.cbg h4{margin:0 0 8px}.cbr{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0;border-top:1px solid var(--line)}.cbr>span{display:flex;flex-direction:column;min-width:0}.cbr em{font-style:normal;font-size:12px;color:var(--muted)}.cbr input,.cbr select{font:inherit;font-size:13px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);width:210px;max-width:52%}@media(max-width:700px){.cbts{grid-template-columns:1fr 1fr}.cbg{grid-template-columns:1fr}.cbr{flex-wrap:wrap}.cbr input,.cbr select{width:100%;max-width:none}}
+.kpbb{display:flex;gap:8px;flex-wrap:wrap}.kpbb input:not([type=file]){flex:1;min-width:220px;font:inherit;font-size:14px;padding:8px 11px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink)}
+.kpbw{max-height:56vh;overflow:auto;border:1px solid var(--line);border-radius:10px}.kpbt2{width:100%;border-collapse:collapse;font-size:12.5px}.kpbt2 th{position:sticky;top:0;background:var(--surface2);text-align:left;font-weight:600;padding:7px 8px;white-space:nowrap}.kpbt2 td{padding:7px 8px;border-top:1px solid var(--line);vertical-align:top;height:auto}.kpbt2 td.r,.kpbt2 th.r{text-align:right;white-space:nowrap}.kpbt2 td:first-child{min-width:220px}.kpbt2 td:nth-child(3),.kpbt2 td:nth-child(4){white-space:nowrap}
+.ansh{display:flex;gap:8px;font-size:12px;background:var(--brand-soft);color:var(--brand-ink);border-radius:8px;padding:7px 9px}.ansh>svg{flex:none;margin-top:2px}.ansh>div{min-width:0}.ansq{margin:4px 0 6px;font-style:italic;white-space:pre-wrap}.ansown{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.ansr.r-off,.ansr.r-won{background:var(--brand-soft);color:var(--brand-ink)}.ansr.r-fix{background:var(--warn-bg)}.ansr.r-lost{background:#fde2e1;color:#9b1c1c}span.ansr{border-radius:99px;padding:0 5px;font-weight:600}
+.answ{max-height:58vh;overflow:auto;display:flex;flex-direction:column;gap:10px;padding-right:4px}.ansc{border:1px solid var(--line);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:6px}.ansc{position:relative}.ansc .rmt{padding-right:26px}.ansc .rmt .vdel{position:absolute;top:6px;right:8px}.ansg{font-size:11.5px;font-weight:600;border-radius:99px;padding:1px 8px;background:var(--line)}
+.ansc textarea,.ansc input,.ansfm textarea,.ansfm input,.ansfm select,.anst{width:100%;font:inherit;font-size:12.5px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:inherit;resize:vertical;box-sizing:border-box}.anst{width:auto;font-size:13.5px;padding:8px 10px;border-radius:10px}
+.ansf{display:flex;gap:6px;flex-wrap:wrap;align-items:center}.ansfi{display:inline-flex;gap:4px;align-items:center;border:1px solid var(--line);border-radius:99px;padding:1px 4px 1px 10px;font-size:12px}.ansfn{font:inherit;border:0;background:none;color:var(--brand-ink);cursor:pointer;padding:0;text-decoration:underline;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ansfm{display:flex;flex-direction:column;gap:10px;margin-top:10px}.ansf2{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+@media(max-width:700px){.ansf2{grid-template-columns:1fr}.anst{flex:1}}
+.kpbo{color:var(--warn)}.kpbo div{font-size:11px;font-weight:600}.kpbt{margin:0 0 10px}
+@media(max-width:700px){.kpbt2{font-size:12px}.kpbt2 td:first-child{min-width:160px}}
+.obfw{display:grid;grid-template-columns:220px minmax(0,1fr) 270px;gap:14px;min-height:440px}.obfw h4{margin:0 0 8px}.obfw section{min-width:0}.obf1{display:flex;flex-direction:column;gap:2px}.obfsh{font-size:12px;font-weight:700;color:var(--muted);margin:8px 0 2px;padding:0 9px}.obfo{display:flex;justify-content:space-between;gap:8px;text-align:left;padding:6px 9px;border-radius:8px;font-size:13px}.obfo span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.obfo i{font-style:normal;color:var(--muted)}.obfo.on{background:var(--brand-soft);color:var(--brand-ink);font-weight:600}.obfo:hover:not(.on){background:var(--surface2)}
+.obfb{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.obfb input{flex:1;min-width:200px;font:inherit;font-size:13.5px;padding:8px 11px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink)}.obf2{border-radius:12px;padding:2px}.obf2.drag{outline:2px dashed var(--brand);outline-offset:4px}
+.obff{max-height:52vh;overflow:auto;padding-right:4px}.obfe{display:grid;grid-template-columns:14px minmax(0,1fr) auto;gap:10px;align-items:start;padding:9px 0;border-top:1px solid var(--line)}.obfe>i{width:9px;height:9px;border-radius:50%;margin-top:5px;background:var(--brand)}.obft{font-size:12px;color:var(--muted)}.obfx{font-size:13.5px;overflow-wrap:anywhere}.obftag{display:inline-block;font-size:11px;font-weight:600;padding:0 7px;border-radius:99px;background:var(--surface2);color:var(--ink2);vertical-align:1px}.obfa{display:flex;gap:4px;align-items:center}
+.obfe.k-file>i{background:#3a7bd5}.obfe.k-exp>i{background:#d64560}.obfe.k-acts>i,.obfe.k-contract>i{background:#17663a}.obfe.k-addw>i{background:#7a5bd6}.obfe.k-meas>i{background:#e0a020}.obfe.k-note>i{background:var(--muted)}.obfdrop{font-size:12px;margin-top:8px}
+.obfns{display:grid;grid-template-columns:1fr 1fr;gap:8px}.obfn{border:1px solid var(--line);border-radius:10px;padding:8px 10px;display:flex;flex-direction:column;min-width:0}.obfn b{font-size:20px}.obfn span{font-size:12px;color:var(--muted)}.obfn em{font-style:normal;font-size:11.5px;color:var(--ink2)}.obf3 .exnote{margin-top:10px}
+@media(max-width:900px){.obfw{grid-template-columns:1fr}.obf1{display:grid;grid-template-columns:1fr 1fr;gap:4px}.obf1 h4,.obfsh,#obfDocs{grid-column:1/-1}.obff{max-height:none}.obfe{grid-template-columns:14px minmax(0,1fr)}.obfa{grid-column:2;margin-top:4px}.obfa .btn.sm{padding:4px 10px}}
 .exw{display:grid;grid-template-columns:230px minmax(0,1fr) 360px;gap:14px;min-height:430px}.exw h4{margin:0 0 8px}.exw section{min-width:0}.ex1{display:flex;flex-direction:column;gap:2px}.exs{display:flex;justify-content:space-between;gap:8px;text-align:left;padding:6px 9px;border-radius:8px;font-size:13px}.exs i{font-style:normal;color:var(--muted)}.exs.on{background:var(--brand-soft);color:var(--brand-ink);font-weight:600}.exs:hover:not(.on){background:var(--surface2)}.exnote{margin-top:10px;font-size:12px;color:var(--brand-ink);background:var(--brand-soft);border-radius:10px;padding:9px 10px}.ex2 #exQ{width:100%;box-sizing:border-box;font:inherit;font-size:14px;padding:8px 11px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink)}.exfs{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}.exf{padding:5px 11px;border:1px solid var(--line);border-radius:99px;font-size:13px}.exf.on{background:var(--ink);color:var(--surface);border-color:var(--ink)}.excs{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;max-height:56vh;overflow:auto;padding:2px}.exc{display:flex;flex-direction:column;align-items:flex-start;gap:5px;text-align:left;border:1px solid var(--line);border-radius:12px;padding:11px 12px}.exc.on{border:2px solid var(--brand);padding:10px 11px}.exc>span{font-size:12px;color:var(--ink2)}.exm{display:flex;flex-wrap:wrap;gap:5px}.exm em{font-style:normal;font-size:11px;background:var(--surface2);border-radius:6px;padding:2px 6px}.exch,.exok{font-size:11px;font-weight:600;border-radius:6px;padding:2px 7px}.exch{background:var(--warn-bg);color:var(--warn)}.exok{background:var(--brand-soft);color:var(--brand-ink)}.ex3{border-left:1px solid var(--line);padding-left:14px}.ext{width:100%;border-collapse:collapse;font-size:12px}.ext th{text-align:left;color:var(--muted);font-weight:500;padding:4px 0}.exsc{max-height:min(46vh,420px);overflow:auto;margin-right:-6px;padding-right:6px}.ext tr{height:auto}.ext tbody td{padding:4px 0;height:auto;border-bottom:0;border-top:1px solid var(--line2);vertical-align:top;line-height:1.35}.ext td.r,.ext th.r{text-align:right;white-space:nowrap;padding-left:8px}.ext .mono{font-size:11px;color:var(--muted)}.ext .exsec td{font-weight:600;padding-top:9px}.ext .exmat td{border-top:0;padding:0 0 4px 14px;color:var(--ink2);font-size:11px}.ext .exmat td.r{font-size:11px}.exv{display:flex;flex-direction:column;gap:3px;margin:12px 0 8px;font-size:12px;color:var(--muted)}.exv input{font:inherit;font-size:15px;padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);width:160px}.exk{font-size:12px;background:rgba(124,108,240,.1);color:var(--ink);border-radius:10px;padding:9px 10px}.exa{display:flex;flex-wrap:wrap;gap:8px}@media(max-width:900px){.exs.z{display:none}.exsc{max-height:none}.exw{grid-template-columns:1fr}.ex1{flex-direction:row;flex-wrap:wrap}.ex1 h4,.exnote{display:none}.exs{border:1px solid var(--line)}.ex3{border-left:0;padding-left:0;border-top:1px solid var(--line);padding-top:12px}.excs{max-height:none}}
 .cmh{display:grid;grid-template-columns:1fr auto 1fr 1fr;gap:10px;align-items:center;margin-top:10px}.cmc{border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:2px;min-width:0}.cmn{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.cmt{font-size:24px;font-weight:700;margin-top:4px}.cmd{background:var(--warn-bg);border-color:transparent}
 .cmf{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 6px}.cmch{font:inherit;font-size:12.5px;font-weight:600;border:0;border-radius:99px;padding:4px 12px;cursor:pointer;background:var(--line);color:inherit}.cmch.on{background:var(--ink);color:var(--surface)}
@@ -1615,8 +1632,9 @@ function stRen(sid,oid){const L=stroyList(),s=L.find(x=>x.id===sid);if(!s)return
   for(const x of docIndex())if(hit(x.pl))docSetPlace(x.id,np(x.pl));
   if(!S.docId&&hit(S.place))S.place=np(S.place);TABS.forEach(T=>{if(T.st&&!T.st.S.docId&&hit(T.st.S.place))T.st.S.place=np(T.st.S.place)});
   renderDocs();renderDocTabs()}
-function stDel(sid,oid){const L=stroyList(),s=L.find(x=>x.id===sid);if(!s)return;const o=oid?s.obj.find(x=>x.id===oid):null;const n=o?o.n:s.n;
+function stDel(sid,oid){const L=stroyList(),s=L.find(x=>x.id===sid);if(!s)return;const o=oid?s.obj.find(x=>x.id===oid):null;const n=o?o.n:s.n,nf=typeof obfCount==='function'?(o?[o]:s.obj).reduce((a,x)=>a+obfCount(x.id),0):0;
   if(n)return toast(`В ${o?'объекте':'стройке'} есть документы (${n}). Сначала перенесите их кнопкой «Перенести»`);
+  if(nf)return toast(`В папке ${o?'объекта':'объектов стройки'} есть файлы и заметки (${nf}). Удалите их в «Папке объекта» или выгрузите в ZIP`);
   if(!confirm(o?`Удалить пустой объект «${o.name}»?`:`Удалить пустую стройку «${s.name}»?`))return;
   if(o){s.obj=s.obj.filter(x=>x.id!==oid);docPick='s:'+sid}else{L.splice(L.indexOf(s),1);docPick='all'}stKeep(L);renderDocs()}
 function docMove(id){const m=docIndex().find(x=>x.id===id);if(!m)return;const L=stroyList();
@@ -1642,7 +1660,7 @@ function renderDocs(){const w=$('#docsw');if(!w)return;const L=docIndex(),SL=str
     <button class="dsi${pk[0]==='none'?' on':''}" data-pk="none" style="margin-top:6px"><span>Без стройки</span><i>${nNone}</i></button>
     <button class="btn sm" data-da="stnew" style="margin-top:8px;justify-content:center">+ Стройка</button></aside>`;
   const head=ps?`<div class="dsh"><div><div class="u" style="font-size:12px">${po?'Объект стройки «'+esc(ps.name)+'»':'Стройка, объектов: '+ps.obj.length}</div><b>${esc(po?po.name:ps.name)}</b> <span class="u">· документов ${po?po.n:ps.n} · ${fmt(po?po.sum:ps.sum)} ₽ без НДС</span></div>
-    <div class="dsb">${po?'<button class="btn sm pri" data-da="ndoc">+ Документ</button>':'<button class="btn sm pri" data-da="obnew">+ Объект</button>'}<button class="btn sm" data-da="sren">Переименовать</button><button class="btn sm" data-da="sdel" title="${po?'Удалить пустой объект':'Удалить пустую стройку'}">${ic('trash')}</button></div></div>`:'';
+    <div class="dsb">${po&&SVC.object?'<button class="btn sm" data-da="obf">Папка объекта</button>':''}${po?'<button class="btn sm pri" data-da="ndoc">+ Документ</button>':'<button class="btn sm pri" data-da="obnew">+ Объект</button>'}<button class="btn sm" data-da="sren">Переименовать</button><button class="btn sm" data-da="sdel" title="${po?'Удалить пустой объект':'Удалить пустую стройку'}">${ic('trash')}</button></div></div>`:'';
   const empty=po?['В объекте пока нет документов','Нажмите «+ Документ»: локальная смета, ВОР, проектные работы, НЦС и другие. Готовую смету можно перенести сюда кнопкой «Перенести».']
     :ps?['В стройке пока нет документов','Выберите объект слева и нажмите «+ Документ».']
     :[L.length?'Ничего не найдено':'Сохранённых смет пока нет',L.length?'Измените строку поиска или выберите другую папку слева.':'Нажмите «Сохранить» или Ctrl+S, и смета появится здесь.'];
@@ -1656,7 +1674,7 @@ function renderDocs(){const w=$('#docsw');if(!w)return;const L=docIndex(),SL=str
   w.querySelectorAll('[data-da]').forEach(b=>b.onclick=async()=>{const a=b.dataset.da,id=b.closest('tr')?.dataset.id;
     if(a==='save'){save();renderDocs()}else if(a==='new'){$('#dlgbg').classList.remove('on');newDoc()}else if(a==='imp')importDocFile();else if(a==='exp')exportDocFile();else if(a==='share')openShare();
     else if(a==='open'){if(await openDoc(id))$('#dlgbg').classList.remove('on')}else if(a==='file')exportDocFile(id);else if(a==='dup')dupDoc(id);else if(a==='del')delDoc(id);
-    else if(a==='mv')docMove(id);else if(a==='stnew')stNew();else if(a==='obnew')obNew(ps.id);else if(a==='sren')stRen(ps.id,po&&po.id);else if(a==='sdel')stDel(ps.id,po&&po.id);
+    else if(a==='mv')docMove(id);else if(a==='stnew')stNew();else if(a==='obnew')obNew(ps.id);else if(a==='sren')stRen(ps.id,po&&po.id);else if(a==='sdel')stDel(ps.id,po&&po.id);else if(a==='obf')openObject({s:ps.id,o:po.id});
     else if(a==='ndoc'){$('#dlgbg').classList.remove('on');newDoc({s:ps.id,sn:ps.name,o:po.id,on:po.name})}});
   w.querySelectorAll('tbody tr').forEach(tr=>tr.ondblclick=async e=>{if(e.target.closest('button'))return;if(await openDoc(tr.dataset.id))$('#dlgbg').classList.remove('on')});
   const qi=$('#docq');qi.oninput=()=>{docQ=qi.value;const p=qi.selectionStart;renderDocs();const n=$('#docq');n.focus();n.setSelectionRange(p,p)}}
@@ -1882,15 +1900,15 @@ function exportXML(){const X=xmlx();if(!X)return toast('Модуль XML не з
 /* ---------- меню и лента ---------- */
 /* Новые сервисы из бэклога 89_Бэклог_сервисов: включение и отключение в одном месте (1 — виден, 0 — скрыт).
    Пункт меню сервиса: [название, функция, клавиша, отметка, база, ключ сервиса] — без включённого ключа пункт не показывается. */
-const SVC={examples:1,diy:1,contract:1,addwork:1,remarks:1,coefs:1,compare:1,measure:1,nonorm:1,requarter:1,pricehist:1,feed:1,freelance:1,portfolio:1};
+const SVC={object:1,kpbase:1,answers:1,examples:1,diy:1,contract:1,addwork:1,remarks:1,coefs:1,compare:1,measure:1,nonorm:1,requarter:1,pricehist:1,feed:1,freelance:1,portfolio:1};
 const svcOn=k=>!!SVC[k];
 const MENUS={
- file:['#Создать',['Новая смета',newDoc],['Новая смета из шаблона…',()=>tplOpen(true)],['Новая смета из примера…',()=>openExamples(),null,null,null,'examples'],['Смета по документам объекта (ИИ)…',openDocsVor],['Обмер на объекте (фото, размеры, голос)…',openMeasure,null,null,null,'measure'],['Ремонт для себя: проверить смету подрядчика…',()=>openDiy(),null,null,null,'diy'],['Примеры (демо)…',openDemos],'#Открыть',['Мои сметы…',openDocs,'Ctrl+O'],['Изменения для моих смет (цены, нормы)…',openFeed,null,null,null,'feed'],['Кабинет фрилансера: заказы, КП, счета…',openFreelance,null,null,null,'freelance'],['Портфолио: мои сметы одной ссылкой…',openPortfolio,null,null,null,'portfolio'],['Открыть из файла…',importDocFile],['Открыть смету из Excel (.xlsx)…',()=>openXlsx()],['Открыть смету из XML Минстроя (ЛС РИМ)…',()=>openXml()],['Открыть смету ГРАНД-Сметы (.gsfx, .xml)…',()=>openXml()],['Открыть модель IFC (ТИМ)…',openBim],'#Сохранить',['Сохранить',save,'Ctrl+S'],['Сохранить как копию…',saveAs],['Сохранить как шаблон…',tplSave],['Сохранить в файл (.smeta.json)',()=>exportDocFile()],['На другое устройство (ссылка, QR)…',openShare],'#Цены',['Пересчитать в новый квартал или редакцию…',openRequarter,null,null,null,'requarter'],['История цены ресурса и цены регионов…',()=>openPriceHist(),null,null,null,'pricehist'],['Загрузить сплит-форму цен (Excel)…',openSplit],'#Документы стройки',['Смета контракта и учёт выполнения…',openContract,null,null,null,'contract'],['Дополнительные работы…',openAddwork,null,null,null,'addwork'],['Акты КС-2 и справки КС-3…',openActs],['Объектный и сводный расчёты (ОСР, ССРСС)…',()=>openOsrTab('set')],['Смета на проектные работы (ПИР)…',()=>openOsrTab('pir'),null,null,'pir'],['НМЦК: расчёт и протокол…',()=>openOsrTab('nmck'),null,null,'nmck'],['НЦС: укрупнённые нормативы…',()=>openOsrTab('ncs'),null,null,'ncs'],'#Печать',['Выходные формы: ЛСР (прил. 3)…',openForms,'Ctrl+P'],['Печать или PDF по форме ЛСР',printLsr],'#Экспорт',['ЛСР в Excel (.xlsx)',exportLsrXlsx],['Ведомость ресурсов в Excel (.xlsx)',exportResXlsx],['Конъюнктурный анализ, прил. 1 (Excel)',exportKaCsv],['Экспорт таблицы (.csv)',exportCsv],['Экспорт в XML (схема Минстроя, ЛС РИМ 3.01)',exportXML],['Пакет XML для экспертизы: ЛСР, ОСР, ССРСС, записка (.zip)',exportPack]],
+ file:['#Создать',['Новая смета',newDoc],['Новая смета из шаблона…',()=>tplOpen(true)],['Новая смета из примера…',()=>openExamples(),null,null,null,'examples'],['Смета по документам объекта (ИИ)…',openDocsVor],['Обмер на объекте (фото, размеры, голос)…',openMeasure,null,null,null,'measure'],['Ремонт для себя: проверить смету подрядчика…',()=>openDiy(),null,null,null,'diy'],['Примеры (демо)…',openDemos],'#Открыть',['Мои сметы…',openDocs,'Ctrl+O'],['Папка объекта: файлы, заметки, лента…',()=>openObject(),null,null,null,'object'],['Изменения для моих смет (цены, нормы)…',openFeed,null,null,null,'feed'],['Кабинет фрилансера: заказы, КП, счета…',openFreelance,null,null,null,'freelance'],['Портфолио: мои сметы одной ссылкой…',openPortfolio,null,null,null,'portfolio'],['Открыть из файла…',importDocFile],['Открыть смету из Excel (.xlsx)…',()=>openXlsx()],['Открыть смету из XML Минстроя (ЛС РИМ)…',()=>openXml()],['Открыть смету ГРАНД-Сметы (.gsfx, .xml)…',()=>openXml()],['Открыть модель IFC (ТИМ)…',openBim],'#Сохранить',['Сохранить',save,'Ctrl+S'],['Сохранить как копию…',saveAs],['Сохранить как шаблон…',tplSave],['Сохранить в файл (.smeta.json)',()=>exportDocFile()],['На другое устройство (ссылка, QR)…',openShare],'#Цены',['Пересчитать в новый квартал или редакцию…',openRequarter,null,null,null,'requarter'],['История цены ресурса и цены регионов…',()=>openPriceHist(),null,null,null,'pricehist'],['Моя база КП и поставщиков…',()=>openKpBase(),null,null,null,'kpbase'],['Загрузить сплит-форму цен (Excel)…',openSplit],'#Документы стройки',['Смета контракта и учёт выполнения…',openContract,null,null,null,'contract'],['Дополнительные работы…',openAddwork,null,null,null,'addwork'],['Акты КС-2 и справки КС-3…',openActs],['Объектный и сводный расчёты (ОСР, ССРСС)…',()=>openOsrTab('set')],['Смета на проектные работы (ПИР)…',()=>openOsrTab('pir'),null,null,'pir'],['НМЦК: расчёт и протокол…',()=>openOsrTab('nmck'),null,null,'nmck'],['НЦС: укрупнённые нормативы…',()=>openOsrTab('ncs'),null,null,'ncs'],'#Печать',['Выходные формы: ЛСР (прил. 3)…',openForms,'Ctrl+P'],['Печать или PDF по форме ЛСР',printLsr],'#Экспорт',['ЛСР в Excel (.xlsx)',exportLsrXlsx],['Ведомость ресурсов в Excel (.xlsx)',exportResXlsx],['Конъюнктурный анализ, прил. 1 (Excel)',exportKaCsv],['Экспорт таблицы (.csv)',exportCsv],['Экспорт в XML (схема Минстроя, ЛС РИМ 3.01)',exportXML],['Пакет XML для экспертизы: ЛСР, ОСР, ССРСС, записка (.zip)',exportPack]],
  edit:[['Отменить',undo,'Ctrl+Z'],['Вернуть',redoF,'Ctrl+Y'],'-',['Копировать строки',()=>clipMenu(false),'Ctrl+C'],['Вырезать строки',()=>clipMenu(true),'Ctrl+X'],['Вставить строки',pasteMenu,'Ctrl+V'],['Выделить все строки',selAll,'Ctrl+A'],['Найти в смете',findOpen,'Ctrl+F'],'-',['Вставить список из Excel…',()=>openPaste()],['Дублировать',dup,'Ctrl+D'],['Удалить',del,'Del'],['Спрашивать перед удалением',delAskToggle,null,()=>delAsk()],['Переместить вверх',()=>move(-1),'Alt+↑'],['Переместить вниз',()=>move(1),'Alt+↓']],
  ins:[['Расценка из каталога',focusCat,'/'],['Из шаблона…',()=>tplOpen(false)],['Список расценок из Excel…',()=>openPaste(),'Ctrl+V'],['Ресурс в выбранную позицию…',()=>{const p=S.pos.find(x=>x.id===sel);if(!p||!p.code||p.ka||p.tr||!B.rates[p.code]||!B.rates[p.code].real)return toast('Выберите позицию с расценкой ГЭСН');resPick(p,null)}],['Раздел сметы…',askSection],['Коэффициент к позиции',()=>{if(sel)$('#insp .kr .switch')?.focus();toast('Коэффициенты справа в карточке позиции')}],['Материал из ФСБЦ отдельной позицией…',()=>mrNew()],['Материал вне базы (конъюнктурный анализ)',()=>kaNew()],['Работа без нормы: расчёт по составу работ…',openNonorm,null,null,null,'nonorm'],['Оборудование из ФСБЦ…',eqNew],['Оборудование вне базы (конъюнктурный анализ)',()=>kaNew('eq')],['Своя позиция (вне базы)…',ownNew],['Перевозка грузов',()=>trNew()],['Погрузка и разгрузка (ФГИС ЦС)',()=>trNew('load')]],
- calc:[['Подключённые базы…',openBases],'-',['Базисный уровень цен',()=>setIdx(''),null,()=>!S.idx],...Object.entries(B.idx).map(([k,v])=>[`Индексы: ${v.region}, ${v.q}`,()=>setIdx(k),null,()=>S.idx===k]),'-',['Коэффициенты на всю смету…',openKall,null,()=>kallN()>0],['Пересчитать в новый квартал или редакцию…',openRequarter,null,null,null,'requarter'],['История цены ресурса и цены регионов…',()=>openPriceHist(),null,null,null,'pricehist'],['НДС '+B.nds+'%',()=>setNds(!S.nds),null,()=>S.nds],['Пересчитать',()=>{render();toast('Пересчитано')}]],
+ calc:[['Подключённые базы…',openBases],'-',['Базисный уровень цен',()=>setIdx(''),null,()=>!S.idx],...Object.entries(B.idx).map(([k,v])=>[`Индексы: ${v.region}, ${v.q}`,()=>setIdx(k),null,()=>S.idx===k]),'-',['Коэффициенты на всю смету…',openKall,null,()=>kallN()>0],['Пересчитать в новый квартал или редакцию…',openRequarter,null,null,null,'requarter'],['История цены ресурса и цены регионов…',()=>openPriceHist(),null,null,null,'pricehist'],['Моя база КП и поставщиков…',()=>openKpBase(),null,null,null,'kpbase'],['НДС '+B.nds+'%',()=>setNds(!S.nds),null,()=>S.nds],['Пересчитать',()=>{render();toast('Пересчитано')}]],
  view:[['Личный кабинет…',()=>openCabinet()],['Сервисы: что показывать в меню…',()=>openSvc()],'-',['Смета: компактный вид',()=>setLsrView('cmp'),null,()=>lsrView!=='form'],['Смета: форма ЛСР (графы 1–12)',()=>setLsrView('form'),null,()=>lsrView==='form'],'-',['Режим «Ремонт для себя»',()=>diySetMode(!diyMode()),null,()=>diyMode(),null,'diy'],['Ведомость объёмов',()=>setTab('vor')],['Тёмная тема',toggleTheme],['Краткий / полный вид',toggleCompact],['Ресурсная ведомость',()=>setTab('res')],['Давальческие материалы заказчика…',openDav],['Объектная смета',()=>setTab('obj')],['Локальный расчёт',()=>setTab('lsr')]],
- check:[['Проверить смету',openCheck,'F7'],['Экспертиза сметы…',openExpert,'Shift+F7'],['Ответ на замечания…',openRemarks,null,null,null,'remarks'],['Обоснование коэффициентов…',openCoefs,null,null,null,'coefs'],['Сравнить с другой сметой…',openCompare,null,null,null,'compare'],['Подбор расценки',focusCat,'/'],['Помощь ИИ',aiHelp]],
+ check:[['Проверить смету',openCheck,'F7'],['Экспертиза сметы…',openExpert,'Shift+F7'],['Ответ на замечания…',openRemarks,null,null,null,'remarks'],['Мои ответы экспертизе…',()=>openAnswers(),null,null,null,'answers'],['Обоснование коэффициентов…',openCoefs,null,null,null,'coefs'],['Сравнить с другой сметой…',openCompare,null,null,null,'compare'],['Подбор расценки',focusCat,'/'],['Помощь ИИ',aiHelp]],
  help:[['Руководство пользователя',openGuide,'F1'],['Знакомство с программой',tour],['Горячие клавиши',keys],['О программе',about]]
 };
 let openMenu=null;
@@ -2871,9 +2889,9 @@ function rmSplit(text){const L=String(text||'').replace(/\r/g,'').split('\n'),it
   return items.map(x=>({...x,text:x.text.replace(/[»"]\s*$/,'').replace(/\s+/g,' ').trim()})).filter(x=>x.text)}
 function rmParse(){const R=rmData(),XP=ksPos(),byN=new Map(XP.map(x=>[x.n,x])),F=checkSmeta(),q=req(),old=new Map((R.items||[]).map(x=>[x.n+'|'+x.text,x]));
   R.items=rmSplit(R.text).map(x=>{const prev=old.get(x.n+'|'+x.text);if(prev)return prev;
-    const pos=rmPosList(x.text).filter(n=>byN.has(n)),T=RM_T.find(t=>t[0].test(x.text)),P=pos.length?' ('+rmPosTxt(pos)+')':'';
+    const pa=rmPosList(x.text),pos=pa.filter(n=>byN.has(n)),miss=pa.filter(n=>!byN.has(n)),T=RM_T.find(t=>t[0].test(x.text)),P=pa.length?' ('+rmPosTxt(pa)+')':'';
     const quarter=PR&&PR.meta&&S.level!=='base'?PR.meta.quarter:'(укажите квартал)';
-    return {n:x.n,text:x.text,pos,topic:T?T[1]:'Прочее',st:T?T[2]:'new',act:T?T[3]:'Откройте позицию и проверьте по тексту замечания.',
+    return {n:x.n,text:x.text,pos,pa,miss,topic:T?T[1]:'Прочее',st:T?T[2]:'new',act:T?T[3]:'Откройте позицию и проверьте по тексту замечания.',
       ans:(T?T[4]:'Замечание принято, смета исправлена{P}.').replace('{P}',P).replace('{квартал}',quarter).replace('{документом}','актом осмотра от ___').replace(/\.\.$/,'.')}});
   R.parsed=Date.now();commit()}
 function rmChecks(pos){if(!pos.length)return [];const F=checkSmeta();return F.filter(f=>pos.includes(f.pn)).slice(0,6)}
@@ -2886,21 +2904,22 @@ function renderRemarks(){const R=rmData(),XP=ksPos(),byN=new Map(XP.map(x=>[x.n,
   <div class="rmg"><div class="rmc"><div class="u rmh">Замечания</div><textarea id="rmTxt" placeholder="Вставьте текст замечаний, например:&#10;3. Поз. 31: расстояние перевозки мусора принято с вычетом 30 км.&#10;4. Поз. 5–9: применение коэффициента 1,15 не обосновано.">${esc(R.text||'')}</textarea>
     <div class="fmb"><button class="btn pri" id="rmGo">Разобрать</button><label class="btn" style="cursor:pointer">PDF, Word или фото<input type="file" id="rmFile" accept=".pdf,.docx,.txt,.jpg,.jpeg,.png,.webp,image/*" hidden></label></div>
     <div class="u" id="rmInfo">${R.items.length?`Распознано замечаний: <b>${R.items.length}</b>, с позициями сметы: ${R.items.filter(x=>x.pos.length).length}.`:''}${R.src?' Источник: '+esc(R.src)+'.':''}</div></div>
-   <div class="rmc rmm"><div class="u rmh">Разбор замечаний</div>${R.items.length?R.items.map((x,i)=>{const ck=rmChecks(x.pos);return `<div class="rmi"><div class="rmt"><select data-rs="${i}" class="rms ${stc[x.st]||''}">${RM_ST.map(([k,l])=>`<option value="${k}"${x.st===k?' selected':''}>${l}</option>`).join('')}</select><span class="mono">№ ${x.n}${x.pos.length?' · '+rmPosTxt(x.pos):' · вся смета'}</span><span class="u">${esc(x.topic)}</span></div>
+   <div class="rmc rmm"><div class="u rmh">Разбор замечаний</div>${R.items.length?R.items.map((x,i)=>{const ck=rmChecks(x.pos);return `<div class="rmi"><div class="rmt"><select data-rs="${i}" class="rms ${stc[x.st]||''}">${RM_ST.map(([k,l])=>`<option value="${k}"${x.st===k?' selected':''}>${l}</option>`).join('')}</select><span class="mono">№ ${x.n}${(x.pa||x.pos).length?' · '+rmPosTxt(x.pa||x.pos):' · вся смета'}</span>${x.miss&&x.miss.length?`<span class="rmmiss">${x.miss.length===1?'позиции':'позиций'} ${rmPosTxt(x.miss).slice(5)} в смете нет</span>`:''}<span class="u">${esc(x.topic)}</span></div>
       <div class="rmq">${esc(x.text)}</div><div class="u">${esc(x.act)}</div>${ck.map(f=>`<div class="rmk">Проверка Риморы, поз. ${f.pn}: ${esc(f.t)}${f.ref?' ('+esc(f.ref)+')':''}</div>`).join('')}
       <div class="rmb">${x.pos.length?`<button class="btn" data-rgo="${x.pos[0]}">К позиции ${x.pos[0]}</button>`:''}<button class="btn" data-rai="${i}">${ic('ai')}Спросить ИИ</button></div>
-      <label class="u">Ответ<textarea data-ra="${i}" rows="2">${esc(x.ans)}</textarea></label></div>`}).join(''):'<div class="u">Вставьте замечания слева и нажмите «Разобрать».</div>'}</div>
+      <label class="u">Ответ<textarea data-ra="${i}" rows="2">${esc(x.ans)}</textarea></label>${typeof ansHint==='function'?ansHint(x,i):''}</div>`}).join(''):'<div class="u">Вставьте замечания слева и нажмите «Разобрать».</div>'}</div>
    <div class="rmc"><div class="u rmh">Черновик ответа</div><pre class="rmd">${esc(R.items.length?rmAnswerText():'')}</pre>
-    <div class="fmb" style="flex-direction:column;align-items:stretch"><button class="btn pri" id="rmDoc"${R.items.length?'':' disabled'}>Скачать ответ в Word</button><button class="btn" id="rmCopy"${R.items.length?'':' disabled'}>Копировать текст</button><button class="btn" id="rmChk">Повторная проверка сметы (F7)</button></div></div></div>`,true);
-  const D=$('#dlg');D.style.maxWidth='1280px';D.style.width='96vw';$('#rmX').onclick=()=>$('#dlgbg').classList.remove('on');
+    <div class="fmb" style="flex-direction:column;align-items:stretch"><button class="btn pri" id="rmDoc"${R.items.length?'':' disabled'}>Скачать ответ в Word</button><button class="btn" id="rmCopy"${R.items.length?'':' disabled'}>Копировать текст</button><button class="btn" id="rmChk">Повторная проверка сметы (F7)</button>${SVC.answers?'<button class="btn" id="rmLib">Мои ответы экспертизе</button>':''}</div></div></div>`,true);
+  const D=$('#dlg');D.style.maxWidth='1280px';D.style.width='96vw';$('#rmX').onclick=()=>{if(typeof ansHarvest==='function')ansHarvest();$('#dlgbg').classList.remove('on')};
   $('#rmTxt').onchange=e=>{R.text=e.target.value;commit()};
   $('#rmGo').onclick=()=>{R.text=$('#rmTxt').value;rmParse();renderRemarks();toast(R.items.length?'Замечаний: '+R.items.length:'Не нашлось замечаний: проверьте текст')};
   $('#rmFile').onchange=async e=>{const f=e.target.files[0];if(!f)return;const info=$('#rmInfo');try{info.textContent='Читаю файл…';const r=await dvRead(f,s=>info.textContent=s);R.text=(R.text?R.text+'\n':'')+r.text.replace(/^\[(стр\.|фото)[^\]]*\]\n?/gm,'');R.src=f.name+(r.info?', '+r.info:'');rmParse();renderRemarks()}catch(err){info.textContent='Не прочитался файл: '+err.message}};
-  D.querySelectorAll('[data-rs]').forEach(x=>x.onchange=()=>{R.items[+x.dataset.rs].st=x.value;commit();renderRemarks()});
-  D.querySelectorAll('[data-ra]').forEach(x=>x.onchange=()=>{R.items[+x.dataset.ra].ans=x.value;commit();renderRemarks()});
+  D.querySelectorAll('[data-rs]').forEach(x=>x.onchange=()=>{R.items[+x.dataset.rs].st=x.value;commit();if(typeof ansHarvest==='function')ansHarvest();renderRemarks()});
+  D.querySelectorAll('[data-ra]').forEach(x=>x.onchange=()=>{R.items[+x.dataset.ra].ans=x.value;commit();if(typeof ansHarvest==='function')ansHarvest();renderRemarks()});
+  if(typeof ansBind==='function')ansBind(D,R);if($('#rmLib'))$('#rmLib').onclick=()=>{if(typeof ansHarvest==='function')ansHarvest();openAnswers()};
   D.querySelectorAll('[data-rgo]').forEach(b=>b.onclick=()=>{const x=byN.get(+b.dataset.rgo);x&&ckGo({id:x.p.id})});
   D.querySelectorAll('[data-rai]').forEach(b=>b.onclick=()=>{const x=R.items[+b.dataset.rai];$('#dlgbg').classList.remove('on');const el=$('#aip');if(!el||!el.classList.contains('on'))aiHelp();
-    aiRun('ask',`Замечание экспертизы к смете: «${x.text}»${x.pos.length?' ('+rmPosTxt(x.pos)+')':''}. Что проверить и исправить в смете и как ответить на замечание? Если замечание обоснованно, так и скажи.`)});
+    aiRun('ask',`Замечание экспертизы к смете: «${x.text}»${(x.pa||x.pos).length?' ('+rmPosTxt(x.pa||x.pos)+')':''}${x.miss&&x.miss.length?' (позиций '+rmPosTxt(x.miss).slice(5)+' в смете нет)':''}. Что проверить и исправить в смете и как ответить на замечание? Если замечание обоснованно, так и скажи.${typeof ansAiHint==='function'?ansAiHint(x):''}`)});
   $('#rmDoc').onclick=rmWord;$('#rmCopy').onclick=()=>{navigator.clipboard&&navigator.clipboard.writeText(rmAnswerText()).then(()=>toast('Текст ответа скопирован'),()=>toast('Не удалось скопировать'))};
   $('#rmChk').onclick=()=>{$('#dlgbg').classList.remove('on');openCheck()}}
 /* ---------- №6 обмер на объекте с телефона: помещения и стены, размеры, проёмы, фото, голос → дефектная ведомость → ВОР → расценки.
@@ -4008,6 +4027,313 @@ function exRender(){const D=EXD,L=exList(),cnt=k=>D.items.filter(e=>k==='all'||e
   if(e){const vi=$('#exVal');vi.onchange=()=>{const v=exNum(vi.value);if(!v)return toast('Введите число больше нуля');EXF.val=v;exRender()};
     vi.onkeydown=ev=>{if(ev.key==='Enter'){ev.preventDefault();vi.onchange()}};
     $('#exNew').onclick=()=>exUse(e,true);if($('#exAdd'))$('#exAdd').onclick=()=>exUse(e,false)}}
+/* ---------- сервис «Папка объекта» (бэклог 89_, № 20; флаг SVC.object).
+   Объект стройки — папка всего: документы объекта (их место в S.place, см. «Мои сметы»), файлы проекта и фото, заметки и лента событий.
+   Лента нигде не записывается отдельно: она собирается из документов объекта (акты КС-2, замечания экспертизы, допработы, обмер,
+   смета контракта), файлов и заметок. Поэтому другим модулям не нужно знать о папке. Файлы лежат в IndexedDB этого браузера
+   (rimora_object), список файлов и заметки — в rimora.objects; выгрузка объекта целиком — ZIP. */
+const OBF_K='rimora.objects',OBF_MAX=50*1048576;
+let OBF={s:null,o:null,f:'all'};
+function obfAll(){try{const v=JSON.parse(lsGet(OBF_K)||'{}');return v&&typeof v==='object'&&!Array.isArray(v)?v:{}}catch(e){return {}}}
+function obfData(oid){const d=obfAll()[oid]||{};return {notes:Array.isArray(d.notes)?d.notes:[],files:Array.isArray(d.files)?d.files:[]}}
+function obfSave(oid,d){const A=obfAll();if(d.notes.length||d.files.length)A[oid]={notes:d.notes,files:d.files};else delete A[oid];
+  try{lsSet(OBF_K,JSON.stringify(A));return true}catch(e){toast('Хранилище браузера заполнено: изменение не сохранилось');return false}}
+function obfCount(oid){const d=obfData(oid);return d.notes.length+d.files.length}
+let OBFDB=null;const obfDb=()=>OBFDB||(OBFDB=new Promise((ok,bad)=>{try{const q=indexedDB.open('rimora_object',1);q.onupgradeneeded=()=>q.result.createObjectStore('f');q.onsuccess=()=>ok(q.result);q.onerror=()=>bad(q.error)}catch(e){bad(e)}}));
+async function obfPut(id,blob){const db=await obfDb();return new Promise((ok,bad)=>{const x=db.transaction('f','readwrite');x.objectStore('f').put(blob,id);x.oncomplete=ok;x.onerror=()=>bad(x.error);x.onabort=()=>bad(x.error)})}
+async function obfGet(id){try{const db=await obfDb();return await new Promise(ok=>{const q=db.transaction('f').objectStore('f').get(id);q.onsuccess=()=>ok(q.result||null);q.onerror=()=>ok(null)})}catch(e){return null}}
+async function obfDelBlob(id){try{const db=await obfDb();db.transaction('f','readwrite').objectStore('f').delete(id)}catch(e){}}
+const obfKind=f=>/\.ifc$/i.test(f.name)?'ifc':/^image\//.test(f.type)||/\.(jpe?g|png|webp|heic)$/i.test(f.name)?'photo':/pdf/.test(f.type)||/\.pdf$/i.test(f.name)?'pdf':'file';
+const OBF_KN={pdf:'PDF',ifc:'модель IFC',photo:'фото',file:'файл'};
+const obfSize=b=>b>=1048576?(b/1048576).toFixed(1).replace('.',',')+' МБ':Math.max(1,Math.round(b/1024))+' КБ';
+const obfD=s=>s?String(s).slice(0,10).split('-').reverse().join('.'):'';
+const obfDay=s=>{const t=Date.parse(String(s||'').slice(0,10));return isNaN(t)?0:t+12*3600e3};
+function obfWhen(t){if(!t)return 'без даты';const d=new Date(t),n=new Date(),y=new Date(Date.now()-864e5),hm=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
+  return d.toDateString()===n.toDateString()?'сегодня, '+hm:d.toDateString()===y.toDateString()?'вчера, '+hm:d.toLocaleDateString('ru-RU',{day:'numeric',month:'long',...(d.getFullYear()!==n.getFullYear()?{year:'numeric'}:{})})}
+const obfDocs=(sid,oid)=>docIndex().filter(x=>x.pl&&x.pl.s===sid&&x.pl.o===oid);
+const OBF_TAG={smeta:'документ',file:'файлы',exp:'экспертиза',acts:'акты',addw:'допработы',meas:'обмер',contract:'контракт',note:'заметка'};
+const OBF_CH=[['all','Всё'],['smeta','Документы'],['file','Файлы'],['exp','Экспертиза'],['acts','Акты'],['contract','Контракт'],['addw','Допработы'],['meas','Обмер'],['note','Заметки']];
+// лента объекта: события из документов, файлов и заметок, свежие сверху
+function obfEvents(sid,oid){const E=[],D=obfDocs(sid,oid),d=obfData(oid);
+  for(const m of D){let n=null;try{n=m.id===S.docId?S:JSON.parse(lsGet(SKD+m.id)||'null')}catch(e){}
+    const nm='«'+m.name+'»',go={doc:m.id},up=m.updated||m.created||0;
+    E.push({t:m.created||up,k:'smeta',txt:`Создан документ ${nm}`,go});
+    if(m.updated&&m.created&&m.updated-m.created>6e4)E.push({t:m.updated,k:'smeta',txt:`Изменён документ ${nm}${m.total?': '+fmt(m.total)+' ₽ без НДС':''}`,go});
+    if(!n)continue;
+    (Array.isArray(n.acts)?n.acts:[]).forEach((a,i)=>{if(a)E.push({t:obfDay(a.date)||up,k:'acts',txt:`КС-2 № ${a.num||i+1}${a.date?' от '+obfD(a.date):''} по ${nm}`,go})});
+    const R=n.remarks&&Array.isArray(n.remarks.items)?n.remarks.items:[];
+    if(R.length){const c=k=>R.filter(x=>x.st===k).length,P=[['ans','ответ готов'],['fix','исправлено'],['dis','не согласны'],['doc','нужен документ']].filter(([k])=>c(k)).map(([k,t])=>t+' '+c(k));
+      E.push({t:up,k:'exp',txt:`Замечания экспертизы по ${nm}: ${R.length}${P.length?', '+P.join(', '):''}`,go})}
+    const C=n.contract;if(C&&(C.num||C.date||C.price))E.push({t:obfDay(C.date)||up,k:'contract',txt:`Смета контракта${C.num?' № '+C.num:''}${C.date?' от '+obfD(C.date):''} по ${nm}`,go});
+    const A=n.addw&&Array.isArray(n.addw.items)?n.addw.items:[];A.forEach(it=>E.push({t:obfDay(it.date)||up,k:'addw',txt:`Допработы № ${it.num||'?'}${it.name?': '+it.name:''} (${nm})`,go}));
+    const M=n.measure&&Array.isArray(n.measure.rooms)?n.measure.rooms:[];
+    if(M.length){const ph=M.reduce((a,r)=>a+(Array.isArray(r.ph)?r.ph.length:0),0);E.push({t:up,k:'meas',txt:`Обмер по ${nm}: помещений ${M.length}${ph?', фото '+ph:''}`,go})}}
+  for(const f of d.files)E.push({t:f.t,k:'file',txt:`${f.kind==='photo'?'Фото':'Файл'} «${f.name}», ${OBF_KN[f.kind]||'файл'}, ${obfSize(f.size)}`,file:f.id});
+  for(const x of d.notes)E.push({t:x.t,k:'note',txt:x.txt,note:x.id});
+  return E.sort((a,b)=>b.t-a.t)}
+function obfPick(pl){const L=stroyList().filter(s=>s.obj.length),has=p=>p&&L.some(s=>s.id===p.s&&s.obj.some(o=>o.id===p.o));
+  if(has(pl))return {s:pl.s,o:pl.o};if(has(S.place))return {s:S.place.s,o:S.place.o};if(has(OBF))return {s:OBF.s,o:OBF.o};
+  // иначе объект, где работали последним (документы и файлы)
+  let best=null,bt=-1;for(const s of L)for(const o of s.obj){const d=obfData(o.id),t=Math.max(0,...obfDocs(s.id,o.id).map(x=>x.updated||x.created||0),...d.files.map(f=>f.t),...d.notes.map(n=>n.t));if(t>bt){bt=t;best={s:s.id,o:o.id}}}
+  return best}
+function openObject(pl){if(!svcGate('object'))return;const p=obfPick(pl);
+  if(!p){openDocs();return toast('Сначала создайте стройку и объект: кнопка «+ Стройка» в «Моих сметах»')}
+  if(p.o!==OBF.o)OBF.f='all';OBF.s=p.s;OBF.o=p.o;obfRender()}
+function obfRender(){const L=stroyList(),s=L.find(x=>x.id===OBF.s),o=s&&s.obj.find(x=>x.id===OBF.o);if(!o)return openObject();
+  const E=obfEvents(s.id,o.id),d=obfData(o.id),D=obfDocs(s.id,o.id),cnt=k=>E.filter(e=>k==='all'||e.k===k).length;
+  if(OBF.f!=='all'&&!cnt(OBF.f))OBF.f='all';const F=E.filter(e=>OBF.f==='all'||e.k===OBF.f);
+  const first=E.length?Math.min(...E.map(e=>e.t).filter(Boolean)):0,mon=first?Math.max(1,Math.round((Date.now()-first)/(30.4*864e5))):0;
+  const tree=L.filter(x=>x.obj.length).map(x=>`<div class="obfsh">${esc(x.name)}</div>${x.obj.map(y=>{const n=y.n+obfCount(y.id);
+    return `<button class="obfo${y.id===o.id?' on':''}" data-s="${x.id}" data-o="${y.id}" title="${esc(y.name)}"><span>${esc(y.name)}</span><i>${n}</i></button>`}).join('')}`).join('');
+  const chips=OBF_CH.filter(([k])=>k==='all'||cnt(k)).map(([k,t])=>`<button class="cmch${OBF.f===k?' on':''}" data-f="${k}">${t} ${cnt(k)}</button>`).join('');
+  const row=e=>`<div class="obfe k-${e.k}"><i></i><div><div class="obft">${obfWhen(e.t)}</div><div class="obfx">${esc(e.txt)} <span class="obftag">${OBF_TAG[e.k]}</span></div></div>
+    <div class="obfa">${e.go?`<button class="btn sm" data-doc="${e.go.doc}">Открыть</button>`:''}${e.file?`<button class="btn sm" data-fo="${e.file}">Открыть</button><button class="btn sm" data-fd="${e.file}">Скачать</button><button class="vdel" data-fx="${e.file}" title="Удалить файл" aria-label="Удалить файл">×</button>`:''}${e.note?`<button class="vdel" data-nx="${e.note}" title="Удалить заметку" aria-label="Удалить заметку">×</button>`:''}</div></div>`;
+  const by=k=>E.filter(e=>e.k===k).length,sz=d.files.reduce((a,f)=>a+(f.size||0),0),sum=D.reduce((a,x)=>a+(x.total||0),0);
+  const tiles=[[D.length,'Документы',sum?fmt(sum)+' ₽ без НДС':''],[d.files.length,'Файлы и фото',sz?obfSize(sz):''],[by('exp'),'Замечания экспертизы',''],[by('acts'),'Акты КС-2',''],[by('addw'),'Допработы',''],[d.notes.length,'Заметки','']]
+    .map(([n,t,u])=>`<div class="obfn"><span>${t}</span><b>${n}</b>${u?`<em>${u}</em>`:''}</div>`).join('');
+  dlg(`<div class="kah"><div><h3>${esc(o.name)}</h3><div class="u">Стройка «${esc(s.name)}»${first?` · с ${['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'][new Date(first).getMonth()]} ${new Date(first).getFullYear()} · ${mon} мес. работы`:''} · всё по объекту в одном месте</div></div><button class="vdel" id="obfX" style="font-size:22px" aria-label="Закрыть">×</button></div>
+   <div class="obfw"><section class="obf1"><h4>Мои стройки</h4>${tree}<button class="btn sm" id="obfDocs" style="margin-top:10px">Мои сметы…</button></section>
+   <section class="obf2"><div class="obfb"><button class="btn pri" id="obfAddF">+ Файлы</button><button class="btn" id="obfAddD">+ Документ</button><input id="obfNote" placeholder="Заметка по объекту и Enter: «Заказчик просит КП только с НДС»"></div>
+    <div class="cmf">${chips}</div>
+    <div class="obff" id="obfF">${F.length?F.map(row).join(''):`<div class="u" style="padding:16px 4px">В объекте пока пусто. Добавьте файлы проекта (PDF, IFC, фото), заметку или документ: всё появится в ленте.</div>`}</div>
+    <div class="u obfdrop">Файлы можно перетащить сюда мышью. Один файл до ${obfSize(OBF_MAX)}.</div></section>
+   <section class="obf3"><h4>В объекте</h4><div class="obfns">${tiles}</div>
+    <button class="btn" id="obfZip" style="width:100%;margin-top:10px">Выгрузить объект (ZIP)</button>
+    <div class="exnote">Документы объекта хранятся в «Моих сметах» и с облаком переходят на другие устройства. Файлы и заметки хранятся в этом браузере: для другого устройства выгрузите объект в ZIP.</div></section></div>`,true);
+  $('#dlg').classList.add('obfdlg');
+  $('#obfX').onclick=()=>$('#dlgbg').classList.remove('on');$('#obfDocs').onclick=()=>{docPick='o:'+s.id+':'+o.id;openDocs()};
+  $$('.obfo').forEach(b=>b.onclick=()=>{OBF.s=b.dataset.s;if(OBF.o!==b.dataset.o)OBF.f='all';OBF.o=b.dataset.o;obfRender()});
+  $$('.obf2 .cmch').forEach(b=>b.onclick=()=>{OBF.f=b.dataset.f;obfRender()});
+  $('#obfAddF').onclick=()=>{const inp=document.createElement('input');inp.type='file';inp.multiple=true;inp.onchange=()=>obfAdd([...inp.files]);inp.click()};
+  $('#obfAddD').onclick=()=>{$('#dlgbg').classList.remove('on');newDoc({s:s.id,sn:s.name,o:o.id,on:o.name})};
+  const ni=$('#obfNote');ni.onkeydown=ev=>{if(ev.key==='Enter'){ev.preventDefault();obfNote(ni.value)}};
+  $('#obfZip').onclick=()=>obfZip();
+  const w=$('.obf2');w.ondragover=ev=>{ev.preventDefault();w.classList.add('drag')};w.ondragleave=()=>w.classList.remove('drag');
+  w.ondrop=ev=>{ev.preventDefault();w.classList.remove('drag');if(ev.dataTransfer&&ev.dataTransfer.files.length)obfAdd([...ev.dataTransfer.files])};
+  $$('#obfF [data-doc]').forEach(b=>b.onclick=async()=>{if(await openDoc(b.dataset.doc))$('#dlgbg').classList.remove('on')});
+  $$('#obfF [data-fo]').forEach(b=>b.onclick=()=>obfOpen(b.dataset.fo,false));$$('#obfF [data-fd]').forEach(b=>b.onclick=()=>obfOpen(b.dataset.fd,true));
+  $$('#obfF [data-fx]').forEach(b=>b.onclick=()=>obfDelFile(b.dataset.fx));$$('#obfF [data-nx]').forEach(b=>b.onclick=()=>obfDelNote(b.dataset.nx))}
+async function obfAdd(files){const oid=OBF.o;if(!oid||!files.length)return;let ok=0,big=[],fail='';
+  for(const f of files){if(f.size>OBF_MAX){big.push(f.name);continue}const id=sidNew('f');
+    try{await obfPut(id,f)}catch(e){fail='не хватило места в браузере';break}
+    const d=obfData(oid);d.files.push({id,name:f.name,type:f.type||'',size:f.size,t:Date.now(),kind:obfKind(f)});if(!obfSave(oid,d)){obfDelBlob(id);break}ok++}
+  if($('.obfw'))obfRender();
+  toast((ok?`Добавлено файлов: ${ok}`:'Файлы не добавлены')+(big.length?`. Больше ${obfSize(OBF_MAX)}: ${big.join(', ')}`:'')+(fail?'. Ошибка: '+fail:''))}
+function obfNote(v){v=String(v||'').trim();if(!v)return;const d=obfData(OBF.o);d.notes.push({id:sidNew('n'),t:Date.now(),txt:v.slice(0,2000)});if(obfSave(OBF.o,d)){obfRender();toast('Заметка добавлена в ленту объекта')}}
+function obfDelNote(id){const d=obfData(OBF.o),x=d.notes.find(n=>n.id===id);if(!x||!confirm('Удалить заметку «'+x.txt.slice(0,60)+'»?'))return;d.notes=d.notes.filter(n=>n.id!==id);obfSave(OBF.o,d);obfRender()}
+async function obfDelFile(id){const d=obfData(OBF.o),f=d.files.find(x=>x.id===id);if(!f||!confirm(`Удалить файл «${f.name}» из объекта? В этом браузере его копии не останется.`))return;
+  d.files=d.files.filter(x=>x.id!==id);if(obfSave(OBF.o,d))await obfDelBlob(id);obfRender();toast('Файл удалён')}
+async function obfOpen(id,down){const f=obfData(OBF.o).files.find(x=>x.id===id);if(!f)return;const view=!down&&(f.kind==='pdf'||f.kind==='photo');
+  const w=view?window.open('','_blank'):null;const b=await obfGet(id);if(!b){if(w)w.close();return toast('Файла нет в этом браузере: он загружен на другом устройстве или удалён')}
+  if(view&&w){w.location.href=URL.createObjectURL(b);return}dlBlob(b,f.name)}
+async function obfZip(){const L=stroyList(),s=L.find(x=>x.id===OBF.s),o=s&&s.obj.find(x=>x.id===OBF.o);if(!o)return;
+  const d=obfData(o.id),D=obfDocs(s.id,o.id),used=new Set(),files=[],enc=new TextEncoder();
+  const nm=(dir,n)=>{n=String(n||'без названия').replace(/[\\/:*?"<>|]/g,'').slice(0,120)||'файл';let x=dir+'/'+n,i=2;while(used.has(x)){const m=n.match(/^(.*?)(\.[^.]*)?$/);x=dir+'/'+m[1]+' ('+i+++')'+(m[2]||'')}used.add(x);return x};
+  for(const m of D){const raw=m.id===S.docId?snap():lsGet(SKD+m.id);if(!raw)continue;let doc;try{doc=JSON.parse(raw)}catch(e){continue}
+    files.push({name:nm('Документы',m.name+'.smeta.json'),data:JSON.stringify({format:'smeta-masterskaya',ver:1,app:APPV,saved:new Date().toISOString(),doc},null,1)})}
+  let miss=0;for(const f of d.files){const b=await obfGet(f.id);if(!b){miss++;continue}files.push({name:nm('Файлы',f.name),data:new Uint8Array(await b.arrayBuffer())})}
+  const E=obfEvents(s.id,o.id),line=e=>(e.t?new Date(e.t).toLocaleString('ru-RU'):'без даты')+'  ['+OBF_TAG[e.k]+']  '+e.txt;
+  files.push({name:'Лента объекта.txt',data:enc.encode('Стройка: '+s.name+'\r\nОбъект: '+o.name+'\r\nВыгружено: '+new Date().toLocaleString('ru-RU')+'\r\n\r\n'+E.map(line).join('\r\n'))});
+  if(d.notes.length)files.push({name:'Заметки.txt',data:enc.encode(d.notes.map(x=>new Date(x.t).toLocaleString('ru-RU')+'\r\n'+x.txt).join('\r\n\r\n'))});
+  const z=zipStore(files);dlBlob(new Blob([z],{type:'application/zip'}),s.name+' — '+o.name+'.zip');
+  toast(`Объект выгружен: документов ${D.length}, файлов ${d.files.length-miss}${miss?`, ${miss} файла нет в этом браузере`:''}. Документы открываются в Риморе: Файл → Открыть из файла`)}
+/* ---------- сервис «Моя база КП и поставщиков» (бэклог 89_, № 21; флаг SVC.kpbase).
+   Каждое КП, которое прочитала Помощь ИИ («Заполнить из КП»), и каждое предложение, внесённое в конъюнктурный анализ вручную,
+   ложится в базу этого браузера (rimora.kpbase): поставщик, ИНН, регион, дата, позиции с ценами. В конъюнктурном анализе база
+   подсказывает свои КП на тот же материал и помечает устаревшие (документ старше 6 месяцев до даты сметы, п. 14 Методики 421/пр).
+   Ядро вызывает kpbAdd (чтение КП), kpbHarvest (закрытие окна анализа) и kpbHint (подсказка в окне анализа). */
+const KPB_K='rimora.kpbase',KPB_MAX=3000;
+let KPF={q:'',f:'all'};
+function kpbAll(){try{const v=JSON.parse(lsGet(KPB_K)||'[]');return Array.isArray(v)?v:[]}catch(e){return []}}
+function kpbStore(L){try{lsSet(KPB_K,JSON.stringify(L.slice(-KPB_MAX)));return true}catch(e){toast('Хранилище браузера заполнено: КП не сохранилось в базе');return false}}
+const kpbD=s=>s?String(s).slice(0,10).split('-').reverse().join('.'):'';
+const kpbInn=v=>String(v||'').replace(/\D/g,'');
+const kpbKey=r=>(kpbInn(r.inn)||String(r.sup||'').trim().toLowerCase())+'|'+(r.date||'')+'|'+(r.file||'');
+const kpbAge=(date,ref)=>{const a=Date.parse(date),b=Date.parse(ref||today());return isNaN(a)?null:(b-a)/(30.44*864e5)};
+const kpbOld=(date,ref)=>{const m=kpbAge(date,ref);return m!=null&&m>6};
+// добавить КП в базу (или дополнить уже сохранённое с тем же поставщиком, датой и файлом)
+function kpbAdd(r){if(!SVC.kpbase)return;const items=(r.items||[]).filter(x=>x&&x.name&&+x.price>0).map(x=>({name:String(x.name).slice(0,300),unit:String(x.unit||''),price:+x.price,nds:String(x.nds??''),del:!!x.del}));
+  if(!items.length||!(r.sup||r.inn))return;const L=kpbAll(),k=kpbKey(r);let o=L.find(x=>kpbKey(x)===k);
+  if(!o){o={id:sidNew('k'),added:Date.now(),items:[]};L.push(o)}
+  for(const f of ['sup','inn','kpp','region','city','site','country','status','doc','date','file','src'])if(r[f])o[f]=String(r[f]);
+  for(const it of items){const e=o.items.find(x=>x.name===it.name&&x.unit===it.unit);if(e)Object.assign(e,it);else o.items.push(it)}
+  o.upd=Date.now();kpbStore(L)}
+// предложения из конъюнктурного анализа: всё, где есть поставщик и цена
+function kpbHarvest(p){if(!SVC.kpbase||!p||!p.ka)return;const ka=p.ka;
+  for(const o of ka.offers||[]){if(!(o.sup||o.inn)||!(+o.price>0))continue;
+    const all=o.kpItems&&o.kpItems.length?o.kpItems.map(x=>({name:x.name,unit:x.unit,price:x.price,nds:x.nds,del:x.delivery})):[];
+    if(!all.some(x=>x.name===(o.dname||ka.name)))all.push({name:o.dname||ka.name,unit:o.dunit||ka.unit,price:+o.price,nds:o.nds,del:!!o.incl});
+    kpbAdd({...o,items:all,file:o.kpFile||'',src:o.kpFile?'ai':'smeta'})}}
+// позиции базы, похожие на материал: совпадение слов названия (цифры весят вдвое, как при выборе позиции в КП)
+function kpbMatch(name){const w=kpWords(name);if(!w.size)return [];const need=Math.max(2,Math.ceil(w.size*.4)),out=[];
+  for(const r of kpbAll())for(const it of r.items){const v=kpWords(it.name);let sc=0;for(const t of w)if(v.has(t))sc+=/\d/.test(t)?2:1;if(sc>=need)out.push({r,it,sc})}
+  return out.sort((a,b)=>b.sc-a.sc||String(b.r.date||'').localeCompare(String(a.r.date||'')))}
+const kpbSame=(o,r)=>(kpbInn(o.inn)&&kpbInn(o.inn)===kpbInn(r.inn))||(!kpbInn(o.inn)&&o.sup&&String(o.sup).trim().toLowerCase()===String(r.sup||'').trim().toLowerCase());
+function kpbCand(p){const ka=p.ka,ref=ka.d0||today(),M=kpbMatch(ka.name),seen=new Set(),fresh=[],old=[];
+  for(const m of M){const k=kpbInn(m.r.inn)||String(m.r.sup).toLowerCase();if(seen.has(k))continue;seen.add(k);(kpbOld(m.r.date,ref)?old:fresh).push(m)}
+  return {fresh:fresh.filter(m=>!ka.offers.some(o=>kpbSame(o,m.r)&&+o.price>0)),old,all:M.length}}
+function kpbHint(p){if(!SVC.kpbase||!p.ka||!String(p.ka.name||'').trim())return '';const C=kpbCand(p);if(!C.all)return '';
+  const f=C.fresh.slice(0,3).map(m=>`${esc(m.r.sup||'ИНН '+m.r.inn)} — ${fmt(m.it.price)} ₽/${esc(pu(m.it.unit||''))}${m.r.date?', '+kpbD(m.r.date):''}`).join('; ');
+  return `<div class="tip kpbt">${ic('bolt')}<div><b>В вашей базе КП:</b> на этот материал ${C.all} ${C.all===1?'позиция':C.all<5?'позиции':'позиций'}${C.old.length?`, старше 6 месяцев: ${C.old.length}`:''}.${C.fresh.length?` Свежие: ${f}.`:' Свежих нет: нужны новые КП.'}
+   <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap">${C.fresh.length?`<button class="btn sm pri" id="kpbTake">Взять ${C.fresh.length>3?3:C.fresh.length} ${C.fresh.length===1?'свежее':'свежих'}</button>`:''}<button class="btn sm" id="kpbOpen">Открыть базу КП</button></div></div></div>`}
+// взять свежие КП из базы в пустые предложения анализа (до трёх с ценой)
+function kpbTake(p){const ka=p.ka,O=ka.offers,C=kpbCand(p);let n=0;
+  for(const m of C.fresh){if(O.filter(o=>+o.price>0).length>=3)break;let o=O.find(x=>!x.sup&&!(+x.price>0));if(!o){o=kaBlank();O.push(o)}
+    const r=m.r,it=m.it,nd=String(it.nds??'').replace('%','').trim();
+    Object.assign(o,{sup:r.sup||'',inn:kpbInn(r.inn),kpp:kpbInn(r.kpp),region:r.region||o.region,city:r.city||'',site:r.site||'',country:r.country||'',status:r.status==='1'?'1':'2',
+      doc:KA_DOCS.some(x=>x[0]===r.doc)?r.doc:'КП',date:r.date||'',dname:it.name,dunit:it.unit||'',price:+it.price,nds:['22','20','10','7','5','0'].includes(nd)?nd:o.nds,incl:!!it.del,kpFile:r.file||''});n++}
+  toast(n?`Из базы КП взято предложений: ${n}. Проверьте единицы, коэффициент пересчёта и перевозку`:'Свежих КП в базе нет');return n}
+// окно базы
+function openKpBase(q){if(!svcGate('kpbase'))return;if(typeof q==='string')KPF.q=q;kpbRender()}
+function kpbRows(){const W=KPF.q.trim().toLowerCase().replace(/ё/g,'е').split(/\s+/).filter(Boolean),out=[];
+  for(const r of kpbAll())for(const it of r.items){const old=kpbOld(r.date);if(KPF.f==='fresh'&&old||KPF.f==='old'&&!old)continue;
+    const h=(it.name+' '+(r.sup||'')+' '+(r.inn||'')+' '+(r.region||'')+' '+(r.city||'')).toLowerCase().replace(/ё/g,'е');if(W.every(w=>h.includes(w)))out.push({r,it,old})}
+  return out.sort((a,b)=>String(b.r.date||'').localeCompare(String(a.r.date||''))||a.it.name.localeCompare(b.it.name,'ru'))}
+function kpbRender(){const L=kpbAll(),R=kpbRows(),sup=new Set(L.map(r=>kpbInn(r.inn)||String(r.sup).toLowerCase())).size,ni=L.reduce((a,r)=>a+r.items.length,0),nold=L.filter(r=>kpbOld(r.date)).length;
+  const chips=[['all','Все'],['fresh','Свежие (до 6 месяцев)'],['old','Старше 6 месяцев']].map(([k,t])=>`<button class="cmch${KPF.f===k?' on':''}" data-kf="${k}">${t}</button>`).join('');
+  const SRC={ai:'прочитано ИИ',smeta:'из анализа',manual:'вручную'};
+  const rows=R.slice(0,400).map(({r,it,old})=>`<tr><td>${esc(it.name)}</td><td class="r num">${fmt(it.price)}</td><td>${esc(pu(it.unit||''))}</td><td>${it.nds===''?'':esc(it.nds)+(it.nds==='0'?'':' %')}</td>
+    <td><b>${esc(r.sup||'')}</b>${r.inn?`<div class="u">ИНН ${esc(r.inn)}</div>`:''}</td><td>${esc([r.region,r.city].filter(Boolean).join(', '))}</td>
+    <td class="${old?'kpbo':''}">${r.date?kpbD(r.date):'без даты'}${old?'<div>старше 6 мес.</div>':''}</td><td class="u">${esc(SRC[r.src]||'')}${r.file?`<div title="${esc(r.file)}">${esc(r.file.length>24?r.file.slice(0,22)+'…':r.file)}</div>`:''}</td>
+    <td><button class="vdel" data-kx="${r.id}" title="Удалить КП из базы" aria-label="Удалить КП">×</button></td></tr>`).join('');
+  dlg(`<div class="kah"><div><h3>Моя база КП и поставщиков</h3><div class="u">КП ${L.length} · поставщиков ${sup} · позиций ${ni}${nold?` · старше 6 месяцев: ${nold}`:''} · хранится в этом браузере</div></div><button class="vdel" id="kpbX" style="font-size:22px" aria-label="Закрыть">×</button></div>
+   <div class="kpbb"><input id="kpbQ" placeholder="Найти: материал, поставщик, ИНН, регион" value="${esc(KPF.q)}"><button class="btn" id="kpbAdd">+ КП из файла…</button><button class="btn" id="kpbCsv">${ic('xls')}В Excel</button><input type="file" id="kpbF" accept=".pdf,image/*,.xlsx,.xls,.docx" multiple hidden></div>
+   <div class="cmf">${chips}</div>
+   ${R.length?`<div class="kpbw"><table class="kpbt2"><thead><tr><th>Позиция в КП</th><th class="r">Цена, ₽</th><th>Ед.</th><th>НДС</th><th>Поставщик</th><th>Регион</th><th>Дата КП</th><th>Откуда</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>${R.length>400?`<div class="u" style="margin-top:6px">Показаны 400 из ${R.length}: уточните поиск.</div>`:''}`
+    :`<div class="empty" style="min-height:160px"><div><h3>${L.length?'Ничего не найдено':'В базе пока нет КП'}</h3><p>${L.length?'Измените поиск или фильтр.':'КП попадают сюда сами: когда Помощь ИИ читает КП в конъюнктурном анализе («Заполнить из КП») и когда вы закрываете анализ с заполненными предложениями. Можно добавить КП и отсюда: «+ КП из файла».'}</p></div></div>`}
+   <div class="exnote" style="margin-top:10px">В конъюнктурном анализе Римора сама подскажет ваши КП на тот же материал и отметит устаревшие: документ старше 6 месяцев до даты сметы (п. 14 Методики 421/пр).</div>`,true);
+  $('#kpbX').onclick=()=>$('#dlgbg').classList.remove('on');
+  $$('[data-kf]').forEach(b=>b.onclick=()=>{KPF.f=b.dataset.kf;kpbRender()});
+  const q=$('#kpbQ');q.oninput=()=>{KPF.q=q.value;clearTimeout(kpbRender.t);kpbRender.t=setTimeout(()=>{kpbRender();const n=$('#kpbQ');n.focus();n.setSelectionRange(n.value.length,n.value.length)},250)};
+  $$('[data-kx]').forEach(b=>b.onclick=()=>{const L2=kpbAll(),r=L2.find(x=>x.id===b.dataset.kx);if(!r||!confirm(`Удалить из базы КП «${r.sup||r.inn}»${r.date?' от '+kpbD(r.date):''} (позиций ${r.items.length})?`))return;kpbStore(L2.filter(x=>x!==r));kpbRender()});
+  $('#kpbCsv').onclick=kpbCsv;
+  $('#kpbAdd').onclick=()=>{if(!AI_LOCAL)return toast('Чтение КП работает в версии на компьютере с Помощью ИИ. Здесь КП попадают в базу из конъюнктурного анализа');$('#kpbF').click()};
+  $('#kpbF').onchange=e=>{const fs=[...e.target.files];e.target.value='';kpbRead(fs)}}
+async function kpbRead(files){let n=0;
+  for(const f of files){if(f.size>15e6){toast(`${f.name}: больше 15 МБ`);continue}toast(`Читаю КП «${f.name}»… около 10–20 секунд`);
+    try{const r=await fetch(AI_URL+'/kp',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:f.name,data:await fileB64(f)})});const d=await r.json();if(!r.ok||d.error)throw new Error(d.error||('HTTP '+r.status));
+      const k=d.kp||{};kpbAdd({...k,inn:kpbInn(k.inn),date:/^\d{4}-\d\d-\d\d$/.test(k.date||'')?k.date:'',file:f.name,src:'ai',items:(k.items||[]).map(x=>({...x,del:x.delivery===true}))});n++}
+    catch(e){toast(`КП «${f.name}» не прочитан: ${String(e.message||e).replace('Failed to fetch','Помощь ИИ не запущена')}`)}}
+  if(n){toast(`В базу добавлено КП: ${n}. Проверьте цены и даты по документам`);if($('#kpbQ'))kpbRender()}}
+function kpbCsv(){const R=kpbRows(),rows=[['Позиция в КП','Цена, руб.','Ед. изм.','НДС, %','Доставка в цене','Поставщик','ИНН','КПП','Регион','Населённый пункт','Сайт','Документ','Дата КП','Старше 6 месяцев','Файл']];
+  for(const {r,it,old} of R)rows.push([it.name,String(it.price).replace('.',','),pu(it.unit||''),it.nds,it.del?'да':'',r.sup||'',r.inn||'',r.kpp||'',r.region||'',r.city||'',r.site||'',r.doc||'',kpbD(r.date),old?'да':'',r.file||'']);
+  dlBlob(new Blob(['﻿'+rows.map(x=>x.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(';')).join('\r\n')],{type:'text/csv;charset=utf-8'}),'База КП.csv');toast('База КП скачана для Excel (.csv)')}
+/* ---------- сервис «Мои ответы экспертизе» (бэклог 89_, № 22; флаг SVC.answers).
+   Библиотека замечаний экспертизы и ваших ответов с итогом («снято», «отстояли», «исправили смету», «не приняли», «ждём итога»)
+   и приложениями (акт осмотра, письмо, КП). Хранится в этом браузере: записи в rimora.answers, файлы в IndexedDB rimora_answers.
+   Записи попадают сами из «Ответа на замечания» (№3), когда у замечания есть ответ и статус «ответ готов», «исправлено» или «не согласны».
+   Ядро («Ответ на замечания») вызывает ansHarvest (правка статуса или ответа, закрытие окна), ansHint и ansBind (подсказка у замечания)
+   и ansAiHint (прошлый ответ в вопросе к Помощи ИИ); при выключенном флаге все они ничего не делают. */
+const ANS_K='rimora.answers',ANS_MAX=2000,ANS_FMAX=20*1048576;
+const ANS_R=[['wait','ждём итога'],['off','снято'],['won','отстояли'],['fix','исправили смету'],['lost','не приняли']];
+let ANF={q:'',f:'all',t:'',like:null,back:0,fr:''};
+function ansAll(){try{const v=JSON.parse(lsGet(ANS_K)||'[]');return Array.isArray(v)?v:[]}catch(e){return []}}
+function ansStore(L){try{lsSet(ANS_K,JSON.stringify(L.slice(-ANS_MAX)));return true}catch(e){toast('Хранилище браузера заполнено: ответ не сохранился в библиотеке');return false}}
+const ansD=t=>{const d=new Date(t);return isNaN(d)?'':d.toLocaleDateString('ru-RU')};
+const ansRN=k=>(ANS_R.find(x=>x[0]===k)||ANS_R[0])[1];
+const ansRank=k=>({won:3,off:3,fix:2,wait:1,lost:0})[k]??1;
+const ansSz=n=>n<1048576?Math.max(1,Math.round(n/1024))+' КБ':(n/1048576).toFixed(1).replace('.',',')+' МБ';
+const ansKey=x=>(S.docId||S.name||'')+'|'+x.n+'|'+x.text;
+// слова замечания: основа слова (5 букв), числа целиком; общие слова замечаний не считаем
+const ANS_STOP=new Set(['позиц','смет','замеч','работ','необх','указа','расче','локал','сметн','прило','котор','данно','также','долже','следу','приня','приве','соотв']);
+const ansStem=w=>w.length>5?w.slice(0,5):w.replace(/[аеиоуыэюяй]+$/,'');
+const ansW=t=>new Set((String(t||'').toLowerCase().replace(/ё/g,'е').match(/[а-яa-z]{4,}|\d+(?:[.,]\d+)?/g)||[]).map(w=>/\d/.test(w)?w.replace(',','.'):ansStem(w)).filter(w=>w&&!ANS_STOP.has(w)));
+// из «Ответа на замечания»: замечания с ответом и статусом «ответ готов», «исправлено», «не согласны»
+function ansHarvest(){if(!SVC.answers||!S.remarks||!Array.isArray(S.remarks.items))return 0;const L=ansAll(),q=req();let n=0,ch=0;
+  for(const x of S.remarks.items){if(!['ans','fix','dis'].includes(x.st)||!String(x.ans||'').trim())continue;
+    const k=ansKey(x);let r=L.find(y=>y.key===k);
+    if(!r){r={id:sidNew('a'),key:k,added:Date.now(),res:x.st==='fix'?'fix':'wait',files:[],src:'remarks'};L.push(r);n++}
+    else if(r.ans===x.ans&&r.st===x.st)continue;
+    Object.assign(r,{text:x.text,topic:x.topic||'Прочее',ans:x.ans,st:x.st,pos:(x.pa||x.pos||[]).length?rmPosTxt(x.pa||x.pos):'',smeta:S.name||'',num:q.num||'',doc:S.docId||'',upd:Date.now()});
+    if(x.st==='fix'&&r.res==='wait')r.res='fix';ch++}
+  if(ch)ansStore(L);return n}
+// похожие замечания из библиотеки: совпадение слов (цифры весят вдвое), та же тема добавляет; лучше итоги «снято» и «отстояли»
+function ansMatch(text,topic,skip){const w=ansW(text);if(!w.size)return [];const need=Math.max(2,Math.ceil(w.size*.35)),out=[];
+  for(const r of ansAll()){if(r.key===skip||!String(r.ans||'').trim())continue;const v=ansW(r.text);let sc=0;for(const t of w)if(v.has(t))sc+=/\d/.test(t)?2:1;
+    const tp=!!topic&&topic!=='Прочее'&&r.topic===topic;if(sc>=need||tp&&sc>=Math.max(1,need-2))out.push({r,sc:sc+(tp?2:0)})}
+  return out.sort((a,b)=>b.sc+ansRank(b.r.res)-a.sc-ansRank(a.r.res)||(b.r.upd||0)-(a.r.upd||0))}
+function ansSet(id,patch){const L=ansAll(),r=L.find(x=>x.id===id);if(!r)return false;Object.assign(r,patch,{upd:Date.now()});return ansStore(L)}
+// подсказка у замечания в окне «Ответ на замечания»
+function ansHint(x,i){if(!SVC.answers)return '';const k=ansKey(x),M=ansMatch(x.text,x.topic,k),own=ansAll().find(r=>r.key===k);let h='';
+  if(M.length){const m=M[0].r;h+=`<div class="ansh">${ic('bolt')}<div><b>В ваших ответах экспертизе${M.length>1?` (похожих: ${M.length})`:''}:</b> похожее замечание к смете «${esc(m.smeta||'без названия')}»${m.added||m.upd?', '+ansD(m.added||m.upd):''}, итог: <span class="ansr r-${m.res}">${ansRN(m.res)}</span>${(m.files||[]).length?`, приложений: ${m.files.length}`:''}.
+    <div class="ansq">${esc(m.ans.length>260?m.ans.slice(0,258)+'…':m.ans)}</div>
+    <div class="rmb"><button class="btn" data-ansput="${i}" data-ansid="${m.id}">Взять мой ответ</button><button class="btn" data-ansopen="${i}">Все похожие</button></div></div></div>`}
+  if(own)h+=`<label class="u ansown">Итог экспертизы <select data-ansres="${own.id}" class="rms ansr r-${own.res}">${ANS_R.map(([k2,l])=>`<option value="${k2}"${own.res===k2?' selected':''}>${l}</option>`).join('')}</select> сохранено в «Мои ответы экспертизе»</label>`;
+  return h}
+function ansBind(D,R){if(!SVC.answers)return;
+  D.querySelectorAll('[data-ansput]').forEach(b=>b.onclick=()=>{const r=ansAll().find(y=>y.id===b.dataset.ansid),x=R.items[+b.dataset.ansput];if(!r||!x)return;x.ans=r.ans;commit();renderRemarks();toast('Ваш прошлый ответ вставлен: проверьте номера позиций и даты документов')});
+  D.querySelectorAll('[data-ansopen]').forEach(b=>b.onclick=()=>{const x=R.items[+b.dataset.ansopen];if(x)openAnswers({like:{text:x.text,topic:x.topic,key:ansKey(x)}})});
+  D.querySelectorAll('[data-ansres]').forEach(s=>s.onchange=()=>{ansSet(s.dataset.ansres,{res:s.value});s.className='rms ansr r-'+s.value;toast('Итог сохранён: '+ansRN(s.value))})}
+// прошлые ответы для вопроса Помощи ИИ (без «не приняли»)
+function ansAiHint(x){if(!SVC.answers)return '';const M=ansMatch(x.text,x.topic,ansKey(x)).filter(m=>m.r.res!=='lost').slice(0,2);if(!M.length)return '';
+  return ' Мои прошлые ответы на похожие замечания: '+M.map(m=>`«${m.r.ans.slice(0,600)}» (итог экспертизы: ${ansRN(m.r.res)})`).join('; ')+'. Если подходит, предложи ответ на их основе с поправкой на это замечание.'}
+// окно библиотеки
+function openAnswers(o){if(!svcGate('answers'))return;ANF.like=o&&o.like||null;ANF.back=o&&o.like?1:0;if(o&&typeof o.q==='string')ANF.q=o.q;ansHarvest();ansRender()}
+function ansRows(){const W=ANF.q.trim().toLowerCase().replace(/ё/g,'е').split(/\s+/).filter(Boolean);
+  const L=ANF.like?ansMatch(ANF.like.text,ANF.like.topic,ANF.like.key).map(m=>m.r):ansAll().sort((a,b)=>(b.upd||b.added||0)-(a.upd||a.added||0));
+  return L.filter(r=>(ANF.f==='all'||r.res===ANF.f)&&(!ANF.t||(r.topic||'Прочее')===ANF.t)&&W.every(w=>((r.text||'')+' '+(r.ans||'')+' '+(r.smeta||'')+' '+(r.topic||'')+' '+(r.note||'')).toLowerCase().replace(/ё/g,'е').includes(w)))}
+function ansRender(){const L=ansAll(),R=ansRows(),cnt=k=>L.filter(r=>r.res===k).length,topics=[...new Set(L.map(r=>r.topic||'Прочее'))].sort((a,b)=>a.localeCompare(b,'ru'));
+  const chips=[['all','все']].concat(ANS_R).map(([k,t])=>`<button class="cmch${ANF.f===k?' on':''}" data-af="${k}">${t[0].toUpperCase()+t.slice(1)}${k!=='all'&&cnt(k)?' · '+cnt(k):''}</button>`).join('');
+  const card=r=>`<div class="ansc"><div class="rmt"><select class="rms ansr r-${r.res}" data-ares="${r.id}" aria-label="Итог экспертизы">${ANS_R.map(([k,l])=>`<option value="${k}"${r.res===k?' selected':''}>${l}</option>`).join('')}</select><span class="ansg">${esc(r.topic||'Прочее')}</span><span class="u">${r.smeta?'«'+esc(r.smeta)+'»':''}${r.num?' № '+esc(r.num):''}${r.pos?' · '+esc(r.pos):''}${r.smeta||r.pos?' · ':''}${ansD(r.upd||r.added)}</span><button class="vdel" data-ax="${r.id}" title="Удалить из библиотеки" aria-label="Удалить">×</button></div>
+    <div class="rmq">${esc(r.text||'')}</div>
+    <label class="u">Мой ответ<textarea data-aans="${r.id}" rows="3">${esc(r.ans||'')}</textarea></label>
+    <label class="u">Чем закончилось<input data-anote="${r.id}" value="${esc(r.note||'')}" placeholder="например: эксперт принял акт осмотра, замечание снято"></label>
+    <div class="ansf">${(r.files||[]).map(f=>`<span class="ansfi"><button class="ansfn" data-afo="${r.id}|${f.id}" title="Открыть">${esc(f.name)}</button><span class="u">${ansSz(f.size||0)}</span><button class="vdel" data-afx="${r.id}|${f.id}" title="Убрать приложение" aria-label="Убрать приложение">×</button></span>`).join('')}<button class="btn sm" data-afa="${r.id}">+ Приложение</button><button class="btn sm" data-acp="${r.id}">Копировать ответ</button></div></div>`;
+  const won=cnt('won')+cnt('off'),done=L.filter(r=>r.res!=='wait').length;
+  dlg(`<div class="kah"><div><h3>Мои ответы экспертизе</h3><div class="u">Замечаний ${L.length}${L.length?` · с итогом ${done} · сняты и отстояли ${won}`:''} · хранится в этом браузере</div></div><button class="vdel" id="ansX" style="font-size:22px" aria-label="Закрыть">×</button></div>
+   <div class="kpbb">${ANF.back?'<button class="btn" id="ansBack">← К замечаниям</button>':''}<input id="ansQ" placeholder="Найти: замечание, ответ, смета" value="${esc(ANF.q)}"><select id="ansT" class="anst" aria-label="Тема"><option value="">Все темы</option>${topics.map(t=>`<option${ANF.t===t?' selected':''}>${esc(t)}</option>`).join('')}</select><button class="btn" id="ansNew">+ Добавить вручную</button><button class="btn" id="ansCsv">${ic('xls')}В Excel</button><input type="file" id="ansF" multiple hidden></div>
+   ${ANF.like?`<div class="tip kpbt" style="margin:10px 0 0">${ic('bolt')}<div>Похожие на замечание «${esc(ANF.like.text.length>170?ANF.like.text.slice(0,168)+'…':ANF.like.text)}» <button class="btn sm" id="ansAllB">Показать все</button></div></div>`:''}
+   <div class="cmf">${chips}</div>
+   ${R.length?`<div class="answ">${R.slice(0,200).map(card).join('')}</div>${R.length>200?`<div class="u" style="margin-top:6px">Показаны 200 из ${R.length}: уточните поиск.</div>`:''}`
+    :`<div class="empty" style="min-height:160px"><div><h3>${L.length?'Ничего не найдено':'Библиотека пока пустая'}</h3><p>${L.length?'Измените поиск или фильтр.':'Ответы попадают сюда сами из окна «Ответ на замечания» (меню Проверка): когда у замечания есть ответ и статус «ответ готов», «исправлено» или «не согласны». Можно добавить замечание и ответ вручную.'}</p></div></div>`}
+   <div class="exnote" style="margin-top:10px">Отмечайте итог экспертизы. В «Ответе на замечания» Римора подскажет ваш прошлый ответ на похожее замечание и передаст его Помощи ИИ.</div>`,true);
+  const D=$('#dlg');D.style.maxWidth='1080px';D.style.width='96vw';
+  $('#ansX').onclick=()=>$('#dlgbg').classList.remove('on');
+  if($('#ansBack'))$('#ansBack').onclick=()=>openRemarks();
+  if($('#ansAllB'))$('#ansAllB').onclick=()=>{ANF.like=null;ansRender()};
+  $$('[data-af]').forEach(b=>b.onclick=()=>{ANF.f=b.dataset.af;ansRender()});
+  $('#ansT').onchange=e=>{ANF.t=e.target.value;ansRender()};
+  const q=$('#ansQ');q.oninput=()=>{ANF.q=q.value;clearTimeout(ansRender.t);ansRender.t=setTimeout(()=>{ansRender();const n=$('#ansQ');n.focus();n.setSelectionRange(n.value.length,n.value.length)},250)};
+  $$('[data-ares]').forEach(s=>s.onchange=()=>{ansSet(s.dataset.ares,{res:s.value});ansRender()});
+  $$('[data-aans]').forEach(t=>t.onchange=()=>{ansSet(t.dataset.aans,{ans:t.value})});
+  $$('[data-anote]').forEach(t=>t.onchange=()=>{ansSet(t.dataset.anote,{note:t.value})});
+  $$('[data-ax]').forEach(b=>b.onclick=()=>{const L2=ansAll(),r=L2.find(x=>x.id===b.dataset.ax);if(!r||!confirm(`Удалить из библиотеки замечание «${String(r.text||'').slice(0,80)}»${(r.files||[]).length?` и приложения (${r.files.length})`:''}?`))return;
+    for(const f of r.files||[])ansDelBlob(f.id);ansStore(L2.filter(x=>x!==r));ansRender()});
+  $$('[data-afa]').forEach(b=>b.onclick=()=>{ANF.fr=b.dataset.afa;$('#ansF').click()});
+  $('#ansF').onchange=e=>{const fs=[...e.target.files];e.target.value='';ansAddFiles(ANF.fr,fs)};
+  $$('[data-afo]').forEach(b=>b.onclick=()=>{const [r,f]=b.dataset.afo.split('|');ansOpen(r,f)});
+  $$('[data-afx]').forEach(b=>b.onclick=()=>{const [rid,fid]=b.dataset.afx.split('|'),L2=ansAll(),r=L2.find(x=>x.id===rid),f=r&&(r.files||[]).find(x=>x.id===fid);if(!f||!confirm(`Убрать приложение «${f.name}»?`))return;
+    r.files=r.files.filter(x=>x!==f);r.upd=Date.now();if(ansStore(L2))ansDelBlob(fid);ansRender()});
+  $$('[data-acp]').forEach(b=>b.onclick=()=>{const r=ansAll().find(x=>x.id===b.dataset.acp);r&&navigator.clipboard&&navigator.clipboard.writeText(r.ans||'').then(()=>toast('Ответ скопирован'),()=>toast('Не удалось скопировать'))});
+  $('#ansCsv').onclick=ansCsv;
+  $('#ansNew').onclick=ansNewForm}
+function ansNewForm(){const L=ansAll(),topics=[...new Set(['Перевозка грузов','Коэффициенты','Конъюнктурный анализ','Уровень цен','НР и СП','Оборудование','НДС','Объёмы работ','Выбор нормы','Прочее'].concat(L.map(r=>r.topic||'Прочее')))];
+  dlg(`<div class="kah"><div><h3>Новое замечание в библиотеку</h3><div class="u">Например, из ответа экспертизы по прошлому объекту</div></div><button class="vdel" id="anfX" style="font-size:22px" aria-label="Закрыть">×</button></div>
+   <div class="ansfm"><label class="u">Замечание<textarea id="anfT" rows="3" placeholder="Поз. 5–9: применение коэффициента 1,15 не обосновано"></textarea></label>
+   <label class="u">Мой ответ<textarea id="anfA" rows="4" placeholder="Применение коэффициента обосновано актом осмотра (прилагается)"></textarea></label>
+   <div class="ansf2"><label class="u">Тема<select id="anfG"><option value="">определить по тексту</option>${topics.map(t=>`<option>${esc(t)}</option>`).join('')}</select></label><label class="u">Итог экспертизы<select id="anfR">${ANS_R.map(([k,l])=>`<option value="${k}">${l}</option>`).join('')}</select></label><label class="u">Смета<input id="anfS" value="${esc(S.name||'')}"></label></div>
+   <div class="fmb"><button class="btn pri" id="anfOk">Сохранить</button><button class="btn" id="anfNo">Отмена</button></div></div>`);
+  $('#anfX').onclick=$('#anfNo').onclick=()=>ansRender();
+  $('#anfOk').onclick=()=>{const text=$('#anfT').value.trim(),ans=$('#anfA').value.trim();if(!text||!ans)return toast('Заполните замечание и ответ');
+    const T=typeof RM_T!=='undefined'&&RM_T.find(x=>x[0].test(text)),L2=ansAll();L2.push({id:sidNew('a'),key:'manual|'+sidNew('m'),added:Date.now(),upd:Date.now(),text,ans,topic:$('#anfG').value||(T?T[1]:'Прочее'),res:$('#anfR').value,smeta:$('#anfS').value.trim(),files:[],src:'manual'});
+    if(ansStore(L2)){toast('Замечание добавлено в библиотеку');ansRender()}}}
+// приложения: файлы в IndexedDB этого браузера
+let ANSDB=null;const ansDb=()=>ANSDB||(ANSDB=new Promise((ok,bad)=>{try{const q=indexedDB.open('rimora_answers',1);q.onupgradeneeded=()=>q.result.createObjectStore('f');q.onsuccess=()=>ok(q.result);q.onerror=()=>bad(q.error)}catch(e){bad(e)}}));
+async function ansPut(id,blob){const db=await ansDb();return new Promise((ok,bad)=>{const x=db.transaction('f','readwrite');x.objectStore('f').put(blob,id);x.oncomplete=ok;x.onerror=()=>bad(x.error);x.onabort=()=>bad(x.error)})}
+async function ansGet(id){try{const db=await ansDb();return await new Promise(ok=>{const q=db.transaction('f').objectStore('f').get(id);q.onsuccess=()=>ok(q.result||null);q.onerror=()=>ok(null)})}catch(e){return null}}
+async function ansDelBlob(id){try{const db=await ansDb();db.transaction('f','readwrite').objectStore('f').delete(id)}catch(e){}}
+async function ansAddFiles(rid,files){let n=0;
+  for(const f of files){if(f.size>ANS_FMAX){toast(`${f.name}: больше 20 МБ`);continue}const id=sidNew('af');
+    try{await ansPut(id,f)}catch(e){toast('Файл не сохранился: '+(e.message||e));continue}
+    const L=ansAll(),r=L.find(x=>x.id===rid);if(!r){ansDelBlob(id);return n}(r.files||(r.files=[])).push({id,name:f.name,size:f.size,type:f.type||''});r.upd=Date.now();
+    if(!ansStore(L)){ansDelBlob(id);break}n++}
+  if(n){toast('Приложено файлов: '+n);if($('#ansQ'))ansRender()}return n}
+async function ansOpen(rid,fid){const r=ansAll().find(x=>x.id===rid),f=r&&(r.files||[]).find(x=>x.id===fid);if(!f)return;const view=/pdf|image/.test(f.type||'')||/\.(pdf|jpe?g|png|webp)$/i.test(f.name);
+  const w=view?window.open('','_blank'):null;const b=await ansGet(fid);if(!b){if(w)w.close();return toast('Файла нет в этом браузере: он приложен на другом устройстве или удалён')}
+  if(view&&w){w.location.href=URL.createObjectURL(b);return}dlBlob(b,f.name)}
+function ansCsv(){const R=ansRows(),rows=[['Замечание','Тема','Мой ответ','Итог экспертизы','Чем закончилось','Смета','Номер сметы','Позиции','Дата','Приложения']];
+  for(const r of R)rows.push([r.text||'',r.topic||'',r.ans||'',ansRN(r.res),r.note||'',r.smeta||'',r.num||'',r.pos||'',ansD(r.upd||r.added),(r.files||[]).map(f=>f.name).join(', ')]);
+  dlBlob(new Blob(['﻿'+rows.map(x=>x.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(';')).join('\r\n')],{type:'text/csv;charset=utf-8'}),'Мои ответы экспертизе.csv');toast('Библиотека ответов скачана для Excel (.csv)')}
 /* ---------- личный кабинет (бэклог №17) ----------
    Открывается по аватару в шапке. С личным кодом профиль приходит с сервера доступа (/v1/access/me) по SHA-256 кода из sm_gate ('u:'+hash):
    имя, срок, тариф, сметы в облаке, Помощь ИИ за месяц, устройства. Без личного кода (локальная версия, общий код) — только то, что в этом браузере.
@@ -4090,12 +4416,15 @@ try{meAvatar();const av=$('.avatar');av.onclick=()=>openCabinet();av.onkeydown=e
    Выключенный сервис не теряет данные: его окно не открывается, пункты меню скрыты, найти и включить можно через Ctrl+K. */
 const SVC0={...SVC},SVC_GK='rimora.grant',SVC_UK='rimora.svc';
 const SVC_DEF=[ // [ключ, название, что делает, группа, открыть]
+ ['object','Папка объекта','документы, файлы проекта, фото, заметки и лента событий объекта','Документы стройки',()=>openObject()],
+ ['kpbase','Моя база КП','все прочитанные КП с ценами; подсказка своих КП в конъюнктурном анализе','Цены и новости',()=>openKpBase()],
  ['examples','Сметы-примеры','готовые сметы на типовой объём, пересчёт от площади','Создать',()=>openExamples()],
  ['measure','Обмер на объекте','фото, размеры, голос → ведомость','Создать',()=>openMeasure()],
  ['nonorm','Работа без нормы','расчёт по составу работ','Создать',()=>openNonorm()],
  ['contract','Смета контракта и выполнение','этапы, акты нарастающим итогом, остатки','Документы стройки',()=>openContract()],
  ['addwork','Дополнительные работы','допсметы, ведомость изменений, допсоглашение','Документы стройки',()=>openAddwork()],
  ['remarks','Ответ на замечания','замечания → позиции → черновик ответа','Проверка',()=>openRemarks()],
+ ['answers','Мои ответы экспертизе','прошлые ответы и итог: снято, отстояли','Проверка',()=>openAnswers()],
  ['coefs','Обоснование коэффициентов','что может снять экспертиза, шаблоны актов','Проверка',()=>openCoefs()],
  ['compare','Сравнение двух смет','что добавлено, убрано, разница в рублях','Проверка',()=>openCompare()],
  ['requarter','Пересчёт в новый квартал','что подорожало и почему','Цены и новости',()=>openRequarter()],
@@ -4105,10 +4434,10 @@ const SVC_DEF=[ // [ключ, название, что делает, групп�
  ['portfolio','Портфолио','сметы одной ссылкой без данных заказчиков','Кабинет',()=>openPortfolio()],
  ['diy','Ремонт для себя','проверить смету бригады без шифров','Режим',()=>openDiy()]];
 const SVC_SETS=[ // [ключ, название, для кого, сервисы (null — все)]
- ['pro','Сметчик проектной организации','экспертиза, замечания, коэффициенты, пересчёт',['examples','remarks','coefs','compare','requarter','pricehist','feed','nonorm']],
- ['contractor','Подрядчик','смета контракта, акты, допработы, обмер, сравнение со сметой заказчика',['examples','contract','addwork','measure','compare','requarter','pricehist','nonorm','remarks']],
- ['customer','Заказчик и технадзор','проверка смет подрядчика, сравнение, учёт выполнения, пересчёт',['examples','contract','compare','remarks','coefs','requarter','pricehist','feed']],
- ['freelance','Сметчик-фрилансер','кабинет заказов, портфолио, обмер, ответ на замечания',['freelance','portfolio','examples','measure','remarks','compare','nonorm','requarter']],
+ ['pro','Сметчик проектной организации','экспертиза, замечания, коэффициенты, пересчёт',['kpbase','object','examples','remarks','answers','coefs','compare','requarter','pricehist','feed','nonorm']],
+ ['contractor','Подрядчик','смета контракта, акты, допработы, обмер, сравнение со сметой заказчика',['kpbase','object','examples','contract','addwork','measure','compare','requarter','pricehist','nonorm','remarks','answers']],
+ ['customer','Заказчик и технадзор','проверка смет подрядчика, сравнение, учёт выполнения, пересчёт',['kpbase','object','examples','contract','compare','remarks','answers','coefs','requarter','pricehist','feed']],
+ ['freelance','Сметчик-фрилансер','кабинет заказов, портфолио, обмер, ответ на замечания',['kpbase','object','freelance','portfolio','examples','measure','remarks','answers','compare','nonorm','requarter']],
  ['diy','Ремонт для себя','простой режим без шифров: проверить смету бригады',['diy','measure','compare']],
  ['all','Всё включено','все сервисы в меню',null]];
 const SVC_MN={file:'Файл',edit:'Правка',ins:'Вставка',calc:'Расчёт',view:'Вид',check:'Проверка',help:'Справка'};
@@ -5755,6 +6084,7 @@ async function kaFromKP(p,files){const ka=p.ka,O=ka.offers;let done=0;
     Object.assign(o,{sup:k.sup||o.sup,inn:inn||o.inn,kpp:String(k.kpp||'').replace(/\D/g,'')||o.kpp,region:k.region||o.region,city:k.city||o.city,site:k.site||o.site,country:k.country||o.country,
       status:k.status==='1'?'1':'2',doc:KA_DOCS.some(x=>x[0]===k.doc)?k.doc:'КП',date:/^\d{4}-\d\d-\d\d$/.test(k.date||'')?k.date:o.date,kpFile:f.name});
     o.kpItems=items.map(x=>({name:String(x.name),unit:String(x.unit||''),price:+x.price||0,nds:String(x.nds??''),delivery:x.delivery===true}));o.kpSel=kpBest(o.kpItems,ka.name);kpApply(o,o.kpItems[o.kpSel]);
+    if(typeof kpbAdd==='function')kpbAdd({...k,inn,date:o.date,file:f.name,src:'ai',items:items.map(x=>({...x,del:x.delivery===true}))});
     if(o.kpItems.length<2)delete o.kpItems;done++;commit();if(kaId===p.id)renderKA()}
   if(done)toast(`Заполнено из КП: ${done}. Проверьте поставщика, ИНН, дату, цену и НДС по документу`+(O.some(o=>o.kpItems)?'; товар выбирается в строке «Позиция в КП»':''))}
 function kaInput(o,i,[key,label,type,opts]){const v=o[key];
@@ -5775,6 +6105,7 @@ function renderKA(){const p=S.pos.find(x=>x.id===kaId);if(!p||!p.ka)return;const
    ${kaForeign(ka)?`<label class="wide"><span style="display:flex;align-items:center;gap:6px"><input type="checkbox" id="kaSole" style="width:auto;margin:0;flex:none" ${ka.sole?'checked':''}>Безальтернативный производитель (поставщик) иностранного оборудования: достаточно одного предложения (п. 90)</span>${ka.sole?`<input data-kh="soleDoc" value="${esc(ka.soleDoc||'')}" placeholder="чем подтверждено: письмо заказчика №…, проектное решение">`:''}</label>`:''}
   </div>
   ${kaTrHtml(ka)}
+  ${typeof kpbHint==='function'?kpbHint(p):''}
   ${empty?`<div class="tip" style="margin:0 0 10px">${ic('bolt')}<div>Внесите не менее трёх предложений поставщиков из субъекта строительства (${esc(PR?PR.meta.subject:'')}). Программа сама уберёт НДС, приведёт цену к единице проекта, добавит перевозку и заготовительно-складские и выберет наиболее экономичный вариант. <button class="btn" id="kaSmp" style="margin-left:6px">Заполнить учебным примером</button></div></div>`:''}
   <div class="kaw"><table class="kat"><thead><tr><th></th>${O.map((o,i)=>`<th data-col="${i}">Предложение ${i+1}<button class="vdel" data-kdel="${i}" title="Удалить предложение">×</button></th>`).join('')}<th class="kadd"><button class="vpick" id="kaAdd">+ предложение</button><br><button class="vpick" id="kaKP" title="PDF или фото КП, счёта, прайса: поставщик, ИНН, дата, цена и НДС заполнятся сами, проверьте их">из КП…</button><input type="file" id="kaKPf" accept=".pdf,.png,.jpg,.jpeg,.webp,application/pdf,image/*" multiple hidden></th></tr></thead><tbody>
    ${O.some(o=>o.kpItems&&o.kpItems.length>1)?`<tr><td class="kl">Позиция в КП</td>${O.map((o,i)=>`<td data-col="${i}">${o.kpItems&&o.kpItems.length>1?`<select data-kpi="${i}" style="width:100%">${o.kpItems.map((x,j)=>`<option value="${j}" ${j===o.kpSel?'selected':''}>${esc(x.name.slice(0,70))} · ${fmt(x.price)} ₽/${esc(x.unit||'')}</option>`).join('')}</select>`:''}</td>`).join('')}<td></td></tr>`:''}
@@ -5796,11 +6127,12 @@ function renderKA(){const p=S.pos.find(x=>x.id===kaId);if(!p||!p.ka)return;const
   D.querySelectorAll('[data-kdel]').forEach(b=>b.onclick=()=>{O.splice(+b.dataset.kdel,1);commit();renderKA()});
   $('#kaSole')&&($('#kaSole').onchange=e=>{e.target.checked?ka.sole=1:(delete ka.sole,delete ka.soleDoc);commit();renderKA()});
   $('#kaAdd').onclick=()=>{O.push(kaBlank());commit();renderKA()};
+  $('#kpbTake')&&($('#kpbTake').onclick=()=>{if(kpbTake(p)){commit();renderKA()}});$('#kpbOpen')&&($('#kpbOpen').onclick=()=>{kpbHarvest(p);openKpBase(ka.name)});
   $('#kaKP').onclick=()=>{if(!AI_LOCAL)return toast('Чтение КП работает в версии на компьютере с Помощью ИИ. Здесь заполните предложение вручную');$('#kaKPf').click()};
   $('#kaKPf').onchange=e=>{const fs=[...e.target.files];e.target.value='';kaFromKP(p,fs)};
   D.querySelectorAll('[data-kpi]').forEach(x=>x.onchange=()=>{const o=O[+x.dataset.kpi];kpApply(o,o.kpItems[+x.value]);o.kpSel=+x.value;commit();renderKA()});
   $('#kaSmp')&&($('#kaSmp').onclick=()=>{kaSample(p);commit();renderKA()});
-  $('#kaX').onclick=$('#kaOk').onclick=()=>$('#dlgbg').classList.remove('on');
+  $('#kaX').onclick=$('#kaOk').onclick=()=>{if(typeof kpbHarvest==='function')kpbHarvest(p);$('#dlgbg').classList.remove('on')};
   D.querySelectorAll('[data-kt]').forEach(x=>x.onchange=()=>{const k=x.dataset.kt;
     if(k==='on'){if(x.value){ka.tr={...kaTrDef(),...(ka.tr||{}),on:true};ensureTR()}else if(ka.tr)ka.tr.on=false;commit();return renderKA()}
     let v=x.value;if(k==='mass'){try{v=String(v).trim()===''?0:isFormula(v)?evalF(v):parseFloat(String(v).replace(/\s/g,'').replace(',','.'))}catch(e){v=NaN}if(!isFinite(v)||v<0){toast('Масса: число в тоннах, например 0,0004');return}}
@@ -6225,7 +6557,7 @@ if(splitX())splitX().list().then(a=>{for(const s of a)splitReg(s);if(a.length){r
 migrateOld();setSaveChip();{const last=lsGet(SKL);const shared=location.hash.startsWith(SHARE_PREFIX);(last&&location.hash!=='#sample'?openDoc(last,true):Promise.resolve()).finally(()=>{if(shared)takeShared();else if(location.hash.startsWith('#k1.'))takeKey();else if(location.hash.startsWith('#pf1.'))pfShowLink();else if(SVC.diy&&diyMode())setTimeout(()=>{if(!$('#dlgbg').classList.contains('on'))openDiy()},700);if(cloudKey())cloudSync();tabsRestore()})}
 render=calcScope(render);renderTable=calcScope(renderTable);renderInsp=calcScope(renderInsp);renderDock=calcScope(renderDock);totals=calcScope(totals);
 lsrModel=calcScope(lsrModel);lsrModelGrand=calcScope(lsrModelGrand);ks2Model=calcScope(ks2Model);osrModel=calcScope(osrModel);ssrModel=calcScope(ssrModel);checkSmeta=calcScope(checkSmeta);resModel=calcScope(resModel);davList=calcScope(davList);
-window.__app={openExamples,exLoad,exRows,exTpl,exUse,exList,get EXF(){return EXF},get EXD(){return EXD},newDocRaw,openCabinet,meLoad,myHash,meApplyZone,defZone,reqMine,meLink,meInit,meAvatar,openSvc,svcApply,svcChoose,svcToggle,svcGrant,svcGate,svcAsk,svcNeedAsk,svcPal,svcFilePreview,SVC_DEF,SVC_SETS,SVC0,openDiy,dyParse,dyParseLine,dyAnalyze,dyNorms,dyData,dyNew,dyRun,dyWord,dyMsg,diyMode,diySetMode,dyMatch,DY_SAMPLE,dyN:()=>DYN,openPortfolio,pfData,pfInfo,pfPack,pfLink,pfHtml,pfShowLink,pfView,openFreelance,flData,flSum,flFormula,flExamples,flDoc,flKpi,openFeed,fdDocs,fdAffected,fdDetail,fdImpact,fdCopies,fdItems,fdNext,fdXlsx,fdData:()=>FD,openPriceHist,phSeries,phPrice,phAllRegions,phXlsx,phWatch,phData:()=>PH,openRequarter,rqRun,rqStats,rqRes,rqApply,rqXlsx,rqData:()=>RQ,openRemarks,rmParse,rmData,openMeasure,msParse,msData,openNonorm,nnData,nnCost,nnUnitTotal,nnText,nnPut,openCompare,cmpCalc,cmpDiff,cmpRows,cmpLoad,cmpXlsx,openCoefs,kdGroups,kdEffect,kdText,openAddwork,awData,awRows,awSum,awMake,awXlsx,awAgreement,msToVor,msWord,msFormula,msVal,openContract,renderContract,ctModel,ctXlsx,SVC,openActs,bimx,ncsCalc,ncsSample,pirCalc,pirHtml,pirXlsx,pirSample,openOsr,renderOsr,nmckCalc,rubWords,nmckXlsx,setLsrView,setLsrRes,openExpert,expx,openSplit,splitReg,useSplit,SPL,get split(){return splitX()},osSample,ST,lsrModel,lsrModelGrand,osrModel,ssrModel,resModel,checkSmeta,ks2Model,fopt,mrNew,eqNew,kaNew,makePR,ensurePR,setZone,setLevel,prKey,get S(){return S},get xml(){return xmlx()},totals,calc,sample,B,ensureReal,nrCode,nrFull,sampleLesson,loadDoc,setBase:v=>setBase(v),renderTable,renderInsp,renderDock,syncRibbon};
+window.__app={openAnswers,ansAll,ansHarvest,ansMatch,ansHint,ansAiHint,ansSet,ansAddFiles,ansRows,ansRender,ansGet,ansKey,get ANF(){return ANF},openKpBase,kpbAdd,kpbAll,kpbHarvest,kpbMatch,kpbCand,kpbTake,kpbHint,kaNew,openKA,openObject,stDel,obfDelNote,obfDelFile,obfAdd,obfNote,obfEvents,obfData,obfZip,obfRender,get OBF(){return OBF},stroyList,docSetPlace,openExamples,exLoad,exRows,exTpl,exUse,exList,get EXF(){return EXF},get EXD(){return EXD},newDocRaw,openCabinet,meLoad,myHash,meApplyZone,defZone,reqMine,meLink,meInit,meAvatar,openSvc,svcApply,svcChoose,svcToggle,svcGrant,svcGate,svcAsk,svcNeedAsk,svcPal,svcFilePreview,SVC_DEF,SVC_SETS,SVC0,openDiy,dyParse,dyParseLine,dyAnalyze,dyNorms,dyData,dyNew,dyRun,dyWord,dyMsg,diyMode,diySetMode,dyMatch,DY_SAMPLE,dyN:()=>DYN,openPortfolio,pfData,pfInfo,pfPack,pfLink,pfHtml,pfShowLink,pfView,openFreelance,flData,flSum,flFormula,flExamples,flDoc,flKpi,openFeed,fdDocs,fdAffected,fdDetail,fdImpact,fdCopies,fdItems,fdNext,fdXlsx,fdData:()=>FD,openPriceHist,phSeries,phPrice,phAllRegions,phXlsx,phWatch,phData:()=>PH,openRequarter,rqRun,rqStats,rqRes,rqApply,rqXlsx,rqData:()=>RQ,openRemarks,rmParse,rmData,openMeasure,msParse,msData,openNonorm,nnData,nnCost,nnUnitTotal,nnText,nnPut,openCompare,cmpCalc,cmpDiff,cmpRows,cmpLoad,cmpXlsx,openCoefs,kdGroups,kdEffect,kdText,openAddwork,awData,awRows,awSum,awMake,awXlsx,awAgreement,msToVor,msWord,msFormula,msVal,openContract,renderContract,ctModel,ctXlsx,SVC,openActs,bimx,ncsCalc,ncsSample,pirCalc,pirHtml,pirXlsx,pirSample,openOsr,renderOsr,nmckCalc,rubWords,nmckXlsx,setLsrView,setLsrRes,openExpert,expx,openSplit,splitReg,useSplit,SPL,get split(){return splitX()},osSample,ST,lsrModel,lsrModelGrand,osrModel,ssrModel,resModel,checkSmeta,ks2Model,fopt,mrNew,eqNew,kaNew,makePR,ensurePR,setZone,setLevel,prKey,get S(){return S},get xml(){return xmlx()},totals,calc,sample,B,ensureReal,nrCode,nrFull,sampleLesson,loadDoc,setBase:v=>setBase(v),renderTable,renderInsp,renderDock,syncRibbon};
 if(location.hash==='#sample')sample();
 try{const nt=!localStorage.getItem('rimora.tour')&&!location.hash;if(SVC_ASK)setTimeout(()=>svcAsk(()=>{if(nt)tour()}),700);else if(nt)setTimeout(tour,700)}catch(e){}
 })();

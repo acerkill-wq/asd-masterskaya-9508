@@ -155,8 +155,8 @@ let KEY = ''; try { KEY = sessionStorage.getItem('rimora_admin') || ''; } catch 
 let USERS = [], PLANS = [], HASPLANS = false, NOW = Date.now(), FILTER = 'all', AIM, HASAI = false;
 const MON = ['январе', 'феврале', 'марте', 'апреле', 'мае', 'июне', 'июле', 'августе', 'сентябре', 'октябре', 'ноябре', 'декабре'];
 // модули программы: ключ как в const SVC (maket/index.html) и название как в окне «Сервисы»
-const MODS = [['examples','Сметы-примеры'],['measure','Обмер на объекте'],['nonorm','Работа без нормы'],['contract','Смета контракта и выполнение'],['addwork','Дополнительные работы'],
-  ['remarks','Ответ на замечания'],['coefs','Обоснование коэффициентов'],['compare','Сравнение двух смет'],['requarter','Пересчёт в новый квартал'],
+const MODS = [['object','Папка объекта'],['kpbase','Моя база КП'],['examples','Сметы-примеры'],['measure','Обмер на объекте'],['nonorm','Работа без нормы'],['contract','Смета контракта и выполнение'],['addwork','Дополнительные работы'],
+  ['remarks','Ответ на замечания'],['answers','Мои ответы экспертизе'],['coefs','Обоснование коэффициентов'],['compare','Сравнение двух смет'],['requarter','Пересчёт в новый квартал'],
   ['pricehist','История цены ресурса'],['feed','Изменения для моих смет'],['freelance','Кабинет фрилансера'],['portfolio','Портфолио'],['diy','Ремонт для себя']];
 const modName = k => (MODS.find(m => m[0] === k) || [k, k])[1];
 const modsText = L => L == null ? 'все модули' : !L.length ? 'ни одного модуля' : L.length + ' из ' + MODS.length + ': ' + L.map(modName).join(', ');
