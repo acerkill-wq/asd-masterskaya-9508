@@ -460,7 +460,7 @@ table.lsrf tr.sel td{background:color-mix(in srgb,var(--brand) 12%,transparent)}
 .kag{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px 12px;margin-bottom:12px}
 .kag label{display:flex;flex-direction:column;gap:3px;font-size:11px;font-weight:600;color:var(--muted)}.kag label.wide{grid-column:1/-1}
 .kag input,.kag select,.kat input,.kat select{font:inherit;font-size:12.5px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:5px 7px;width:100%;min-width:0}
-.kat input.bad{border-color:#d9534f}.kaw{overflow:auto;border:1px solid var(--line);border-radius:12px}
+.kat input.bad{border-color:#d9534f}.kact.sig{border-color:#2e7d32}.kin:disabled,.kall:disabled{opacity:.45;cursor:not-allowed}.kslk{margin:0 0 8px;padding:8px 12px;border-radius:10px;background:#e8f5e9;color:#1b5e20;font-size:13px}.kaw{overflow:auto;border:1px solid var(--line);border-radius:12px}
 .kat{border-collapse:collapse;width:100%;font-size:12.5px}.kat th,.kat td{padding:4px 6px;border-bottom:1px solid var(--line);vertical-align:middle;min-width:150px}
 .kat th{background:var(--surface2);text-align:left;font-size:12px;white-space:nowrap}.kat th .vdel{margin-left:6px}
 .kat td.kl{min-width:190px;max-width:220px;color:var(--ink2);font-size:11.5px;position:sticky;left:0;background:var(--surface);z-index:1}
@@ -2803,16 +2803,16 @@ const ksDone=(a,id)=>+((a.done||{})[id]||0);
 const ksCum=(id,j)=>{let s=0;for(let k=0;k<=j&&k<S.acts.length;k++)s+=ksDone(S.acts[k],id);return s};
 /* стоимость за акт j: доля от «всего по позиции» нарастающим итогом, чтобы сумма всех актов при полном выполнении совпала со сметой до копейки */
 const KS_EL=[['ot','ОТ'],['em','ЭМ'],['mat','М'],['ob','Оборудование'],['per','Перевозка'],['nr','НР'],['sp','СП']]; // перевозка — отдельный элемент, иначе позиция «Перевозка грузов» в акте выходит в 0
-function ksPart(x,j,key){const q=x.p.qty;if(!q)return 0;const t=x.c[key]||0,c1=ksCum(x.p.id,j),c0=j>0?ksCum(x.p.id,j-1):0;
+function ksPart(x,j,key){const sa=S.acts[j];if(sa&&sa.sig){const s=sa.sig.pos[x.p.id];return s?(s.el[key]||0):0}const q=x.p.qty;if(!q)return 0;const t=x.c[key]||0,c1=ksCum(x.p.id,j),c0=j>0?ksCum(x.p.id,j-1):0;
   const v=c=>Math.abs(c-q)<1e-9?t:r2(t*c/q);return r2(v(c1)-v(c0))}
 /* стоимость за акт = сумма элементов затрат, каждый считается долей нарастающим итогом: при полном выполнении акты дают смету до копейки */
 function ksCost(x,j){return r2(KS_EL.reduce((s,[k])=>s+ksPart(x,j,k),0))}
 function ksInfo(x){const R=x.c.R,real=R.real||R.ka||R.mr;const mult=R.ka||R.mr?1:(R.mult||1);
   return {code:R.trp||R.mr||R.own?R.disp:R.ka?(x.p.ka.rescode||'КА, прил. 1 к 421/пр'):(R.real?'ГЭСН'+x.p.code:x.p.code),name:R.name,unit:pu(R.ka?x.p.ka.unit:R.unit||''),nat:pu(R.ka?x.p.ka.unit:(R.nat||R.unit||'')),mult,price:x.c.q?r2(x.c.total/x.c.q):0,real}}
-function ks2Model(j){const a=S.acts[j],P=party(),T=totals(),rows=[];let n=0,sum=0,ls=0;
+function ks2Live(j,V0){const a=S.acts[j],P=party(),T=totals(),rows=[];let n=0,sum=0,ls=0;
   for(const x of ksPos()){const d=ksDone(a,x.p.id);if(!d)continue;const I=ksInfo(x),cost=ksCost(x,j);
     if(x.si!==ls){rows.push({sec:`Раздел ${x.si}. ${x.sec}`});ls=x.si}
-    n++;sum+=cost;const V=fopt().ks;rows.push({n,pn:x.n,name:I.name,code:I.code,unit:I.unit,qty:Math.round(d/I.mult*1e7)/1e7,price:I.price,cost:V==='short'?cost:''});
+    n++;sum+=cost;const V=V0||fopt().ks;rows.push({n,pn:x.n,name:I.name,code:I.code,unit:I.unit,qty:Math.round(d/I.mult*1e7)/1e7,price:I.price,cost:V==='short'?cost:''});
     if(V!=='short'){const sh=x.p.qty?d/x.p.qty:0,L=x.c.lines||[];
       for(const [k,nm] of KS_EL){const v=ksPart(x,j,k);if(!v&&k!=='mat')continue;if(!v&&!L.some(l=>l.t==='М'))continue;
         rows.push({el:k==='nr'?'НР'+(x.c.nrp?` (${fq(x.c.nrp*(x.c.rem?0.9:1))}% от ФОТ)`:''):k==='sp'?'СП'+(x.c.spp?` (${fq(x.c.spp*(x.c.rem?0.85:1))}% от ФОТ)`:''):nm,cost:v});
@@ -2822,9 +2822,19 @@ function ks2Model(j){const a=S.acts[j],P=party(),T=totals(),rows=[];let n=0,sum=
   sum=r2(sum);const nds=a.nds?r2(sum*B.nds/100):0;
   const dog=P.dogSum!==''&&!isNaN(+String(P.dogSum).replace(',','.'))?+String(P.dogSum).replace(',','.'):(a.nds?r2(T.total*(1+B.nds/100)):T.total);
   return {a,P,Q:req(),rows,sum,nds,all:r2(sum+nds),dog}}
-function ks3Model(j){const a=S.acts[j],y=(a.date||'').slice(0,4),secs=new Map();
-  for(const x of ksPos()){if(!secs.has(x.si))secs.set(x.si,{name:`Раздел ${x.si}. ${x.sec}`,s:0,y:0,p:0});const o=secs.get(x.si);
-    for(let k=0;k<=j;k++){const c=ksCost(x,k);o.s+=c;if((S.acts[k].date||'').slice(0,4)===y)o.y+=c;if(k===j)o.p+=c}}
+/* подписанный акт (бэклог 89_, № 31): при подписании сохраняется снимок сумм по позициям и строк КС-2 во всех видах;
+   КС-2, КС-3, смета контракта и «выполнено с начала работ» берут его, пересчёт сметы и новые цены меняют только неподписанные акты */
+function ks2Model(j){const a=S.acts[j],M=ks2Live(j);if(!a.sig)return M;const g=a.sig,rows=g.rows[fopt().ks]||g.rows.short,sum=g.sum,nds=a.nds?r2(sum*B.nds/100):0;
+  return {...M,rows,sum,nds,all:r2(sum+nds),sig:g}}
+const ksSnap=calcScope(function(j){const a=S.acts[j],pos={},rows={};let sum=0;
+  for(const x of ksPos()){if(!ksDone(a,x.p.id))continue;const el={};for(const [k] of [...KS_EL,['otm']])el[k]=ksPart(x,j,k);const c=ksCost(x,j);sum+=c;pos[x.p.id]={si:x.si,sec:x.sec,el,cost:c}}
+  for(const V of ['short','groups','full'])rows[V]=ks2Live(j,V).rows;
+  return {at:today(),lv:lvName(S.level,zoneOf())+', '+edName(edOfS()),pos,rows,sum:r2(sum)}});
+const ksHasWork=a=>Object.values(a.done||{}).some(v=>+v>0);
+function ks3Model(j){const a=S.acts[j],y=(a.date||'').slice(0,4),secs=new Map(),XP=ksPos();
+  const add=(si,sec,k,c)=>{if(!secs.has(si))secs.set(si,{name:`Раздел ${si}. ${sec}`,s:0,y:0,p:0});const o=secs.get(si);o.s+=c;if((S.acts[k].date||'').slice(0,4)===y)o.y+=c;if(k===j)o.p+=c};
+  for(const x of XP)add(x.si,x.sec,j,0);
+  for(let k=0;k<=j;k++){const g=S.acts[k].sig;if(g)for(const v of Object.values(g.pos))add(v.si,v.sec,k,v.cost);else for(const x of XP)add(x.si,x.sec,k,ksCost(x,k))}
   const rows=[...secs.values()].map(o=>({name:o.name,s:r2(o.s),y:r2(o.y),p:r2(o.p)}));
   const tot={s:r2(rows.reduce((a,o)=>a+o.s,0)),y:r2(rows.reduce((a,o)=>a+o.y,0)),p:r2(rows.reduce((a,o)=>a+o.p,0))};
   const nds=a.nds?r2(tot.p*B.nds/100):0;return {a,P:party(),Q:req(),rows,tot,nds,all:r2(tot.p+nds)}}
@@ -2842,10 +2852,13 @@ function ctModel(){const C=ctData(),T=totals(),XP=ksPos(),last=(S.acts||[]).leng
   const price=C.price!=null&&C.price>0?+C.price:base,K=base?price/base:1;
   const st=[],by={};for(const x of XP){let s=by[x.si];if(!s){s=by[x.si]={si:x.si,sec:x.sec,name:(C.stages[x.si]||{}).name||x.sec,term:(C.stages[x.si]||{}).term||'',base:0,done:0,pos:[],over:[]};st.push(s)}
     const cum=last>=0?ksCum(x.p.id,last):0,dn=last>=0?r2([...S.acts.keys()].reduce((t,k)=>t+ksCost(x,k),0)):0,I=ksInfo(x);
+    const vc=!x.p.qty?0:Math.abs(cum-x.p.qty)<1e-9?x.c.total:x.c.total*cum/x.p.qty;s.rn=(s.rn||0)+x.c.total-vc;
     s.base+=x.c.total;s.done+=dn;const row={x,I,cum,dn,rest:Math.round((x.p.qty-cum)*1e7)/1e7};s.pos.push(row);if(cum>x.p.qty+1e-9)s.over.push(row)}
-  for(const s of st){s.base=r2(s.base);s.done=r2(s.done);s.ct=r2(s.base*K);s.ctDone=r2(s.done*K);s.rest=r2(s.ct-s.ctDone);s.pct=s.ct?Math.min(100,s.ctDone/s.ct*100):0}
+  // есть подписанные акты (№ 31): их суммы зафиксированы, остаток этапа = невыполненный объём по текущим ценам
+  const SG=(S.acts||[]).some(a=>a.sig);
+  for(const s of st){s.base=r2(s.base);s.done=r2(s.done);s.ct=r2(s.base*K);s.ctDone=r2(s.done*K);s.rest=SG?r2(s.rn*K):r2(s.ct-s.ctDone);const all=SG?s.ctDone+s.rest:s.ct;s.pct=all?Math.min(100,s.ctDone/all*100):0}
   const done=r2(st.reduce((t,s)=>t+s.ctDone,0)),acts=(S.acts||[]).filter(a=>Object.values(a.done||{}).some(v=>+v>0));
-  return {C,T,K,price:r2(price),base:r2(base),st,done,rest:r2(price-done),acts,lastAct:acts.length?acts[acts.length-1]:null}}
+  return {C,T,K,price:r2(price),base:r2(base),st,done,rest:SG?r2(st.reduce((t,s)=>t+s.rest,0)):r2(price-done),acts,lastAct:acts.length?acts[acts.length-1]:null}}
 function openContract(){if(!svcGate('contract'))return;if(S.mode)return toast('Смета контракта составляется по локальной смете');if(!S.pos.some(p=>p.sec===undefined))return toast('Смета пуста: добавьте позиции');if(!S.acts)S.acts=[];renderContract()}
 function renderContract(){const M=ctModel(),C=M.C,pc=v=>fmt(M.price?Math.round(v/M.price*1000)/10:0,1),bar=(p,w)=>`<div class="ctbar${w?' w':''}"><i style="width:${Math.max(0,Math.min(100,p)).toFixed(1)}%"></i></div>`;
   const over=M.st.flatMap(s=>s.over.map(r=>({s,r})));
@@ -3402,6 +3415,7 @@ function renderRequarter(){const L=rqLevels(),R=RQ;if(!R)return;const A1=R.A,B1=
     <div class="rqtt"><div class="cmc"><span class="u rmh">Было</span><div class="cmt">${fmt(A1.total)} ₽</div></div><div class="cmc"><span class="u rmh">Станет</span><div class="cmt">${fmt(B1.total)} ₽</div><span class="${d>0?'awp':d<0?'awm':'u'}">${d>0?'+':''}${fmt(d)} ₽ · ${d>0?'+':''}${fmt(pct,1)} %</span></div></div>
     ${zero.length?`<div class="rmk">⚠ ${zero.length} ${cmpPl(zero.length,'ресурс','ресурса','ресурсов')} без цены в новом квартале или редакции: у них была бы цена 0. Замените ресурс в позиции или возьмите цену по КП.</div>`:''}
     ${gone.length?`<div class="u">Ресурсов, которых нет в новой редакции: ${gone.length}.</div>`:''}
+    ${(()=>{const W=(S.acts||[]).filter(ksHasWork),sg=W.filter(a=>a.sig).length,un=W.length-sg;return W.length?`<div class="rmk rqak">В смете ${W.length} ${cmpPl(W.length,'акт','акта','актов')} КС-2${sg?`, подписанных ${sg}`:''}. Подписанные останутся в своих суммах, пересчитается только остаток.${un?` Неподписанные (${un}) пересчитаются по новым ценам. Если заказчик их уже подписал, отметьте подписанными до пересчёта.<div><button class="btn" id="rqSig">🔒 Отметить подписанными (${un})</button></div>`:''}</div>`:''})()}
     <button class="btn pri" id="rqGo"${same?' disabled':''}>${S.docId?'Пересчитать, сохранить старую версию':'Пересчитать смету'}</button><button class="btn" id="rqXls">Протокол изменений в Excel</button>
     ${S.docId?'':'<div class="u">Смета не сохранена: старая версия останется в отмене (Ctrl+Z).</div>'}</div>
    <div class="rmc"><div class="u rmh">Почему изменился итог</div>${same?'<div class="u">Выберите другой квартал или редакцию слева.</div>':rqWaterfall(A1,B1)}
@@ -3410,13 +3424,18 @@ function renderRequarter(){const L=rqLevels(),R=RQ;if(!R)return;const A1=R.A,B1=
   const D=$('#dlg');D.style.maxWidth='1360px';D.style.width='97vw';$('#rqX').onclick=()=>$('#dlgbg').classList.remove('on');
   $('#rqLv').onchange=e=>rqRun(e.target.value,R.ed);$('#rqEd').onchange=e=>rqRun(R.lv,e.target.value);
   $('#rqXls').onclick=()=>{dlBlob(rqXlsx(),`Протокол пересчёта ${S.name||''}.xlsx`.replace(/\s+/g,' '));toast('Протокол пересчёта выгружен в Excel')};
+  $('#rqSig')&&($('#rqSig').onclick=()=>{let k=0;S.acts.forEach((a,i)=>{if(ksHasWork(a)&&!a.sig){a.sig=ksSnap(i);k++}});commit();renderRequarter();toast(`${k} ${cmpPl(k,'акт отмечен','акта отмечены','актов отмечены')} подписанными: суммы зафиксированы`)});
   $('#rqGo').onclick=rqApply}
-function rqApply(){const R=RQ;if(!R)return;const old=lvName(S.level,zoneOf())+', '+edName(edOfS());let kept='';
-  if(S.docId){try{const n=JSON.parse(snap());n.docId=newId();n.created=Date.now();n.name=`${S.name||'Смета'} (до пересчёта: ${old})`;
+/* № 31: копия из ленты изменений (fdCopies) — только смета, без актов, контракта, допработ и замечаний: в новой редакции суммы актов пересчитались бы.
+   Копия «до пересчёта» хранит всё как было (старые суммы актов можно посмотреть), но помечена версией: в Папке объекта её акты и замечания не повторяются */
+const verCopy=n=>{for(const k of ['acts','contract','addw','remarks'])delete n[k];return n};
+const isVer=(n,m)=>!!(n&&n.ver)||/\(до пересчёта: /.test((m&&m.name)||(n&&n.name)||'');
+function rqApply(){const R=RQ;if(!R)return;const old=lvName(S.level,zoneOf())+', '+edName(edOfS());let kept='';const sg=(S.acts||[]).filter(a=>a.sig).length;
+  if(S.docId){try{const n=JSON.parse(snap());n.ver={of:S.docId,kind:'rq'};n.docId=newId();n.created=Date.now();n.name=`${S.name||'Смета'} (до пересчёта: ${old})`;
       const m={...(docIndex().find(x=>x.id===S.docId)||{}),id:n.docId,name:n.name,created:n.created,updated:Date.now()};lsSet(SKD+n.docId,JSON.stringify(n));lsSet(SK,JSON.stringify([m,...docIndex()]));cloudMark(n.docId);kept=n.name}
     catch(e){return toast('Не удалось сохранить старую версию: пересчёт не выполнен')}}
   S.level=R.lv;S.nrsp=(lvPeriod(R.lv)||427)<427&&R.lv!=='base'?'old':'new';S.ed=R.ed;RQ=null;$('#dlgbg').classList.remove('on');commit();
-  toast(`Смета пересчитана: ${lvName(S.level,zoneOf())}, ${edName(S.ed)}${kept?'. Старая версия в «Моих сметах»: '+kept:''}`)}
+  toast(`Смета пересчитана: ${lvName(S.level,zoneOf())}, ${edName(S.ed)}${sg?`. Подписанные акты (${sg}) остались в своих суммах`:''}${kept?'. Старая версия в «Моих сметах»: '+kept:''}`)}
 function rqXlsx(){const R=RQ,A1=R.A,B1=R.B,RR=rqRes(A1,B1).filter(x=>Math.abs(x.d)>=0.005||x.zero).sort((x,y)=>Math.abs(y.d)-Math.abs(x.d));
   return xBook('Протокол пересчёта',[44,14,16,12,16,16,16],(row,mg)=>{let q=row([[0,`Протокол пересчёта сметы «${S.name||''}»`,9]],20);mg(0,6,q);
    q=row([[0,`Было: ${lvName(A1.lv,A1.zone)}, ${edName(A1.ed)}, итог ${fmt(A1.total)} руб. Станет: ${lvName(R.lv,A1.zone)}, ${edName(R.ed)}, итог ${fmt(B1.total)} руб.`,0]]);mg(0,6,q);row([]);
@@ -3557,7 +3576,7 @@ async function fdImpact(){const R=FD;if(R.busy)return;R.busy=true;renderFeed();c
       d.dd=r2(d.aff.reduce((s,x)=>s+(x.d||0),0));d.nx=d.aff.filter(x=>x.kind==='excl').length}}
   finally{R.busy=false}R.imp=rows;renderFeed()}
 function fdCopies(){let k=0,skip=0;for(const d of FD.docs){if(!d.aff.length)continue;if(!d.id){skip++;continue}
-    try{const n=JSON.parse(d.id===S.docId?snap():lsGet(SKD+d.id));n.docId=newId();n.created=Date.now();n.ed=ED_LATEST;n.name=`${d.name} (${edName(ED_LATEST)})`;
+    try{const n=verCopy(JSON.parse(d.id===S.docId?snap():lsGet(SKD+d.id)));n.docId=newId();n.created=Date.now();n.ed=ED_LATEST;n.name=`${d.name} (${edName(ED_LATEST)})`;
       const m={...(docIndex().find(x=>x.id===d.id)||{}),id:n.docId,name:n.name,created:n.created,updated:Date.now()};lsSet(SKD+n.docId,JSON.stringify(n));lsSet(SK,JSON.stringify([m,...docIndex()]));cloudMark(n.docId);k++}catch(e){}}
   toast(k?`В «Моих сметах» ${k} ${cmpPl(k,'копия','копии','копий')} в ${edName(ED_LATEST)}; исходные сметы не изменены`+(skip?'. Несохранённую смету сначала сохраните':''):'Нечего пересчитывать: сохраните смету')}
 function fdXlsx(){const R=FD;return xBook('Изменения',[34,16,18,46,16],(row,mg)=>{let q=row([[0,`Изменения № ${ED_LATEST} ФСНБ-2022 для моих смет`,9]],20);mg(0,4,q);row([]);
@@ -4077,7 +4096,7 @@ function obfEvents(sid,oid){const E=[],D=obfDocs(sid,oid),d=obfData(oid);
     const nm='«'+m.name+'»',go={doc:m.id},up=m.updated||m.created||0;
     E.push({t:m.created||up,k:'smeta',txt:`Создан документ ${nm}`,go});
     if(m.updated&&m.created&&m.updated-m.created>6e4)E.push({t:m.updated,k:'smeta',txt:`Изменён документ ${nm}${m.total?': '+fmt(m.total)+' ₽ без НДС':''}`,go});
-    if(!n)continue;
+    if(!n||isVer(n,m))continue;
     (Array.isArray(n.acts)?n.acts:[]).forEach((a,i)=>{if(a)E.push({t:obfDay(a.date)||up,k:'acts',txt:`КС-2 № ${a.num||i+1}${a.date?' от '+obfD(a.date):''} по ${nm}`,go})});
     const R=n.remarks&&Array.isArray(n.remarks.items)?n.remarks.items:[];
     if(R.length){const c=k=>R.filter(x=>x.st===k).length,P=[['ans','ответ готов'],['fix','исправлено'],['dis','не согласны'],['doc','нужен документ']].filter(([k])=>c(k)).map(([k,t])=>t+' '+c(k));
@@ -4691,20 +4710,21 @@ function ksSample(){const P=ksPos(),h=Math.ceil(P.length/2),a1={id:uid++,num:'1'
   P.forEach((x,i)=>{if(i<h)a1.done[x.p.id]=x.p.qty;else if(i===h){a1.done[x.p.id]=Math.round(x.p.qty/2*1e7)/1e7;a2.done[x.p.id]=Math.round((x.p.qty-a1.done[x.p.id])*1e7)/1e7}else a2.done[x.p.id]=x.p.qty});
   S.acts=[a1,a2];S.party={...party(),inv:'Учебный инвестор',zak:'ООО «Учебный заказчик», г. Волгоград',podr:'ООО «Учебный подрядчик», г. Волгоград',dogNum:'15/26',dogDate:'2026-08-20',sdal:'Прораб, И. И. Иванов',prin:'Инженер технического надзора, П. П. Петров',zakSign:'Директор, С. С. Сидоров',podrSign:'Директор, А. А. Андреев'};ksI=0}
 function openActs(){if(S.mode)return toast('Акты КС-2 и КС-3 составляются по локальной смете');if(!S.pos.some(p=>p.sec===undefined))return toast('Смета пуста: добавьте позиции');if(!S.acts)S.acts=[];if(!S.acts.length){S.acts.push(ksNewAct());commit()}ksI=Math.min(ksI,S.acts.length-1);renderActs()}
-function renderActs(){const a=S.acts[ksI],P=party(),w=ksWarn(ksI),XP=ksPos(),T=totals();
+function renderActs(){const a=S.acts[ksI],P=party(),w=ksWarn(ksI),XP=ksPos(),T=totals(),LK=a.sig?' disabled':'';
   const tabs=[['vol','Выполненные объёмы'],['ks2','КС-2'],['ks3','КС-3'],['party','Стороны и подписи']];
   let body='';
   if(ksTab==='vol'){let ls=0;body=`<div class="ksv"><table class="kvt"><thead><tr><th>№</th><th>Обоснование</th><th>Наименование</th><th>Ед.</th><th>По смете</th><th>Ранее</th><th>В этом акте</th><th>Остаток</th><th>Стоимость, ₽</th></tr></thead><tbody>${XP.map(x=>{const I=ksInfo(x),pr=ksI?ksCum(x.p.id,ksI-1):0,d=ksDone(a,x.p.id),rest=x.p.qty-pr-d;
       const s=x.si!==ls?(ls=x.si,`<tr class="ksec"><td colspan="9">Раздел ${x.si}. ${esc(x.sec)}</td></tr>`):'';
       return s+`<tr${rest<-1e-9?' class="bad"':''}><td>${x.n}</td><td class="mono">${esc(I.code)}</td><td>${esc(I.name.length>90?I.name.slice(0,88)+'…':I.name)}</td><td>${esc(I.nat)}</td><td class="n">${fq(x.p.qty)}</td><td class="n">${pr?fq(pr):''}</td>
-      <td><input class="kin" data-kd="${x.p.id}" value="${d?fq(d):''}" inputmode="decimal"><button class="kall" data-kr="${x.p.id}" title="Весь остаток">всё</button></td><td class="n">${fq(Math.round(rest*1e7)/1e7)}</td><td class="n">${fmt(ksCost(x,ksI))}</td></tr>`}).join('')}</tbody></table></div>
-      <div class="fmb"><button class="btn" id="ksRest">Весь остаток в этот акт</button><button class="btn" id="ksClr">Очистить объёмы акта</button></div>`}
+      <td><input class="kin" data-kd="${x.p.id}" value="${d?fq(d):''}" inputmode="decimal"${LK}><button class="kall" data-kr="${x.p.id}" title="Весь остаток"${LK}>всё</button></td><td class="n">${fq(Math.round(rest*1e7)/1e7)}</td><td class="n">${fmt(ksCost(x,ksI))}</td></tr>`}).join('')}</tbody></table></div>
+      <div class="fmb"><button class="btn" id="ksRest"${LK}>Весь остаток в этот акт</button><button class="btn" id="ksClr"${LK}>Очистить объёмы акта</button></div>`}
   else if(ksTab==='party'){body=`<div class="fmf ksp">${[['stroyka','Стройка (из выходных форм ЛСР)'],['obj','Объект']].map(([k,l])=>`<label>${l}<input data-rq="${k}" value="${esc(req()[k]||'')}"></label>`).join('')}${PARTY.map(([k,l,t])=>`<label>${l}<input data-pt="${k}" type="${t||'text'}" value="${esc(P[k]||'')}"></label>`).join('')}</div>`}
   else body=`<div class="fmb">${ksTab==='ks2'?`<label class="kchk">Вид акта <select id="ksView">${Object.entries(FV).filter(([k])=>k!=='grand').map(([k,[l]])=>`<option value="${k}"${fopt().ks===k?' selected':''}>${l.replace('позиции','работы')}</option>`).join('')}</select></label>`:''}<button class="btn pri" id="ksXls">${ic('xls')}${ksTab==='ks2'?'КС-2':'КС-3'} в Excel (.xlsx)</button><button class="btn" id="ksPrn">${ic('print')}Печать или PDF</button></div><iframe id="ksPrev" title="Предпросмотр"></iframe>`;
   const doneAll=r2(XP.reduce((s,x)=>s+[...S.acts.keys()].filter(k=>k<=ksI).reduce((t,k)=>t+ksCost(x,k),0),0)),m2=ks2Model(ksI);
   dlg(`<div class="kah"><div><h3>Акты КС-2 и справки КС-3</h3><div class="u">Унифицированные формы № КС-2 и № КС-3 (постановление Госкомстата России от 11.11.1999 № 100) по смете «${esc(S.name)}»</div></div><button class="vdel" id="ksX" style="font-size:22px">×</button></div>
-  <div class="ksa">${S.acts.map((x,i)=>`<button class="kact${i===ksI?' on':''}" data-ai="${i}">Акт № ${esc(x.num||'?')}<small>${dmy(x.to)}</small></button>`).join('')}<button class="btn" id="ksAdd">+ Новый акт</button><button class="btn" id="ksDel">Удалить акт</button><button class="btn" id="ksSmp">Учебный пример: 2 акта</button></div>
-  <div class="ksf"><label>Номер<input data-af="num" value="${esc(a.num||'')}"></label><label>Дата составления<input type="date" data-af="date" value="${a.date||''}"></label><label>Период с<input type="date" data-af="from" value="${a.from||''}"></label><label>по<input type="date" data-af="to" value="${a.to||''}"></label><label class="kchk"><input type="checkbox" data-af="nds"${a.nds?' checked':''}> НДС ${B.nds}%</label></div>
+  <div class="ksa">${S.acts.map((x,i)=>`<button class="kact${i===ksI?' on':''}${x.sig?' sig':''}" data-ai="${i}">${x.sig?'🔒 ':''}Акт № ${esc(x.num||'?')}<small>${dmy(x.to)}${x.sig?' · подписан':''}</small></button>`).join('')}<button class="btn" id="ksAdd">+ Новый акт</button><button class="btn" id="ksDel">Удалить акт</button>${a.sig?'<button class="btn" id="ksUnsig">Снять подпись</button>':'<button class="btn" id="ksSig">🔒 Акт подписан</button>'}<button class="btn" id="ksSmp">Учебный пример: 2 акта</button></div>
+  <div class="ksf"><label>Номер<input data-af="num" value="${esc(a.num||'')}"${LK}></label><label>Дата составления<input type="date" data-af="date" value="${a.date||''}"${LK}></label><label>Период с<input type="date" data-af="from" value="${a.from||''}"${LK}></label><label>по<input type="date" data-af="to" value="${a.to||''}"${LK}></label><label class="kchk"><input type="checkbox" data-af="nds"${a.nds?' checked':''}${LK}> НДС ${B.nds}%</label></div>
+  ${a.sig?`<div class="kslk">🔒 Акт подписан, суммы зафиксированы ${dmy(a.sig.at)} по ценам «${esc(a.sig.lv)}». Пересчёт сметы в другой квартал и правка цен этот акт не меняют. Объёмы и реквизиты закрыты: чтобы исправить акт, снимите подпись.</div>`:''}
   ${w.length?`<div class="kaw">${w.map(x=>`<div>⚠ ${esc(x)}</div>`).join('')}</div>`:''}
   <div class="kstab">${tabs.map(([k,l])=>`<button data-kt2="${k}" class="${k===ksTab?'on':''}">${l}</button>`).join('')}</div>${body}
   <div class="ksum">Акт № ${esc(a.num||'?')}: <b>${fmt(m2.sum)} ₽</b> без НДС${a.nds?`, с НДС ${fmt(m2.all)} ₽`:''} · выполнено с начала работ ${fmt(doneAll)} из ${fmt(T.total)} ₽ (${T.total?Math.round(doneAll/T.total*1000)/10:0}%)</div>`,true);
@@ -4713,10 +4733,14 @@ function renderActs(){const a=S.acts[ksI],P=party(),w=ksWarn(ksI),XP=ksPos(),T=t
   D.querySelectorAll('[data-ai]').forEach(b=>b.onclick=()=>{ksI=+b.dataset.ai;renderActs()});
   D.querySelectorAll('[data-kt2]').forEach(b=>b.onclick=()=>{ksTab=b.dataset.kt2;renderActs()});
   $('#ksAdd').onclick=()=>{S.acts.push(ksNewAct());ksI=S.acts.length-1;ksTab='vol';commit();renderActs()};
-  $('#ksDel').onclick=()=>{if(!confirm(`Удалить акт № ${a.num}? Объёмы последующих актов не изменятся.`))return;S.acts.splice(ksI,1);ksI=Math.max(0,ksI-1);if(!S.acts.length)S.acts.push(ksNewAct());commit();renderActs()};
-  $('#ksSmp').onclick=()=>{if(S.acts.some(x=>Object.keys(x.done||{}).length)&&!confirm('Заменить акты учебным примером?'))return;ksSample();commit();renderActs()};
-  D.querySelectorAll('[data-af]').forEach(x=>x.onchange=()=>{const k=x.dataset.af;a[k]=k==='nds'?x.checked:x.value;commit();renderActs()});
-  D.querySelectorAll('[data-kd]').forEach(x=>{x.onchange=()=>{const v=String(x.value).trim().replace(',','.');a.done=a.done||{};if(v===''||+v===0)delete a.done[x.dataset.kd];else if(isNaN(+v))return toast('Введите число');else a.done[x.dataset.kd]=+v;commit();renderActs()};x.onkeydown=e=>{if(e.key==='Enter')x.blur()}});
+  $('#ksSig')&&($('#ksSig').onclick=()=>{if(!ksHasWork(a))return toast('В акте нет выполненных работ');if(w.length&&!confirm(`В акте есть замечания:\n${w.join('\n')}\n\nВсё равно отметить акт подписанным?`))return;
+    a.sig=ksSnap(ksI);commit();renderActs();toast(`Акт № ${a.num||'?'} подписан: ${fmt(a.sig.sum)} ₽ без НДС зафиксированы`)});
+  $('#ksUnsig')&&($('#ksUnsig').onclick=()=>{if(!confirm(`Снять подпись с акта № ${a.num||'?'}?\n\nСуммы акта снова будут считаться по текущим ценам сметы и могут измениться. Делайте это, только если акт исправляют и подписывают заново.`))return;
+    delete a.sig;commit();renderActs();toast(`С акта № ${a.num||'?'} снята подпись: суммы считаются по текущим ценам`)});
+  $('#ksDel').onclick=()=>{if(a.sig)return toast('Подписанный акт не удаляется: сначала снимите подпись');if(!confirm(`Удалить акт № ${a.num}? Объёмы последующих актов не изменятся.`))return;S.acts.splice(ksI,1);ksI=Math.max(0,ksI-1);if(!S.acts.length)S.acts.push(ksNewAct());commit();renderActs()};
+  $('#ksSmp').onclick=()=>{if(S.acts.some(x=>x.sig))return toast('В смете есть подписанные акты: учебный пример их не заменит');if(S.acts.some(x=>Object.keys(x.done||{}).length)&&!confirm('Заменить акты учебным примером?'))return;ksSample();commit();renderActs()};
+  D.querySelectorAll('[data-af]').forEach(x=>x.onchange=()=>{if(a.sig)return renderActs();const k=x.dataset.af;a[k]=k==='nds'?x.checked:x.value;commit();renderActs()});
+  D.querySelectorAll('[data-kd]').forEach(x=>{x.onchange=()=>{if(a.sig)return renderActs();const v=String(x.value).trim().replace(',','.');a.done=a.done||{};if(v===''||+v===0)delete a.done[x.dataset.kd];else if(isNaN(+v))return toast('Введите число');else a.done[x.dataset.kd]=+v;commit();renderActs()};x.onkeydown=e=>{if(e.key==='Enter')x.blur()}});
   const rest=x=>Math.round((x.p.qty-(ksI?ksCum(x.p.id,ksI-1):0))*1e7)/1e7;
   D.querySelectorAll('[data-kr]').forEach(b=>b.onclick=()=>{const x=XP.find(y=>String(y.p.id)===b.dataset.kr);const v=rest(x);a.done=a.done||{};if(v>0)a.done[x.p.id]=v;else delete a.done[x.p.id];commit();renderActs()});
   $('#ksRest')&&($('#ksRest').onclick=()=>{a.done={};for(const x of XP){const v=rest(x);if(v>0)a.done[x.p.id]=v}commit();renderActs()});
@@ -6577,7 +6601,7 @@ if(splitX())splitX().list().then(a=>{for(const s of a)splitReg(s);if(a.length){r
 migrateOld();setSaveChip();{const last=lsGet(SKL);const shared=location.hash.startsWith(SHARE_PREFIX);(last&&location.hash!=='#sample'?openDoc(last,true):Promise.resolve()).finally(()=>{if(shared)takeShared();else if(location.hash.startsWith('#k1.'))takeKey();else if(location.hash.startsWith('#pf1.'))pfShowLink();else if(SVC.diy&&diyMode())setTimeout(()=>{if(!$('#dlgbg').classList.contains('on'))openDiy()},700);if(cloudKey())cloudSync();tabsRestore()})}
 render=calcScope(render);renderTable=calcScope(renderTable);renderInsp=calcScope(renderInsp);renderDock=calcScope(renderDock);totals=calcScope(totals);
 lsrModel=calcScope(lsrModel);lsrModelGrand=calcScope(lsrModelGrand);ks2Model=calcScope(ks2Model);osrModel=calcScope(osrModel);ssrModel=calcScope(ssrModel);checkSmeta=calcScope(checkSmeta);resModel=calcScope(resModel);davList=calcScope(davList);
-window.__app={openAnswers,ansAll,ansHarvest,ansMatch,ansHint,ansAiHint,ansSet,ansAddFiles,ansRows,ansRender,ansGet,ansKey,get ANF(){return ANF},openKpBase,kpbAdd,kpbAll,kpbHarvest,kpbMatch,kpbCand,kpbTake,kpbHint,kaNew,openKA,openObject,stDel,obfDelNote,obfDelFile,obfAdd,obfNote,obfEvents,obfData,obfZip,obfRender,get OBF(){return OBF},stroyList,docSetPlace,openExamples,exLoad,exRows,exTpl,exUse,exList,get EXF(){return EXF},get EXD(){return EXD},newDocRaw,openCabinet,meLoad,myHash,meApplyZone,defZone,reqMine,meLink,meInit,meAvatar,openSvc,svcApply,svcChoose,svcToggle,svcGrant,svcGate,svcAsk,svcNeedAsk,svcPal,svcFilePreview,SVC_DEF,SVC_SETS,SVC0,openDiy,dyParse,dyParseLine,dyAnalyze,dyNorms,dyData,dyNew,dyRun,dyWord,dyMsg,diyMode,diySetMode,dyMatch,DY_SAMPLE,dyN:()=>DYN,openPortfolio,pfData,pfInfo,pfPack,pfLink,pfHtml,pfShowLink,pfView,openFreelance,flData,flSum,flFormula,flExamples,flDoc,flKpi,openFeed,fdDocs,fdAffected,fdDetail,fdImpact,fdCopies,fdItems,fdNext,fdXlsx,fdData:()=>FD,openPriceHist,phSeries,phPrice,phAllRegions,phXlsx,phWatch,phData:()=>PH,openRequarter,rqRun,rqStats,rqRes,rqApply,rqXlsx,rqData:()=>RQ,openRemarks,rmParse,rmData,openMeasure,msParse,msData,openNonorm,nnData,nnCost,nnUnitTotal,nnText,nnPut,openCompare,cmpCalc,cmpDiff,cmpRows,cmpLoad,cmpXlsx,openCoefs,kdGroups,kdEffect,kdText,openAddwork,awData,awRows,awSum,awMake,awXlsx,awAgreement,msToVor,msWord,msFormula,msVal,openContract,renderContract,ctModel,ctXlsx,SVC,openActs,bimx,ncsCalc,ncsSample,pirCalc,pirHtml,pirXlsx,pirSample,openOsr,renderOsr,nmckCalc,rubWords,nmckXlsx,setLsrView,setLsrRes,openExpert,expx,openSplit,splitReg,useSplit,SPL,get split(){return splitX()},osSample,ST,lsrModel,lsrModelGrand,osrModel,ssrModel,resModel,checkSmeta,ks2Model,fopt,mrNew,eqNew,kaNew,makePR,ensurePR,setZone,setLevel,prKey,get S(){return S},get xml(){return xmlx()},totals,calc,sample,B,ensureReal,nrCode,nrFull,sampleLesson,loadDoc,setBase:v=>setBase(v),renderTable,renderInsp,renderDock,syncRibbon};
+window.__app={ksSnap,ks3Model,ksHasWork,renderActs,obfEvents,openAnswers,ansAll,ansHarvest,ansMatch,ansHint,ansAiHint,ansSet,ansAddFiles,ansRows,ansRender,ansGet,ansKey,get ANF(){return ANF},openKpBase,kpbAdd,kpbAll,kpbHarvest,kpbMatch,kpbCand,kpbTake,kpbHint,kaNew,openKA,openObject,stDel,obfDelNote,obfDelFile,obfAdd,obfNote,obfEvents,obfData,obfZip,obfRender,get OBF(){return OBF},stroyList,docSetPlace,openExamples,exLoad,exRows,exTpl,exUse,exList,get EXF(){return EXF},get EXD(){return EXD},newDocRaw,openCabinet,meLoad,myHash,meApplyZone,defZone,reqMine,meLink,meInit,meAvatar,openSvc,svcApply,svcChoose,svcToggle,svcGrant,svcGate,svcAsk,svcNeedAsk,svcPal,svcFilePreview,SVC_DEF,SVC_SETS,SVC0,openDiy,dyParse,dyParseLine,dyAnalyze,dyNorms,dyData,dyNew,dyRun,dyWord,dyMsg,diyMode,diySetMode,dyMatch,DY_SAMPLE,dyN:()=>DYN,openPortfolio,pfData,pfInfo,pfPack,pfLink,pfHtml,pfShowLink,pfView,openFreelance,flData,flSum,flFormula,flExamples,flDoc,flKpi,openFeed,fdDocs,fdAffected,fdDetail,fdImpact,fdCopies,fdItems,fdNext,fdXlsx,fdData:()=>FD,openPriceHist,phSeries,phPrice,phAllRegions,phXlsx,phWatch,phData:()=>PH,openRequarter,rqRun,rqStats,rqRes,rqApply,rqXlsx,rqData:()=>RQ,openRemarks,rmParse,rmData,openMeasure,msParse,msData,openNonorm,nnData,nnCost,nnUnitTotal,nnText,nnPut,openCompare,cmpCalc,cmpDiff,cmpRows,cmpLoad,cmpXlsx,openCoefs,kdGroups,kdEffect,kdText,openAddwork,awData,awRows,awSum,awMake,awXlsx,awAgreement,msToVor,msWord,msFormula,msVal,openContract,renderContract,ctModel,ctXlsx,SVC,openActs,bimx,ncsCalc,ncsSample,pirCalc,pirHtml,pirXlsx,pirSample,openOsr,renderOsr,nmckCalc,rubWords,nmckXlsx,setLsrView,setLsrRes,openExpert,expx,openSplit,splitReg,useSplit,SPL,get split(){return splitX()},osSample,ST,lsrModel,lsrModelGrand,osrModel,ssrModel,resModel,checkSmeta,ks2Model,fopt,mrNew,eqNew,kaNew,makePR,ensurePR,setZone,setLevel,prKey,get S(){return S},get xml(){return xmlx()},totals,calc,sample,B,ensureReal,nrCode,nrFull,sampleLesson,loadDoc,setBase:v=>setBase(v),renderTable,renderInsp,renderDock,syncRibbon};
 if(location.hash==='#sample')sample();
 try{const nt=!localStorage.getItem('rimora.tour')&&!location.hash;if(SVC_ASK)setTimeout(()=>svcAsk(()=>{if(nt)tour()}),700);else if(nt)setTimeout(tour,700)}catch(e){}
 })();
