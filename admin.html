@@ -134,6 +134,8 @@ const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt
 const DAY = 864e5;
 const dt = ms => { const d = new Date(ms); return String(d.getDate()).padStart(2,'0') + '.' + String(d.getMonth()+1).padStart(2,'0') + '.' + d.getFullYear(); };
 const dtt = ms => ms ? dt(ms) + ' ' + String(new Date(ms).getHours()).padStart(2,'0') + ':' + String(new Date(ms).getMinutes()).padStart(2,'0') : '—';
+// дата «ГГГГ-ММ-ДД» по местному времени (№44), не по UTC
+const ymdL = x => x.getFullYear() + '-' + String(x.getMonth() + 1).padStart(2, '0') + '-' + String(x.getDate()).padStart(2, '0');
 const endOfDay = s => { const [y,m,d] = s.split('-').map(Number); return new Date(y, m-1, d, 23, 59, 59).getTime(); };
 const toast = t => { const n = document.createElement('div'); n.className = 'toast'; n.textContent = t; document.body.appendChild(n); setTimeout(() => n.remove(), 2600); };
 // код пользователя шифруется ключом администратора: AES-GCM 256, ключ из PBKDF2-SHA-256 (200 000 повторов)
@@ -283,7 +285,7 @@ $('#add').onsubmit = async e => {
   e.preventDefault(); $('#aerr').classList.add('hide');
   const v = $('#aterm').value; let until = null;
   if (v === 'date') { if (!$('#adate').value) { $('#aerr').textContent = 'Укажите дату'; $('#aerr').classList.remove('hide'); return; } until = endOfDay($('#adate').value); }
-  else if (v) until = endOfDay(new Date(Date.now() + (+v) * DAY).toISOString().slice(0, 10));
+  else if (v) until = endOfDay(ymdL(new Date(Date.now() + (+v) * DAY)));
   try {
     const j = await api('POST', '/v1/admin/users', { name: $('#aname').value, note: $('#anote').value, until, plan: $('#aplan').value ? +$('#aplan').value : null });
     USERS.unshift(j.user); render(); $('#aname').value = ''; $('#anote').value = ''; showIssued(j.user, j.code, await saveCode(j.user, j.code));
@@ -297,12 +299,12 @@ $('#list').onclick = async e => {
   const b = e.target.closest('[data-a]'); if (!b) return;
   const id = +b.closest('tr').dataset.id, u = USERS.find(x => x.id === id), a = b.dataset.a;
   const put = async body => { const j = await api('PUT', '/v1/admin/users/' + id, body); Object.assign(u, j.user); render(); };
-  const ext = days => endOfDay(new Date(Math.max(Date.now(), u.until ?? 0) + days * DAY).toISOString().slice(0, 10));
+  const ext = days => endOfDay(ymdL(new Date(Math.max(Date.now(), u.until ?? 0) + days * DAY)));
   try {
     if (a === 'd30' || a === 'd365') { if (u.until == null) return toast('У пользователя бессрочный доступ'); const until = ext(a === 'd30' ? 30 : 365); await put({ until }); toast(u.name + ': ' + termText(until)); }
     else if (a === 'term') {
       const d = await ask(`<b>Срок доступа: ${esc(u.name)}</b><p class="muted" style="margin:6px 0 10px">Сейчас: ${esc(state(u)[1])}</p>
-        <label class="f">До даты включительно<input type="date" name="d" value="${u.until ? new Date(u.until).toISOString().slice(0, 10) : ''}"></label>
+        <label class="f">До даты включительно<input type="date" name="d" value="${u.until ? ymdL(new Date(u.until)) : ''}"></label>
         <label style="display:flex;gap:6px;align-items:center;margin-top:10px"><input type="checkbox" name="inf" ${u.until == null ? 'checked' : ''}> Бессрочно</label>`);
       if (!d) return; const f = $('#dlgf'), inf = f.inf.checked, dv = f.d.value;
       if (!inf && !dv) return toast('Дата не указана, срок не изменён');

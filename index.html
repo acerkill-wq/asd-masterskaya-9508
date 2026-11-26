@@ -383,7 +383,7 @@ table.lsrf tr.sel td{background:color-mix(in srgb,var(--brand) 12%,transparent)}
 .pflk{display:flex;gap:10px;align-items:center}.pfqr{background:#fff;padding:4px;border-radius:8px;line-height:0;flex:none;width:110px}.pfqr svg{width:100%;height:auto}.pfurl{word-break:break-all}
 .dysw{display:flex;gap:2px;background:var(--surface2);border:1px solid var(--line);padding:3px;border-radius:12px;margin-left:auto;margin-right:10px}.dysw button{padding:5px 12px;border-radius:9px;font-weight:600;font-size:12.5px;color:var(--ink2)}.dysw button.on{background:var(--surface);color:var(--brand-ink);box-shadow:var(--shadow-s)}
 .dyhome{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}.dycard{display:grid;grid-template-columns:44px 1fr;grid-template-rows:auto auto;column-gap:12px;text-align:left;padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:inherit}.dycard:hover{border-color:var(--brand)}.dycard b{font-size:15px}.dycard .u{grid-column:2}.dyic{grid-row:1/3;width:44px;height:44px;border-radius:10px;display:grid;place-items:center;background:var(--brand-soft);color:var(--brand-ink);font-weight:700}
-.dylist{display:flex;flex-direction:column;gap:6px}.dyli{display:grid;grid-template-columns:1fr auto auto;gap:4px 12px;text-align:left;padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:inherit}.dyli .u{grid-column:1/4}
+.dylist{display:flex;flex-direction:column;gap:6px}.dylw{position:relative}.dylw .dyli{width:100%;padding-right:40px}.dyx{position:absolute;top:6px;right:6px;width:28px;height:28px;border:0;border-radius:8px;background:transparent;color:var(--muted);font-size:18px;line-height:1;cursor:pointer}.dyx:hover{background:var(--line);color:var(--text)}.dyli{display:grid;grid-template-columns:1fr auto auto;gap:4px 12px;text-align:left;padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:inherit}.dyli .u{grid-column:1/4}
 .dyv{font-weight:700}.dyv.hi,.dyvc.hi .cmt{color:#c0264d}.dyv.ok,.dyvc.ok .cmt{color:#178a5b}.dyv.lo,.dyvc.lo .cmt{color:#b7791f}.dyvc.hi{background:rgba(253,226,225,.55)}
 .dyg{display:grid;grid-template-columns:320px minmax(0,1fr);gap:12px;margin-top:6px}.dyin{display:flex;flex-direction:column;gap:6px}.dyin input,.dy3 input{width:100%;box-sizing:border-box;font:inherit;padding:5px 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:inherit}
 .dy3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.dy3 label{min-width:0}#dyTx{min-height:200px;font:inherit;font-size:12.5px;padding:8px;border:1px dashed var(--line);border-radius:8px;background:var(--surface);color:inherit;resize:vertical}
@@ -1131,7 +1131,7 @@ async function ensureExtRes(pos){const need=new Set();
 
 
 /* ---------- состояние ---------- */
-let S={name:'Новая смета',pos:[],idx:'',nds:false,level:LV_NEW};
+let S={name:'Новая смета',pos:[],idx:'',nds:false,level:LV_NEW,v44:1};
 const openRows=new Set();
 let sel=null, uid=1, hist=[], redo=[], tab='lsr', compact=false, saved=true;
 let pirSel=0,pirTab='t',pirParOpen=false,treeMode='',PIR_N=0;const PM=()=>S.mode==='pir';let ncsSel=0,ncsTab='t',ncsParOpen=false;const NM=()=>S.mode==='ncs';let TABS=[{}],TI=0;const TBK='rimora.tabs';
@@ -1326,7 +1326,7 @@ $('#tablewrap').addEventListener('dragover',e=>{if(!DRG)return;const tr=e.target
 $('#tablewrap').addEventListener('drop',e=>{if(!DRG)return;const tr=e.target.closest('tr[data-id]');dropClr();if(!tr){DRG=null;return}e.preventDefault();const r=tr.getBoundingClientRect();moveTo(DRG,+tr.dataset.id,e.clientY>r.top+r.height/2);DRG=null});
 $('#tablewrap').addEventListener('dragend',()=>{DRG=null;dropClr()});
 function findClose(){FQ='';$('#fbar')?.remove();$$('#tablewrap tr.fhit').forEach(x=>x.classList.remove('fhit','fcur'))}
-function newDocRaw(){if(S.pos.length&&!S.docId&&!saved&&!confirm('Начать новую смету? Эта смета не сохранена и пропадёт.'))return false;S={name:'Новая смета',pos:[],idx:'',nds:false,ed:ED_LATEST,level:LV_NEW};meApplyZone();vorPick=null;renderPickBar();sel=null;hist=[];redo=[];$('#docname').value=S.name;markDirty();render();return true}
+function newDocRaw(){if(S.pos.length&&!S.docId&&!saved&&!confirm('Начать новую смету? Эта смета не сохранена и пропадёт.'))return false;S={name:'Новая смета',pos:[],idx:'',nds:false,ed:ED_LATEST,level:LV_NEW,v44:1};meApplyZone();vorPick=null;renderPickBar();sel=null;hist=[];redo=[];$('#docname').value=S.name;markDirty();render();return true}
 /* ---------- подключённые базы: сметчик включает одну или несколько (хранится в этом браузере) ---------- */
 const BASES=[['fsnb','ФСНБ-2022','ГЭСН и ФСБЦ, текущие цены и индексы ФГИС ЦС. Для локальных смет'],['ucheb','Учебная база курса','ФСНБ-2022 с нормами из учебных смет курса. Для локальных смет'],['pir','НЗ и СБЦ на проектные работы','Нормативы затрат и справочники базовых цен. Смета на проектные работы'],['ncs','НЦС-2026','Укрупнённые нормативы цены строительства, 23 сборника'],['nmck','НМЦК, приказ 841/пр','Расчёт начальной (максимальной) цены контракта от ССРСС с индексами инфляции']];
 const BSK='rimora.basesOff',basesOff=()=>{try{return JSON.parse(lsGet(BSK)||'[]')}catch(e){return []}},baseOn=k=>!basesOff().includes(k);
@@ -1454,7 +1454,7 @@ function storeDoc(silent){const fresh=!S.docId;if(fresh){S.docId=newId();S.creat
 /* ---------- вкладки смет: несколько открытых смет, как в браузере. Открытая вкладка живёт в обычных переменных (S, история отмен, выделение),
    остальные хранят свой снимок состояния; вкладка, восстановленная после перезагрузки, грузится из «Моих смет» при первом открытии ---------- */
 const tabSnap=()=>({S,sel,hist,redo,lastSnap,saved,savedAt,tab,pirSel,ncsSel,pirTab,ncsTab});
-const tabBlank=()=>({S:{name:'Новая смета',pos:[],idx:'',nds:false},sel:null,hist:[],redo:[],lastSnap:null,saved:true,savedAt:null,tab:'lsr'});
+const tabBlank=()=>({S:{name:'Новая смета',pos:[],idx:'',nds:false,v44:1},sel:null,hist:[],redo:[],lastSnap:null,saved:true,savedAt:null,tab:'lsr'});
 function tabPut(o){S=o.S;sel=o.sel;hist=o.hist;redo=o.redo;lastSnap=o.lastSnap;saved=o.saved;savedAt=o.savedAt;tab=o.tab||'lsr';pirSel=o.pirSel||0;ncsSel=o.ncsSel||0;pirTab=o.pirTab||'t';ncsTab=o.ncsTab||'t';
   fixUid();msel.clear();openRows.clear();vorPick=null;renderPickBar();$('#docname').value=S.name||'';$$('#tabs>button').forEach(b=>b.classList.toggle('on',b.dataset.t===tab));setSaveChip()}
 const tabBusy=()=>!!(S.docId||S.pos.length||S.mode||(S.vor&&S.vor.length)||S.stroy);
@@ -1487,7 +1487,7 @@ $('#doctabs').addEventListener('auxclick',e=>{if(e.button!==1)return;const d=e.t
 function save(){storeDoc(false)}
 function saveAs(){const v=prompt('Название копии сметы:',(S.name||'Смета')+' (копия)');if(!v)return;delete S.docId;S.name=v;$('#docname').value=v;storeDoc(false);render()}
 function fixUid(){uid=Math.max(1,...S.pos.map(p=>p.id||0),...(S.vor||[]).map(r=>r.id||0))+1}
-async function loadDoc(n,silent){try{await edUse(edOk(n.ed)?n.ed:ED_OLD,[])}catch(e){}await ensureReal(n.pos.filter(p=>p.code&&!p.ka&&!p.tr&&!p.mr).map(p=>p.code));await ensureExtRes(n.pos);S=n;fixUid();if(n.pos.some(p=>p.tr||p.ka&&p.ka.tr&&p.ka.tr.on))await ensureTR();sel=null;hist=[];redo=[];vorPick=null;renderPickBar();$('#docname').value=S.name;saved=true;savedAt=null;setSaveChip();render();if(!silent)toast('Открыто: '+S.name)}
+async function loadDoc(n,silent){try{await edUse(edOk(n.ed)?n.ed:ED_OLD,[])}catch(e){}await ensureReal(n.pos.filter(p=>p.code&&!p.ka&&!p.tr&&!p.mr).map(p=>p.code));await ensureExtRes(n.pos);if(!n.v44){n.req={...REQ_OLD,...(n.req||{})};n.party={...PARTY_OLD,...(n.party||{})};n.v44=1}S=n;fixUid();if(n.pos.some(p=>p.tr||p.ka&&p.ka.tr&&p.ka.tr.on))await ensureTR();sel=null;hist=[];redo=[];vorPick=null;renderPickBar();$('#docname').value=S.name;saved=true;savedAt=null;setSaveChip();render();if(!silent)toast('Открыто: '+S.name)}
 async function openDoc(id,silent){const d=lsGet(SKD+id);if(!d){if(!silent)toast('Смета не найдена в браузере');return false}
   if(!silent){const j=tabFind(id);if(j===TI)return true;if(j>=0){await tabSwitch(j);return true}if(tabBusy())tabNew()}
   if(!silent&&S.pos.length&&!S.docId&&!saved&&!confirm('Текущая смета не сохранена. Открыть другую и потерять изменения?'))return false;
@@ -2669,7 +2669,9 @@ function setKr(id,v){const p=S.pos.find(x=>x.id===id);if(!p)return;const n=parse
   if(n===1)delete p.kr;else p.kr=n;commit()}
 /* ---------- выходные формы: ЛСР по приложению 3 к 421/пр (Excel .xlsx и печать из одной модели) ---------- */
 const APPV='Римора 1.0 (ноябрь 2026)';
-const reqDef=()=>({stroyka:'Учебная стройка: гараж на одну машину',obj:'Гараж',num:'ЛС-02-01-01',works:S.name||'',osn:'Учебное задание (проектная документация условная)',sost:'',prov:'',...reqMine()});
+/* №44: в новых сметах стройка, объект, номер и основание пустые; старым сметам (без v44) прежние учебные значения дописывает loadDoc */
+const REQ_OLD={stroyka:'Учебная стройка: гараж на одну машину',obj:'Гараж',num:'ЛС-02-01-01',osn:'Учебное задание (проектная документация условная)'};
+const reqDef=()=>({stroyka:'',obj:'',num:'',works:S.name||'',osn:'',sost:'',prov:'',...reqMine()});
 const req=()=>({...reqDef(),...(S.req||{})});
 const tr2=x=>Math.round(x*100)/100;
 function drvCat(code){const m=/^\d-100-(\d{2,3})$/.exec(code||'');return m?(m[1].length===3?(+m[1]/10):(+m[1]/10)).toLocaleString('ru-RU',{minimumFractionDigits:1}):''}
@@ -2978,7 +2980,8 @@ function openForms(){if(PM())return pirPrint();if(NM())return ncsPrint();if(!S.p
 /* ---------- акты КС-2 и справки КС-3 (унифицированные формы, постановление Госкомстата России от 11.11.1999 № 100) ---------- */
 const dmy=d=>d?String(d).split('-').reverse().join('.'):'';
 const PARTY=[['inv','Инвестор (организация, адрес, телефон)'],['zak','Заказчик (генподрядчик)'],['podr','Подрядчик (субподрядчик)'],['dogNum','Договор подряда: номер'],['dogDate','Договор подряда: дата','date'],['dogSum','Сметная (договорная) стоимость по договору, руб. (пусто = по смете)'],['sdal','Сдал (должность, ФИО)'],['prin','Принял (должность, ФИО)'],['zakSign','КС-3, заказчик (должность, ФИО)'],['podrSign','КС-3, подрядчик (должность, ФИО)']];
-const partyDef={inv:'',zak:'Учебный заказчик',podr:'Учебный подрядчик',dogNum:'',dogDate:'',dogSum:'',sdal:'',prin:'',zakSign:'',podrSign:''};
+const PARTY_OLD={zak:'Учебный заказчик',podr:'Учебный подрядчик'};
+const partyDef={inv:'',zak:'',podr:'',dogNum:'',dogDate:'',dogSum:'',sdal:'',prin:'',zakSign:'',podrSign:''};
 const party=()=>({...partyDef,...(S.party||{})});
 let ksI=0,ksTab='vol';
 /* позиции сметы с номерами и разделами */
@@ -3086,23 +3089,26 @@ function ctXlsx(){const M=ctModel(),C=M.C;return xBook('Смета контра�
    Ответ правится вручную, статус ставит сметчик. Помощь ИИ — по кнопке у замечания. */
 const RM_ST=[['todo','исправить'],['fix','исправлено'],['doc','нужен документ'],['ans','ответ готов'],['dis','не согласны'],['new','разобрать']];
 const RM_T=[
-  [/перевоз|расстояни|вывоз|мусор|\bкм\b/i,'Перевозка грузов','todo','Проверьте расстояние, класс груза и способ перевозки в позиции перевозки.','Замечание принято. Расстояние и условия перевозки исправлены{P}.'],
-  [/коэффициент|1[,.]15|1[,.]25|1[,.]2\b|стеснен|стеснён/i,'Коэффициенты','doc','Нужен документ об условиях работ: акт осмотра, проект организации строительства или задание заказчика.','Применение коэффициента{P} обосновано {документом} (прилагается).'],
-  [/коммерческ|\bкп\b|конъюнктур|прайс|поставщик/i,'Конъюнктурный анализ','doc','Проверьте конъюнктурный анализ: число предложений (не менее трёх), даты, реквизиты поставщиков.','Конъюнктурный анализ{P} дополнен (прилагается).'],
-  [/уровень цен|квартал|индекс|фгис/i,'Уровень цен','todo','Проверьте квартал и регион цен в параметрах сметы.','Смета пересчитана в уровень цен {квартал}.'],
-  [/накладн|сметн\S* прибыл|\bнр\b|\bсп\b/i,'НР и СП','todo','Проверьте нормативы накладных расходов и сметной прибыли к позиции.','Нормативы накладных расходов и сметной прибыли{P} приведены в соответствие.'],
+  [/перевоз|расстояни|вывоз|мусор|(?<![а-яё\w])км(?![а-яё\w])/i,'Перевозка грузов','todo','Проверьте расстояние, класс груза и способ перевозки в позиции перевозки.','Замечание принято. Расстояние и условия перевозки исправлены{P}.'],
+  [/коэффициент|1[,.]15|1[,.]25|1[,.]2(?![\d])|стеснен|стеснён/i,'Коэффициенты','doc','Нужен документ об условиях работ: акт осмотра, проект организации строительства или задание заказчика.','Применение коэффициента{P} обосновано {документом} (прилагается).'],
+  [/коммерческ|(?<![а-яё\w])кп(?![а-яё\w])|конъюнктур|прайс|поставщик/i,'Конъюнктурный анализ','doc','Проверьте конъюнктурный анализ: число предложений (не менее трёх), даты, реквизиты поставщиков.','Конъюнктурный анализ{P} дополнен (прилагается).'],
+  [/уров\S* цен|квартал|индекс|фгис/i,'Уровень цен','todo','Проверьте квартал и регион цен в параметрах сметы.','Смета пересчитана в уровень цен {квартал}.'],
+  [/(?<![а-яё\w])ндс(?![а-яё\w])/i,'НДС','todo','Проверьте ставку и начисление НДС в итогах сметы.','Начисление НДС исправлено.'],
+  [/накладн|сметн\S* прибыл|(?<![а-яё\w])нр(?![а-яё\w])|(?<![а-яё\w])сп(?![а-яё\w])/i,'НР и СП','todo','Проверьте нормативы накладных расходов и сметной прибыли к позиции.','Нормативы накладных расходов и сметной прибыли{P} приведены в соответствие.'],
   [/оборудован/i,'Оборудование','todo','Проверьте, что оборудование учтено отдельно от материалов и с обоснованием цены.','Стоимость оборудования{P} уточнена.'],
-  [/\bндс\b/i,'НДС','todo','Проверьте ставку и начисление НДС в итогах сметы.','Начисление НДС исправлено.'],
-  [/объ[её]м|\bвор\b|ведомост|чертеж|чертёж|спецификац/i,'Объёмы работ','todo','Сверьте объём с ведомостью объёмов работ и чертежами.','Объёмы работ{P} проверены и приведены в соответствие с проектной документацией.'],
-  [/расценк|норм[аыу]|состав работ|не соответству/i,'Выбор нормы','ans','Сравните состав работ нормы с описанием работ в проекте.','Норма{P} выбрана по составу работ, сравнение состава работ прилагается.']];
+  [/объ[её]м|(?<![а-яё\w])вор(?![а-яё\w])|ведомост|чертеж|чертёж|спецификац/i,'Объёмы работ','todo','Сверьте объём с ведомостью объёмов работ и чертежами.','Объёмы работ{P} проверены и приведены в соответствие с проектной документацией.'],
+  [/расценк|норм(?:[аыуе]|ой)(?![а-яё])|состав работ|не соответству/i,'Выбор нормы','ans','Сравните состав работ нормы с описанием работ в проекте.','Норма{P} выбрана по составу работ, сравнение состава работ прилагается.']];
 const rmData=()=>S.remarks||(S.remarks={text:'',src:'',items:[]});
 function rmPosList(s){const out=new Set(),re=/поз(?:иц\S*)?\.?\s*№?\s*((?:\d+(?:\s*[–—-]\s*\d+)?(?:\s*(?:,|и)\s*)?)+)/gi;let m;
   while((m=re.exec(s))){for(const part of m[1].split(/\s*(?:,|и)\s*/)){const r=part.match(/(\d+)\s*[–—-]\s*(\d+)/);if(r){const a=+r[1],b=+r[2];if(b>=a&&b-a<200)for(let k=a;k<=b;k++)out.add(k)}else if(/^\d+$/.test(part.trim()))out.add(+part.trim())}}
   return [...out].sort((a,b)=>a-b)}
 const rmPosTxt=L=>{if(!L.length)return '';const g=[];let a=L[0],b=L[0];for(const n of L.slice(1)){if(n===b+1)b=n;else{g.push(a===b?a:a+'–'+b);a=b=n}}g.push(a===b?a:a+'–'+b);return 'поз. '+g.join(', ')};
-function rmSplit(text){const L=String(text||'').replace(/\r/g,'').split('\n'),items=[];let cur=null;
-  for(const l of L){const m=l.match(/^\s*[«"]?(?:…|\.\.\.)?\s*(\d{1,3})\s*[.)]\s+(.*)$/);if(m){cur={n:+m[1],text:m[2]};items.push(cur)}else if(l.trim()){if(cur)cur.text+=' '+l.trim();else{cur={n:items.length+1,text:l.trim()};items.push(cur)}}}
-  return items.map(x=>({...x,text:x.text.replace(/[»"]\s*$/,'').replace(/\s+/g,' ').trim()})).filter(x=>x.text)}
+/* №44: номер замечания бывает в отдельной ячейке таблицы Word («1 | Поз. 5 | текст»); строки до первого номера (шапка письма
+   «Замечания по разделу 11…», «№ | Замечание | Ответ») не считаются замечанием, если в тексте есть нумерация */
+const RM_NUM=/^\s*[«"]?(?:…|\.\.\.)?\s*(\d{1,3})\s*(?:[.)]\s+|\s*\|\s*)(.*)$/;
+function rmSplit(text){const L=String(text||'').replace(/\r/g,'').split('\n'),items=[],numd=L.some(l=>RM_NUM.test(l));let cur=null;
+  for(const l of L){const m=l.match(RM_NUM);if(m){cur={n:+m[1],text:m[2]};items.push(cur)}else if(l.trim()){if(cur)cur.text+=' '+l.trim();else if(!numd){cur={n:items.length+1,text:l.trim()};items.push(cur)}}}
+  return items.map(x=>({...x,text:x.text.replace(/\s*\|\s*/g,' ').replace(/[»"]\s*$/,'').replace(/\s+/g,' ').trim()})).filter(x=>x.text)}
 function rmParse(){const R=rmData(),XP=ksPos(),byN=new Map(XP.map(x=>[x.n,x])),F=checkSmeta(),q=req(),old=new Map((R.items||[]).map(x=>[x.n+'|'+x.text,x]));
   R.items=rmSplit(R.text).map(x=>{const prev=old.get(x.n+'|'+x.text);if(prev)return prev;
     const pa=rmPosList(x.text),pos=pa.filter(n=>byN.has(n)),miss=pa.filter(n=>!byN.has(n)),T=RM_T.find(t=>t[0].test(x.text)),P=pa.length?' ('+rmPosTxt(pa)+')':'';
@@ -3733,6 +3739,7 @@ async function fdDetail(x){if(x.kind==='excl'){x.tag='исключена';x.det=
   const cc=ccOf(x.code);try{await loadChunk(cc)}catch(e){}const nw=((window.REAL_CH||{})[cc]||{})[x.code];if(!nw){x.tag='изменена';x.det='';return}
   const mp=r=>new Map((r||[]).map(([rc,v])=>[rc,+v||0])),a=mp(x.old.r),b=mp(nw.r),lab=M=>M.has('1')?M.get('1'):[...M].filter(([rc])=>/^1-100-/.test(rc)).reduce((s,[,v])=>s+v,0);
   const add=[...b.keys()].filter(k=>!a.has(k)&&!/^[12](-|$)/.test(k)),del=[...a.keys()].filter(k=>!b.has(k)&&!/^[12](-|$)/.test(k)),la=lab(a),lb=lab(b),nm=rc=>{const t=(B.res[rc]&&B.res[rc].name)||rc;return t.length>48?t.slice(0,46).replace(/[\s,]+\S*$/,'')+'…':t};
+  const nr=[...add,...del].filter(k=>!B.res[k]);if(nr.length){await Promise.all([...new Set(nr.map(fsbcKey))].map(k=>loadFsbc(k).catch(()=>{})));nr.forEach(k=>{try{regRes(k)}catch(e){}})}
   const ct=JSON.stringify(x.old.c||[])!==JSON.stringify(nw.c||[]);if(add.length||del.length){x.tag=ct?'изменён состав работ':'изменён ресурс';x.det=[la&&Math.abs(lb/la-1)>0.0005?`затраты труда ${lb>la?'+':'−'}${fmt(Math.abs(lb/la-1)*100,1)} %`:'',add.length?'добавлен: '+nm(add[0])+(add.length>1?' и ещё '+(add.length-1):''):'',del.length?'убран: '+nm(del[0])+(del.length>1?' и ещё '+(del.length-1):''):''].filter(Boolean).join('; ')}
   else if(la&&Math.abs(lb/la-1)>0.0005){x.tag='изменена норма';x.det=`затраты труда ${lb>la?'+':'−'}${fmt(Math.abs(lb/la-1)*100,1)} %`}
   else{x.tag='изменена норма';const k=[...b].filter(([rc,v])=>a.has(rc)&&Math.abs(a.get(rc)-v)>1e-9).length;x.det=k?`нормы расхода: ${k} ${cmpPl(k,'ресурс','ресурса','ресурсов')}`:'состав работ или единица'}}
@@ -3760,10 +3767,12 @@ async function fdImpact(){const R=FD;if(R.busy)return;R.busy=true;renderFeed();c
       for(const x of d.aff){let s=0;A1.rows.forEach((r,i)=>{if(r.code.replace(/^ГЭСН/,'')===x.code&&B1.rows[i])s+=B1.rows[i].total-r.total});x.d=x.kind==='excl'?null:r2(s);x.name=(A1.rows.find(r=>r.code.replace(/^ГЭСН/,'')===x.code)||{}).name||'';rows.push({doc:d,x})}
       d.dd=r2(d.aff.reduce((s,x)=>s+(x.d||0),0));d.nx=d.aff.filter(x=>x.kind==='excl').length}}
   finally{R.busy=false}R.imp=rows;renderFeed()}
-function fdCopies(){let k=0,skip=0;for(const d of FD.docs){if(!d.aff.length)continue;if(!d.id){skip++;continue}
-    try{const n=verCopy(JSON.parse(d.id===S.docId?snap():lsGet(SKD+d.id)));n.docId=newId();n.created=Date.now();n.ed=ED_LATEST;n.name=`${d.name} (${edName(ED_LATEST)})`;
-      const m={...(docIndex().find(x=>x.id===d.id)||{}),id:n.docId,name:n.name,created:n.created,updated:Date.now()};lsSet(SKD+n.docId,JSON.stringify(n));lsSet(SK,JSON.stringify([m,...docIndex()]));cloudMark(n.docId);k++}catch(e){}}
-  toast(k?`В «Моих сметах» ${k} ${cmpPl(k,'копия','копии','копий')} в ${edName(ED_LATEST)}; исходные сметы не изменены`+(skip?'. Несохранённую смету сначала сохраните':''):'Нечего пересчитывать: сохраните смету')}
+function fdCopies(){let k=0,skip=0,had=0;for(const d of FD.docs){if(!d.aff.length)continue;if(!d.id){skip++;continue}
+    const nm0=`${d.name} (${edName(ED_LATEST)}`,ix=docIndex();if(ix.some(x=>x.fdSrc===d.id&&x.fdEd===ED_LATEST||!x.fdSrc&&String(x.name||'').startsWith(nm0))){had++;continue}
+    try{const n=verCopy(JSON.parse(d.id===S.docId?snap():lsGet(SKD+d.id)));n.docId=newId();n.created=Date.now();n.ed=ED_LATEST;if(d.late&&n.level!=='base')n.level=lvOf(d.late);
+      n.name=nm0+(d.late&&n.level!=='base'?', '+phQ(d.late):'')+')';n.fdSrc=d.id;n.fdEd=ED_LATEST;
+      const m={...(ix.find(x=>x.id===d.id)||{}),id:n.docId,name:n.name,created:n.created,updated:Date.now(),fdSrc:d.id,fdEd:ED_LATEST};lsSet(SKD+n.docId,JSON.stringify(n));lsSet(SK,JSON.stringify([m,...ix]));cloudMark(n.docId);k++}catch(e){}}
+  toast(k?`В «Моих сметах» ${k} ${cmpPl(k,'копия','копии','копий')} в ${edName(ED_LATEST)}; исходные сметы не изменены`+(had?`. У ${had} ${cmpPl(had,'сметы','смет','смет')} копия уже есть`:'')+(skip?'. Несохранённую смету сначала сохраните':''):had?'Копии в действующей редакции уже есть в «Моих сметах»':'Нечего пересчитывать: сохраните смету')}
 function fdXlsx(){const R=FD;return xBook('Изменения',[34,16,18,46,16],(row,mg)=>{let q=row([[0,`Изменения № ${ED_LATEST} ФСНБ-2022 для моих смет`,9]],20);mg(0,4,q);row([]);
   const h=row([[0,'Смета',4],[1,'Расценка',4],[2,'Что изменилось',4],[3,'Подробно',4],[4,'Влияние, руб.',4]],24);
   for(const {doc,x} of R.imp||[])row([[0,doc.name,1],[1,x.code,1],[2,x.tag||'',1],[3,(x.name?x.name+'. ':'')+(x.det||''),1],[4,x.d==null?'нужна замена':x.d,2]]);return [h,h]})}
@@ -3773,7 +3782,7 @@ function renderFeed(){const R=FD;if(!R)return;const It=fdItems(),seen=R.seen0,nw
   <div class="fdg"><div class="rmc"><div class="u rmh">Лента</div>${It.map(i=>`<div class="fdi${seen.has(i.id)?'':' on'}"><div class="u">${esc(fdDay(i.d))} · ${esc(i.k)}</div><b>${esc(i.t)}</b><div class="fdtx">${i.x}</div>${i.b?`<button class="btn pri fdb" data-a="${i.b[1]}">${esc(i.b[0])}</button>`:''}</div>`).join('')}</div>
    <div class="rmc"><div class="u rmh">Изменения № ${ED_LATEST} · что это значит для моих смет</div>
     <div class="awt"><table class="mst"><thead><tr><th>Смета</th><th style="width:110px">Редакция</th><th style="width:110px">Квартал</th><th>Состояние</th></tr></thead><tbody>
-    ${R.docs.map(d=>`<tr><td>${esc(d.name)}</td><td class="u">${esc(edName(d.ed))}</td><td class="u">${d.per?esc(phQ(d.per)):'базис'}</td><td>${d.aff.length?`<span class="fdt">${d.aff.length} ${cmpPl(d.aff.length,'расценка изменилась','расценки изменились','расценок изменились')}</span>`:'<span class="fdok">редакция действующая</span>'}${d.late?` <span class="fdt">есть ${esc(phQ(d.late))}</span>`:''}${d.dd!=null&&d.aff.length>d.nx?` <span class="${d.dd>0?'awp':'awm'}">${d.dd>0?'+':''}${fmt(d.dd)} ₽</span>`:''}${d.nx?` <span class="fdt fdx">${d.nx} без замены</span>`:''}</td></tr>`).join('')||'<tr><td colspan="4" class="u">В «Моих сметах» пока нет смет. Сохраните смету, и лента будет следить за ней.</td></tr>'}</tbody></table></div>
+    ${R.docs.map(d=>`<tr><td>${esc(d.name)}</td><td class="u">${esc(edName(d.ed))}</td><td class="u">${d.per?esc(phQ(d.per)):'базис'}</td><td>${d.aff.length?`<span class="fdt">${d.aff.length} ${cmpPl(d.aff.length,'расценка изменилась','расценки изменились','расценок изменились')}</span>`:(d.ed===ED_LATEST?'<span class="fdok">редакция действующая</span>':'<span class="fdok">расценки не изменились</span>')}${d.late?` <span class="fdt">есть ${esc(phQ(d.late))}</span>`:''}${d.dd!=null&&d.aff.length>d.nx?` <span class="${d.dd>0?'awp':'awm'}">${d.dd>0?'+':''}${fmt(d.dd)} ₽</span>`:''}${d.nx?` <span class="fdt fdx">${d.nx} без замены</span>`:''}</td></tr>`).join('')||'<tr><td colspan="4" class="u">В «Моих сметах» пока нет смет. Сохраните смету, и лента будет следить за ней.</td></tr>'}</tbody></table></div>
     ${R.imp?`<div class="awt" style="max-height:34vh"><table class="mst"><thead><tr><th>Смета</th><th style="width:120px">Расценка</th><th>Что изменилось</th><th class="num" style="width:110px">Влияние</th></tr></thead><tbody>
       ${R.imp.map(({doc,x})=>`<tr${x.kind==='excl'?' class="cmrb"':''}><td>${esc(doc.name)}</td><td class="mono">${esc(x.code)}</td><td>${tag(x.tag)} ${esc(x.det||'')}${x.name?`<div class="u awnm">${esc(x.name)}</div>`:''}</td><td class="num ${x.d>0?'awp':x.d<0?'awm':''}">${x.d==null?'?':(x.d>0?'+':'')+fmt(x.d)+' ₽'}</td></tr>`).join('')}</tbody></table></div>`:aff.length?`<button class="btn pri" id="fdImp"${R.busy?' disabled':''}>${R.busy?'Считаю сметы в двух редакциях…':'Что поменялось в моих сметах'}</button>`:''}
     ${aff.length?`<div class="rmk phk">Сметы, уже сданные в экспертизу, Римора не меняет: пересчёт делает копию в действующей редакции, исходная смета остаётся как была.</div>
@@ -3789,7 +3798,7 @@ function renderFeed(){const R=FD;if(!R)return;const It=fdItems(),seen=R.seen0,nw
   try{localStorage.setItem(FD_SEEN,JSON.stringify([...new Set([...fdSeen(),...It.map(i=>i.id)])].slice(-200)))}catch(e){}}
 /* ---------- сервис «Кабинет сметчика-фрилансера» (бэклог 89_, № 11; флаг SVC.freelance).
    Заказы по этапам (новые → в работе → у клиента → оплата → закрыты), цифры месяца, цена работы по своей ставке и КП, счёт и акт в Word
-   с реквизитами исполнителя. Хранится в этом браузере (rimora.freelance); заказ можно связать со сметой из «Моих смет». ---------- */
+   с реквизитами исполнителя. Хранится в rimora.freelance, при входе по личному коду синхронизируется с личным кабинетом (№30); заказ можно связать со сметой из «Моих смет». ---------- */
 let FLsel=null,FLdone=false;const FL_K='rimora.freelance';
 const FL_ST=[['new','Новые'],['work','В работе'],['client','У клиента'],['pay','Оплата'],['done','Закрыты']];
 const FL_SRC=['дефектная ведомость','проект PDF','ведомость объёмов','смета на проверку','фото и обмер','другое'];
@@ -3851,7 +3860,7 @@ function flCard(o){const st=o.status,dl=flDays(o.deadline),sum=flSum(o),i=FL_ST.
 function renderFreelance(){const D=flData(),O=D.orders;if(!O.some(o=>o.id===FLsel))FLsel=(O.find(o=>o.status!=='done')||O[0]||{}).id||null;const o=O.find(x=>x.id===FLsel),me=D.me,docs=docIndex(),dp=o?flDocPos(o.docId):null;
   const cols=FL_ST.filter(s=>s[0]!=='done').map(([k,n])=>{const L=O.filter(x=>x.status===k);return `<div class="flcol"><div class="flh"><span>${n}</span><span>${L.length}</span></div>${L.map(flCard).join('')||'<div class="u" style="padding:6px">пусто</div>'}</div>`}).join('');
   const done=O.filter(x=>x.status==='done'),inp=(k,v,t='number',x='')=>`<input class="flin" data-k="${k}" type="${t}" value="${esc(v??'')}"${x}>`;
-  dlg(`<div class="kah"><div><h3>Мои заказы <span class="fltag flcab">Кабинет сметчика-фрилансера</span></h3><div class="u">Заказы, цена работы, КП, счёт и акт клиенту. Хранится в этом браузере.</div></div><div class="rmb"><button class="btn pri" id="flAdd">+ Новый заказ</button><button class="vdel" id="flX" style="font-size:22px">×</button></div></div>
+  dlg(`<div class="kah"><div><h3>Мои заказы <span class="fltag flcab">Кабинет сметчика-фрилансера</span></h3><div class="u">Заказы, цена работы, КП, счёт и акт клиенту. ${myHash()?'Хранится в личном кабинете: заказы видны на всех устройствах, где вы вошли по личному коду.':'Хранится в этом браузере. Войдите по личному коду, и заказы будут в личном кабинете.'}</div></div><div class="rmb"><button class="btn pri" id="flAdd">+ Новый заказ</button><button class="vdel" id="flX" style="font-size:22px">×</button></div></div>
   <div class="flks">${flKpi(D)}</div>
   <div class="flg"><div class="rmc"><div class="u rmh">Заказы</div>${O.length?`<div class="flb">${cols}</div>`:`<div class="u" style="padding:30px 0;text-align:center">Заказов пока нет. Добавьте первый или <button class="btn" id="flEx">посмотрите на примерах</button></div>`}
      ${done.length?`<button class="btn" id="flDn" style="align-self:flex-start">${FLdone?'Скрыть':'Показать'} закрытые: ${done.length}</button>${FLdone?`<div class="flb fldn">${done.map(flCard).join('')}</div>`:''}`:''}${O.some(x=>x.ex)?'<button class="btn" id="flExDel" style="align-self:flex-start">Убрать примеры</button>':''}</div>
@@ -3910,10 +3919,11 @@ function pfInfoNow(){const P=S.pos.filter(p=>p.sec===undefined),F=checkSmeta(),t
   const secs=S.pos.filter(p=>p.sec!==undefined).map(p=>String(p.sec).replace(/^\s*(раздел\s*)?\d+[.)]?\s*/i,'').trim()).filter(Boolean),toks=[...new Set(['inv','zak','podr','sdal','prin','zakSign','podrSign'].flatMap(k=>String(q[k]||'').match(/[А-ЯЁ][а-яё]{3,}/g)||[]))];
   return {secs,toks,npos:P.length,lv:S.level==='base'?'базисный уровень 2022':lvName(S.level,zoneOf()),ed:edName(edOfS()),cc:[...cc],tags,e:F.filter(x=>x.lv==='e').length,w:F.filter(x=>x.lv==='w').length,total:r2(totals().total),
     client:[q.zak,q.inv].filter(Boolean).join('; ').slice(0,200),rows}}
+const PF_MIN=5,pfNpos=id=>{try{const d=id===S.docId?JSON.parse(snap()):JSON.parse(lsGet(SKD+id)||'null');return d&&!d.mode&&Array.isArray(d.pos)?d.pos.filter(p=>p.sec===undefined).length:0}catch(e){return 0}};
 async function pfInfo(id){const m=docIndex().find(x=>x.id===id);if(!m)return null;const key=id+':'+(m.updated||0);if(PFI[key])return PFI[key];
   let d;try{d=id===S.docId?JSON.parse(snap()):JSON.parse(lsGet(SKD+id)||'null')}catch(e){}if(!d||d.mode)return null;
   const R=id===S.docId&&!d.mode?calcScope(pfInfoNow)():await cmpCalc(d,pfInfoNow);R.name=d.name||m.name||'Смета';PFI[key]=R;return R}
-async function openPortfolio(){if(!svcGate('portfolio'))return;toast('Собираю портфолио…');const D=pfData();if(!D.items.length){const L=docIndex().slice(0,6);D.items=L.map(m=>({docId:m.id,title:'',sub:'',exp:false}));pfSave(D)}
+async function openPortfolio(){if(!svcGate('portfolio'))return;toast('Собираю портфолио…');const D=pfData();if(!D.items.length){const L=docIndex().filter(m=>pfNpos(m.id)>=PF_MIN).slice(0,6);D.items=L.map(m=>({docId:m.id,title:'',sub:'',exp:false}));pfSave(D)}
   for(const it of D.items)await pfInfo(it.docId);renderPortfolio()}
 function pfPack(D){const sh=D.show,items=[];for(const it of D.items){const m=docIndex().find(x=>x.id===it.docId),I=m&&PFI[it.docId+':'+(m.updated||0)];if(!I){items.push({t:it.title||'Смета не найдена в «Моих сметах»',s:'',n:0,cc:0,g:[]});continue}
     const sc=t=>sh.client?t:pfScrub(t,I.toks);items.push({t:sc(it.title||I.name),s:it.sub||[I.lv.split(', ').pop(),I.ed].join(', '),n:I.npos,cc:I.cc.length,g:[...(I.secs||[]).slice(0,3).map(sc),...I.tags],x:it.exp?1:0,...(sh.check?{e:I.e,w:I.w}:{}),...(sh.sums?{m:I.total}:{}),...(sh.client&&I.client?{c:I.client}:{}),...(sh.struct?{r:I.rows.slice(0,80).map(r=>sh.client?r:[r[0],sc(r[1]),r[2],r[3]])}:{})})}
@@ -4006,7 +4016,8 @@ const DY_WM=Object.fromEntries(DY_W.map(w=>[w[0],w]));
 const dyF=n=>fmt(n,Math.abs(n-Math.round(n))<0.005?0:2);const DY_PLAN={walls:'стены',floor:'пол',ceil:'потолок'};
 function diyMode(){return lsGet(DY_MK)==='diy'}
 function diySetMode(on){try{lsSet(DY_MK,on?'diy':'pro')}catch(e){}toast(on?'Режим «Ремонт для себя»: программа будет открываться с него':'Режим «Я сметчик»');if(on)openDiy();else if($('#dyX'))$('#dlgbg').classList.remove('on')}
-function dyData(){if(DY)return DY;let D=null;try{D=JSON.parse(lsGet(DY_K)||'null')}catch(e){}DY=D&&Array.isArray(D.checks)?D:{checks:[]};return DY}
+function dyData(){if(DY)return DY;let D=null;try{D=JSON.parse(lsGet(DY_K)||'null')}catch(e){}DY=D&&Array.isArray(D.checks)?D:{checks:[]};DY.checks=DY.checks.filter(c=>!dyEmpty(c));return DY}
+const dyEmpty=c=>!(c.rows&&c.rows.length)&&!String(c.text||'').trim()&&!(c.pays&&c.pays.length)&&!(c.ver&&c.ver.length);let DY_DR=null;
 function dySave(){try{lsSet(DY_K,JSON.stringify(dyData()))}catch(e){toast('Не удалось сохранить: место в браузере закончилось')}}
 const dyNum=s=>{const v=parseFloat(String(s??'').replace(/[\s  ]/g,'').replace(',','.'));return Number.isFinite(v)?v:null};
 const dyUnit=u=>{const s=String(u||'').toLowerCase().replace(/\s/g,'');if(!s)return '';if(/^(м2|м²|кв\.?м|м\.?кв)/.test(s))return 'м2';if(/^(м3|м³|куб)/.test(s))return 'м3';
@@ -4020,16 +4031,32 @@ function dyTail(tokens){const n=tokens.length,best={err:Infinity,v:null};
     if(acc.length>=3)return;for(let j=i;j<n;j++){if(j>i&&!/^\d{3}([.,]\d+)?$/.test(tokens[j]))break;if(j>i&&/[.,]/.test(tokens[j-1]))break;if(j>i&&!/^\d{1,3}$/.test(tokens[i]))break;
       const v=dyNum(tokens.slice(i,j+1).join(''));if(v===null)break;rec(j+1,[...acc,v])}};
   rec(0,[]);return best}
+/* №44: строка из мессенджера «Шпатлёвка 162 м2 600 97200», «52 кв.м 350 18 200», «162 м2 х 450 = 72 900», «Обои 162м2 по 300р — 48600р»:
+   объём стоит перед единицей, дальше цена и сумма (знаки х, ×, *, по, =, тире или просто пробел; тысячи через пробел) */
+const DY_QU=/(\d+(?:[.,]\d+)?)\s*(м2|м²|кв\.?\s?м\.?|м3|м³|куб\.?\s?м\.?|м\.?\s?п\.?|пог\.?\s?м\.?|п\.?\s?м\.?|шт\.?|точ(?:ка|ки|ек)?\.?|компл\.?|м\.?)(?![а-яёa-z0-9])/i;
+const dyGrp=tk=>{const out=[];const rec=(i,acc)=>{if(i===tk.length){if(acc.length&&acc.length<=2)out.push(acc);return}if(acc.length>=2)return;
+  for(let j=i;j<tk.length;j++){if(j>i&&(!/^\d{1,3}$/.test(tk[i])||!/^\d{3}([.,]\d+)?$/.test(tk[j])||/[.,]/.test(tk[j-1])))break;const v=dyNum(tk.slice(i,j+1).join(''));if(v===null)break;rec(j+1,[...acc,v])}};rec(0,[]);return out};
+function dyMsgLine(s){const m=s.match(DY_QU);if(!m)return null;let name=s.slice(0,m.index).replace(/[\s,:;—–-]+$/,'').trim();if(!/[а-яёa-z]{3}/i.test(name))return null;
+  const q=dyNum(m[1]),u=m[2];let rest=s.slice(m.index+m[0].length).replace(/(\d)\s*(?:₽|руб\.?|р\.?)(?![а-яёa-z])/gi,'$1');
+  const SEP=/\s*(?:[×*=—–]|(?<![а-яёa-z])[xх](?![а-яёa-z])|(?<![а-яёa-z])по(?![а-яёa-z])|\s-\s)\s*/i,hasSum=/=|—|–|\s-\s/.test(rest);
+  const gs=rest.split(SEP).map(g=>g.trim()).filter(Boolean),one=g=>/^(\d{1,3}(?:\s\d{3})+|\d+)(?:[.,]\d+)?$/.test(g);let p=null,sm=null;
+  if(gs.length>=2&&gs.every(one)){p=dyNum(gs[0].replace(/\s/g,''));sm=dyNum(gs[gs.length-1].replace(/\s/g,''))}
+  else{const tk=rest.replace(new RegExp(SEP.source,'gi'),' ').split(/\s+/).filter(x=>/^\d+([.,]\d+)?$/.test(x));if(!tk.length)return null;
+    const V=dyGrp(tk);let best=null;for(const v of V){if(v.length!==2)continue;const e=Math.abs(q*v[0]-v[1])/Math.max(1,v[1]);if(!best||e<best.e)best={v,e}}
+    if(best){[p,sm]=best.v}else{const v=V.find(x=>x.length===1);if(!v)return null;if(hasSum){sm=v[0];p=q?r2(sm/q):null}else p=v[0]}}
+  if(sm==null&&p!=null)sm=r2(q*p);if(p==null&&sm==null)return null;
+  return {n:name,u:dyUnit(u),q,p,s:sm,chk:false}}
 function dyParseLine(line){let s=String(line).replace(/ | /g,' ').trim();if(!s)return null;
   if(/^(итого|всего)/i.test(s)){const m=s.match(/(\d{1,3}(?:\s\d{3})+(?:[.,]\d+)?|\d+(?:[.,]\d+)?)\s*(?:₽|руб\.?|р\.)?\s*$/);return m?{total:dyNum(m[1])}:null}
   if(/наименовани|ед\.?\s*изм|кол-?во|№\s*п\/?п/i.test(s)&&!/\d{3}/.test(s.replace(/№\s*п\/?п/i,'')))return null;
   let cells=s.split(/\t|\s*\|\s*|\s{2,}|\s*;\s*/).map(x=>x.trim()).filter(Boolean),name='',unit='',nums=[],chk=false;
   if(cells.length>=3){if(/^\d{1,3}[.)]?$/.test(cells[0])&&cells.length>3&&/[а-яёa-z]/i.test(cells[1]))cells=cells.slice(1);
     for(const c of cells){if(DY_URE.test(c)&&!unit){unit=c;continue}const v=/^[\d\s.,]+(₽|руб\.?)?$/.test(c)?dyNum(c.replace(/₽|руб\.?/,'')):null;if(v!==null&&name)nums.push(v);else if(!nums.length)name=(name?name+' ':'')+c}}
-  if(!name||!nums.length){s=s.replace(/^\d{1,3}[.)]\s+/,'');const tk=s.split(/\s+/);let i=tk.length;while(i>0&&/^\d+([.,]\d+)?(₽)?$/.test(tk[i-1]))i--;
+  if((!name||!nums.length)&&cells.length<3){const mm=dyMsgLine(s.replace(/^\d{1,3}[.)]\s+/,''));if(mm)return mm}
+  if(!name||!nums.length){s=s.replace(/^\d{1,3}[.)]\s+/,'').replace(/(\d)\s*(?:₽|руб\.?|р\.?)(?=\s|$)/gi,'$1');const tk=s.split(/\s+/);let i=tk.length;while(i>0&&/^\d+([.,]\d+)?(₽)?$/.test(tk[i-1]))i--;
     let num=tk.slice(i).map(x=>x.replace('₽',''));let rest=tk.slice(0,i);if(rest.length&&DY_URE.test(rest[rest.length-1])){unit=rest.pop()}
     name=rest.join(' ');if(!num.length)return null;const b=dyTail(num);
-    if(b.v&&b.err<0.01)nums=b.v;else{nums=num.length>=3?num.slice(-3).map(dyNum):num.map(dyNum);chk=num.length>3}}
+    if(b.v&&b.err<0.01)nums=b.v;else if(num.length>1&&/^\d{1,3}$/.test(num[0])&&num.slice(1).every(x=>/^\d{3}$/.test(x)))nums=[dyNum(num.join(''))];else{nums=num.length>=3?num.slice(-3).map(dyNum):num.map(dyNum);chk=num.length>3}}
   name=name.replace(/^\d{1,3}[.)]\s+/,'').replace(/[,\s]+$/,'');const um=name.match(/,\s*(м2|м²|м\.?п\.?|м|шт\.?|точка)\.?$/i);if(um&&!unit){unit=um[1];name=name.slice(0,um.index)}
   if(!/[а-яёa-z]{3}/i.test(name))return null;let q=null,p=null,sm=null;
   if(nums.length>=3){[q,p,sm]=nums.slice(-3)}else if(nums.length===2){[q,p]=nums;sm=r2(q*p)}else{q=1;p=nums[0];sm=nums[0]}
@@ -4083,8 +4110,9 @@ const DY_SAMPLE=`Смета на ремонт квартиры 54 м², ООО �
 13  Установка унитаза  шт  1  3 500  3 500
 14  Прочие и непредвиденные работы 10 %  усл  1  37 500  37 500
 Итого: 537 380`;
-function dyCur(){const D=dyData();return D.checks.find(c=>c.id===D.cur)||null}
-function dyNew(t){const D=dyData(),c={id:newId(),title:t||'Смета подрядчика '+(D.checks.length+1),area:'',plan:{walls:'',floor:'',ceil:''},text:'',rows:[],total:null,ver:[],done:{},pays:[],at:Date.now()};D.checks.unshift(c);D.cur=c.id;dySave();return c}
+function dyCur(){const D=dyData();return D.checks.find(c=>c.id===D.cur)||(DY_DR&&DY_DR.id===D.cur?DY_DR:null)}
+function dyKeep(c){if(c!==DY_DR)return;const D=dyData();D.checks.unshift(c);DY_DR=null}
+function dyNew(t,draft){const D=dyData(),c={id:newId(),title:t||'Смета подрядчика '+(D.checks.length+1),area:'',plan:{walls:'',floor:'',ceil:''},text:'',rows:[],total:null,ver:[],done:{},pays:[],at:Date.now()};D.cur=c.id;if(draft){DY_DR=c;return c}D.checks.unshift(c);dySave();return c}
 function dyFromMeasure(){const M=S.measure&&S.measure.rooms||[];if(!M.length)return null;const o={walls:0,floor:0,ceil:0};
   for(const r of M)for(const b of ['walls','floor','ceil']){const f=msBase(r,b);if(f)try{o[b]+=evalF(f)}catch(e){}}return {walls:r2(o.walls),floor:r2(o.floor),ceil:r2(o.ceil)}}
 async function openDiy(view){if(!svcGate('diy'))return;if(S.mode)return toast('«Ремонт для себя» работает из локальной сметы: откройте или создайте её');DY=null;const D=dyData();D.view=view||'home';await dyNorms();renderDiy()}
@@ -4096,12 +4124,13 @@ function renderDiy(){const D=dyData();if(D.view==='chk')return renderDyCheck();i
     ['own','м²','Посчитать ремонт сам','обмерить комнаты телефоном, получить объёмы и смету'],
     ['cmp','2+','Сравнить подрядчиков','2–3 сметы рядом: кто дороже и кто что не включил'],
     ['acc','✓','Принять работу','что сделано, сколько оплачено и сколько осталось']].map(x=>`<button class="dycard" data-go="${x[0]}"><span class="dyic">${x[1]}</span><b>${x[2]}</b><span class="u">${x[3]}</span></button>`).join('')}</div>
-  ${L.length?`<div class="u rmh" style="margin-top:12px">Мои проверки</div><div class="dylist">${L.map(c=>{const A=dyAnalyze(c);return `<button class="dyli" data-open="${c.id}"><b>${esc(c.title)}</b><span>${fmt(A.sum,0)} ₽</span><span class="dyv ${A.v.c}">${A.v.t}</span><span class="u">${A.nErr?`ошибок ${A.nErr} на ${fmt(A.E,0)} ₽`:'ошибок нет'}${A.nMiss?` · пропусков ${A.nMiss}`:''}</span></button>`}).join('')}</div>`:''}
+  ${L.length?`<div class="u rmh" style="margin-top:12px">Мои проверки</div><div class="dylist">${L.map(c=>{const A=dyAnalyze(c);return `<div class="dylw"><button class="dyli" data-open="${c.id}"><b>${esc(c.title)}</b><span>${fmt(A.sum,0)} ₽</span><span class="dyv ${A.v.c}">${A.v.t}</span><span class="u">${A.nErr?`ошибок ${A.nErr} на ${fmt(A.E,0)} ₽`:'ошибок нет'}${A.nMiss?` · пропусков ${A.nMiss}`:''}</span></button><button class="dyx" data-dydel="${c.id}" title="Удалить проверку" aria-label="Удалить проверку">×</button></div>`}).join('')}</div>`:''}
   <div class="u" style="margin-top:10px">Регион: ${esc(dyReg())}. Регион и квартал берутся из открытой сметы.</div>`,true);
   const X=$('#dlg');X.style.maxWidth='980px';X.style.width='96vw';dyWire();
   $$('#dlg [data-go]').forEach(b=>b.onclick=()=>{const g=b.dataset.go;if(g==='own'){$('#dlgbg').classList.remove('on');toast('Обмерьте комнаты: размеры, проёмы, фото и голос');return openMeasure()}
-    if(g==='chk'){dyNew();D.view='chk'}else D.view=g;renderDiy()});
-  $$('#dlg [data-open]').forEach(b=>b.onclick=()=>{D.cur=b.dataset.open;D.view='chk';renderDiy()})}
+    if(g==='chk'){dyNew('',true);D.view='chk'}else D.view=g;renderDiy()});
+  $$('#dlg [data-open]').forEach(b=>b.onclick=()=>{D.cur=b.dataset.open;D.view='chk';renderDiy()});
+  $$('#dlg [data-dydel]').forEach(b=>b.onclick=e=>{e.stopPropagation();const c=D.checks.find(x=>x.id===b.dataset.dydel);if(!c||!confirm(`Удалить проверку «${c.title}»?`))return;D.checks=D.checks.filter(x=>x!==c);if(D.cur===c.id)D.cur=null;dySave();renderDiy();toast('Проверка удалена')})}
 function dyWire(){$('#dyX').onclick=()=>$('#dlgbg').classList.remove('on');$$('#dlg [data-dym]').forEach(b=>b.onclick=()=>{if(b.dataset.dym==='pro')diySetMode(false);else if(!diyMode())diySetMode(true)})}
 function dyQuestions(A){return A.F.map(f=>f.qs)}
 function dyChanges(c,A){const pv=c.ver&&c.ver[c.ver.length-1];if(!pv)return '';const key=n=>String(n).toLowerCase().replace(/[^а-яёa-z0-9]/g,'');const P=new Map(pv.rows.map(r=>[key(r.n),r])),Cn=new Map(A.rows.map(r=>[key(r.n),r]));
@@ -4135,7 +4164,7 @@ function renderDyCheck(){const D=dyData(),c=dyCur();if(!c){D.view='home';return 
      <div class="cmc dyvc ${A.v.c}"><span class="u rmh">Вердикт</span><div class="cmt">${A.v.t}</div><span>${A.R?(A.R>=1?'выше норм на '+fmt((A.R-1)*100,0)+' %':'ниже норм на '+fmt((1-A.R)*100,0)+' %'):''}</span></div>
      <div class="cmc"><span class="u rmh">Явные ошибки</span><div class="cmt">${fmt(A.E,0)} ₽</div><span class="u">${A.nErr} ${cmpPl(A.nErr,'ошибка','ошибки','ошибок')} · ${A.nMiss} ${cmpPl(A.nMiss,'пропуск','пропуска','пропусков')}</span></div></div>
     <div class="awt dyt"><table class="mst"><thead><tr><th>Работа в смете подрядчика</th><th class="num">Объём</th><th class="num">План</th><th class="num">Цена за ед.</th><th class="num">Работа по нормам</th><th>Оценка</th></tr></thead><tbody>
-    ${A.rows.map(r=>{const f=fr(r.i),bad=f.some(x=>x.t==='err'),mid=!bad&&(r.k==='other'||r.tag==='hi'||r.tag==='lo');return `<tr class="${bad?'cmrb':mid?'dymid':''}"><td>${esc(r.n)}${r.u?', '+esc(r.u):''}${r.k&&DY_WM[r.k]&&DY_WM[r.k][5].length?`<div class="u">${esc(DY_WM[r.k][1])}</div>`:''}${r.chk?'<div class="u">проверьте числа строки</div>':''}</td>
+    ${A.rows.map(r=>{const f=fr(r.i),bad=f.some(x=>x.t==='err'),mid=!bad&&(r.k==='other'||r.tag==='hi'||r.tag==='lo');return `<tr class="${bad?'cmrb':mid?'dymid':''}"><td>${esc(r.n)}${r.u?', '+esc(r.u):''}${r.k&&DY_WM[r.k]&&DY_WM[r.k][5].length?`<div class="u">${esc(DY_WM[r.k][1])}</div>`:''}${r.chk?'<div class="u dychk">проверьте строку: числа распознаны неуверенно</div>':r.q!=null&&r.p!=null&&r.s!=null&&Math.abs(r.s-r.q*r.p)>Math.max(1,r.s*0.01)?'<div class="u dychk">проверьте строку: объём × цена не равно сумме</div>':''}</td>
       <td class="num">${r.q!=null?fmt(r.q,2):'—'}</td><td class="num"><input class="kin" data-rp="${r.i}" inputmode="decimal" value="${(c.rows[r.i].plan??'')!==''?esc(c.rows[r.i].plan):''}" placeholder="${r.pl!=null&&r.pl!==''&&!isNaN(r.pl)?fmt(r.pl,1):'—'}"></td>
       <td class="num">${r.p!=null?fmt(r.p):'—'}</td><td class="num">${r.nw?fmt(r.nw,0):'—'}</td><td>${mark(r)}</td></tr>`}).join('')}
     ${miss.map(m=>`<tr class="dymiss"><td>${esc(m.x)}<div class="u">${esc(m.y)}</div></td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">${DYN[m.k]?fmt(DYN[m.k].w,0):'—'}</td><td><span class="dyd mid"></span>нет в смете</td></tr>`).join('')}
@@ -4156,7 +4185,7 @@ function renderDyCheck(){const D=dyData(),c=dyCur();if(!c){D.view='home';return 
   if($('#dyW'))$('#dyW').onclick=()=>{dlBlob(dyWord(c,A),`Вопросы подрядчику ${c.title}.doc`.replace(/[\\/:*?"<>|]/g,' '));toast('Вопросы выгружены в Word')};
   if($('#dyCp'))$('#dyCp').onclick=async()=>{try{await navigator.clipboard.writeText(dyMsg(c,A));toast('Вопросы скопированы: вставьте их в мессенджер')}catch(e){toast('Не удалось скопировать')}};
   $$('#dlg [data-go2]').forEach(b=>b.onclick=()=>{const g=b.dataset.go2;if(g==='own'){$('#dlgbg').classList.remove('on');return openMeasure()}D.view=g;renderDiy()})}
-function dyRun(c,text){const P=dyParse(text);c.text=text;c.rows=P.rows.map(r=>({n:r.n,u:r.u,q:r.q,p:r.p,s:r.s,chk:r.chk}));c.total=P.total;dySave();
+function dyRun(c,text){const P=dyParse(text);c.text=text;c.rows=P.rows.map(r=>({n:r.n,u:r.u,q:r.q,p:r.p,s:r.s,chk:r.chk}));c.total=P.total;if(P.rows.length)dyKeep(c);dySave();
   toast(P.rows.length?`Распознано строк: ${P.rows.length}`:'Не нашлось строк со стоимостью: проверьте текст');renderDyCheck()}
 function dyMsg(c,A){return `Вопросы по смете «${c.title}» (${dyF(A.sum)} ₽):\n`+dyQuestions(A).map((q,i)=>`${i+1}. ${q}`).join('\n')}
 function dyWord(c,A){const h=`<html><head><meta charset="utf-8"><style>body{font:12pt "Times New Roman"}h2{font-size:14pt}td,th{border:1px solid #999;padding:3px 6px;font-size:10.5pt}table{border-collapse:collapse}</style></head><body>
@@ -5920,7 +5949,8 @@ const KA_F=[
  ['nds','НДС в цене','sel',[['22','22%'],['20','20%'],['10','10%'],['7','7% (УСН)'],['5','5% (УСН)'],['0','без НДС']]],['idx','Индекс к уровню сметы (гр. 10)','num'],
  ['k','Коэф. пересчёта в ед. проекта (гр. 11)','num'],['trans','Перевозка, ₽ за ед. проекта (гр. 14)','num'],['km','Расстояние от склада до объекта, км (п. 91)','num'],['incl','Доставка уже в цене','chk']];
 const KA_C=[['p8','Цена без НДС (гр. 8)'],['p12','Цена в уровне сметы за ед. проекта (гр. 12)'],['tr','Перевозка (гр. 14)'],['zsr','Заготовительно-складские (гр. 16)'],['p20','Сметная цена без НДС (гр. 20)']];
-const today=()=>new Date().toISOString().slice(0,10);
+// дата «ГГГГ-ММ-ДД» по местному времени (№44: toISOString давал вчерашнюю дату с 00:00 до 03:00 по Москве)
+const ymdL=x=>x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0'),today=()=>ymdL(new Date());
 const kaBlank=()=>({sup:'',inn:'',kpp:'',region:PR?PR.meta.subject:'',city:'',site:'',country:'',status:'2',doc:'ТКП',date:'',dname:'',dunit:'',price:0,nds:'22',idx:1,k:1,trans:0,incl:false});
 function innOk(v){v=String(v||'').replace(/\s/g,'');if(!/^\d{10}$|^\d{12}$/.test(v))return false;const d=v.split('').map(Number);
   const cs=(c,n)=>c.reduce((a,k,i)=>a+k*d[i],0)%11%10===d[n];
@@ -6241,7 +6271,7 @@ function renderInspMR(p,c){const el=$('#insp'),R=c.R;
 function kaNew(kind){const eq=kind==='eq',p={id:uid++,code:'КА',qty:1,ks:[],ka:{name:'',unit:eq?'шт':'м2',rescode:'',kind:eq?'eq':'mat',d0:today(),offers:[kaBlank(),kaBlank(),kaBlank()]}};
   const i=sel?S.pos.findIndex(x=>x.id===sel):-1;if(i>=0)S.pos.splice(i+1,0,p);else S.pos.push(p);sel=p.id;setTab('lsr');commit();openKA(p.id)}
 function kaSample(p){Object.assign(p.ka,{name:'Мембрана профилированная из полиэтилена высокой плотности, высота выступов 8 мм, для защиты гидроизоляции фундамента',unit:'м2',rescode:'',kind:'mat'});
-  p.qty=120;p.ka.tr={on:true,road:2,vc:'Автомобили бортовые до 20 т',cls:3,mass:0.0004,lw:17};ensureTR();const d=(m)=>{const x=new Date(p.ka.d0||today());x.setDate(x.getDate()-m);return x.toISOString().slice(0,10)};
+  p.qty=120;p.ka.tr={on:true,road:2,vc:'Автомобили бортовые до 20 т',cls:3,mass:0.0004,lw:17};ensureTR();const d=(m)=>{const x=new Date((p.ka.d0||today())+'T12:00:00');x.setDate(x.getDate()-m);return ymdL(x)};
   p.ka.offers=[
    {...kaBlank(),sup:'ООО «Волга-Изол» (учебный пример)',country:'Россия',inn:'3443009174',kpp:'344301001',city:'Волгоград',site:'volga-izol.example',status:'2',doc:'ТКП',date:d(37),dname:'Мембрана профилированная ПВП 8 мм, рулон 2×20 м',dunit:'рулон',price:9760,nds:'22',k:0.025,km:18},
    {...kaBlank(),sup:'ООО «ЮгСтройКомплект» (учебный пример)',country:'Россия',inn:'3460004521',kpp:'346001001',city:'Волжский',site:'ugsk.example',status:'2',doc:'КП',date:d(79),dname:'Профилированная мембрана 8 мм, плотность 400 г/м²',dunit:'м2',price:259.9,nds:'22',k:1,incl:true},
@@ -6286,7 +6316,7 @@ function tplSave(){if(!S.pos.length)return toast('Смета пуста: шаб�
     if(tplStore(a)){dlgClose();toast(`Шаблон «${name}» сохранён: ${tplCount(pos)} ${tplWord(tplCount(pos))}`)}}}
 function dlgClose(){$('#dlgbg').classList.toggle('on',false)}
 async function tplInsert(t,asNew){if(asNew){if(S.pos.length&&!S.docId&&!saved&&!confirm('Начать новую смету из шаблона? Эта смета не сохранена и пропадёт.'))return;
-    S={name:t.name,pos:[],idx:'',nds:false,level:LV_NEW};meApplyZone();sel=null;msel.clear();hist=[];redo=[];lastSnap=null;vorPick=null;renderPickBar();$('#docname').value=S.name;if(t.base&&t.base!=='fsnb')S.base=t.base}
+    S={name:t.name,pos:[],idx:'',nds:false,level:LV_NEW,v44:1};meApplyZone();sel=null;msel.clear();hist=[];redo=[];lastSnap=null;vorPick=null;renderPickBar();$('#docname').value=S.name;if(t.base&&t.base!=='fsnb')S.base=t.base}
   const add=t.pos.map(p=>{const c=JSON.parse(JSON.stringify(p));c.id=uid++;return c});
   try{await ensureReal(add.filter(x=>x.code&&!x.ka&&!x.tr&&!x.mr).map(x=>x.code));await ensureExtRes(add);if(add.some(x=>x.tr||x.ka&&x.ka.tr&&x.ka.tr.on))await ensureTR()}catch(e){}
   dlgClose();if(tab!=='lsr')setTab('lsr');const i=sel?S.pos.findIndex(x=>x.id===(selIds().slice(-1)[0]??sel)):-1;S.pos.splice(i>=0?i+1:S.pos.length,0,...add);msel.clear();sel=add.length?add[add.length-1].id:sel;
@@ -6703,11 +6733,15 @@ $('#tablewrap').addEventListener('keydown',e=>{if((e.target.classList.contains('
 
 /* ---------- палитра команд ---------- */
 let palItems=[],palI=0;
+/* №44: синонимы для поиска команд — слова, которыми ищут, а в названии их нет */
+const PAL_SYN=[[/фрилансер/i,'заказ заказы мои заказы клиент клиенты crm црм кп счёт счет акт оплата'],[/другое устройство/i,'поделиться отправить отправить клиенту ссылка qr телефон перенести'],
+  [/личный кабинет/i,'кабинет облако скачать всё восстановить архив'],[/портфолио/i,'резюме работодатель'],[/замечани/i,'экспертиза ответ'],[/ремонт для себя/i,'подрядчик бригада квартира проверить смету подрядчика']];
+const palHay=t=>(t+' '+PAL_SYN.filter(([re])=>re.test(t)).map(x=>x[1]).join(' ')).toLowerCase().replace(/ё/g,'е');
 function palList(q){
   q=q.trim().toLowerCase();const out=[];
   const cmds=[['Проверить смету',openCheck],['Шаблоны смет',()=>tplOpen(false)],['Сохранить как шаблон',tplSave],['Знакомство с программой',tour],['Вид сметы: форма ЛСР',()=>setLsrView('form')],['Вид сметы: компактный',()=>setLsrView('cmp')],['Давальческие материалы заказчика',openDav],['Коэффициенты на всю смету',openKall],['Экспертиза сметы: уведомление с замечаниями',openExpert],['Материал из ФСБЦ отдельной позицией…',()=>mrNew()],['Материал вне базы (конъюнктурный анализ)',()=>kaNew()],['Оборудование из ФСБЦ…',eqNew],['Оборудование вне базы (конъюнктурный анализ)',()=>kaNew('eq')],['Погрузка и разгрузка (ФГИС ЦС)',()=>trNew('load')],['Новая смета',newDoc],['Примеры (демо)',openDemos],['Своя позиция (вне базы)',ownNew],['Загрузить пример',sample],['Смета на проектные работы (ПИР)',()=>openOsrTab('pir')],['НМЦК',()=>openOsrTab('nmck')],['НЦС',()=>openOsrTab('ncs')],['Сохранить',save],['Мои сметы',openDocs],['Открыть смету из Excel',()=>openXlsx()],['Открыть смету из XML Минстроя',()=>openXml()],['Открыть смету ГРАНД-Сметы (.gsfx)',()=>openXml()],['На другое устройство (ссылка, QR)',openShare],['Сохранить как копию',saveAs],['Сохранить в файл',()=>exportDocFile()],['Открыть смету из файла',importDocFile],['Загрузить сплит-форму цен (Excel)',openSplit],['Модель IFC (ТИМ): открыть',openBim],['Модель IFC (ТИМ): вкладка',()=>setTab('bim')],['Выходные формы (ЛСР, печать)',openForms],['Акты КС-2 и справки КС-3',openActs],['Объектный и сводный сметные расчёты (ОСР, ССРСС)',openOsr],['Ведомость ресурсов в Excel',exportResXlsx],['Ведомость ресурсов: печать',printRes],['ЛСР в Excel (.xlsx)',exportLsrXlsx],['Экспорт таблицы (.csv)',exportCsv],['Отменить',undo],['Вернуть',redoF],['Удалить строку',del],['Дублировать позицию',dup],['Добавить раздел',askSection],['Тёмная / светлая тема',toggleTheme],['Краткий / полный вид',toggleCompact],['Включить / выключить НДС',()=>setNds(!S.nds)],['Базисный уровень цен',()=>setIdx('')],...Object.entries(B.idx).map(([k,v])=>['Индексы: '+v.q,()=>setIdx(k)]),['Ведомость объёмов',()=>setTab('vor')],['Ресурсная ведомость',()=>setTab('res')],['Объектная смета',()=>setTab('obj')],['Помощь ИИ',aiHelp],['Подбор расценки',focusCat],['Экспорт в XML (схема Минстроя)',exportXML],['Пакет XML для экспертизы (ЛСР, ОСР, ССРСС, записка)',exportPack],['Руководство пользователя',openGuide],['Горячие клавиши',keys],['О программе',about]];
   cmds.push(['Личный кабинет',openCabinet],...svcPal());
-  const c=cmds.filter(x=>!q||x[0].toLowerCase().includes(q)).slice(0,q?6:8);
+  const qq=q.replace(/ё/g,'е'),c=cmds.filter(x=>!q||x[0].toLowerCase().includes(q)||palHay(x[0]).includes(qq)).slice(0,q?6:8);
   c.forEach(x=>out.push({g:'Команды',t:x[0],fn:x[1],s:''}));
   if(q){Object.entries(B.rates).filter(([k,r])=>!r.real&&rateHas(k+' '+r.name,q)).slice(0,4).forEach(([k,r])=>out.push({g:'Учебная база · добавить в смету',t:k+'  '+r.name,fn:()=>addRate(k),s:pu(r.unit)}));
     if(q.length>=2){if(!RLOW)RLOW=RFULL.map((t,i)=>('гэсн'+RI.r[i][0]+' '+t).toLowerCase().replace(/ё/g,'е'));for(const i of rateFind(q,8)){const r=RI.r[i];out.push({g:'ГЭСН-2022 · добавить в смету',t:'ГЭСН'+r[0]+'  '+RFULL[i],fn:()=>addRate(r[0]),s:pu(r[4])})}}}
@@ -6800,7 +6834,7 @@ if(splitX())splitX().list().then(a=>{for(const s of a)splitReg(s);if(a.length){r
 migrateOld();setSaveChip();{const last=lsGet(SKL);const shared=location.hash.startsWith(SHARE_PREFIX);(last&&location.hash!=='#sample'?openDoc(last,true):Promise.resolve()).finally(()=>{if(shared)takeShared();else if(location.hash.startsWith('#k1.'))takeKey();else if(location.hash.startsWith('#pf1.'))pfShowLink();else if(SVC.diy&&diyMode())setTimeout(()=>{if(!$('#dlgbg').classList.contains('on'))openDiy()},700);if(cloudKey())cloudSync();tabsRestore();setTimeout(cabStart,1500)})}
 render=calcScope(render);renderTable=calcScope(renderTable);renderInsp=calcScope(renderInsp);renderDock=calcScope(renderDock);totals=calcScope(totals);
 lsrModel=calcScope(lsrModel);lsrModelGrand=calcScope(lsrModelGrand);ks2Model=calcScope(ks2Model);osrModel=calcScope(osrModel);ssrModel=calcScope(ssrModel);checkSmeta=calcScope(checkSmeta);resModel=calcScope(resModel);davList=calcScope(davList);
-window.__app={PD_CUT,cabStart,cabOn,cabCount,kvSync,fileSync,cloudSync,mg3,allZip,restOpen,obfGet,obfPut,msGet,cabH,get kvSt(){return kvSt},get fSt(){return fSt},ksSnap,ks3Model,ksHasWork,renderActs,obfEvents,openAnswers,ansAll,ansHarvest,ansMatch,ansHint,ansAiHint,ansSet,ansAddFiles,ansRows,ansRender,ansGet,ansKey,get ANF(){return ANF},openKpBase,kpbAdd,kpbAll,kpbHarvest,kpbMatch,kpbCand,kpbTake,kpbHint,kaNew,openKA,openObject,stDel,obfDelNote,obfDelFile,obfAdd,obfNote,obfEvents,obfData,obfZip,obfRender,get OBF(){return OBF},stroyList,docSetPlace,openExamples,exLoad,exRows,exTpl,exUse,exList,get EXF(){return EXF},get EXD(){return EXD},newDocRaw,openCabinet,meLoad,myHash,meApplyZone,defZone,reqMine,meLink,meInit,meAvatar,openSvc,svcApply,svcChoose,svcToggle,svcGrant,svcGate,svcAsk,svcNeedAsk,svcPal,svcFilePreview,SVC_DEF,SVC_SETS,SVC0,openDiy,dyParse,dyParseLine,dyAnalyze,dyNorms,dyData,dyNew,dyRun,dyWord,dyMsg,diyMode,diySetMode,dyMatch,DY_SAMPLE,dyN:()=>DYN,openPortfolio,pfData,pfInfo,pfPack,pfLink,pfHtml,pfShowLink,pfView,openFreelance,flData,flSum,flFormula,flExamples,flDoc,flKpi,openFeed,fdDocs,fdAffected,fdDetail,fdImpact,fdCopies,fdItems,fdNext,fdXlsx,fdData:()=>FD,openPriceHist,phSeries,phPrice,phAllRegions,phXlsx,phWatch,phData:()=>PH,openRequarter,rqRun,rqStats,rqRes,rqApply,rqXlsx,rqData:()=>RQ,openRemarks,rmParse,rmData,openMeasure,msParse,msData,openNonorm,nnData,nnCost,nnUnitTotal,nnText,nnPut,openCompare,cmpCalc,cmpDiff,cmpRows,cmpLoad,cmpXlsx,openCoefs,kdGroups,kdEffect,kdText,openAddwork,awData,awRows,awSum,awMake,awXlsx,awAgreement,msToVor,msWord,msFormula,msVal,openContract,renderContract,ctModel,ctXlsx,SVC,openActs,bimx,ncsCalc,ncsSample,pirCalc,pirHtml,pirXlsx,pirSample,openOsr,renderOsr,nmckCalc,rubWords,nmckXlsx,setLsrView,setLsrRes,openExpert,expx,openSplit,splitReg,useSplit,SPL,get split(){return splitX()},osSample,ST,lsrModel,lsrModelGrand,osrModel,ssrModel,resModel,checkSmeta,ks2Model,fopt,mrNew,eqNew,kaNew,makePR,ensurePR,setZone,setLevel,prKey,get S(){return S},get xml(){return xmlx()},totals,calc,sample,B,ensureReal,nrCode,nrFull,sampleLesson,loadDoc,setBase:v=>setBase(v),renderTable,renderInsp,renderDock,syncRibbon};
+window.__app={PD_CUT,renderDiy,rmSplit,RM_T,req,party,today,palList,pfNpos,dyCur,cabStart,cabOn,cabCount,kvSync,fileSync,cloudSync,mg3,allZip,restOpen,obfGet,obfPut,msGet,cabH,get kvSt(){return kvSt},get fSt(){return fSt},ksSnap,ks3Model,ksHasWork,renderActs,obfEvents,openAnswers,ansAll,ansHarvest,ansMatch,ansHint,ansAiHint,ansSet,ansAddFiles,ansRows,ansRender,ansGet,ansKey,get ANF(){return ANF},openKpBase,kpbAdd,kpbAll,kpbHarvest,kpbMatch,kpbCand,kpbTake,kpbHint,kaNew,openKA,openObject,stDel,obfDelNote,obfDelFile,obfAdd,obfNote,obfEvents,obfData,obfZip,obfRender,get OBF(){return OBF},stroyList,docSetPlace,openExamples,exLoad,exRows,exTpl,exUse,exList,get EXF(){return EXF},get EXD(){return EXD},newDocRaw,openCabinet,meLoad,myHash,meApplyZone,defZone,reqMine,meLink,meInit,meAvatar,openSvc,svcApply,svcChoose,svcToggle,svcGrant,svcGate,svcAsk,svcNeedAsk,svcPal,svcFilePreview,SVC_DEF,SVC_SETS,SVC0,openDiy,dyParse,dyParseLine,dyAnalyze,dyNorms,dyData,dyNew,dyRun,dyWord,dyMsg,diyMode,diySetMode,dyMatch,DY_SAMPLE,dyN:()=>DYN,openPortfolio,pfData,pfInfo,pfPack,pfLink,pfHtml,pfShowLink,pfView,openFreelance,flData,flSum,flFormula,flExamples,flDoc,flKpi,openFeed,fdDocs,fdAffected,fdDetail,fdImpact,fdCopies,fdItems,fdNext,fdXlsx,fdData:()=>FD,openPriceHist,phSeries,phPrice,phAllRegions,phXlsx,phWatch,phData:()=>PH,openRequarter,rqRun,rqStats,rqRes,rqApply,rqXlsx,rqData:()=>RQ,openRemarks,rmParse,rmData,openMeasure,msParse,msData,openNonorm,nnData,nnCost,nnUnitTotal,nnText,nnPut,openCompare,cmpCalc,cmpDiff,cmpRows,cmpLoad,cmpXlsx,openCoefs,kdGroups,kdEffect,kdText,openAddwork,awData,awRows,awSum,awMake,awXlsx,awAgreement,msToVor,msWord,msFormula,msVal,openContract,renderContract,ctModel,ctXlsx,SVC,openActs,bimx,ncsCalc,ncsSample,pirCalc,pirHtml,pirXlsx,pirSample,openOsr,renderOsr,nmckCalc,rubWords,nmckXlsx,setLsrView,setLsrRes,openExpert,expx,openSplit,splitReg,useSplit,SPL,get split(){return splitX()},osSample,ST,lsrModel,lsrModelGrand,osrModel,ssrModel,resModel,checkSmeta,ks2Model,fopt,mrNew,eqNew,kaNew,makePR,ensurePR,setZone,setLevel,prKey,get S(){return S},get xml(){return xmlx()},totals,calc,sample,B,ensureReal,nrCode,nrFull,sampleLesson,loadDoc,setBase:v=>setBase(v),renderTable,renderInsp,renderDock,syncRibbon};
 if(location.hash==='#sample')sample();
 try{const nt=!localStorage.getItem('rimora.tour')&&!location.hash;if(SVC_ASK)setTimeout(()=>svcAsk(()=>{if(nt)tour()}),700);else if(nt)setTimeout(tour,700)}catch(e){}
 })();
