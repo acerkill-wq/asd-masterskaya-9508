@@ -840,7 +840,7 @@ body.insp-off #insp>.ph .cbtn{margin:0;order:-1}
   <main class="work">
     <aside class="panel catalog">
       <div class="ph" id="catph"><svg class="i" style="width:16px;height:16px"><use href="#i-book"/></svg>Каталог норм<span class="n" id="catcount"></span><button class="cbtn" id="catbtn" title="Свернуть каталог"><svg class="i"><use href="#i-catoff"/></svg></button></div>
-      <div class="seg" id="catseg"><button class="on" data-s="fsnb" title="Федеральная сметно-нормативная база 2022, ГЭСН. Редакция (изм. 1–17, 1–18, 1–19) выбирается в параметрах сметы">ФСНБ-2022</button><button data-s="ucheb" title="Учебная база: ФСНБ-2022 с нормами из учебных смет (как в учебной базе ГРАНД-Сметы)">Учебная</button><button data-s="pir" title="Нормативы затрат (НЗ) и справочники базовых цен (СБЦ) на проектные работы: смета ПИР по Методике 707/пр">НЗ и СБЦ</button><button data-s="ncs" title="Укрупнённые нормативы цены строительства НЦС-2026: расчёт по Методике 314/пр, п. 97">НЦС</button></div>
+      <div class="seg" id="catseg"><button class="on" data-s="fsnb" title="Федеральная сметно-нормативная база 2022, ГЭСН. Редакция (изм. 1–17 … 1–20) выбирается в параметрах сметы">ФСНБ-2022</button><button data-s="ucheb" title="Учебная база: ФСНБ-2022 с нормами из учебных смет (как в учебной базе ГРАНД-Сметы)">Учебная</button><button data-s="pir" title="Нормативы затрат (НЗ) и справочники базовых цен (СБЦ) на проектные работы: смета ПИР по Методике 707/пр">НЗ и СБЦ</button><button data-s="ncs" title="Укрупнённые нормативы цены строительства НЦС-2026: расчёт по Методике 314/пр, п. 97">НЦС</button></div>
       <label class="search"><svg class="i" style="width:16px;height:16px"><use href="#i-search"/></svg><input id="catq" placeholder="Шифр или слова: «стяжка», УЧ06…" autocomplete="off"><span class="kbd">/</span></label>
       <div class="tree" id="tree"></div>
     </aside>
@@ -920,7 +920,7 @@ const ic=(n,cls='')=>`<svg class="i ${cls}"><use href="#i-${n}"/></svg>`;
 const TYC={ОТ:'var(--ot)',ЭМ:'var(--em)',М:'var(--m)',ТР:'var(--sp)',ОБ:'var(--nr)'};
 /* ---------- настоящая ФСНБ-2022: каталог, ресурсы, РИМ ---------- */
 const RI=window.REAL_IDX, RR=window.REAL_RES, RN=window.REAL_NRSP;
-/* расценки учебных смет, которых нет в ФСНБ-2022 (доп. № 19), но есть в учебной базе ГРАНД-Сметы: ставим в каталог рядом с соседкой по таблице */
+/* расценки учебных смет, которых нет в ФСНБ-2022 (проверено на доп. № 19), но есть в учебной базе ГРАНД-Сметы: ставим в каталог рядом с соседкой по таблице */
 const UADD=(window.UCHEB&&window.UCHEB.add)||{};
 function uaddApply(){for(const [c,a] of Object.entries(UADD)){if(RI.r.some(r=>r[0]===c))continue;const j=RI.r.findIndex(r=>r[0]===a.like);if(j<0)continue;const s=RI.r[j],gn=String(RI.g[s[2]]||'').trim();
   RI.r.splice(c<a.like?j:j+1,0,[c,s[1],s[2],gn&&a.name.startsWith(gn)?a.name.slice(gn.length).trim():a.name,a.unit])}}
@@ -939,12 +939,13 @@ const RTAB=RI.t.map(()=>[]);RI.r.forEach((r,i)=>RTAB[r[1]].push(i));
 const RCNT={};RI.r.forEach(r=>{const k=ccOf(r[0]);RCNT[k]=(RCNT[k]||0)+1});
 /* ---------- редакции ФСНБ-2022. Действующая лежит в data/ целиком, прежние — файлы отличий data/ed/ed<id>_idx.js и ed<id>.js
    (tools/build_editions.py). Смета помнит редакцию (S.ed); смета без неё создана в изм. 1–19. Первая строка ED_LIST — действующая редакция ---------- */
-const ED_LIST=[['19','изм. 1–19','доп. № 19, приказ Минстроя России от 12.08.2026 № 527/пр'],
+const ED_LIST=[['20','изм. 1–20','доп. № 20, приказ Минстроя России от 10.11.2026 № 727/пр'],
+  ['19','изм. 1–19','доп. № 19, приказ Минстроя России от 12.08.2026 № 527/пр'],
   ['18','изм. 1–18','доп. № 18 и 18.1, приказы Минстроя России от 15.05.2026 № 301/пр и от 09.07.2026 № 435/пр'],
   ['17','изм. 1–17','доп. № 17, приказ Минстроя России от 17.02.2026 № 91/пр']];
 const ED_LATEST=ED_LIST[0][0],ED_OLD='19',EDF=new Set();
 const edOk=id=>ED_LIST.some(e=>e[0]===id),edName=id=>(ED_LIST.find(e=>e[0]===id)||[id,'изм. 1–'+id])[1],edAct=id=>(ED_LIST.find(e=>e[0]===id)||[])[2]||'';
-const edOfS=()=>edOk(S.ed)?S.ed:ED_OLD;
+const edOfS=()=>edOk(S.ed)?S.ed:ED_OLD,edActS=()=>{const a=edAct(edOfS());return a?a.replace(/^доп\. № /,'дополнение № ').replace(/, приказ/,' (приказ')+(/, приказ/.test(a)?')':''):'изменения 1–'+edOfS()};
 let ED_CUR=ED_LATEST,EDB=null;
 const ED0={c:RI.c.slice(),g:RI.g.slice(),t:RI.t.slice(),r:RI.r.slice()};
 const edD=()=>ED_CUR===ED_LATEST?null:(window.ED_DATA||{})[ED_CUR];
@@ -1131,7 +1132,7 @@ async function ensureExtRes(pos){const need=new Set();
 
 
 /* ---------- состояние ---------- */
-let S={name:'Новая смета',pos:[],idx:'',nds:false,level:LV_NEW,v44:1};
+let S={name:'Новая смета',pos:[],idx:'',nds:false,level:LV_NEW,v44:1,ed:ED_LATEST};
 const openRows=new Set();
 let sel=null, uid=1, hist=[], redo=[], tab='lsr', compact=false, saved=true;
 let pirSel=0,pirTab='t',pirParOpen=false,treeMode='',PIR_N=0;const PM=()=>S.mode==='pir';let ncsSel=0,ncsTab='t',ncsParOpen=false;const NM=()=>S.mode==='ncs';let TABS=[{}],TI=0;const TBK='rimora.tabs';
@@ -1422,7 +1423,7 @@ async function sample(real=true){if(keepAsk('Открыть пример?'))retu
   const list=real?[['01-01-009-02',180],['01-01-033-05',114.56],['11-01-002-01',13.44],['06-01-001-01',6],['06-01-005-06',46],['11-01-011-01',54],['11-01-011-02',54,4]]
     :[['УЧ01-01-002-01',180],['УЧ01-02-001-01',12],['УЧ11-01-001-01',14],['УЧ11-01-003-01',6],['УЧ06-01-001-01',46],['УЧ01-01-003-01',130]];
   try{await ensureReal(list.map(x=>x[0]))}catch(e){return toast('Не удалось загрузить данные примера')}
-  S={name:real?'Фундамент гаража (пример, ГЭСН-2022)':'Фундамент гаража (учебная база)',pos:[],idx:'',nds:false,level:LV_NEW};
+  S={name:real?'Фундамент гаража (пример, ГЭСН-2022)':'Фундамент гаража (учебная база)',pos:[],idx:'',nds:false,level:LV_NEW,ed:ED_LATEST};
   S.pos.push({id:uid++,sec:'Земляные работы и фундамент'});
   list.forEach(([c,q,kr])=>S.pos.push(kr?{id:uid++,code:c,qty:q,ks:[],kr}:{id:uid++,code:c,qty:q,ks:[]}));
   if(real){const VS=[['Разработка грунта в траншеях экскаватором, грунт 2 группы','м3','2*(6+9)*2,4*2,5','АР-3'],
@@ -1454,7 +1455,7 @@ function storeDoc(silent){const fresh=!S.docId;if(fresh){S.docId=newId();S.creat
 /* ---------- вкладки смет: несколько открытых смет, как в браузере. Открытая вкладка живёт в обычных переменных (S, история отмен, выделение),
    остальные хранят свой снимок состояния; вкладка, восстановленная после перезагрузки, грузится из «Моих смет» при первом открытии ---------- */
 const tabSnap=()=>({S,sel,hist,redo,lastSnap,saved,savedAt,tab,pirSel,ncsSel,pirTab,ncsTab});
-const tabBlank=()=>({S:{name:'Новая смета',pos:[],idx:'',nds:false,v44:1},sel:null,hist:[],redo:[],lastSnap:null,saved:true,savedAt:null,tab:'lsr'});
+const tabBlank=()=>({S:{name:'Новая смета',pos:[],idx:'',nds:false,v44:1,ed:ED_LATEST},sel:null,hist:[],redo:[],lastSnap:null,saved:true,savedAt:null,tab:'lsr'});
 function tabPut(o){S=o.S;sel=o.sel;hist=o.hist;redo=o.redo;lastSnap=o.lastSnap;saved=o.saved;savedAt=o.savedAt;tab=o.tab||'lsr';pirSel=o.pirSel||0;ncsSel=o.ncsSel||0;pirTab=o.pirTab||'t';ncsTab=o.ncsTab||'t';
   fixUid();msel.clear();openRows.clear();vorPick=null;renderPickBar();$('#docname').value=S.name||'';$$('#tabs>button').forEach(b=>b.classList.toggle('on',b.dataset.t===tab));setSaveChip()}
 const tabBusy=()=>!!(S.docId||S.pos.length||S.mode||(S.vor&&S.vor.length)||S.stroy);
@@ -2585,7 +2586,10 @@ function _renderInsp(){
   const p=S.pos.find(x=>x.id===sel);const el=$('#insp');
   if(!p||p.sec!==undefined){
     el.innerHTML=`<div class="ph">Карточка позиции</div><div class="insp-empty">${ic('rate','')}<p>Выберите строку в таблице, и здесь покажем, как посчитан каждый рубль.</p></div>`;return}
-  const c=calc(p),R=c.R;if(R.own)return renderInspOwn(p,c);if(R.ka)return renderInspKA(p,c);if(R.mr)return renderInspMR(p,c);if(R.trp)return renderInspTR(p,c);if(R.real)return renderInspReal(p,c);const k1=(x)=>x===1?'':` × ${fq(x)}`;
+  const c=calc(p),R=c.R;if(R.own)return renderInspOwn(p,c);if(R.ka)return renderInspKA(p,c);if(R.mr)return renderInspMR(p,c);if(R.trp)return renderInspTR(p,c);if(R.real)return renderInspReal(p,c);
+  /* №46а п. 18: пока расценки новой редакции или уровня цен догружаются, calc отдаёт заглушку без U — карточка показывает загрузку, а не падает */
+  if(!c.U){el.innerHTML=`<div class="ih"><span class="mono chip" style="background:var(--surface2);color:var(--ink2)">${esc(p.code||'')}</span><h3>${esc(R.name||'Загрузка данных…')}</h3></div>${(c.warn||[]).length?`<div class="sect"><p class="u">${c.warn.map(esc).join('<br>')}</p></div>`:''}`;return}
+  const k1=(x)=>x===1?'':` × ${fq(x)}`;
   const I=c.I;
   const line=(label,color,formula,val,big)=>`<div class="step ${big?'big':''}"><span class="d" style="background:${color}"></span><div><div class="l">${label}</div><div class="f">${formula}</div></div><div class="v num">${fmt(val)}</div></div>`;
   const fm=(u,k,i)=>`${fmt(u)} × ${fq(c.q)}${k!==1?' × '+fq(k):''}${i?' × '+fq(i):''}`;
@@ -2750,7 +2754,7 @@ function lsrModel(){const O=fopt();if(O.view==='grand')return lsrModelGrand(O);
   tot('st','затраты труда рабочих','','чел.-ч',tr2(tz.zt));tot('st','затраты труда машинистов','','чел.-ч',tr2(tz.ztm));
   const k1=x=>(Math.round(x/10)/100);
   const head={
-    req:[['Наименование программного продукта',APPV],['Наименование редакции сметных нормативов',S.base==='ucheb'?'':'ФСНБ-2022 (ГЭСН, ФСБЦ), открытые данные ФГИС ЦС от 12.08.2026, дополнение № 19'],
+    req:[['Наименование программного продукта',APPV],['Наименование редакции сметных нормативов',S.base==='ucheb'?'':'ФСНБ-2022 (ГЭСН, ФСБЦ), открытые данные ФГИС ЦС, '+edActS()],
       ['Реквизиты приказа Минстроя России об утверждении дополнений и изменений к сметным нормативам',S.base==='ucheb'?'УЧЕБНАЯ БАЗА':''],
       ['Реквизиты письма Минстроя России об индексах изменения сметной стоимости строительства',cur&&PR?PR.meta.letter:'не применяются (базисный уровень цен)'],
       ['Реквизиты нормативного правового акта об утверждении оплаты труда',cur?'сметные цены затрат труда, ФГИС ЦС, '+(PR?PR.meta.quarter:''):'—'],
@@ -2832,7 +2836,7 @@ function lsrModelGrand(O){
   if(S.nds){tot('st',`НДС ${B.nds}%`,T.nds);tot('stot2','ВСЕГО по смете с НДС',T.all)}
   const k1=x=>(Math.round(x/10)/100);
   const head={
-    req:[['Наименование программного продукта',APPV],['Наименование редакции сметных нормативов',S.base==='ucheb'?'':'ФСНБ-2022 (ГЭСН, ФСБЦ), дополнение № 19'],
+    req:[['Наименование программного продукта',APPV],['Наименование редакции сметных нормативов',S.base==='ucheb'?'':'ФСНБ-2022 (ГЭСН, ФСБЦ), '+edActS()],
       ['Реквизиты приказа Минстроя России об утверждении дополнений и изменений к сметным нормативам',S.base==='ucheb'?'УЧЕБНАЯ БАЗА':''],
       ['Реквизиты письма Минстроя России об индексах изменения сметной стоимости строительства',cur&&PR?PR.meta.letter:''],
       ['Реквизиты нормативного правового акта об утверждении оплаты труда, утвержденный в соответствии с пунктом 22(1) Правил мониторинга цен',cur?'сметные цены затрат труда, ФГИС ЦС, '+(PR?PR.meta.quarter:''):''],
@@ -6316,7 +6320,7 @@ function tplSave(){if(!S.pos.length)return toast('Смета пуста: шаб�
     if(tplStore(a)){dlgClose();toast(`Шаблон «${name}» сохранён: ${tplCount(pos)} ${tplWord(tplCount(pos))}`)}}}
 function dlgClose(){$('#dlgbg').classList.toggle('on',false)}
 async function tplInsert(t,asNew){if(asNew){if(S.pos.length&&!S.docId&&!saved&&!confirm('Начать новую смету из шаблона? Эта смета не сохранена и пропадёт.'))return;
-    S={name:t.name,pos:[],idx:'',nds:false,level:LV_NEW,v44:1};meApplyZone();sel=null;msel.clear();hist=[];redo=[];lastSnap=null;vorPick=null;renderPickBar();$('#docname').value=S.name;if(t.base&&t.base!=='fsnb')S.base=t.base}
+    S={name:t.name,pos:[],idx:'',nds:false,level:LV_NEW,v44:1,ed:ED_LATEST};meApplyZone();sel=null;msel.clear();hist=[];redo=[];lastSnap=null;vorPick=null;renderPickBar();$('#docname').value=S.name;if(t.base&&t.base!=='fsnb')S.base=t.base}
   const add=t.pos.map(p=>{const c=JSON.parse(JSON.stringify(p));c.id=uid++;return c});
   try{await ensureReal(add.filter(x=>x.code&&!x.ka&&!x.tr&&!x.mr).map(x=>x.code));await ensureExtRes(add);if(add.some(x=>x.tr||x.ka&&x.ka.tr&&x.ka.tr.on))await ensureTR()}catch(e){}
   dlgClose();if(tab!=='lsr')setTab('lsr');const i=sel?S.pos.findIndex(x=>x.id===(selIds().slice(-1)[0]??sel)):-1;S.pos.splice(i>=0?i+1:S.pos.length,0,...add);msel.clear();sel=add.length?add[add.length-1].id:sel;
