@@ -152,7 +152,7 @@ async function saveCode(u, code) {
   catch (e) { if (e.message !== '401') toast('Код не сохранился для просмотра: запишите его сейчас'); return false; }
 }
 let KEY = ''; try { KEY = sessionStorage.getItem('rimora_admin') || ''; } catch (e) {}
-let USERS = [], PLANS = [], HASPLANS = false, NOW = Date.now(), FILTER = 'all', AIM, HASAI = false;
+let USERS = [], PLANS = [], HASPLANS = false, NOW = Date.now(), FILTER = 'all', AIM, HASAI = false, DISK = null, FQ = 300;
 const MON = ['январе', 'феврале', 'марте', 'апреле', 'мае', 'июне', 'июле', 'августе', 'сентябре', 'октябре', 'ноябре', 'декабре'];
 // модули программы: ключ как в const SVC (maket/index.html) и название как в окне «Сервисы»
 const MODS = [['object','Папка объекта'],['kpbase','Моя база КП'],['examples','Сметы-примеры'],['measure','Обмер на объекте'],['nonorm','Работа без нормы'],['contract','Смета контракта и выполнение'],['addwork','Дополнительные работы'],
@@ -192,6 +192,8 @@ async function load() {
   USERS = j.users; NOW = j.now || Date.now();
   // личный кабинет (№17): лимит Помощи ИИ и места на коде; старый сервер их не присылает — колонка скрыта
   AIM = j.ai_month; HASAI = USERS.length ? 'ai_limit' in USERS[0] : AIM !== undefined;
+  // облако кабинета (№30): занятость диска сервера и лимит файлов по умолчанию; старый сервер их не присылает
+  DISK = j.disk || null; FQ = j.file_quota_mb || 300;
   // старый сервер без тарифов (до №25): кабинет работает как раньше, блок тарифов и модулей скрыт
   try { PLANS = (await api('GET', '/v1/admin/plans')).plans; HASPLANS = true; } catch (e) { if (e.message === '401') throw e; PLANS = []; HASPLANS = false; }
   $('#plansc').classList.toggle('hide', !HASPLANS); $('#aplan').closest('label').classList.toggle('hide', !HASPLANS);
@@ -217,7 +219,8 @@ function render() {
   USERS.forEach(u => { const s = state(u)[0]; cnt[s]++; if (s === 'soon') cnt.ok++; });
   const ST = [['all', 'Всего'], ['ok', 'Действуют'], ['soon', 'Истекают за 7 дней'], ['expired', 'Срок истёк'], ['closed', 'Закрыты']];
   $('#stats').innerHTML = ST.map(([k, t]) => `<div class="stat${FILTER === k ? ' on' : ''}" data-f="${k}"><b>${cnt[k]}</b><span>${t}</span></div>`).join('')
-    + (HASAI ? `<div class="stat info" title="Вопросы к Помощи ИИ от пользователей с личным кодом в этом месяце"><b>${AIM ?? 0}</b><span>Вопросов ИИ в ${MON[new Date().getMonth()]}</span></div>` : '');
+    + (HASAI ? `<div class="stat info" title="Вопросы к Помощи ИИ от пользователей с личным кодом в этом месяце"><b>${AIM ?? 0}</b><span>Вопросов ИИ в ${MON[new Date().getMonth()]}</span></div>` : '')
+    + (DISK ? `<div class="stat info" title="Диск сервера: базы, сметы и файлы пользователей. С 70 % пора увеличить диск или вынести файлы в объектное хранилище"${DISK.warn ? ' style="border-color:var(--dng,#C0392B);color:var(--dng,#C0392B)"' : ''}><b>${Math.round(DISK.pct)} %</b><span>${DISK.warn ? 'Диск почти заполнен' : 'Диск сервера занят'}, свободно ${(DISK.free / 2 ** 30).toFixed(1).replace('.', ',')} ГБ</span></div>` : '');
   const q = $('#q').value.trim().toLowerCase();
   const L = USERS.filter(u => {
     const s = state(u)[0];
@@ -239,8 +242,10 @@ function render() {
 function aiDev(u) {
   const full = (n, m) => m != null && n >= m ? ' style="color:var(--dng,#C0392B)"' : '';
   return `<b${full(u.ai_used, u.ai_limit)}>${u.ai_used ?? 0}${u.ai_limit != null ? ' из ' + u.ai_limit : ''}</b> <span class="cell2">вопросов ИИ${u.ai_limit == null ? ', без лимита' : ''}</span><br>`
-    + `<b${full(u.devices, u.seats)}>${u.devices ?? 0}${u.seats != null ? ' из ' + u.seats : ''}</b> <span class="cell2">${u.seats != null ? 'мест занято' : 'устройств, без ограничения'}</span>`;
+    + `<b${full(u.devices, u.seats)}>${u.devices ?? 0}${u.seats != null ? ' из ' + u.seats : ''}</b> <span class="cell2">${u.seats != null ? 'мест занято' : 'устройств, без ограничения'}</span>`
+    + ('files' in u ? `<br><b${full(u.files, (u.quota ?? FQ) * 1048576 * 0.8)}>${mb(u.files)}</b> <span class="cell2">файлов из ${u.quota ?? FQ} МБ</span>` : '');
 }
+const mb = n => (n || 0) < 1048576 ? Math.round((n || 0) / 1024) + ' КБ' : ((n || 0) / 1048576).toFixed(1).replace('.', ',') + ' МБ';
 // сметы пользователя: на устройстве, где он последний раз открывал программу, и в облаке, если оно включено
 function smetas(u) {
   if (u.smetas == null && !u.cloud) return '<span class="muted">—</span>';
@@ -312,9 +317,11 @@ $('#list').onclick = async e => {
         <div class="muted" style="font-size:12px;margin-top:4px">В этом месяце задано: ${u.ai_used ?? 0}. Пусто — без лимита. Лимит обновляется 1-го числа.</div>
         <label class="f" style="margin-top:12px">Мест (устройств) на коде<input type="number" name="se" min="0" max="1000" value="${u.seats ?? ''}" placeholder="без ограничения"></label>
         <div class="muted" style="font-size:12px;margin-top:4px">Для кода группы: сколько компьютеров и телефонов могут работать по одному коду. Считаются устройства за 90 дней, сейчас: ${u.devices ?? 0}.</div>
-        <label style="display:flex;gap:6px;align-items:center;margin-top:10px"><input type="checkbox" name="rd"> Сбросить устройства (сменил компьютер или телефон)</label>`);
+        <label style="display:flex;gap:6px;align-items:center;margin-top:10px"><input type="checkbox" name="rd"> Сбросить устройства (сменил компьютер или телефон)</label>
+        ${'files' in u ? `<label class="f" style="margin-top:12px">Файлов в облаке кабинета, МБ<input type="number" name="fq" min="0" max="100000" value="${u.quota ?? ''}" placeholder="${FQ} (по умолчанию)"></label>
+        <div class="muted" style="font-size:12px;margin-top:4px">Файлы объектов, приложения к ответам, фото обмера. Сейчас занято: ${mb(u.files)}. Пусто — ${FQ} МБ.</div>` : ''}`);
       if (!d) return; const f = $('#dlgf'), num = v => v.trim() === '' ? null : Math.max(0, Math.round(+v));
-      const body = { ai_limit: num(f.ai.value), seats: num(f.se.value) }; if (f.rd.checked) body.devices = null;
+      const body = { ai_limit: num(f.ai.value), seats: num(f.se.value) }; if (f.rd.checked) body.devices = null; if (f.fq) body.quota = num(f.fq.value);
       await put(body); toast('Лимиты сохранены');
     }
     else if (a === 'mods') {

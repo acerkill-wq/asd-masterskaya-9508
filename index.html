@@ -1540,7 +1540,8 @@ window.addEventListener('hashchange',()=>{if(location.hash.startsWith('#pf1.'))p
 const CLOUD_DEF='https://rimora.45-10-244-45.sslip.io';
 const CK='sm_cloud_key',CREV='sm_cloud_rev',CDIRTY='sm_cloud_dirty',CDEL='sm_cloud_del';
 const cloudUrl=()=>lsGet('sm_cloud_url')||CLOUD_DEF;
-const cloudKey=()=>lsGet(CK);
+const CAB='sm_cab',cabH=()=>{const h=myHash();return h&&lsGet(CAB)===h?h:''};
+const cloudKey=()=>{const h=cabH();return h?'u:'+h:lsGet(CK)};
 const jget=(k,d)=>{try{const v=JSON.parse(lsGet(k)||'null');return v??d}catch(e){return d}};
 const jset=(k,v)=>{try{lsSet(k,JSON.stringify(v))}catch(e){}};
 const revs=()=>jget(CREV,{}),dirty=()=>jget(CDIRTY,[]),pdel=()=>jget(CDEL,[]);
@@ -1559,7 +1560,8 @@ async function cloudSync(){if(!cloudKey())return;if(cloudBusy){cloudAgain=true;r
     // 1. удаления, сделанные здесь без связи
     for(const id of pdel()){const r=await capi('DELETE','/v1/docs/'+encodeURIComponent(id));if(r.status===200||r.status===404){jset(CDEL,pdel().filter(x=>x!==id));setRev(id,r.j.rev||null)}}
     const L=await capi('GET','/v1/docs');
-    if(L.status===401){cloudSt={ok:false,at:null,msg:'Сервер не принял ключ облака. Подключите облако заново по ссылке с другого устройства'};return}
+    if(L.status===401){cloudSt={ok:false,at:null,msg:cabH()?'Сервер не узнал личный код. Войдите по коду заново':'Сервер не принял ключ облака. Подключите облако заново по ссылке с другого устройства'};return}
+    if(L.status===403){cloudSt={ok:false,at:null,msg:'Доступ по личному коду закрыт: облако кабинета недоступно. Данные этого браузера на месте'};return}
     if(L.status!==200)throw new Error('list');
     const D=new Set(dirty()),PD=new Set(pdel()),loc=new Set(docIndex().map(x=>x.id));
     // 2. новое и удалённое на других устройствах
@@ -1568,25 +1570,30 @@ async function cloudSync(){if(!cloudKey())return;if(cloudBusy){cloudAgain=true;r
         else if(loc.has(d.id)){setDirty(d.id,true);D.add(d.id)}else setRev(d.id,d.rev);continue}
       if(D.has(d.id)&&loc.has(d.id))continue;
       const g=await capi('GET','/v1/docs/'+encodeURIComponent(d.id));if(g.status!==200)continue;
+      if(pdCut()&&!g.j.doc.party){const o=jp(lsGet(SKD+d.id));if(o&&o.party)g.j.doc.party=o.party}
       writeLocal(d.id,g.j.doc,{...g.j.meta,updated:g.j.updated});setRev(d.id,g.j.rev);changed=true;
       if(S.docId===d.id&&saved){await loadDoc(JSON.parse(lsGet(SKD+d.id)),true);toast('Смета обновлена: её правили на другом устройстве')}}
     // 3. своё: правленное здесь и ещё не бывавшее в облаке
     const srv=new Map(L.j.docs.map(d=>[d.id,d]));
     for(const m of docIndex()){const id=m.id;if(!D.has(id)&&revs()[id]&&srv.has(id)&&!srv.get(id).deleted)continue;
       const raw=lsGet(SKD+id);if(!raw)continue;let doc;try{doc=JSON.parse(raw)}catch(e){continue}
-      const meta={...m};delete meta.id;
+      const meta={...m};delete meta.id;doc=pdDoc(doc);
       let r=await capi('PUT','/v1/docs/'+encodeURIComponent(id),{doc,meta,base_rev:revs()[id]||0});
       if(r.status===409){
         // смету правили сразу на двух устройствах: ничего не теряем, версию с другого устройства кладём рядом копией
         if(!r.j.deleted){const nid=newId(),cd=r.j.doc;cd.name=(cd.name||'Смета')+' (с другого устройства)';cd.created=Date.now();writeLocal(nid,cd,{...r.j.meta,name:cd.name,updated:r.j.updated});setDirty(nid,true);conflicts++;changed=true}
         r=await capi('PUT','/v1/docs/'+encodeURIComponent(id),{doc,meta,base_rev:r.j.rev})}
       if(r.status===200){setRev(id,r.j.rev);setDirty(id,false)}
-      else if(r.status===507){cloudSt={ok:false,at:new Date(),msg:'В облаке не хватает места для ваших смет'};return}}
+      else if(r.status===507){cloudSt={ok:false,at:new Date(),msg:'В облаке не хватает места для ваших смет'};return}
+      else if(r.status===403){cloudSt={ok:false,at:new Date(),msg:'Срок доступа истёк: сметы в облаке только читаются. Скачать всё можно в личном кабинете'};return}}
     cloudSt={ok:true,at:new Date(),msg:conflicts?'Смета правилась на двух устройствах сразу: версия с другого устройства сохранена рядом с пометкой «(с другого устройства)»':''};
     if(conflicts)toast(cloudSt.msg);
   }catch(e){cloudSt={ok:false,at:cloudSt.at,msg:'Нет связи с облаком. Сметы сохраняются в браузере и уйдут в облако, когда связь появится'}}
   finally{cloudBusy=false;setSaveChip();if(changed||$('#docsw'))renderDocs();if(conflicts||cloudAgain){cloudAgain=false;setTimeout(cloudSync,600)}}}
 function cloudBar(){const k=cloudKey(),b=(a,t,pri)=>`<button class="btn sm${pri?' pri':''}" data-ca="${a}">${t}</button>`,row=x=>`<div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">${x}</div>`;
+  if(myHash()&&!cabH())return `<div class="where">${ic('send')}<div><b>Личный кабинет.</b> Данные этого браузера ещё не перенесены в кабинет, поэтому на других устройствах их не видно. Перенос ничего не удаляет из браузера.${row(b('cab','Перенести в кабинет',1)+b('all','Скачать всё'))}</div></div>`;
+  if(cabH()){const st=cloudSt.ok===false?cloudSt.msg:cloudSt.at?'Синхронизировано в '+cloudSt.at.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})+'.'+(cloudSt.msg?' '+cloudSt.msg:''):'Синхронизирую…';
+    return `<div class="where">${ic('send')}<div><b>Личный кабинет в облаке.</b> Сметы, данные сервисов и файлы открываются на любом устройстве, где вы вошли по коду. ${esc(st)}${kvSt.msg?' '+esc(kvSt.msg):''}${fSt.msg?' '+esc(fSt.msg):''}${row(b('sync','Синхронизировать сейчас',1)+b('melink','Римора на другом устройстве')+b('all','Скачать всё'))}</div></div>`}
   if(!k)return `<div class="where">${ic('send')}<div><b>Облако выключено.</b> Включите, чтобы сметы были на всех ваших компьютерах и телефоне: они хранятся на сервере Риморы в России и подтягиваются сами. Почта и пароль не нужны: облако работает по личному ключу.${row(b('on','Включить облако',1)+b('join','У меня есть ключ'))}</div></div>`;
   const st=cloudSt.ok===false?cloudSt.msg:cloudSt.at?'Синхронизировано в '+cloudSt.at.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})+'.'+(cloudSt.msg?' '+cloudSt.msg:''):'Синхронизирую…';
   return `<div class="where">${ic('send')}<div><b>Облако включено.</b> ${esc(st)}${row(b('link','Подключить другое устройство',1)+b('sync','Синхронизировать сейчас')+b('off','Отключить на этом устройстве'))}</div></div>`}
@@ -1598,7 +1605,11 @@ async function cloudAction(a){
     catch(e){toast('Нет связи с облаком Риморы. Проверьте интернет и попробуйте ещё раз')}}
   else if(a==='join'){const k=keyOf(prompt('Вставьте ссылку подключения или ключ облака (начинается с rk_):'));if(!k)return;const st=await cloudCheck(k);
     if(st===200){useKey(k);toast('Облако подключено, загружаю сметы')}else toast(st===401?'Такого ключа нет в облаке':'Нет связи с облаком Риморы')}
-  else if(a==='sync'){await cloudSync();toast(cloudSt.ok?'Сметы синхронизированы':cloudSt.msg)}
+  else if(a==='sync'){await cloudSync();if(cabH()){await kvSync();await fileSync()}toast(cloudSt.ok?(cabH()?'Кабинет синхронизирован':'Сметы синхронизированы'):cloudSt.msg)}
+  else if(a==='cab')cabAsk(await cabCount());
+  else if(a==='melink')meLink();
+  else if(a==='all')dlAll();
+  else if(a==='rest')restPick();
   else if(a==='off'){if(!confirm('Отключить облако на этом устройстве? Сметы останутся и в этом браузере, и в облаке. Чтобы подключиться снова, понадобится ссылка с другого устройства.'))return;[CK,CREV,CDIRTY,CDEL].forEach(lsDel);cloudSt={ok:null,at:null,msg:''};renderDocs();setSaveChip();toast('Облако отключено на этом устройстве')}
   else if(a==='link')openCloudLink()}
 document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-ca]');if(b)cloudAction(b.dataset.ca)});
@@ -1617,8 +1628,182 @@ async function takeKey(){const k=keyOf(location.hash);const clear=()=>history.re
   <div style="display:flex;gap:8px;justify-content:flex-end"><button class="btn" id="ckno">Не подключать</button><button class="btn pri" id="ckok">Подключить</button></div>`);
   fitDlg();const close=()=>{clear();$('#dlgbg').classList.remove('on')};$('#ckx').onclick=close;$('#ckno').onclick=close;
   $('#ckok').onclick=async()=>{close();const st=await cloudCheck(k);if(st===200){useKey(k);toast('Облако подключено, загружаю сметы')}else toast(st===401?'Такого ключа нет в облаке':'Нет связи с облаком Риморы, попробуйте позже')}}
-let cloudLast=0;document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&cloudKey()&&Date.now()-cloudLast>20000){cloudLast=Date.now();cloudSync()}});
-setInterval(()=>{if(document.visibilityState==='visible'&&cloudKey())cloudSync()},120000);
+let cloudLast=0;document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&cloudKey()&&Date.now()-cloudLast>20000){cloudLast=Date.now();cloudSync();if(cabH())kvSync()}});
+setInterval(()=>{if(document.visibilityState==='visible'&&cloudKey()){cloudSync();if(cabH())kvSync().then(fileSync)}},120000);
+/* ---------- личный кабинет в облаке (бэклог №30) ----------
+   Вход по личному коду открывает облако тем же отпечатком: Bearer u:<SHA-256 кода> (cabH). Синхронизируются сметы (cloudSync),
+   данные сервисов KVK (одна запись kv на хранилище браузера) и файлы IndexedDB: rimora_object (o), rimora_answers (a), rimora_measure (m).
+   Хранилища сливаются трёхсторонним слиянием mg3 со снимком последней синхронизации (IndexedDB rimora_sync): записи с id сливаются по id,
+   записи без id — по содержимому, правка с одного устройства не затирает правку с другого, удалённое не возвращается.
+   Файлы: в облако по SHA-256, карта «файл браузера → SHA» в хранилище rimora.files; на другом устройстве файл приходит при первом открытии.
+   ПДн третьих лиц (стороны и подписанты S.party смет, клиент в заказах фрилансера) не уходят в облако, пока PD_CUT и нет согласия
+   пользователя на сервере (ME.pd.ver). PD_CUT=false отключает вырезание (сейчас так, на время тестов). PD_POLICY — версия политики; пока пусто, галочка согласия скрыта. */
+const PD_CUT=false,PD_POLICY='';  // решение Ильдара 27.11: пока тестируем, ПДн идут в облако как есть; перед запуском для пользователей PD_CUT=true и политика
+const KVK=['rimora.kpbase','rimora.answers','rimora.objects','rimora.freelance','rimora.portfolio','rimora.nonorm.tpl','rimora.tpl','rimora.watch','rimora.stroyki','rimora.diy','rimora.svc','rimora.me','rimora.reqdef','rimora.defzone','rimora.files'];
+const KVS=new Set(KVK),KV_DATA=KVK.slice(0,10),FMAP='rimora.files',FQK='sm_fq';
+const jp=s=>{if(s==null)return undefined;try{return JSON.parse(s)}catch(e){return undefined}};
+const pdCut=()=>PD_CUT&&!(ME&&ME.pd&&ME.pd.ver);
+const pdDoc=d=>{if(!pdCut()||!d||!d.party)return d;const x={...d};delete x.party;return x};
+function pdVal(k,v){if(!pdCut()||k!=='rimora.freelance'||!v||!Array.isArray(v.orders))return v;
+  return {...v,orders:v.orders.map(o=>{if(!o||!('client' in o))return o;const x={...o};delete x.client;return x})}}
+function pdBack(k,m,loc){if(!pdCut()||k!=='rimora.freelance'||!m||!Array.isArray(m.orders)||!loc||!Array.isArray(loc.orders))return m;
+  const L=new Map(loc.orders.filter(o=>o&&o.id).map(o=>[o.id,o]));
+  return {...m,orders:m.orders.map(o=>{const l=o&&L.get(o.id);return l&&('client' in l)&&!('client' in o)?{...o,client:l.client}:o})}}
+// трёхстороннее слияние: b — снимок последней синхронизации (undefined — его нет), l — этот браузер, r — облако
+function mg3(b,l,r){const J=JSON.stringify,A=Array.isArray,O=x=>!!x&&typeof x==='object'&&!A(x);
+  if(J(l)===J(r))return l;if(b!==undefined&&J(l)===J(b))return r;if(b!==undefined&&J(r)===J(b))return l;
+  if(A(l)&&A(r)){const bb=A(b)?b:[],idd=a=>a.every(e=>O(e)&&e.id!=null),byId=idd(l)&&idd(r)&&idd(bb),key=e=>byId?'#'+e.id:J(e);
+    const Bm=new Map(bb.map(e=>[key(e),e])),Lm=new Map(l.map(e=>[key(e),e])),Rm=new Map(r.map(e=>[key(e),e])),out=[];
+    for(const e of l){const k=key(e);if(Rm.has(k))out.push(byId?mg3(Bm.get(k),e,Rm.get(k)):e);else if(!Bm.has(k)||J(Bm.get(k))!==J(e))out.push(e)}
+    for(const e of r){const k=key(e);if(!Lm.has(k)&&(!Bm.has(k)||J(Bm.get(k))!==J(e)))out.push(e)}
+    return out}
+  if(O(l)&&O(r)){const bo=O(b)?b:{},out={};
+    for(const k of new Set([...Object.keys(l),...Object.keys(r)])){const inL=k in l,inR=k in r,inB=k in bo;
+      if(inL&&inR)out[k]=mg3(inB?bo[k]:undefined,l[k],r[k]);else if(inL){if(!inB||J(bo[k])!==J(l[k]))out[k]=l[k]}else if(!inB||J(bo[k])!==J(r[k]))out[k]=r[k]}
+    return out}
+  return l}
+let SYDB=null;const syDb=()=>SYDB||(SYDB=new Promise((ok,bad)=>{try{const q=indexedDB.open('rimora_sync',1);q.onupgradeneeded=()=>q.result.createObjectStore('b');q.onsuccess=()=>ok(q.result);q.onerror=()=>bad(q.error)}catch(e){bad(e)}}));
+async function syGet(k){try{const db=await syDb();return await new Promise(ok=>{const q=db.transaction('b').objectStore('b').get(k);q.onsuccess=()=>ok(q.result||null);q.onerror=()=>ok(null)})}catch(e){return null}}
+async function sySet(k,v){try{const db=await syDb();await new Promise(ok=>{const x=db.transaction('b','readwrite');x.objectStore('b').put(v,k);x.oncomplete=ok;x.onerror=ok})}catch(e){}}
+async function syClear(){try{const db=await syDb();await new Promise(ok=>{const x=db.transaction('b','readwrite');x.objectStore('b').clear();x.oncomplete=ok;x.onerror=ok})}catch(e){}}
+// правка любого хранилища кабинета запускает синхронизацию через 2,5 с
+let kvBusy=false,kvAgain=false,kvTm=null,kvQuiet=false,kvSt={ok:null,at:null,msg:''};
+{const si=Storage.prototype.setItem;Storage.prototype.setItem=function(k,v){si.call(this,k,v);if(!kvQuiet&&KVS.has(k)&&this===window.localStorage)kvMark()}}
+function kvMark(){if(!cabH())return;clearTimeout(kvTm);kvTm=setTimeout(kvSync,2500)}
+function lsQuiet(k,v){kvQuiet=true;try{localStorage.setItem(k,v)}catch(e){}finally{kvQuiet=false}}
+async function kvSync(){if(!cabH())return;if(kvBusy){kvAgain=true;return}kvBusy=true;const got=[],J=JSON.stringify;let ro=false,okAll=true,full=false,msg='';
+  try{const L=await capi('GET','/v1/kv');
+    if(L.status!==200){kvSt={ok:false,at:kvSt.at,msg:L.status===403?'Доступ по коду закрыт: данные сервисов остаются в этом браузере':''};return}
+    const srv=new Map((L.j.kv||[]).map(x=>[x.key,x.rev]));
+    for(const k of KVK){const lv=jp(lsGet(k)),loc=pdVal(k,lv),B=await syGet('kv:'+k),bv=B?jp(B.v):undefined,br=B?B.rev:0,sr=srv.get(k)||0;
+      let rem,rr=sr;
+      if(sr&&sr!==br){const g=await capi('GET','/v1/kv/'+encodeURIComponent(k));if(g.status!==200){okAll=false;continue}rem=g.j.data;rr=g.j.rev}
+      else if(sr)rem=bv;
+      if(loc===undefined&&rem===undefined)continue;
+      const m=loc===undefined?rem:rem===undefined?loc:mg3(bv,loc,rem);
+      if(rem!==undefined&&J(m)!==J(loc)){lsQuiet(k,J(pdBack(k,m,lv)));got.push(k)}
+      if(!ro&&(rem===undefined||J(m)!==J(rem))){const r=await capi('PUT','/v1/kv/'+encodeURIComponent(k),{data:m,base_rev:rr});
+        if(r.status===200)await sySet('kv:'+k,{rev:r.j.rev,v:J(m)});
+        else{okAll=false;if(r.status===409)kvAgain=true;else if(r.status===403){ro=true;msg='Срок доступа истёк: данные кабинета только читаются.'}
+          else if(r.status===507){full=true;msg='В облаке кабинета не хватает места для данных сервисов.';break}
+          else if(r.status===413)msg='Одно из хранилищ больше 5 МБ и осталось только в этом браузере.';
+          if(rem!==undefined)await sySet('kv:'+k,{rev:rr,v:J(rem)})}}
+      else if(rem!==undefined)await sySet('kv:'+k,{rev:rr,v:J(rem)})}
+    kvSt={ok:!full,at:new Date(),msg};
+    if(got.length)kvGot(got);
+    if(okAll&&!kvAgain)fileGc();
+  }catch(e){kvSt={ok:false,at:kvSt.at,msg:''}}
+  finally{kvBusy=false;if(kvAgain){kvAgain=false;setTimeout(kvSync,800)}}}
+// пришли данные с другого устройства: сбросить кэши сервисов, перерисовать открытое
+function kvGot(L){try{DY=null}catch(e){}if(L.includes('rimora.svc'))svcApply();if(L.includes('rimora.me'))meAvatar();
+  if($('#docsw'))renderDocs();if(L.some(k=>k!==FMAP))toast('Данные кабинета обновлены с другого устройства')}
+// файлы: o — папка объекта, a — приложения к ответам экспертизе, m — фото обмера ({blob,w,h,t,room})
+const FST={o:'f',a:'f',m:'ph'},fdb=s=>s==='o'?obfDb():s==='a'?ansDb():msDb(),fBlob=(s,v)=>s==='m'?v&&v.blob:v,fmap=()=>jget(FMAP,{});
+async function fRaw(s,id){try{const db=await fdb(s);return await new Promise(ok=>{const q=db.transaction(FST[s]).objectStore(FST[s]).get(id);q.onsuccess=()=>ok(q.result||null);q.onerror=()=>ok(null)})}catch(e){return null}}
+async function fKeys(s){try{const db=await fdb(s);return await new Promise(ok=>{const q=db.transaction(FST[s]).objectStore(FST[s]).getAllKeys();q.onsuccess=()=>ok(q.result||[]);q.onerror=()=>ok([])})}catch(e){return []}}
+async function sha256hex(b){const d=await crypto.subtle.digest('SHA-256',await b.arrayBuffer());return [...new Uint8Array(d)].map(x=>x.toString(16).padStart(2,'0')).join('')}
+let fTm=null,fBusy=false,fSt={msg:''};
+function fQueue(k){const q=jget(FQK,[]);if(!q.includes(k)){q.push(k);jset(FQK,q)}clearTimeout(fTm);fTm=setTimeout(fileSync,3000)}
+const fUnq=k=>jset(FQK,jget(FQK,[]).filter(x=>x!==k));
+const P0={o:obfPut,a:ansPut,m:msPut};
+obfPut=(f=>async(id,v)=>{const r=await f(id,v);if(cabH())fQueue('o:'+id);return r})(obfPut);
+ansPut=(f=>async(id,v)=>{const r=await f(id,v);if(cabH())fQueue('a:'+id);return r})(ansPut);
+msPut=(f=>async(id,v)=>{const r=await f(id,v);if(cabH())fQueue('m:'+id);return r})(msPut);
+{const wd=(s,f)=>async id=>{const r=await f(id),k=s+':'+id,M=fmap();if(M[k]){delete M[k];jset(FMAP,M)}fUnq(k);return r};
+ obfDelBlob=wd('o',obfDelBlob);ansDelBlob=wd('a',ansDelBlob);msDelPh=wd('m',msDelPh);
+ // файла нет в этом браузере, но он есть в кабинете: скачать при первом открытии и оставить копию здесь
+ const wg=(s,f)=>async id=>{const v=await f(id);if(v||!cabH())return v;const e=fmap()[s+':'+id];if(!e||!e.sha)return v;
+   try{const r=await fetch(cloudUrl()+'/v1/files/'+e.sha,{headers:{'Authorization':'Bearer '+cloudKey()}});if(!r.ok)return v;const b=await r.blob();
+     const x=s==='m'?{...(e.x||{}),blob:new Blob([b],{type:e.ty||'image/jpeg'})}:new File([b],e.n||'файл',{type:e.ty||b.type||''});
+     await P0[s](id,x);return x}catch(_){return v}};
+ obfGet=wg('o',obfGet);ansGet=wg('a',ansGet);msGet=wg('m',msGet)}
+async function fileSync(){if(!cabH()||fBusy)return;fBusy=true;
+  try{for(const k of jget(FQK,[])){const s=k[0],id=k.slice(2),v=await fRaw(s,id),b=fBlob(s,v);if(!b){fUnq(k);continue}
+      const sha=await sha256hex(b),nm=s==='m'?'Фото обмера '+id+'.jpg':(b.name||'файл'),ty=b.type||'';
+      const r=await fetch(cloudUrl()+'/v1/files/'+sha,{method:'PUT',headers:{'Authorization':'Bearer '+cloudKey(),'Content-Type':ty||'application/octet-stream','X-Name':encodeURIComponent(nm)},body:b});
+      if(r.status===200){const M=fmap();M[k]={sha,n:nm,ty,s:b.size,...(s==='m'?{x:{w:v.w,h:v.h,t:v.t,room:v.room}}:{})};jset(FMAP,M);fUnq(k);fSt.msg=''}
+      else if(r.status===507){fSt.msg='Файлы не помещаются в лимит кабинета: часть файлов есть только в этом браузере.';break}
+      else if(r.status===403){fSt.msg='Срок доступа истёк: новые файлы остаются в этом браузере.';break}
+      else if(r.status===413)fUnq(k);else break}}
+  catch(e){}finally{fBusy=false}}
+// файлы, на которые больше нет ссылок ни на одном устройстве (карта уже слита), стираются из облака через сутки
+async function fileGc(){if(fileGc.done||jget(FQK,[]).length)return;fileGc.done=1;try{const L=await capi('GET','/v1/files');if(L.status!==200)return;
+  const used=new Set(Object.values(fmap()).map(e=>e.sha));for(const f of L.j.files||[])if(!f.deleted&&!used.has(f.sha)&&Date.now()-f.created>864e5)await capi('DELETE','/v1/files/'+f.sha)}catch(e){}}
+// вход по коду: попросить браузер хранить данные постоянно, перенести данные браузера в кабинет
+let PERSIST=null;
+async function cabStart(){const h=myHash();if(!h)return;
+  try{if(navigator.storage&&navigator.storage.persist)PERSIST=(await navigator.storage.persisted())||(await navigator.storage.persist())}catch(e){}
+  if(cabH()){await kvSync();return fileSync()}
+  const C=await cabCount();
+  if(!C.docs&&!C.kv&&!C.files&&!lsGet(CK))return cabOn(true);
+  if(lsGet('sm_cab_asked')!==h&&!$('#dlgbg').classList.contains('on')){lsSet('sm_cab_asked',h);cabAsk(C)}}
+async function cabCount(){let kv=0,bytes=0,files=0,fb=0;const docs=docIndex().length;
+  for(const k of KV_DATA){const v=lsGet(k);if(v&&!/^(\[\]|\{\}|null)$/.test(v)){kv++;bytes+=v.length}}
+  for(const m of docIndex())bytes+=(lsGet(SKD+m.id)||'').length;
+  for(const s of 'oam')for(const id of await fKeys(s)){const b=fBlob(s,await fRaw(s,id));if(b){files++;fb+=b.size}}
+  return {docs,kv,bytes:bytes*2,files,fb}}
+const mbs=n=>n<1048576?Math.max(1,Math.round(n/1024))+' КБ':(n/1048576).toFixed(1).replace('.',',')+' МБ';
+function cabAsk(C){const old=lsGet(CK);
+  dlg(`<div class="dch"><h3>${ic('send')} Перенести данные этого браузера в личный кабинет</h3><button class="x" id="cabX" aria-label="Закрыть">×</button></div>
+  <p class="u" style="margin:8px 0 10px">Сейчас это лежит только в этом браузере:</p>
+  <ul class="u" style="margin:0 0 10px 18px;padding:0;line-height:1.6"><li>смет: <b>${C.docs}</b>${old?' (облако этого браузера тоже перейдёт в кабинет)':''}</li><li>сервисов с данными (база КП, ответы экспертизе, объекты, заказы и другие): <b>${C.kv}</b></li><li>файлов: <b>${C.files}</b>${C.files?', '+mbs(C.fb):''}</li></ul>
+  <p class="u" style="margin:0 0 12px">После переноса всё это будет на любом устройстве, где вы вошли по коду. Из браузера ничего не удаляется. Если в кабинете уже есть данные с другого устройства, оба набора сольются.</p>
+  ${PD_CUT?`<div class="tip" style="margin-bottom:12px">${ic('help')}<div>Стороны и подписанты смет и клиенты в заказах остаются только в этом браузере.</div></div>`:''}
+  <div style="display:flex;gap:8px;justify-content:flex-end"><button class="btn" id="cabNo">Позже</button><button class="btn pri" id="cabOk">Перенести</button></div>`);
+  fitDlg();const close=()=>$('#dlgbg').classList.remove('on');$('#cabX').onclick=close;$('#cabNo').onclick=close;
+  $('#cabOk').onclick=async()=>{close();toast('Переношу данные в кабинет…');if(await cabOn())toast('Данные перенесены в личный кабинет')}}
+async function cabOn(quiet){const h=myHash();if(!h)return false;const old=lsGet(CK);
+  if(old){let r=null;try{r=await fetch(cloudUrl()+'/v1/link',{method:'POST',headers:{'Authorization':'Bearer u:'+h,'Content-Type':'application/json'},body:JSON.stringify({key:old})})}catch(e){}
+    if(!r||(r.status!==200&&r.status!==404)){if(!quiet)toast(r&&r.status===403?'Срок доступа истёк: перенос в кабинет недоступен':'Нет связи с облаком Риморы, перенос не сделан. Попробуйте позже');return false}
+    if(r.status===404)[CREV,CDEL].forEach(lsDel)}
+  else [CREV,CDEL].forEach(lsDel);
+  lsSet(CAB,h);lsDel(CK);await syClear();jset(CDIRTY,docIndex().map(x=>x.id));
+  const q=[];for(const s of 'oam')for(const id of await fKeys(s))q.push(s+':'+id);jset(FQK,q);fileGc.done=0;
+  cloudSt={ok:null,at:null,msg:''};if($('#docsw'))renderDocs();await cloudSync();await kvSync();await fileSync();if($('#docsw'))renderDocs();return true}
+// «Скачать всё»: ZIP со сметами, файлами и manifest.json для «Восстановить из архива»
+const zsafe=s=>String(s||'').replace(/[\\/:*?"<>|\x00-\x1f]+/g,' ').trim().slice(0,80)||'без имени';
+async function dlAll(){toast('Собираю архив…');const z=await allZip();
+  dlBlob(z.blob,'Римора, все данные '+new Date().toLocaleDateString('ru-RU')+'.zip');
+  toast(`Архив скачан: смет ${z.docs}, файлов ${z.files}`+(z.miss?`, ${z.miss} файлов не скачались из кабинета (нет связи)`:''))}
+async function allZip(){const F=[],man={v:1,app:'Римора',at:Date.now(),ls:{},files:[]},used=new Set();
+  const uniq=p=>{let x=p,i=2;while(used.has(x)){x=p.replace(/(\.[^.\/]+)?$/,m=>' ('+i+')'+m);i++}used.add(x);return x};
+  man.ls[SK]=lsGet(SK);for(const m of docIndex()){const raw=lsGet(SKD+m.id);if(!raw)continue;man.ls[SKD+m.id]=raw;F.push({name:uniq('Сметы/'+zsafe(m.name)+'.smeta.json'),data:raw})}
+  for(const k of KVK)if(k!==FMAP&&lsGet(k)!=null)man.ls[k]=lsGet(k);
+  const ON={},P={};for(const s of stLoc())for(const o of s.obj||[])ON[o.id]=zsafe(s.name)+' - '+zsafe(o.name);
+  for(const [oid,d] of Object.entries(obfAll()))for(const f of (d&&d.files)||[])P['o:'+f.id]='Объекты/'+(ON[oid]||zsafe(oid))+'/'+zsafe(f.name);
+  for(const r of ansAll())for(const f of r.files||[])P['a:'+f.id]='Ответы экспертизе/'+zsafe(f.name);
+  const keys=new Set();for(const s of 'oam')for(const id of await fKeys(s))keys.add(s+':'+id);if(cabH())Object.keys(fmap()).forEach(k=>keys.add(k));
+  const G={o:obfGet,a:ansGet,m:msGet};let miss=0;
+  for(const k of keys){const s=k[0],id=k.slice(2),v=await G[s](id),b=fBlob(s,v);if(!b){miss++;continue}
+    const path=uniq(P[k]||(s==='m'?'Фото обмера/'+zsafe(id)+'.jpg':(s==='o'?'Объекты/':'Ответы экспертизе/')+zsafe(b.name||id)));
+    F.push({name:path,data:new Uint8Array(await b.arrayBuffer())});man.files.push({k,path,n:b.name||'',ty:b.type||'',...(s==='m'?{x:{w:v.w,h:v.h,t:v.t,room:v.room}}:{})})}
+  F.unshift({name:'manifest.json',data:JSON.stringify(man)});
+  F.push({name:'Прочтите.txt',data:'Архив всех данных Риморы от '+new Date().toLocaleString('ru-RU')+'.\r\nСметы: папка «Сметы», каждую можно открыть в Римора кнопкой «Открыть файл».\r\nФайлы объектов, приложения к ответам экспертизе и фото обмера лежат в своих папках.\r\nВосстановить всё сразу: личный кабинет → «Восстановить из архива», выбрать этот ZIP. Ничего не затирается, данные из архива добавляются к тем, что есть.\r\n'});
+  return {blob:new Blob([zipStore(F)],{type:'application/zip'}),docs:docIndex().length,files:man.files.length,miss}}
+function restPick(){const i=document.createElement('input');i.type='file';i.accept='.zip,application/zip';i.onchange=()=>{if(i.files[0])restOpen(i.files[0])};i.click()}
+async function restOpen(file){let rd=null,man=null;try{rd=await zipOpen(file);man=jp(await rd('manifest.json'))}catch(e){}
+  if(!man||!man.ls)return toast('Это не архив «Скачать всё» Риморы: в нём нет manifest.json');
+  const have=new Set(docIndex().map(x=>x.id)),AI=(jp(man.ls[SK])||[]).filter(m=>m&&m.id&&man.ls[SKD+m.id]);
+  const nd=AI.filter(m=>!have.has(m.id)),cd=AI.filter(m=>have.has(m.id)&&man.ls[SKD+m.id]!==lsGet(SKD+m.id)),kvm={},J=JSON.stringify;
+  for(const k of KV_DATA.concat(['rimora.reqdef','rimora.defzone','rimora.me','rimora.svc'])){const a=jp(man.ls[k]);if(a===undefined)continue;const l=jp(lsGet(k));
+    const m=l===undefined?a:mg3(undefined,l,a);if(J(m)!==J(l))kvm[k]=m}
+  const fl=[];for(const f of man.files||[])if(f&&f.k&&f.path&&!(await fRaw(f.k[0],f.k.slice(2))))fl.push(f);
+  const nk=Object.keys(kvm).length;
+  if(!nd.length&&!cd.length&&!nk&&!fl.length)return toast('Всё из архива уже есть в этом браузере');
+  dlg(`<div class="dch"><h3>${ic('open')} Восстановить из архива</h3><button class="x" id="rsX" aria-label="Закрыть">×</button></div>
+  <p class="u" style="margin:8px 0 6px">Архив от ${esc(new Date(man.at||0).toLocaleString('ru-RU'))}. Будет добавлено:</p>
+  <ul class="u" style="margin:0 0 10px 18px;padding:0;line-height:1.6"><li>новых смет: <b>${nd.length}</b></li>${cd.length?`<li>смет, которые отличаются от этого браузера: <b>${cd.length}</b>, лягут рядом копией «(из архива)»</li>`:''}<li>сервисов, которые дополнятся записями из архива: <b>${nk}</b></li><li>файлов: <b>${fl.length}</b></li></ul>
+  <p class="u" style="margin:0 0 12px">Ничего в этом браузере не удаляется и не затирается.</p>
+  <div style="display:flex;gap:8px;justify-content:flex-end"><button class="btn" id="rsNo">Отмена</button><button class="btn pri" id="rsOk">Восстановить</button></div>`);
+  fitDlg();const close=()=>$('#dlgbg').classList.remove('on');$('#rsX').onclick=close;$('#rsNo').onclick=close;
+  $('#rsOk').onclick=async()=>{close();let nf=0;
+    for(const m of nd){writeLocal(m.id,JSON.parse(man.ls[SKD+m.id]),m);cloudMark(m.id)}
+    for(const m of cd){const id=newId(),d=JSON.parse(man.ls[SKD+m.id]);d.name=(d.name||'Смета')+' (из архива)';writeLocal(id,d,{...m,name:d.name});cloudMark(id)}
+    for(const [k,v] of Object.entries(kvm))try{localStorage.setItem(k,J(v))}catch(e){toast('Не хватило места в браузере: часть данных не восстановлена');break}
+    const W={o:obfPut,a:ansPut,m:msPut};
+    for(const f of fl){try{const data=await rd(f.path,true);if(!data)continue;const s=f.k[0],id=f.k.slice(2);
+      await W[s](id,s==='m'?{...(f.x||{}),blob:new Blob([data],{type:f.ty||'image/jpeg'})}:new File([data],f.n||f.path.split('/').pop(),{type:f.ty||''}));nf++}catch(e){}}
+    kvGot(Object.keys(kvm));renderDocs();toast(`Восстановлено: смет ${nd.length+cd.length}, сервисов ${nk}, файлов ${nf}`)}}
 
 function storeUsed(){let b=0;try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k.startsWith('sm_'))b+=(k.length+(localStorage.getItem(k)||'').length)*2}}catch(e){}return b}
 let docQ='';
@@ -4416,9 +4601,11 @@ function openCabinet(){const h=myHash(),P=ME,nm=meName(),docs=docIndex().length,
     <label class="cbr"><span>Проверил<em>подставляется в формы новых смет</em></span><input id="cbProv" maxlength="80" value="${esc(R.prov||'')}" placeholder="Фамилия И. О."></label>
     <div class="cbr"><span>Мои шаблоны<em>${tn?'сохранено: '+tn:'пока нет своих шаблонов'}</em></span><button class="btn" id="cbTpl">Открыть…</button></div>
     ${SVC.portfolio?`<div class="cbr"><span>Портфолио<em>сметы одной ссылкой без данных заказчиков</em></span><button class="btn" id="cbPf">Открыть…</button></div>`:''}
+    <div class="cbr"><span>Все мои данные<em>ZIP: сметы, данные сервисов, файлы объектов, приложения, фото обмера</em></span><span style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end"><button class="btn" id="cbAll">Скачать всё</button><button class="btn" id="cbRest">Восстановить из архива…</button></span></div>
    </section>
    <section><h4>Доступ</h4>
-    ${h?`<div class="u" style="margin-bottom:10px">Вы вошли по личному коду. Сметы хранятся в этом браузере${P&&P.cloud?' и в облаке':''}, код на сервере хранится только в виде отпечатка.</div>
+    ${h?`<div class="u" style="margin-bottom:10px">Вы вошли по личному коду. ${cabH()?'Сметы, данные сервисов и файлы хранятся в этом браузере и в облаке кабинета на сервере Риморы в России':'Сметы хранятся в этом браузере'+(P&&P.cloud?' и в облаке':'')}, код на сервере хранится только в виде отпечатка.</div>
+     ${cabH()?cabRows(P):`<div class="cbr"><span>Облако личного кабинета<em>данные этого браузера ещё не перенесены, на других устройствах их не видно</em></span><button class="btn pri" id="cbMove">Перенести…</button></div>`}
      <div class="cbr"><span>Римора на другом устройстве<em>ссылка и QR-код для входа без ввода кода</em></span><button class="btn" id="cbLink">Показать…</button></div>
      <div class="cbr"><span>Выйти на этом устройстве<em>сметы в браузере останутся, для входа понадобится код</em></span><button class="btn" id="cbOut">Выйти</button></div>
      ${P&&P.seats!=null?`<div class="u" style="margin-top:8px">На вашем коде ${P.seats} мест. Если сменили компьютер или телефон, попросите того, кто выдал код, сбросить устройства.</div>`:''}`
@@ -4433,9 +4620,21 @@ function openCabinet(){const h=myHash(),P=ME,nm=meName(),docs=docIndex().length,
   if($('#cbName'))$('#cbName').onchange=e=>{try{lsSet(ME_K,JSON.stringify({...meLocal(),name:e.target.value.trim()}))}catch(_){}meAvatar();$('.cbav').textContent=meInit(meName())};
   $('#cbSvc').onclick=()=>openSvc();$('#cbTpl').onclick=()=>tplOpen();if($('#cbPf'))$('#cbPf').onclick=()=>openPortfolio();
   if($('#cbLink'))$('#cbLink').onclick=()=>meLink();
+  $('#cbAll').onclick=()=>dlAll();$('#cbRest').onclick=()=>restPick();
+  if($('#cbMove'))$('#cbMove').onclick=async()=>cabAsk(await cabCount());
+  if($('#cbPd'))$('#cbPd').onchange=async e=>{const on=e.target.checked;try{const r=await fetch(ACC_API()+'/v1/access/pd',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({h,ver:on?PD_POLICY:null})});
+    if(!r.ok)throw 0;if(ME)ME.pd={at:on?Date.now():null,ver:on?PD_POLICY:null};toast(on?'Согласие сохранено: данные клиентов и подписантов будут в облаке кабинета':'Согласие отозвано: данные клиентов и подписантов остаются только в браузере');if(on){jset(CDIRTY,docIndex().map(x=>x.id));cloudSync();kvSync()}}
+    catch(_){e.target.checked=!on;toast('Нет связи с сервером, согласие не изменено')}};
   if($('#cbOut'))$('#cbOut').onclick=()=>{if(!confirm('Выйти на этом устройстве? Сметы в браузере останутся, для входа понадобится код.'))return;
     try{localStorage.removeItem('sm_gate');localStorage.removeItem(SVC_GK)}catch(e){}location.reload()};
   if(h&&!openCabinet.busy){openCabinet.busy=1;meLoad().then(p=>{openCabinet.busy=0;if(p&&$('#cbX')&&JSON.stringify(p)!==JSON.stringify(P))openCabinet()})}}
+// облако кабинета (№30): занято места, хранит ли браузер данные постоянно, согласие на ПДн третьих лиц (скрыто, пока нет политики)
+function cabRows(P){const g=P&&P.storage,pc=(a,b)=>b?Math.round(a*100/b):0;
+  const used=g?`сметы и данные сервисов ${mbs(g.data)} из ${mbs(g.data_max)} · файлы ${mbs(g.files)} из ${mbs(g.quota)}`:'занятое место видно при связи с сервером';
+  const warn=g&&(pc(g.data,g.data_max)>=80||pc(g.files,g.quota)>=80);
+  return `<div class="cbr"><span>Облако личного кабинета<em${warn?' style="color:var(--dng,#C0392B)"':''}>${used}${warn?'. Занято больше 80 %: удалите лишние файлы или попросите увеличить лимит':''}</em></span><button class="btn" data-ca="sync">Синхронизировать</button></div>
+    <div class="u" style="margin:-2px 0 10px">${PERSIST===true?'Браузер хранит данные этого устройства постоянно.':'Браузер может очистить свои данные при нехватке места на устройстве, копия остаётся в облаке кабинета.'}</div>
+    ${PD_POLICY?`<label class="cbr"><span>Данные клиентов и подписантов в облаке<em>имена клиентов в заказах, стороны и подписанты в актах; вы оператор этих данных, см. политику ${esc(PD_POLICY)}</em></span><input type="checkbox" id="cbPd"${P&&P.pd&&P.pd.ver?' checked':''}></label>`:''}`}
 // вход на другом устройстве: ссылка с отпечатком личного кода (#rmk=…), экран входа узнаёт её и пускает без ввода кода
 function meLink(){const h=myHash();if(!h)return;const url=location.origin+location.pathname+'#rmk='+h;
   let qr='';if(window.RimoraQR){try{qr=RimoraQR.svg(url,4)}catch(e){}}
@@ -6598,10 +6797,10 @@ document.addEventListener('keydown',e=>{
 try{const t=localStorage.getItem('sm_theme');if(t)document.body.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.body.dataset.theme='dark'}catch(e){}
 buildRibbon();renderTree();render();
 if(splitX())splitX().list().then(a=>{for(const s of a)splitReg(s);if(a.length){render();if(S.split&&!SPL[S.split])toast('Сплит-формы этой сметы нет в браузере: цены взяты из ФГИС ЦС')}});
-migrateOld();setSaveChip();{const last=lsGet(SKL);const shared=location.hash.startsWith(SHARE_PREFIX);(last&&location.hash!=='#sample'?openDoc(last,true):Promise.resolve()).finally(()=>{if(shared)takeShared();else if(location.hash.startsWith('#k1.'))takeKey();else if(location.hash.startsWith('#pf1.'))pfShowLink();else if(SVC.diy&&diyMode())setTimeout(()=>{if(!$('#dlgbg').classList.contains('on'))openDiy()},700);if(cloudKey())cloudSync();tabsRestore()})}
+migrateOld();setSaveChip();{const last=lsGet(SKL);const shared=location.hash.startsWith(SHARE_PREFIX);(last&&location.hash!=='#sample'?openDoc(last,true):Promise.resolve()).finally(()=>{if(shared)takeShared();else if(location.hash.startsWith('#k1.'))takeKey();else if(location.hash.startsWith('#pf1.'))pfShowLink();else if(SVC.diy&&diyMode())setTimeout(()=>{if(!$('#dlgbg').classList.contains('on'))openDiy()},700);if(cloudKey())cloudSync();tabsRestore();setTimeout(cabStart,1500)})}
 render=calcScope(render);renderTable=calcScope(renderTable);renderInsp=calcScope(renderInsp);renderDock=calcScope(renderDock);totals=calcScope(totals);
 lsrModel=calcScope(lsrModel);lsrModelGrand=calcScope(lsrModelGrand);ks2Model=calcScope(ks2Model);osrModel=calcScope(osrModel);ssrModel=calcScope(ssrModel);checkSmeta=calcScope(checkSmeta);resModel=calcScope(resModel);davList=calcScope(davList);
-window.__app={ksSnap,ks3Model,ksHasWork,renderActs,obfEvents,openAnswers,ansAll,ansHarvest,ansMatch,ansHint,ansAiHint,ansSet,ansAddFiles,ansRows,ansRender,ansGet,ansKey,get ANF(){return ANF},openKpBase,kpbAdd,kpbAll,kpbHarvest,kpbMatch,kpbCand,kpbTake,kpbHint,kaNew,openKA,openObject,stDel,obfDelNote,obfDelFile,obfAdd,obfNote,obfEvents,obfData,obfZip,obfRender,get OBF(){return OBF},stroyList,docSetPlace,openExamples,exLoad,exRows,exTpl,exUse,exList,get EXF(){return EXF},get EXD(){return EXD},newDocRaw,openCabinet,meLoad,myHash,meApplyZone,defZone,reqMine,meLink,meInit,meAvatar,openSvc,svcApply,svcChoose,svcToggle,svcGrant,svcGate,svcAsk,svcNeedAsk,svcPal,svcFilePreview,SVC_DEF,SVC_SETS,SVC0,openDiy,dyParse,dyParseLine,dyAnalyze,dyNorms,dyData,dyNew,dyRun,dyWord,dyMsg,diyMode,diySetMode,dyMatch,DY_SAMPLE,dyN:()=>DYN,openPortfolio,pfData,pfInfo,pfPack,pfLink,pfHtml,pfShowLink,pfView,openFreelance,flData,flSum,flFormula,flExamples,flDoc,flKpi,openFeed,fdDocs,fdAffected,fdDetail,fdImpact,fdCopies,fdItems,fdNext,fdXlsx,fdData:()=>FD,openPriceHist,phSeries,phPrice,phAllRegions,phXlsx,phWatch,phData:()=>PH,openRequarter,rqRun,rqStats,rqRes,rqApply,rqXlsx,rqData:()=>RQ,openRemarks,rmParse,rmData,openMeasure,msParse,msData,openNonorm,nnData,nnCost,nnUnitTotal,nnText,nnPut,openCompare,cmpCalc,cmpDiff,cmpRows,cmpLoad,cmpXlsx,openCoefs,kdGroups,kdEffect,kdText,openAddwork,awData,awRows,awSum,awMake,awXlsx,awAgreement,msToVor,msWord,msFormula,msVal,openContract,renderContract,ctModel,ctXlsx,SVC,openActs,bimx,ncsCalc,ncsSample,pirCalc,pirHtml,pirXlsx,pirSample,openOsr,renderOsr,nmckCalc,rubWords,nmckXlsx,setLsrView,setLsrRes,openExpert,expx,openSplit,splitReg,useSplit,SPL,get split(){return splitX()},osSample,ST,lsrModel,lsrModelGrand,osrModel,ssrModel,resModel,checkSmeta,ks2Model,fopt,mrNew,eqNew,kaNew,makePR,ensurePR,setZone,setLevel,prKey,get S(){return S},get xml(){return xmlx()},totals,calc,sample,B,ensureReal,nrCode,nrFull,sampleLesson,loadDoc,setBase:v=>setBase(v),renderTable,renderInsp,renderDock,syncRibbon};
+window.__app={PD_CUT,cabStart,cabOn,cabCount,kvSync,fileSync,cloudSync,mg3,allZip,restOpen,obfGet,obfPut,msGet,cabH,get kvSt(){return kvSt},get fSt(){return fSt},ksSnap,ks3Model,ksHasWork,renderActs,obfEvents,openAnswers,ansAll,ansHarvest,ansMatch,ansHint,ansAiHint,ansSet,ansAddFiles,ansRows,ansRender,ansGet,ansKey,get ANF(){return ANF},openKpBase,kpbAdd,kpbAll,kpbHarvest,kpbMatch,kpbCand,kpbTake,kpbHint,kaNew,openKA,openObject,stDel,obfDelNote,obfDelFile,obfAdd,obfNote,obfEvents,obfData,obfZip,obfRender,get OBF(){return OBF},stroyList,docSetPlace,openExamples,exLoad,exRows,exTpl,exUse,exList,get EXF(){return EXF},get EXD(){return EXD},newDocRaw,openCabinet,meLoad,myHash,meApplyZone,defZone,reqMine,meLink,meInit,meAvatar,openSvc,svcApply,svcChoose,svcToggle,svcGrant,svcGate,svcAsk,svcNeedAsk,svcPal,svcFilePreview,SVC_DEF,SVC_SETS,SVC0,openDiy,dyParse,dyParseLine,dyAnalyze,dyNorms,dyData,dyNew,dyRun,dyWord,dyMsg,diyMode,diySetMode,dyMatch,DY_SAMPLE,dyN:()=>DYN,openPortfolio,pfData,pfInfo,pfPack,pfLink,pfHtml,pfShowLink,pfView,openFreelance,flData,flSum,flFormula,flExamples,flDoc,flKpi,openFeed,fdDocs,fdAffected,fdDetail,fdImpact,fdCopies,fdItems,fdNext,fdXlsx,fdData:()=>FD,openPriceHist,phSeries,phPrice,phAllRegions,phXlsx,phWatch,phData:()=>PH,openRequarter,rqRun,rqStats,rqRes,rqApply,rqXlsx,rqData:()=>RQ,openRemarks,rmParse,rmData,openMeasure,msParse,msData,openNonorm,nnData,nnCost,nnUnitTotal,nnText,nnPut,openCompare,cmpCalc,cmpDiff,cmpRows,cmpLoad,cmpXlsx,openCoefs,kdGroups,kdEffect,kdText,openAddwork,awData,awRows,awSum,awMake,awXlsx,awAgreement,msToVor,msWord,msFormula,msVal,openContract,renderContract,ctModel,ctXlsx,SVC,openActs,bimx,ncsCalc,ncsSample,pirCalc,pirHtml,pirXlsx,pirSample,openOsr,renderOsr,nmckCalc,rubWords,nmckXlsx,setLsrView,setLsrRes,openExpert,expx,openSplit,splitReg,useSplit,SPL,get split(){return splitX()},osSample,ST,lsrModel,lsrModelGrand,osrModel,ssrModel,resModel,checkSmeta,ks2Model,fopt,mrNew,eqNew,kaNew,makePR,ensurePR,setZone,setLevel,prKey,get S(){return S},get xml(){return xmlx()},totals,calc,sample,B,ensureReal,nrCode,nrFull,sampleLesson,loadDoc,setBase:v=>setBase(v),renderTable,renderInsp,renderDock,syncRibbon};
 if(location.hash==='#sample')sample();
 try{const nt=!localStorage.getItem('rimora.tour')&&!location.hash;if(SVC_ASK)setTimeout(()=>svcAsk(()=>{if(nt)tour()}),700);else if(nt)setTimeout(tour,700)}catch(e){}
 })();
