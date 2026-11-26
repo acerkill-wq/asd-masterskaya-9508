@@ -35,7 +35,8 @@ svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.75;str
 td.mono{white-space:nowrap}.rb,.switch,.ctl{white-space:nowrap}
 .mono{font-family:var(--mono);font-size:11.5px;letter-spacing:-.2px}
 
-#app{height:100vh;display:grid;grid-template-rows:auto auto auto auto 1fr auto;grid-template-columns:minmax(0,1fr);min-width:1180px}
+#app{height:100vh;height:100dvh;display:grid;grid-template-rows:auto auto auto auto 1fr auto;grid-template-columns:minmax(0,1fr);min-width:1180px}
+@media screen and (min-width:761px){#app{position:fixed;inset:0}}
 
 
 
@@ -564,7 +565,7 @@ tr:hover>td>.rxb,.rxb:focus{opacity:1}.rxb:hover{background:var(--line2);color:v
 #printhead{display:none}
 @media print{
   body{overflow:visible;background:#fff;color:#000}
-  #app{display:block;min-width:0;height:auto}
+  #app{display:block;min-width:0;height:auto;position:static}
   .titlebar,.menubar,.ribbon,.catalog,.insp,.dock,.tabs,.toast,.pal-bg,.dlg-bg{display:none!important}
   .work{display:block;padding:0}.panel{border:0;box-shadow:none;overflow:visible}
   .tablewrap{overflow:visible}
@@ -614,6 +615,23 @@ body.cat-off.insp-off .work{grid-template-columns:46px minmax(0,1fr) 46px}
 body.insp-off #insp>*:not(.ph){display:none}
 body.insp-off #insp>.ph~.ph{display:none}
 body.insp-off #insp{overflow:hidden;cursor:pointer}
+/* ---------- планшет (761–1199 px: iPad горизонтально и вертикально, узкие окна): всё в ширину экрана, меню всегда видно ---------- */
+@media (min-width:761px) and (max-width:1199px){
+  #app{min-width:0}
+  .titlebar{gap:10px;padding:8px 12px}
+  .menubar{flex-wrap:wrap;row-gap:4px}
+  .menubar .hint{order:1;margin-left:auto}
+  .params{order:2;flex:1 0 100%;margin-left:0;padding-left:0;border-left:0;flex-wrap:wrap;row-gap:4px}
+  .work{grid-template-columns:250px minmax(0,1fr) 300px;gap:10px;padding:10px}
+  body.cat-off .work{grid-template-columns:46px minmax(0,1fr) 300px}
+  body.insp-off .work{grid-template-columns:250px minmax(0,1fr) 46px}
+}
+@media (min-width:761px) and (max-width:960px){
+  .work{grid-template-columns:220px minmax(0,1fr) 46px}
+  body.cat-off .work{grid-template-columns:46px minmax(0,1fr) 46px}
+  body:not(.insp-off) .work{grid-template-columns:220px minmax(0,1fr) 260px}
+  body.cat-off:not(.insp-off) .work{grid-template-columns:46px minmax(0,1fr) 260px}
+}
 /* ---------- телефон (до 760 px): одна панель за раз, нижняя панель вкладок ---------- */
 #mnav{display:none}
 @media (max-width:760px){
@@ -1917,7 +1935,7 @@ $('#menubar').addEventListener('click',e=>{
   const b=e.target.closest('button[data-m]');if(!b){return}
   const same=openMenu===b.dataset.m;closeMenu();if(same)return;
   openMenu=b.dataset.m;b.classList.add('open');
-  const dd=document.createElement('div');dd.className='dd';dd.style.left=b.offsetLeft+'px';
+  const dd=document.createElement('div');dd.className='dd';dd.style.left=b.offsetLeft+'px';if(!isMob())dd.style.top=(b.offsetTop+b.offsetHeight+2)+'px';
   let head=null;/* '#Раздел' — подзаголовок: рисуется перед первым видимым пунктом раздела, между разделами черта */
   MENUS[b.dataset.m].forEach(it=>{
     if(it==='-'){dd.appendChild(document.createElement('hr'));return}
@@ -6487,7 +6505,9 @@ $('#themebtn').onclick=toggleTheme;themeIcon();
 $('#catph').addEventListener('click',e=>{if(e.target.closest('#catbtn')){e.stopPropagation();catShow(document.body.classList.contains('cat-off'));return}if(document.body.classList.contains('cat-off'))catShow(true)});
 try{if(localStorage.getItem('sm_cat_off'))catShow(false)}catch(e){}
 $('#insp').addEventListener('click',e=>{if(e.target.closest('#inspbtn')){e.stopPropagation();inspShow(document.body.classList.contains('insp-off'));return}if(document.body.classList.contains('insp-off')){e.stopPropagation();inspShow(true)}},true);
-try{if(localStorage.getItem('sm_insp_off'))inspShow(false)}catch(e){}
+try{const v=localStorage.getItem('sm_insp_off');if(v)inspShow(false);else if(v===null&&!isMob()&&innerWidth<1200){document.body.classList.add('insp-off');inspBtn()}}catch(e){}
+// Safari на iPad сдвигает страницу при повороте и клавиатуре: возвращаем шапку и меню на место
+addEventListener('scroll',()=>{if((scrollY||scrollX)&&!isMob())scrollTo(0,0)},{passive:true});
 $('#docname').addEventListener('change',e=>{S.name=e.target.value||'Без названия';markDirty()});
 $('#savechip').addEventListener('click',()=>S.docId?openDocs():save());$('#savechip').style.cursor='pointer';
 window.addEventListener('beforeunload',e=>{TABS.forEach((T,k)=>{if(k!==TI&&T.st&&T.st.S.docId&&!T.st.saved){const keep=tabSnap();tabPut(T.st);storeDoc(true);tabPut(keep)}});if(TABS.some((T,k)=>k!==TI&&T.st&&tabUn(T.st.S))){e.preventDefault();e.returnValue='';return}if(saved)return;if(S.docId){storeDoc(true);return}if(S.pos.length){e.preventDefault();e.returnValue=''}});
