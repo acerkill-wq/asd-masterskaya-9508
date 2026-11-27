@@ -330,7 +330,9 @@ table.lsrf tr.sel td{background:color-mix(in srgb,var(--brand) 12%,transparent)}
 .cki.e{border-left-color:#d64545}.cki.w{border-left-color:#e0a100}.cki.i{border-left-color:#6b8fb5}.ckb{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;color:var(--muted)}.cki.e .ckb{color:#c03030}.cki.w .ckb{color:#a87800}.ckh{font-size:11px;color:var(--muted);margin-bottom:2px}.ckr{margin-left:6px;padding:1px 6px;border-radius:99px;background:var(--brand-soft);color:var(--brand-ink)}.ckg{font-size:11px;color:var(--brand-ink);white-space:nowrap}
 [data-theme=dark] .ckv.bad{background:#4a1d1d;color:#ffb4b4}
 .fvo{display:flex;flex-direction:column;gap:5px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font-size:12px;margin-top:4px}.fvo b{font-size:12px}.fvo .kchk{display:flex;align-items:center;gap:6px;cursor:pointer}.fmb select{font:inherit;font-size:12px;padding:4px 6px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:inherit;margin-left:4px}
-.ksa{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:8px}.kact{display:flex;flex-direction:column;align-items:flex-start;padding:5px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);font-weight:600;cursor:pointer;color:inherit}.kact small{font-weight:400;color:var(--muted);font-size:10px}.kact.on{background:var(--brand-soft);border-color:var(--brand);color:var(--brand-ink)}
+.ksa{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:8px}
+@media(max-width:600px){.ksa{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px}.ksa>*{flex:none}.kva th:nth-child(2),.kva td:nth-child(2),.kva th:nth-child(4),.kva td:nth-child(4),.kva th:nth-child(6),.kva td:nth-child(6),.kva th:nth-child(8),.kva td:nth-child(8),.kva th:nth-child(5),.kva td:nth-child(5){display:none}.kva{font-size:12px}.kva td:nth-child(3){min-width:96px}.kva .kin{width:56px}.kva td,.kva th{padding-left:4px;padding-right:4px}.kva .kall{display:block;margin:2px 0 0}.ksf label{flex:1 1 140px}
+.awt .mst th:nth-child(6),.awt .mst td:nth-child(6),.awt .mst th:nth-child(2),.awt .mst td:nth-child(2){display:none}.awt .awnm{-webkit-line-clamp:4;min-width:140px}.awds{grid-template-columns:1fr 1fr}}.kact{display:flex;flex-direction:column;align-items:flex-start;padding:5px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);font-weight:600;cursor:pointer;color:inherit}.kact small{font-weight:400;color:var(--muted);font-size:10px}.kact.on{background:var(--brand-soft);border-color:var(--brand);color:var(--brand-ink)}
 .ksf{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;margin-bottom:8px}.ksf label{display:flex;flex-direction:column;gap:3px;font-size:12px;color:var(--muted)}.ksf input{font:inherit;font-size:13px;padding:5px 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:inherit}.ksf input[data-af=num]{width:70px}.ksf .kchk{flex-direction:row;align-items:center;gap:6px;padding-bottom:7px}
 .timbox{margin:6px 0 10px 22px;padding:8px 10px;border-left:3px solid var(--line)}.kstab{display:flex;gap:4px;border-bottom:1px solid var(--line);margin:6px 0 10px}.kstab button{border:0;background:none;padding:7px 12px;font-weight:600;color:var(--muted);border-bottom:2px solid transparent;cursor:pointer}.kstab button.on{color:var(--brand-ink);border-color:var(--brand)}
 .ksv{max-height:52vh;overflow:auto;border:1px solid var(--line);border-radius:10px}.kvt{border-collapse:collapse;width:100%;font-size:12px}.kvt th{position:sticky;top:0;background:var(--surface);text-align:left;font-weight:600;color:var(--muted);padding:6px;border-bottom:1px solid var(--line)}.kvt td{padding:4px 6px;border-bottom:1px solid var(--line);vertical-align:middle}.kvt td.n{text-align:right;white-space:nowrap}.kvt tr.ksec td{background:var(--brand-soft);font-weight:700}.kvt tr.bad td{background:var(--warn-bg)}
@@ -467,7 +469,13 @@ table.lsrf tr.sel td{background:color-mix(in srgb,var(--brand) 12%,transparent)}
 .msok{display:flex;flex-direction:column;gap:2px;border:1px solid var(--line);border-radius:8px;padding:8px}.msok b{font-size:22px}
 @media(max-width:1000px){.msg{grid-template-columns:1fr}}
 
-.ctneg{color:var(--bad,#c0392b);font-weight:600}.ctok{font-size:11px;padding:1px 8px;border-radius:99px;background:var(--brand-soft);color:var(--brand-ink)}.kin{width:78px;font:inherit;padding:3px 6px;border:1px solid var(--line);border-radius:6px;text-align:right;background:var(--surface);color:inherit}.kall{margin-left:4px;border:0;background:none;color:var(--brand-ink);font-size:11px;cursor:pointer;text-decoration:underline}
+.ctneg{color:var(--bad,#c0392b);font-weight:600}.ctok{font-size:11px;padding:1px 8px;border-radius:99px;background:var(--brand-soft);color:var(--brand-ink)}.kin{width:78px;font:inherit;padding:3px 6px;border:1px solid var(--line);border-radius:6px;text-align:right;background:var(--surface);color:inherit}
+.kin[data-ck="name"]{text-align:left}
+.ksp select,.ksf select{font:inherit;font-size:13px;padding:6px 8px;border:1px solid var(--line,#d7dbe0);border-radius:8px;background:var(--bg,#fff);color:inherit}
+.ksst{align-items:flex-end}.kss{display:inline-block;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600;background:var(--surface2,#eef1f4);align-self:center}
+.awh select{font:inherit;font-size:13px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:inherit}
+.ctmon{margin:8px 0;padding:8px 12px;border-radius:10px;background:var(--surface2,#eef1f4);font-size:13px}
+.kss.sent{background:#fff3d6;color:#7a5200}.kss.sig{background:#e2f0ff;color:#0b4f8a}.kss.paid{background:#dff5e6;color:#1d6b3a}.kss.part{background:#fde8e0;color:#8a2d0b}.kall{margin-left:4px;border:0;background:none;color:var(--brand-ink);font-size:11px;cursor:pointer;text-decoration:underline}
 #ksPrev{width:100%;height:56vh;border:1px solid var(--line);border-radius:10px;background:#fff;margin-top:8px}.ksp{display:grid;grid-template-columns:1fr 1fr;gap:8px 16px}.ksum{margin-top:10px;font-size:13px}@media(max-width:820px){.ksp{grid-template-columns:1fr}}
 .fmw{display:grid;grid-template-columns:300px 1fr;gap:16px;min-height:62vh}.fmf{display:flex;flex-direction:column;gap:8px}.fmf label{display:flex;flex-direction:column;gap:3px;font-size:12px;color:var(--muted,#667)}
 .fmf input{font:inherit;font-size:13px;padding:6px 8px;border:1px solid var(--line,#d7dbe0);border-radius:8px;background:var(--bg,#fff);color:inherit}.fmb{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
@@ -3041,42 +3049,66 @@ const dmy=d=>d?String(d).split('-').reverse().join('.'):'';
 const PARTY=[['inv','Инвестор (организация, адрес, телефон)'],['zak','Заказчик (генподрядчик)'],['podr','Подрядчик (субподрядчик)'],['dogNum','Договор подряда: номер'],['dogDate','Договор подряда: дата','date'],['dogSum','Сметная (договорная) стоимость по договору, руб. (пусто = по смете)'],['sdal','Сдал (должность, ФИО)'],['prin','Принял (должность, ФИО)'],['zakSign','КС-3, заказчик (должность, ФИО)'],['podrSign','КС-3, подрядчик (должность, ФИО)']];
 const PARTY_OLD={zak:'Учебный заказчик',podr:'Учебный подрядчик'};
 const partyDef={inv:'',zak:'',podr:'',dogNum:'',dogDate:'',dogSum:'',sdal:'',prin:'',zakSign:'',podrSign:''};
-const party=()=>({...partyDef,...(S.party||{})});
+/* этап 1 полировки: номер и дата договора — из «Контракт и этапы» (одни реквизиты на контракт, КС-2, КС-3, допсоглашение) */
+const party=()=>{const P={...partyDef,...(S.party||{})},C=S.contract||{};if(C.num)P.dogNum=C.num;if(C.date)P.dogDate=C.date;return P};
 let ksI=0,ksTab='vol';
 /* позиции сметы с номерами и разделами */
 function ksPos(){const out=[];let si=0,n=0,sec='';
-  for(const p of S.pos){if(p.sec!==undefined){si++;sec=p.sec;continue}if(!si){si=1;sec='Работы'}n++;out.push({p,n,si,sec,c:calc(p)})}return out}
+  for(const p of S.pos){if(p.sec!==undefined){si++;sec=p.sec;continue}if(!si){si=1;sec='Работы'}n++;out.push({p,n,si,sec,c:calc(p)})}return ksCt(out)}
+/* №32 + №46а п. 8 (841/пр прил. 2 п. 7; проверка эксперта, п. 13): при заданной цене контракта КС-2 и КС-3 — по ценам сметы контракта.
+   Каждый элемент затрат позиции × К (цена контракта / итог сметы с ВЗиС и зимним, если они в контракте), копейки распределены
+   по наибольшему остатку: 100 % выполнения дают ровно цену контракта. «Акты по ЛСР» — по соглашению сторон (капремонт, п. 2) */
+function ksAddBase(XP){const C=S.contract||{},st=S.stroy||{};if(!C.ksVz)return null;const vz=st.vz&&st.vz.on?num(st.vz.pct):0,wn=st.win&&st.win.on?num(st.win.pct):0;if(!vz&&!wn)return null;
+  const bm=XP.reduce((s,x)=>s+(x.c.total||0)-(x.c.ob||0),0),V=r2(bm*vz/100),W=r2((bm+V)*wn/100);
+  return {vz,wn,bm,V,W,osnV:(st.vz&&st.vz.osn)||'ОСР',osnW:(st.win&&st.win.osn)||'ОСР'}}
+function ksCt(out){const C=S.contract||{},A=ksAddBase(out),base=out.reduce((s,x)=>s+(x.c.total||0),0)+(A?A.V+A.W:0);
+  out.add=A;out.base=r2(base);const pr=C.price!=null&&+C.price>0?+C.price:null;out.Kc=pr&&base?pr/base:1;out.on=!!pr&&base>0&&C.ksBy!=='lsr';out.K=out.on?out.Kc:1;
+  if(!out.on)return out;
+  const items=[];for(const x of out){x.kc={};for(const [k] of KS_EL){const v=x.c[k]||0;if(v)items.push([x.kc,k,v*out.K])}x.kc.otm=r2((x.c.otm||0)*out.K)}
+  out.kA={};if(A){if(A.V)items.push([out.kA,'V',A.V*out.K]);if(A.W)items.push([out.kA,'W',A.W*out.K])}
+  let s=0;for(const it of items){const f=Math.floor(it[2]*100+1e-6);it[3]=f;it[4]=it[2]*100-f;s+=f}
+  let rem=Math.round(pr*100)-s;if(items.length&&rem){const ord=[...items].sort((a,b)=>rem>0?b[4]-a[4]:a[4]-b[4]);for(let i=0;rem&&i<ord.length*3;i++){const it=ord[i%ord.length];it[3]+=rem>0?1:-1;rem+=rem>0?-1:1}}
+  for(const it of items)it[0][it[1]]=it[3]/100;return out}
+const ksKt=x=>x.kc?r2(KS_EL.reduce((s,[k])=>s+(x.kc[k]||0),0)):x.c.total;
+/* ВЗиС и зимнее удорожание за акт j: доля выполненных СМР (без оборудования) нарастающим итогом, при полном выполнении — сумма из ОСР */
+function ksAddPart(XP,j){const sa=S.acts[j];if(sa&&sa.sig)return sa.sig.add||null;const A=XP.add;if(!A)return null;
+  const f=k=>{if(k<0)return 0;let s=0;for(const x of XP){const q=x.p.qty;if(!q)continue;const c=ksCum(x.p.id,k),t=(x.c.total||0)-(x.c.ob||0);s+=Math.abs(c-q)<1e-9?t:t*c/q}return A.bm?s/A.bm:0};
+  const f1=f(j),f0=f(j-1),VF=XP.on?XP.kA.V||0:A.V,WF=XP.on?XP.kA.W||0:A.W,d=F=>r2(r2(F*(Math.abs(f1-1)<1e-9?1:f1))-r2(F*(Math.abs(f0-1)<1e-9?1:f0)));
+  return {vz:A.vz,wn:A.wn,osnV:A.osnV,osnW:A.osnW,V:d(VF),W:d(WF)}}
 const ksDone=(a,id)=>+((a.done||{})[id]||0);
 const ksCum=(id,j)=>{let s=0;for(let k=0;k<=j&&k<S.acts.length;k++)s+=ksDone(S.acts[k],id);return s};
 /* стоимость за акт j: доля от «всего по позиции» нарастающим итогом, чтобы сумма всех актов при полном выполнении совпала со сметой до копейки */
 const KS_EL=[['ot','ОТ'],['em','ЭМ'],['mat','М'],['ob','Оборудование'],['per','Перевозка'],['nr','НР'],['sp','СП']]; // перевозка — отдельный элемент, иначе позиция «Перевозка грузов» в акте выходит в 0
-function ksPart(x,j,key){const sa=S.acts[j];if(sa&&sa.sig){const s=sa.sig.pos[x.p.id];return s?(s.el[key]||0):0}const q=x.p.qty;if(!q)return 0;const t=x.c[key]||0,c1=ksCum(x.p.id,j),c0=j>0?ksCum(x.p.id,j-1):0;
+function ksPart(x,j,key){const sa=S.acts[j];if(sa&&sa.sig){const s=sa.sig.pos[x.p.id];return s?(s.el[key]||0):0}const q=x.p.qty;if(!q)return 0;const t=(x.kc?x.kc[key]:x.c[key])||0,c1=ksCum(x.p.id,j),c0=j>0?ksCum(x.p.id,j-1):0;
   const v=c=>Math.abs(c-q)<1e-9?t:r2(t*c/q);return r2(v(c1)-v(c0))}
 /* стоимость за акт = сумма элементов затрат, каждый считается долей нарастающим итогом: при полном выполнении акты дают смету до копейки */
 function ksCost(x,j){return r2(KS_EL.reduce((s,[k])=>s+ksPart(x,j,k),0))}
 function ksInfo(x){const R=x.c.R,real=R.real||R.ka||R.mr;const mult=R.ka||R.mr?1:(R.mult||1);
   return {code:R.trp||R.mr||R.own?R.disp:R.ka?(x.p.ka.rescode||'КА, прил. 1 к 421/пр'):(R.real?'ГЭСН'+x.p.code:x.p.code),name:R.name,unit:pu(R.ka?x.p.ka.unit:R.unit||''),nat:pu(R.ka?x.p.ka.unit:(R.nat||R.unit||'')),mult,price:x.c.q?r2(x.c.total/x.c.q):0,real}}
-function ks2Live(j,V0){const a=S.acts[j],P=party(),T=totals(),rows=[];let n=0,sum=0,ls=0;
-  for(const x of ksPos()){const d=ksDone(a,x.p.id);if(!d)continue;const I=ksInfo(x),cost=ksCost(x,j);
+function ks2Live(j,V0){const a=S.acts[j],P=party(),T=totals(),rows=[],XP=ksPos(),KK=XP.K;let n=0,sum=0,ls=0;
+  for(const x of XP){const d=ksDone(a,x.p.id);if(!d)continue;const I=ksInfo(x),cost=ksCost(x,j);if(x.kc)I.price=x.c.q?r2(ksKt(x)/x.c.q):0;
     if(x.si!==ls){rows.push({sec:`Раздел ${x.si}. ${x.sec}`});ls=x.si}
     n++;sum+=cost;const V=V0||fopt().ks;rows.push({n,pn:x.n,name:I.name,code:I.code,unit:I.unit,qty:Math.round(d/I.mult*1e7)/1e7,price:I.price,cost:V==='short'?cost:''});
     if(V!=='short'){const sh=x.p.qty?d/x.p.qty:0,L=x.c.lines||[];
       for(const [k,nm] of KS_EL){const v=ksPart(x,j,k);if(!v&&k!=='mat')continue;if(!v&&!L.some(l=>l.t==='М'))continue;
         rows.push({el:k==='nr'?'НР'+(x.c.nrp?` (${fq(x.c.nrp*(x.c.rem?0.9:1))}% от ФОТ)`:''):k==='sp'?'СП'+(x.c.spp?` (${fq(x.c.spp*(x.c.rem?0.85:1))}% от ФОТ)`:''):nm,cost:v});
         if(k==='em'&&x.c.otm)rows.push({el:'в т. ч. ОТм',cost:ksPart(x,j,'otm'),sub:1});
-        if(V==='full'){const t=k==='ot'?'ОТ':k==='em'?'ЭМ':k==='mat'?'М':null;if(t)for(const l of L.filter(l=>l.t===t&&l.sum!=null))rows.push({res:1,code:l.rc,name:l.name,unit:pu(t==='ОТ'?'чел.-ч':t==='ЭМ'?'маш.-ч':l.unit),qty:Math.round(l.qty*sh*1e7)/1e7,price:l.price,cost:r2(l.sum*sh)})}}
+        if(V==='full'){const t=k==='ot'?'ОТ':k==='em'?'ЭМ':k==='mat'?'М':null;if(t)for(const l of L.filter(l=>l.t===t&&l.sum!=null))rows.push({res:1,code:l.rc,name:l.name,unit:pu(t==='ОТ'?'чел.-ч':t==='ЭМ'?'маш.-ч':l.unit),qty:Math.round(l.qty*sh*1e7)/1e7,price:l.price==null?l.price:r2(l.price*KK),cost:r2(l.sum*sh*KK)})}}
       rows.push({all:1,cost})}}
-  sum=r2(sum);const nds=a.nds?r2(sum*B.nds/100):0;
-  const dog=P.dogSum!==''&&!isNaN(+String(P.dogSum).replace(',','.'))?+String(P.dogSum).replace(',','.'):(a.nds?r2(T.total*(1+B.nds/100)):T.total);
-  return {a,P,Q:req(),rows,sum,nds,all:r2(sum+nds),dog}}
+  const AD=ksAddPart(XP,j);if(AD){if(AD.V){n++;sum+=AD.V;rows.push({lim:1,n,name:`Временные здания и сооружения ${fq(AD.vz)}%`,code:AD.osnV,cost:AD.V})}
+    if(AD.W){n++;sum+=AD.W;rows.push({lim:1,n,name:`Дополнительные затраты при производстве работ в зимнее время ${fq(AD.wn)}%`,code:AD.osnW,cost:AD.W})}}
+  sum=r2(sum);const nds=a.nds?r2(sum*B.nds/100):0,C=S.contract||{},cp=C.price!=null&&+C.price>0?+C.price:null;
+  const dog=P.dogSum!==''&&!isNaN(+String(P.dogSum).replace(',','.'))?+String(P.dogSum).replace(',','.'):cp!=null?(a.nds?r2(cp*(1+B.nds/100)):cp):(a.nds?r2(XP.base*(1+B.nds/100)):XP.base);
+  return {a,P,Q:req(),rows,sum,nds,all:r2(sum+nds),dog,on:XP.on,K:XP.K,add:AD}}
 /* подписанный акт (бэклог 89_, № 31): при подписании сохраняется снимок сумм по позициям и строк КС-2 во всех видах;
    КС-2, КС-3, смета контракта и «выполнено с начала работ» берут его, пересчёт сметы и новые цены меняют только неподписанные акты */
 function ks2Model(j){const a=S.acts[j],M=ks2Live(j);if(!a.sig)return M;const g=a.sig,rows=g.rows[fopt().ks]||g.rows.short,sum=g.sum,nds=a.nds?r2(sum*B.nds/100):0;
-  return {...M,rows,sum,nds,all:r2(sum+nds),sig:g}}
-const ksSnap=calcScope(function(j){const a=S.acts[j],pos={},rows={};let sum=0;
-  for(const x of ksPos()){if(!ksDone(a,x.p.id))continue;const el={};for(const [k] of [...KS_EL,['otm']])el[k]=ksPart(x,j,k);const c=ksCost(x,j);sum+=c;pos[x.p.id]={si:x.si,sec:x.sec,el,cost:c}}
-  for(const V of ['short','groups','full'])rows[V]=ks2Live(j,V).rows;
-  return {at:today(),lv:lvName(S.level,zoneOf())+', '+edName(edOfS()),pos,rows,sum:r2(sum)}});
+  return {...M,P:g.P||M.P,Q:g.Q||M.Q,dog:g.dog!=null?(a.nds?r2(g.dog*(1+B.nds/100)):g.dog):M.dog,on:!!g.ct,K:g.K||1,rows,sum,nds,all:r2(sum+nds),sig:g}}
+const ksSnap=calcScope(function(j){const a=S.acts[j],pos={},rows={},XP=ksPos();let sum=0;
+  for(const x of XP){if(!ksDone(a,x.p.id))continue;const el={};for(const [k] of [...KS_EL,['otm']])el[k]=ksPart(x,j,k);const c=ksCost(x,j);sum+=c;pos[x.p.id]={si:x.si,sec:x.sec,el,cost:c}}
+  const add=ksAddPart(XP,j);if(add)sum+=(add.V||0)+(add.W||0);
+  for(const V of ['short','groups','full'])rows[V]=ks2Live(j,V).rows;const C=S.contract||{};
+  return {at:today(),lv:lvName(S.level,zoneOf())+', '+edName(edOfS()),pos,rows,sum:r2(sum),ct:XP.on,K:XP.K,Kc:XP.Kc,add,P:party(),Q:req(),dog:C.price!=null&&+C.price>0?+C.price:null}});
 const ksHasWork=a=>Object.values(a.done||{}).some(v=>+v>0);
 /* №46а п. 17 (свод 5, Э11; проверка эксперта, п. 19): после договора смета контракта фиксирована. Перед сменой квартала, редакции,
    сплит-формы и пересчётом — подтверждение. 604/пр упоминаем только для контракта «ПД и (или) изыскания + строительство» (флажок p604) */
@@ -3087,10 +3119,19 @@ function ctFixOk(what){if(!ctFixed())return true;const c=S.contract||{},n=(S.act
 function ks3Model(j){const a=S.acts[j],y=(a.date||'').slice(0,4),secs=new Map(),XP=ksPos();
   const add=(si,sec,k,c)=>{if(!secs.has(si))secs.set(si,{name:`Раздел ${si}. ${sec}`,s:0,y:0,p:0});const o=secs.get(si);o.s+=c;if((S.acts[k].date||'').slice(0,4)===y)o.y+=c;if(k===j)o.p+=c};
   for(const x of XP)add(x.si,x.sec,j,0);
-  for(let k=0;k<=j;k++){const g=S.acts[k].sig;if(g)for(const v of Object.values(g.pos))add(v.si,v.sec,k,v.cost);else for(const x of XP)add(x.si,x.sec,k,ksCost(x,k))}
+  for(let k=0;k<=j;k++){const g=S.acts[k].sig;if(g)for(const v of Object.values(g.pos))add(v.si,v.sec,k,v.cost);else for(const x of XP)add(x.si,x.sec,k,ksCost(x,k));
+    const ad=ksAddPart(XP,k);if(ad){if(ad.V)add('V','',k,ad.V);if(ad.W)add('W','',k,ad.W)}}
+  if(secs.has('V'))secs.get('V').name='Временные здания и сооружения';if(secs.has('W'))secs.get('W').name='Дополнительные затраты при производстве работ в зимнее время';
   const rows=[...secs.values()].map(o=>({name:o.name,s:r2(o.s),y:r2(o.y),p:r2(o.p)}));
   const tot={s:r2(rows.reduce((a,o)=>a+o.s,0)),y:r2(rows.reduce((a,o)=>a+o.y,0)),p:r2(rows.reduce((a,o)=>a+o.p,0))};
-  const nds=a.nds?r2(tot.p*B.nds/100):0;return {a,P:party(),Q:req(),rows,tot,nds,all:r2(tot.p+nds)}}
+  const nds=a.nds?r2(tot.p*B.nds/100):0,g=a.sig;return {a,P:(g&&g.P)||party(),Q:(g&&g.Q)||req(),rows,tot,nds,all:r2(tot.p+nds),pay:ksPay(j),on:g?!!g.ct:XP.on}}
+/* №32: деньги по актам. Сумма акта с НДС, зачёт аванса (по умолчанию в доле аванса от цены контракта), гарантийное удержание, к оплате, оплачено */
+function ksActAll(k,XP){const a=S.acts[k];let s;if(a.sig)s=a.sig.sum;else{s=XP.reduce((t,x)=>t+ksCost(x,k),0);const ad=ksAddPart(XP,k);if(ad)s+=(ad.V||0)+(ad.W||0);s=r2(s)}return r2(s+(a.nds?r2(s*B.nds/100):0))}
+function ksPay(j){const C=S.contract||{},XP=ksPos(),adv=num(C.adv)||0,cp=C.price!=null&&+C.price>0?+C.price:XP.base,nd=(S.acts[j]||{}).nds?1+B.nds/100:1;
+  const offP=C.advPct!=null&&C.advPct!==''?num(C.advPct):adv&&cp?adv/(cp*nd)*100:0,retP=num(C.ret)||0;let left=adv,R=null;const L=[];
+  for(let k=0;k<=j&&k<S.acts.length;k++){const all=ksActAll(k,XP),off=Math.min(r2(left),r2(all*offP/100)),ret=r2(all*retP/100);left=r2(left-off);
+    const o={all,off,ret,pay:r2(all-off-ret),paid:num(S.acts[k].paySum)||0};L.push(o);if(k===j)R=o}
+  return R?{...R,adv,offP,retP,left,on:!!(adv||retP)}:null}
 function ksWarn(j){const a=S.acts[j],w=[];if(!a.num)w.push('нет номера акта');if(!a.date)w.push('нет даты составления');
   if(a.from&&a.to&&a.from>a.to)w.push('период «с» позже периода «по»');if(a.to&&a.date&&a.date<a.to)w.push('акт составлен раньше конца отчётного периода');
   for(const x of ksPos()){const c=ksCum(x.p.id,j);if(c>x.p.qty+1e-9)w.push(`позиция ${x.n}: выполнено ${fq(c)} больше, чем по смете (${fq(x.p.qty)})`);if(ksDone(a,x.p.id)<0)w.push(`позиция ${x.n}: отрицательный объём`)}
@@ -3104,19 +3145,29 @@ const ctData=()=>S.contract||(S.contract={num:'',date:'',kind:'firm',price:null,
 const k6=v=>(Math.round(v*1e6)/1e6).toString().replace('.',',');
 /* НМЦК без НДС из расчёта НМЦК стройки (графа 6: с Кфакт и Кпрогн), если он открыт для этой сметы */
 function ctNmckAuto(){try{if(!S.stroy||!S.stroy.nmck)return null;const n=nmckCalc();return n&&n.T&&n.T.c6>0?n.T.c6:null}catch(e){return null}}
-function ctModel(){const C=ctData(),T=totals(),XP=ksPos(),last=(S.acts||[]).length-1,base=T.total||0;
+function ctModel(){const C=ctData(),T=totals(),XP=ksPos(),last=(S.acts||[]).length-1,base=XP.base||0;
   const price=C.price!=null&&C.price>0?+C.price:base,K=base?price/base:1;
+  /* сумма акта k по позиции в ценах контракта: акт по ценам СК (или подписан по ним) — как есть, иначе × К */
+  const ctv=(x,k)=>{const sa=S.acts[k],c=ksCost(x,k),inCt=sa&&sa.sig?!!sa.sig.ct:XP.on;return inCt?c:c*(sa&&sa.sig&&sa.sig.Kc?sa.sig.Kc:K)};
   // К сметной стоимости (K) распределяет цену по этапам; тендерный коэффициент считается от НМЦК: Ктенд = цена / НМЦК, НМЦК / итог сметы — пересчёт в прогнозные цены
   const nmA=ctNmckAuto(),nmck=C.nmck>0?+C.nmck:nmA,KT=nmck?price/nmck:null,KI=nmck&&base?nmck/base:null;
   const st=[],by={};for(const x of XP){let s=by[x.si];if(!s){s=by[x.si]={si:x.si,sec:x.sec,name:(C.stages[x.si]||{}).name||x.sec,term:(C.stages[x.si]||{}).term||'',base:0,done:0,pos:[],over:[]};st.push(s)}
-    const cum=last>=0?ksCum(x.p.id,last):0,dn=last>=0?r2([...S.acts.keys()].reduce((t,k)=>t+ksCost(x,k),0)):0,I=ksInfo(x);
-    const vc=!x.p.qty?0:Math.abs(cum-x.p.qty)<1e-9?x.c.total:x.c.total*cum/x.p.qty;s.rn=(s.rn||0)+x.c.total-vc;
-    s.base+=x.c.total;s.done+=dn;const row={x,I,cum,dn,rn:x.c.total-vc,rest:Math.round((x.p.qty-cum)*1e7)/1e7};s.pos.push(row);if(cum>x.p.qty+1e-9)s.over.push(row)}
+    const cum=last>=0?ksCum(x.p.id,last):0,dn=last>=0?[...S.acts.keys()].reduce((t,k)=>t+ctv(x,k),0):0,I=ksInfo(x),tt=x.kc?ksKt(x):x.c.total*K;
+    const vc=!x.p.qty?0:Math.abs(cum-x.p.qty)<1e-9?tt:tt*cum/x.p.qty;s.rn=(s.rn||0)+tt-vc;
+    s.base+=x.c.total;s.ctb=(s.ctb||0)+tt;s.done+=dn;const row={x,I,cum,dn,tt,rn:tt-vc,rest:Math.round((x.p.qty-cum)*1e7)/1e7};s.pos.push(row);if(cum>x.p.qty+1e-9)s.over.push(row)}
+  if(XP.add){const A=XP.add,s={si:st.length+1,sec:'ВЗиС и зимнее удорожание (ОСР)',name:'Временные здания и зимнее удорожание (из ОСР)',term:'',base:A.V+A.W,ctb:XP.on?(XP.kA.V||0)+(XP.kA.W||0):(A.V+A.W)*K,done:0,pos:[],over:[],add:1};
+    for(let k=0;k<=last;k++){const d=ksAddPart(XP,k);if(d){const v=(d.V||0)+(d.W||0),sa=S.acts[k],inCt=sa.sig?!!sa.sig.ct:XP.on;s.done+=inCt?v:v*K}}s.rn=s.ctb-s.done;st.push(s)}
   // есть подписанные акты (№ 31): их суммы зафиксированы, остаток этапа = невыполненный объём по текущим ценам
   const SG=(S.acts||[]).some(a=>a.sig);
-  for(const s of st){s.base=r2(s.base);s.done=r2(s.done);s.ct=r2(s.base*K);s.ctDone=r2(s.done*K);s.rest=SG?r2(s.rn*K):r2(s.ct-s.ctDone);const all=SG?s.ctDone+s.rest:s.ct;s.pct=all?Math.min(100,s.ctDone/all*100):0}
-  const done=r2(st.reduce((t,s)=>t+s.ctDone,0)),acts=(S.acts||[]).filter(a=>Object.values(a.done||{}).some(v=>+v>0));
-  return {C,T,K,KT,KI,nmck:nmck?r2(nmck):null,nmA,SG,price:r2(price),base:r2(base),st,done,rest:SG?r2(st.reduce((t,s)=>t+s.rest,0)):r2(price-done),acts,lastAct:acts.length?acts[acts.length-1]:null}}
+  const ym=today().slice(0,7);
+  for(const s of st){if(s.term&&s.term<ym&&!s.add){const st0=(C.stages[s.si]||{});s.late=!0}
+    s.base=r2(s.base);s.done=r2(s.done);s.ct=r2(s.ctb);s.ctDone=s.done;s.rest=SG?r2(s.rn):r2(s.ct-s.ctDone);const all=SG?s.ctDone+Math.max(0,s.rest):s.ct;s.pct=all?Math.min(100,s.ctDone/all*100):0;if(s.late&&s.rest<=0.005)s.late=false}
+  /* остаток по контракту — невыполненные работы: перерасход одного этапа не уменьшает остаток других, он показан отдельно (этап 1 полировки) */
+  const done=r2(st.reduce((t,s)=>t+s.ctDone,0)),acts=(S.acts||[]).filter(a=>Object.values(a.done||{}).some(v=>+v>0)),over=r2(st.reduce((t,s)=>t+Math.min(0,s.rest),0));
+  const pays=(S.acts||[]).map((a,k)=>({a,k,p:a.sig?ksPay(k):null})).filter(o=>o.p),toPay=r2(pays.reduce((t,o)=>t+o.p.pay,0)),paid=r2((S.acts||[]).reduce((t,a)=>t+(num(a.paySum)||0),0)),
+    ret=r2(pays.reduce((t,o)=>t+o.p.ret,0)),offd=r2(pays.reduce((t,o)=>t+o.p.off,0)),adv=num(C.adv)||0;
+  return {C,T,K,KT,KI,XP,nmck:nmck?r2(nmck):null,nmA,SG,price:r2(price),base:r2(base),st,done,over,rest:r2(st.reduce((t,s)=>t+Math.max(0,s.rest),0)),acts,lastAct:acts.length?acts[acts.length-1]:null,
+    money:{adv,offd,advLeft:r2(adv-offd),ret,toPay,paid,debt:r2(toPay-paid)}}}
 function openContract(){if(!svcGate('contract'))return;if(S.mode)return toast('Смета контракта составляется по локальной смете');if(!S.pos.some(p=>p.sec===undefined))return toast('Смета пуста: добавьте позиции');if(!S.acts)S.acts=[];renderContract()}
 function renderContract(){const M=ctModel(),C=M.C,pc=v=>fmt(M.price?Math.round(v/M.price*1000)/10:0,1),bar=(p,w)=>`<div class="ctbar${w?' w':''}"><i style="width:${Math.max(0,Math.min(100,p)).toFixed(1)}%"></i></div>`;
   const over=M.st.flatMap(s=>s.over.map(r=>({s,r})));
@@ -3124,26 +3175,38 @@ function renderContract(){const M=ctModel(),C=M.C,pc=v=>fmt(M.price?Math.round(v
   let body='';
   if(ctTab==='st')body=`<div class="ksv"><table class="kvt"><thead><tr><th>№</th><th>Этап (раздел сметы)</th><th>Срок</th><th>По контракту, ₽</th><th>Выполнено, ₽</th><th style="width:22%">Готовность</th><th>Остаток, ₽</th></tr></thead><tbody>${M.st.map(s=>`<tr${s.over.length?' class="bad"':''}><td>${s.si}</td><td><b>${esc(s.name)}</b>${s.over.map(r=>`<div class="ctw">⚠ ${esc(r.I.name.length>60?r.I.name.slice(0,58)+'…':r.I.name)}: закрыто ${fq(r.cum)} при ${fq(r.x.p.qty)} ${esc(r.I.nat)} в смете</div>`).join('')}</td><td>${s.term?esc(s.term.split('-').reverse().join('.')):''}</td><td class="n">${fmt(s.ct)}</td><td class="n">${fmt(s.ctDone)}</td><td>${bar(s.pct,s.over.length)}</td><td class="n">${Math.abs(s.rest)<=0.005&&s.ct?'<span class="ctok">закрыт</span>':s.rest<0?`<span class="ctneg">${fmt(s.rest)}</span>`:fmt(s.rest)}</td></tr>`).join('')}
     <tr class="ksec"><td></td><td>Итого</td><td></td><td class="n">${fmt(M.price)}</td><td class="n">${fmt(M.done)}</td><td></td><td class="n">${fmt(M.rest)}</td></tr></tbody></table></div>`;
-  else if(ctTab==='rest')body=`<div class="ksv"><table class="kvt"><thead><tr><th>№</th><th>Обоснование</th><th>Наименование</th><th>Ед.</th><th>По смете</th><th>Выполнено</th><th>Остаток</th><th>Остаток, ₽</th></tr></thead><tbody>${M.st.map(s=>`<tr class="ksec"><td colspan="8">Этап ${s.si}. ${esc(s.name)}</td></tr>`+s.pos.map(r=>{const rr=r2((M.SG?r.rn:r.x.c.total-r.dn)*M.K);return `<tr${r.rest<-1e-9?' class="bad"':''}><td>${r.x.n}</td><td class="mono">${esc(r.I.code)}</td><td>${esc(r.I.name.length>80?r.I.name.slice(0,78)+'…':r.I.name)}</td><td>${esc(r.I.nat)}</td><td class="n">${fq(r.x.p.qty)}</td><td class="n">${r.cum?fq(r.cum):''}</td><td class="n">${fq(r.rest)}</td><td class="n">${fmt(rr)}</td></tr>`}).join('')).join('')}</tbody></table></div>`;
+  else if(ctTab==='rest')body=`<div class="ksv"><table class="kvt"><thead><tr><th>№</th><th>Обоснование</th><th>Наименование</th><th>Ед.</th><th>По смете</th><th>Выполнено</th><th>Остаток</th><th>Остаток, ₽</th></tr></thead><tbody>${M.st.map(s=>`<tr class="ksec"><td colspan="8">Этап ${s.si}. ${esc(s.name)}</td></tr>`+s.pos.map(r=>{const rr=r2(M.SG?r.rn:r.tt-r.dn);return `<tr${r.rest<-1e-9?' class="bad"':''}><td>${r.x.n}</td><td class="mono">${esc(r.I.code)}</td><td>${esc(r.I.name.length>80?r.I.name.slice(0,78)+'…':r.I.name)}</td><td>${esc(r.I.nat)}</td><td class="n">${fq(r.x.p.qty)}</td><td class="n">${r.cum?fq(r.cum):''}</td><td class="n">${fq(r.rest)}</td><td class="n">${fmt(rr)}</td></tr>`}).join('')).join('')}</tbody></table></div>`;
   else body=`<div class="fmf ksp"><label>Номер контракта<input data-cf="num" value="${esc(C.num||'')}"></label><label>Дата контракта<input type="date" data-cf="date" value="${C.date||''}"></label>
     <label>Вид цены<select data-cf="kind"><option value="firm"${C.kind!=='approx'?' selected':''}>Твёрдая</option><option value="approx"${C.kind==='approx'?' selected':''}>Приблизительная</option></select></label>
     <label>Цена контракта без НДС, ₽<input data-cf="price" inputmode="decimal" placeholder="${fmt(M.base)}" value="${C.price!=null?fq(C.price):''}"></label>
     <label>НМЦК без НДС, ₽<input data-cf="nmck" inputmode="decimal" placeholder="${M.nmA?fmt(M.nmA)+' (из расчёта НМЦК)':'из извещения о закупке'}" value="${C.nmck!=null?fq(C.nmck):''}"></label></div>
+    <label class="kchk" style="margin:6px 0 0"><input type="checkbox" id="ctFz"${C.fz44?' checked':''}> Контракт по 44-ФЗ (в допсоглашении ссылка на пп. 1.3 п. 1 ч. 1 ст. 95)</label>
     <label class="kchk" style="margin:6px 0 0"><input type="checkbox" id="ct604"${C.p604?' checked':''}> Контракт по 604/пр: проектная документация и (или) изыскания + строительство, реконструкция, капремонт</label>
+    <div class="fmf ksp" style="margin-top:8px"><label>Акты КС-2 и КС-3 по ценам<select data-cf="ksBy"><option value="ct"${C.ksBy!=='lsr'?' selected':''}>сметы контракта (841/пр, прил. 2, п. 7)</option><option value="lsr"${C.ksBy==='lsr'?' selected':''}>локальной сметы (по соглашению сторон)</option></select></label>
+    <label>Аванс с НДС, ₽<input data-cf="adv" inputmode="decimal" value="${C.adv!=null&&C.adv!==''?fq(C.adv):''}" placeholder="нет"></label>
+    <label>Зачёт аванса из каждого акта, %<input data-cf="advPct" inputmode="decimal" value="${C.advPct!=null&&C.advPct!==''?fq(C.advPct):''}" placeholder="${num(C.adv)&&M.price?fq(Math.round(num(C.adv)/(M.price*(1+B.nds/100))*10000)/100)+' (доля аванса)':'доля аванса в цене'}"></label>
+    <label>Гарантийное удержание, %<input data-cf="ret" inputmode="decimal" value="${C.ret!=null&&C.ret!==''?fq(C.ret):''}" placeholder="нет"></label></div>
+    ${(()=>{const st=S.stroy||{},vz=st.vz&&st.vz.on?num(st.vz.pct):0,wn=st.win&&st.win.on?num(st.win.pct):0;return vz||wn?`<label class="kchk" style="margin:6px 0 0"><input type="checkbox" id="ctVz"${C.ksVz?' checked':''}> Закрывать в актах ${[vz?`ВЗиС ${fq(vz)}%`:'',wn?`зимнее удорожание ${fq(wn)}%`:''].filter(Boolean).join(' и ')} из ОСР: строками КС-2 и КС-3 от выполненных СМР</label>`:''})()}
+    ${C.ksBy==='lsr'?'<div class="u" style="margin:4px 0 0">Акты по ценам локальной сметы: в окне контракта выполнение пересчитывается коэффициентом. Для строительства и реконструкции основание расчётов — смета контракта (841/пр, прил. 2, п. 7); для капремонта порядок задают стороны (п. 2).</div>':''}
     <div class="u" style="margin:6px 0 10px">Итог сметы без НДС ${fmt(M.base)} ₽. Пустая цена — цена равна итогу сметы.${M.KT!=null?`<br><b>Тендерный коэффициент Ктенд = цена контракта / НМЦК = ${fmt(M.price)} / ${fmt(M.nmck)} = ${k6(M.KT)}</b> (841/пр, прил. 2, п. 10). НМЦК / итог сметы = ${k6(M.KI)}: это пересчёт в прогнозные цены (Кфакт × Кпрогн), в КС-2 индексы инфляции не применяют.`:'<br>Укажите НМЦК: тендерный коэффициент считают как цену контракта, делённую на НМЦК (841/пр, прил. 2, п. 10), а не на итог сметы.'}<br>Коэффициент к сметной стоимости для этапов и выполнения: цена / итог сметы = ${k6(M.K)}.</div>
     <div class="ksv"><table class="kvt"><thead><tr><th>№</th><th>Раздел сметы</th><th>Название этапа в смете контракта</th><th>Срок (месяц)</th></tr></thead><tbody>${M.st.map(s=>`<tr><td>${s.si}</td><td>${esc(s.sec)}</td><td><input class="kin" style="width:100%" data-cs="${s.si}" data-ck="name" value="${esc((C.stages[s.si]||{}).name||'')}" placeholder="${esc(s.sec)}"></td><td><input class="kin" style="width:130px" type="month" data-cs="${s.si}" data-ck="term" value="${esc((C.stages[s.si]||{}).term||'')}"></td></tr>`).join('')}</tbody></table></div>`;
   dlg(`<div class="kah"><div><h3>Смета контракта и учёт выполнения</h3><div class="u">По смете «${esc(S.name)}»${C.num?` · контракт № ${esc(C.num)}${C.date?' от '+dmy(C.date):''}`:''} · этапы — разделы сметы, выполнение — из актов КС-2</div></div><button class="vdel" id="ctX" style="font-size:22px">×</button></div>
   <div class="ctg">${card('Цена контракта',fmt(M.price)+' ₽',`${M.st.length} ${M.st.length%10===1&&M.st.length%100!==11?'этап':M.st.length%10>=2&&M.st.length%10<=4&&(M.st.length%100<10||M.st.length%100>=20)?'этапа':'этапов'}, ${C.kind==='approx'?'приблизительная':'твёрдая'} цена`)}
    ${card('Выполнено нарастающим итогом',fmt(M.done)+' ₽',pc(M.done)+' % цены контракта',bar(M.price?M.done/M.price*100:0))}
-   ${card('Остаток по контракту',fmt(M.rest)+' ₽',pc(M.rest)+' % цены контракта')}
+   ${card('Остаток по контракту',fmt(M.rest)+' ₽',pc(M.rest)+' % цены контракта'+(M.over<0?` · перерасход ${fmt(-M.over)} ₽ сверх этапов`:''))}
    ${card('Актов КС-2',String(M.acts.length),M.lastAct?'последний: № '+esc(M.lastAct.num||'?')+(M.lastAct.to?' по '+dmy(M.lastAct.to):''):'актов с объёмами пока нет')}</div>
+  ${M.money.adv||M.money.ret||M.money.paid||M.money.toPay?`<div class="ctmon">Деньги по актам: ${M.money.adv?`аванс ${fmt(M.money.adv)} ₽, зачтено ${fmt(M.money.offd)} ₽, остаток аванса ${fmt(M.money.advLeft)} ₽ · `:''}${M.money.ret?`гарантийное удержание ${fmt(M.money.ret)} ₽ · `:''}к оплате по подписанным актам ${fmt(M.money.toPay)} ₽ · оплачено ${fmt(M.money.paid)} ₽ · <b>долг заказчика ${fmt(M.money.debt)} ₽</b></div>`:''}
   ${over.length?`<div class="kaw">${over.map(({s,r})=>`<div>⚠ Этап «${esc(s.name)}», позиция ${r.x.n}: в актах ${fq(r.cum)} ${esc(r.I.nat)}, в смете ${fq(r.x.p.qty)} ${esc(r.I.nat)} — больше на ${fq(Math.round((r.cum-r.x.p.qty)*1e7)/1e7)} ${esc(r.I.nat)}. Оформите дополнительные работы или проверьте объём.</div>`).join('')}</div>`:''}
+  ${(()=>{const A=S.addw&&S.addw.items||[],ap=A.filter(i=>i.applied),pend=A.filter(i=>!i.applied&&awRows(i).length);return ap.length||pend.length||(C.ver||[]).length?`<div class="ctmon">Допсоглашения: ${ap.map(i=>`Доп. № ${i.num} (ДС № ${esc(i.dsNum||'?')} от ${dmy(i.dsDate)}) внесено`).join('; ')||'внесённых нет'}${pend.length?` · в работе: ${pend.map(i=>`Доп. № ${i.num} ${(AW_ST.find(z=>z[0]===(i.st||'draft'))||AW_ST[0])[1].toLowerCase()}, ${awSum(i)>0?'+':''}${fmt(awSum(i))} ₽`).join('; ')}`:''}${(C.ver||[]).length?` · версия сметы контракта ${(C.ver||[]).length+1}, исходная цена ${fmt(C.ver[0].p0)} ₽`:''}</div>`:''})()}
+  ${M.st.some(s=>s.late)?`<div class="kaw">${M.st.filter(s=>s.late).map(s=>`<div>⏰ Этап «${esc(s.name)}» просрочен: срок ${esc(s.term.split('-').reverse().join('.'))}, выполнено ${fmt(s.pct,0)} %</div>`).join('')}</div>`:''}
   <div class="kstab">${[['st','Смета контракта по этапам'],['rest','Ведомость остатков'],['par','Контракт и этапы']].map(([k,l])=>`<button data-ct="${k}" class="${k===ctTab?'on':''}">${l}</button>`).join('')}</div>${body}
-  <div class="fmb"><button class="btn pri" id="ctActs">Акты КС-2 и КС-3…</button><button class="btn" id="ctXls">${ic('xls')}Смета контракта в Excel (.xlsx)</button></div>`,true);
+  <div class="fmb"><button class="btn pri" id="ctActs">Акты КС-2 и КС-3…</button>${over.length?'<button class="btn" id="ctOver">Перенести перерасход в допработы</button>':''}<button class="btn" id="ctXls">${ic('xls')}Смета контракта в Excel (.xlsx)</button></div>`,true);
   const D=$('#dlg');$('#ctX').onclick=()=>$('#dlgbg').classList.remove('on');
   D.querySelectorAll('[data-ct]').forEach(b=>b.onclick=()=>{ctTab=b.dataset.ct;renderContract()});
-  D.querySelectorAll('[data-cf]').forEach(x=>x.onchange=()=>{const k=x.dataset.cf;let v=x.value;if(k==='price'||k==='nmck'){v=String(v).replace(/\s/g,'').replace(',','.');if(v==='')v=null;else if(isNaN(+v)||+v<=0)return toast('Введите цену числом');else v=+v}C[k]=v;commit();renderContract()});
-  $('#ct604')&&($('#ct604').onchange=e=>{C.p604=e.target.checked;commit();renderContract()});
+  $('#ctOver')&&($('#ctOver').onclick=()=>{if(!svcGate('addwork'))return;$('#dlgbg').classList.remove('on');openAddwork();awFromOver()});
+  D.querySelectorAll('[data-cf]').forEach(x=>x.onchange=()=>{const k=x.dataset.cf;let v=x.value;if(k==='adv'||k==='advPct'||k==='ret'){v=String(v).replace(/\s/g,'').replace(',','.');if(v==='')v='';else if(isNaN(+v)||+v<0)return toast('Введите число');else v=+v;C[k]=v;commit();return renderContract()}if(k==='price'||k==='nmck'){v=String(v).replace(/\s/g,'').replace(',','.');if(v==='')v=null;else if(isNaN(+v)||+v<=0)return toast('Введите цену числом');else v=+v}C[k]=v;commit();renderContract()});
+  $('#ct604')&&($('#ct604').onchange=e=>{C.p604=e.target.checked;commit();renderContract()});$('#ctFz')&&($('#ctFz').onchange=e=>{C.fz44=e.target.checked;commit();renderContract()});
+  $('#ctVz')&&($('#ctVz').onchange=e=>{if((S.acts||[]).some(a=>a.sig)&&!confirm('Подписанные акты не изменятся. ВЗиС и зимнее войдут только в новые и неподписанные акты, коэффициент к сметной стоимости пересчитается. Продолжить?')){e.target.checked=!e.target.checked;return}C.ksVz=e.target.checked;commit();renderContract()});
   D.querySelectorAll('[data-cs]').forEach(x=>x.onchange=()=>{const s=C.stages[x.dataset.cs]||(C.stages[x.dataset.cs]={});s[x.dataset.ck]=x.value.trim();commit();renderContract()});
   $('#ctActs').onclick=()=>openActs();
   $('#ctXls').onclick=()=>{dlBlob(ctXlsx(),`Смета контракта ${C.num||''} ${S.name||''}.xlsx`.replace(/\s+/g,' '));toast('Смета контракта выгружена в Excel')};
@@ -3444,13 +3507,28 @@ const awData=()=>{const A=S.addw&&typeof S.addw==='object'?S.addw:(S.addw={items
 let awSel=null,awAll=false,awQ='',awQt=0;
 /* 841/пр прил. 2 пп. 9, 10, 10.1: изменённые объёмы — по цене единицы сметы контракта, то есть цена единицы ЛСР × К (цена контракта / итог сметы);
    для новых работ это то же, что × Кинф × Ктенд. Без цены контракта К = 1. sum0 — та же разница в ценах сметы */
-const awK=()=>{const C=S.contract,b=totals().total||0;return C&&C.price>0&&b?C.price/b:1};
+const awK=()=>ksPos().Kc||1;
 function awRows(it){const out=[],K=awK();for(const x of ksPos()){const need=it.need[x.p.id];if(need==null||need==='')continue;const n=+String(need).replace(',','.');if(!isFinite(n))continue;
     const d=Math.round((n-x.p.qty)*1e7)/1e7,unit=x.p.qty?x.c.total/x.p.qty:0;out.push({x,need:n,d,sum0:r2(d*unit),sum:r2(d*unit*K),K,bas:(it.bas||{})[x.p.id]||it.basis||''})}return out}
 const awSum=it=>r2(awRows(it).reduce((s,r)=>s+r.sum,0));
 function openAddwork(){if(!svcGate('addwork'))return;if(S.mode)return toast('Дополнительные работы считаются в локальной смете');if(!S.pos.some(p=>p.sec===undefined))return toast('Смета пуста: добавьте позиции');
   const A=awData();if(!A.items.length){awNew(false)}if(!A.items.some(i=>i.id===awSel))awSel=A.items[0].id;renderAddwork()}
-function awNew(r=true){const A=awData(),n=A.items.reduce((m,i)=>Math.max(m,i.num||0),0)+1,it={id:uid++,num:n,name:'',basis:'',date:today(),need:{},bas:{}};A.items.push(it);awSel=it.id;commit();if(r)renderAddwork()}
+/* этап 1 полировки (свод 4, К2, К14): у допсметы статус и реквизиты допсоглашения. Подписанное ДС вносится в смету контракта:
+   объёмы позиций = «нужно», цена контракта + сумма ДС (× К), версия СК сохраняется. Подписанные акты не меняются */
+const AW_ST=[['draft','Черновик'],['sent','Отправлено заказчику'],['agreed','Согласовано'],['signed','ДС подписано']];
+const awSplit=it=>{const R=awRows(it);return {plus:r2(R.filter(r=>r.sum>0).reduce((s,r)=>s+r.sum,0)),minus:r2(R.filter(r=>r.sum<0).reduce((s,r)=>s+r.sum,0)),plus0:r2(R.filter(r=>r.sum0>0).reduce((s,r)=>s+r.sum0,0))}};
+function awApply(it){if(it.applied)return toast(`Доп. № ${it.num} уже внесено в смету контракта`);if(it.st!=='signed')return toast('Сначала отметьте «ДС подписано» и впишите номер и дату допсоглашения');
+  if(!it.dsNum||!it.dsDate)return toast('Впишите номер и дату допсоглашения');const R=awRows(it);if(!R.length)return toast('В ведомости нет изменений');
+  const C=ctData(),M=ctModel(),sum=awSum(it),p0=M.price;
+  if(!confirm(`Внести Доп. № ${it.num} (ДС № ${it.dsNum} от ${dmy(it.dsDate)}) в смету контракта?\n\nОбъёмы ${R.length} ${cmpPl(R.length,'позиции','позиций','позиций')} станут как в колонке «Нужно», цена контракта ${fmt(p0)} → ${fmt(r2(p0+sum))} ₽ без НДС. Подписанные акты не изменятся. Прежняя версия сметы контракта сохранится в истории.`))return;
+  const ch=[];for(const r of R){ch.push({id:r.x.p.id,n:r.x.n,from:r.x.p.qty,to:r.need});r.x.p.qty=r.need}
+  C.ver=C.ver||[];C.ver.push({at:today(),ds:it.dsNum,dsd:it.dsDate,aw:it.num,p0,p1:r2(p0+sum),sum,ch});C.price=r2(p0+sum);it.applied=today();it.sumAp=sum;commit();render();renderAddwork();
+  toast(`Доп. № ${it.num} внесено: цена контракта ${fmt(C.price)} ₽, объёмы ${ch.length} ${cmpPl(ch.length,'позиции','позиций','позиций')} изменены`)}
+/* перерасход по актам (закрыто больше, чем в смете) → строки «нужно» в допсмете */
+function awFromOver(){const XP=ksPos(),last=(S.acts||[]).length-1,A=awData();if(last<0)return toast('Актов нет');const ov=XP.filter(x=>ksCum(x.p.id,last)>x.p.qty+1e-9);if(!ov.length)return toast('Перерасхода по актам нет');
+  let it=A.items.find(i=>!i.applied&&(i.st||'draft')==='draft');if(!it){awNew(false);it=A.items.find(i=>i.id===awSel)}
+  for(const x of ov)it.need[x.p.id]=Math.round(ksCum(x.p.id,last)*1e7)/1e7;it.basis=it.basis||'Акты КС-2: выполнено больше, чем в смете';awSel=it.id;commit();renderAddwork();toast(`Перерасход перенесён в Доп. № ${it.num}: ${ov.length} ${cmpPl(ov.length,'позиция','позиции','позиций')}`)}
+function awNew(r=true){const A=awData(),n=A.items.reduce((m,i)=>Math.max(m,i.num||0),0)+1,it={id:uid++,num:n,name:'',basis:'',date:today(),need:{},bas:{},st:'draft',dsNum:'',dsDate:''};A.items.push(it);awSel=it.id;commit();if(r)renderAddwork()}
 function renderAddwork(){const A=awData(),it=A.items.find(i=>i.id===awSel)||A.items[0];if(!it)return;awSel=it.id;
   const XP=ksPos(),R=awRows(it),byId=new Map(R.map(r=>[r.x.p.id,r])),M=ctModel(),tot=r2(A.items.reduce((s,i)=>s+awSum(i),0)),pct=M.price?tot/M.price*100:0,q=awQ.trim().toLowerCase();
   const show=XP.filter(x=>(awAll||byId.has(x.p.id))&&(!q||((ksInfo(x).name||'')+' '+(x.p.code||'')).toLowerCase().includes(q)));
@@ -3461,16 +3539,18 @@ function renderAddwork(){const A=awData(),it=A.items.find(i=>i.id===awSel)||A.it
      <td><input class="awb" data-ab="${x.p.id}" value="${esc((it.bas||{})[x.p.id]||'')}" placeholder="${esc(it.basis||'основание')}"></td></tr>`}).join('');
   const sum=awSum(it),bar=Math.min(100,Math.abs(pct)/(A.thr||10)*100);
   dlg(`<div class="kah"><div><h3>Дополнительные работы</h3><div class="u">Ведомость изменений к смете «${esc(S.name)}»: что нужно сверх сметы или меньше сметы, разница в рублях и влияние на цену контракта</div></div><button class="vdel" id="awX" style="font-size:22px">×</button></div>
-  <div class="awg"><div class="rmc awl"><div class="u rmh">Допсметы к этой смете</div>${A.items.map(i=>{const s=awSum(i);return `<button class="msr${i.id===it.id?' on':''}" data-ai="${i.id}"><b>Доп. № ${i.num}${i.name?' · '+esc(i.name):''}</b><span class="${s>0?'awp':s<0?'awm':'u'}">${s>0?'+':''}${fmt(s)} ₽</span></button>`}).join('')}
+  <div class="awg"><div class="rmc awl"><div class="u rmh">Допсметы к этой смете</div>${A.items.map(i=>{const s=awSum(i);return `<button class="msr${i.id===it.id?' on':''}" data-ai="${i.id}"><b>Доп. № ${i.num}${i.name?' · '+esc(i.name):''}</b><span class="${s>0?'awp':s<0?'awm':'u'}">${s>0?'+':''}${fmt(s)} ₽</span><span class="u">${i.applied?'внесено в СК':(AW_ST.find(z=>z[0]===(i.st||'draft'))||AW_ST[0])[1]}${i.dsNum?' · ДС № '+esc(i.dsNum):''}</span></button>`}).join('')}
      <button class="btn" id="awAdd">+ Новая допсмета</button></div>
    <div class="rmc"><div class="u rmh">Ведомость изменений · Доп. № ${it.num} к смете «${esc(S.name)}»</div>
      <div class="awh"><label class="u">Название<input id="awName" value="${esc(it.name||'')}" placeholder="например, Кровля: утеплитель"></label><label class="u">Основание для всех строк<input id="awBas" value="${esc(it.basis||'')}" placeholder="Акт осмотра № 7 от …"></label><label class="u">Дата<input type="date" id="awDate" value="${esc(it.date||'')}"></label></div>
+     <div class="awh awds"><label class="u">Статус<select id="awSt"${it.applied?' disabled':''}>${AW_ST.map(([k,l])=>`<option value="${k}"${(it.st||'draft')===k?' selected':''}>${l}</option>`).join('')}</select></label><label class="u">Допсоглашение №<input id="awDsN" value="${esc(it.dsNum||'')}" placeholder="№ ДС"${it.applied?' disabled':''}></label><label class="u">от<input type="date" id="awDsD" value="${esc(it.dsDate||'')}"${it.applied?' disabled':''}></label></div>
+     ${it.applied?`<div class="awn">✓ Внесено в смету контракта ${dmy(it.applied)}: объёмы позиций изменены, цена контракта изменена на ${(it.sumAp||0)>0?'+':''}${fmt(it.sumAp||0)} ₽. Подписанные акты не менялись.</div>`:it.st==='signed'?`<div class="awn">ДС подписано: внесите изменения в смету контракта, тогда акты пойдут по новым объёмам, а перерасход закроется.</div>`:''}
      <div class="fmb"><input id="awQ" placeholder="Найти позицию" value="${esc(awQ)}" style="flex:1;min-width:160px"><label class="u" style="display:flex;gap:4px;align-items:center"><input type="checkbox" id="awAll"${awAll?' checked':''}> все позиции сметы (${XP.length})</label></div>
      <div class="awt"><table class="mst"><thead><tr><th>Позиция</th><th class="num" style="width:78px">В смете</th><th style="width:72px">Нужно</th><th class="num" style="width:64px">Разница</th><th class="num" style="width:96px" title="Разница × цена единицы сметы контракта">Сумма, ₽</th><th style="width:130px">Основание</th></tr></thead>
        <tbody>${body||`<tr><td colspan="6" class="u">${awAll?'Ничего не нашлось':'Изменений пока нет. Отметьте «все позиции сметы» и впишите в колонку «Нужно» фактический объём.'}</td></tr>`}</tbody>
        ${R.length?`<tfoot><tr><td colspan="4"><b>Итого по Доп. № ${it.num}</b></td><td class="num"><b>${sum>0?'+':''}${fmt(sum)}</b></td><td></td></tr></tfoot>`:''}</table></div>
      <div class="awn">Позиции связаны с основной сметой: объём «в смете» и цена единицы берутся из неё (всего по позиции с НР и СП / объём). Уровень цен как у основной сметы: ${esc(lvName(S.level,zoneOf()))}. ${Math.abs(M.K-1)>1e-9?`Сумма = разница × цена единицы × К ${k6(M.K)} (цена контракта / итог сметы): допработы и исключаемые работы оплачивают по ценам сметы контракта, с тем же снижением по торгам (841/пр, прил. 2, пп. 9, 10, 10.1).`:'Цена контракта не задана: К = 1, суммы в ценах сметы.'} Работ, которых нет в смете, здесь нет: добавьте их в сформированную допсмету.</div>
-     <div class="fmb"><button class="btn pri" id="awMake"${R.some(r=>r.d>0)?'':' disabled'}>Сформировать допсмету</button><button class="btn" id="awXls"${R.length?'':' disabled'}>Ведомость изменений в Excel</button><button class="btn" id="awDel" style="margin-left:auto;color:var(--bad,#c0392b)">Удалить Доп. № ${it.num}</button></div></div>
+     <div class="fmb">${it.st==='signed'&&!it.applied?`<button class="btn pri" id="awApply">Внести в смету контракта</button>`:''}<button class="btn${it.st==='signed'&&!it.applied?'':' pri'}" id="awMake"${R.some(r=>r.d>0)?'':' disabled'}>Сформировать допсмету</button><button class="btn" id="awXls"${R.length?'':' disabled'}>Ведомость изменений в Excel</button>${(S.acts||[]).length&&ksPos().some(x=>ksCum(x.p.id,S.acts.length-1)>x.p.qty+1e-9)?'<button class="btn" id="awOver">Перенести перерасход из актов</button>':''}<button class="btn" id="awDel" style="margin-left:auto;color:var(--bad,#c0392b)">Удалить Доп. № ${it.num}</button></div></div>
    <div class="rmc"><div class="u rmh">Влияние на контракт</div>
      <div class="awk"><span class="u">${M.C.price!=null&&M.C.price>0?'Цена контракта':'Цена контракта не задана, берётся итог сметы'}</span><b>${fmt(M.price)} ₽</b></div>
      <div class="awk"><span class="u">Дополнительные работы, допсмет: ${A.items.length}</span><b class="${tot>0?'awp':tot<0?'awm':''}">${tot>0?'+':''}${fmt(tot)} ₽</b></div>
@@ -3483,10 +3563,12 @@ function renderAddwork(){const A=awData(),it=A.items.find(i=>i.id===awSel)||A.it
   const D=$('#dlg');D.style.maxWidth='1360px';D.style.width='97vw';const re=()=>{commit();renderAddwork()};
   $('#awX').onclick=()=>$('#dlgbg').classList.remove('on');
   D.querySelectorAll('[data-ai]').forEach(b=>b.onclick=()=>{awSel=+b.dataset.ai;renderAddwork()});$('#awAdd').onclick=()=>awNew();
+  $('#awSt').onchange=e=>{it.st=e.target.value;re()};$('#awDsN').onchange=e=>{it.dsNum=e.target.value.trim();re()};$('#awDsD').onchange=e=>{it.dsDate=e.target.value;re()};
+  $('#awApply')&&($('#awApply').onclick=()=>awApply(it));$('#awOver')&&($('#awOver').onclick=awFromOver);
   $('#awName').onchange=e=>{it.name=e.target.value.trim();re()};$('#awBas').onchange=e=>{it.basis=e.target.value.trim();re()};$('#awDate').onchange=e=>{it.date=e.target.value;commit()};
   $('#awQ').oninput=e=>{awQ=e.target.value;clearTimeout(awQt);const v=e.target,pos=v.selectionStart;awQt=setTimeout(()=>{renderAddwork();const n=$('#awQ');n.focus();n.setSelectionRange(pos,pos)},250)};
   $('#awAll').onchange=e=>{awAll=e.target.checked;renderAddwork()};
-  D.querySelectorAll('[data-an]').forEach(x=>x.onchange=()=>{const id=+x.dataset.an,v=x.value.trim().replace(/\s/g,'');if(v===''){delete it.need[id]}else{let n;try{n=evalF(v)}catch(e){return toast('Объём не понят: '+e.message)}it.need[id]=n}re()});
+  D.querySelectorAll('[data-an]').forEach(x=>x.onchange=()=>{if(it.applied){toast('Доп. № '+it.num+' уже внесено в смету контракта: создайте новую допсмету');return renderAddwork()}const id=+x.dataset.an,v=x.value.trim().replace(/\s/g,'');if(v===''){delete it.need[id]}else{let n;try{n=evalF(v)}catch(e){return toast('Объём не понят: '+e.message)}it.need[id]=n}re()});
   D.querySelectorAll('[data-ab]').forEach(x=>x.onchange=()=>{it.bas=it.bas||{};const v=x.value.trim();if(v)it.bas[+x.dataset.ab]=v;else delete it.bas[+x.dataset.ab];re()});
   $('#awThr').onchange=e=>{const v=+e.target.value.replace(',','.');if(v>0)A.thr=v;re()};
   $('#awDel').onclick=()=>{if(!confirm(`Удалить Доп. № ${it.num} с ведомостью изменений?`))return;A.items=A.items.filter(i=>i.id!==it.id);if(!A.items.length)awNew(false);awSel=A.items[0].id;re()};
@@ -3498,24 +3580,31 @@ function awXlsx(it){const R=awRows(it),s=awSum(it);return xBook('Ведомос�
   const h=row([[0,'№ поз.',4],[1,'Наименование работ',4],[2,'Шифр',4],[3,'Ед. изм.',4],[4,'В смете',4],[5,'Нужно',4],[6,'Разница, руб.',4],[7,'Основание',4]],30);
   for(const r of R){const I=ksInfo(r.x);row([[0,r.x.n,1],[1,I.name||'',1],[2,I.code||'',1],[3,I.nat||'',1],[4,r.x.p.qty,2],[5,r.need,2],[6,r.sum,2],[7,r.bas,1]])}
   row([[0,'',9],[1,'Итого',9],[2,'',9],[3,'',9],[4,'',9],[5,'',9],[6,s,10],[7,'',9]]);return [h,h]},'landscape')}
-function awAgreement(){const A=awData(),M=ctModel(),C=M.C,tot=r2(A.items.reduce((s,i)=>s+awSum(i),0)),np=r2(M.price+tot),q=req();
-  const rows=A.items.flatMap(i=>awRows(i).map(r=>({i,r})));
+function awAgreement(){const A=awData(),M=ctModel(),C=M.C,its=A.items.filter(i=>!i.applied&&awRows(i).length),tot=r2(its.reduce((s,i)=>s+awSum(i),0)),np=r2(M.price+tot),q=req(),P=party();
+  if(!its.length)return toast('Нет допсмет, не внесённых в смету контракта');
+  const rows=its.flatMap(i=>awRows(i).map(r=>({i,r}))),sp=its.map(awSplit),plus=r2(sp.reduce((s,x)=>s+x.plus,0)),minus=r2(sp.reduce((s,x)=>s+x.minus,0)),one=its.length===1?its[0]:null,obj=q.obj||S.name||'';
   const h=`<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"><title>Дополнительное соглашение</title><style>body{font-family:'Times New Roman';font-size:12pt}h1{font-size:14pt;text-align:center;margin:0 0 4pt}p{margin:0 0 8pt}table{border-collapse:collapse;width:100%}td,th{border:1px solid #000;padding:3pt 5pt;font-size:10.5pt;vertical-align:top}th{background:#eee}.r{text-align:right}</style></head><body>
-  <h1>ПРОЕКТ</h1><h1>Дополнительное соглашение № ___</h1><p style="text-align:center">к контракту № ${esc(C.num||'_______')}${C.date?' от '+dmy(C.date):' от «___» ________ 20__ г.'}</p>
-  <p>1. В связи с изменением объёмов работ, выявленным при производстве работ по объекту «${esc(S.name||'')}», стороны согласовали изменение объёмов работ согласно ведомости изменений (приложение 1) и дополнительным сметам: ${A.items.filter(i=>awRows(i).length).map(i=>`Доп. № ${i.num}${i.name?' «'+esc(i.name)+'»':''}`).join(', ')}.</p>
-  <p>2. Цена контракта изменяется на ${tot>0?'+':''}${fmt(tot)} руб. (${M.price?(tot>0?'+':'')+fmt(tot/M.price*100,1):'0'} %) и составляет ${fmt(np)} руб.${S.nds?'':' без НДС'}.</p>
+  <h1>ПРОЕКТ</h1><h1>Дополнительное соглашение № ${esc(one&&one.dsNum||'___')}</h1><p style="text-align:center">к контракту № ${esc(C.num||'_______')}${C.date?' от '+dmy(C.date):' от «___» ________ 20__ г.'}</p>
+  <p style="display:flex;justify-content:space-between"><span>г. ____________</span><span>${one&&one.dsDate?dmy(one.dsDate):'«___» ________ 20__ г.'}</span></p>
+  <p>${esc(P.zak||'Заказчик ______________________')}, именуемый в дальнейшем «Заказчик», и ${esc(P.podr||'Подрядчик ______________________')}, именуемый в дальнейшем «Подрядчик», заключили настоящее дополнительное соглашение о нижеследующем.</p>
+  <p>1. В связи с изменением объёмов работ, выявленным при производстве работ по объекту «${esc(obj)}», стороны согласовали изменение объёмов работ согласно ведомости изменений (приложение 1)${its.map(i=>i.basis).filter(Boolean).length?`, основание: ${esc([...new Set(its.map(i=>i.basis).filter(Boolean))].join('; '))}`:''}: ${its.map(i=>`Доп. № ${i.num}${i.name?' «'+esc(i.name)+'»':''}`).join(', ')}${C.fz44?' (пп. 1.3 п. 1 ч. 1 ст. 95 Федерального закона от 05.04.2013 № 44-ФЗ)':''}.</p>
+  <p>2. Стоимость увеличения объёмов ${fmt(plus)} руб., уменьшения ${fmt(Math.abs(minus))} руб.${Math.abs(M.K-1)>1e-9?` (в ценах сметы контракта: цена единицы сметы × ${k6(M.K)})`:''}. Цена контракта изменяется на ${tot>0?'+':''}${fmt(tot)} руб. (${M.price?(tot>0?'+':'')+fmt(tot/M.price*100,1):'0'} %) и составляет ${fmt(np)} руб.${S.nds?'':' без НДС'}.${plus&&minus?' Дополнительная смета составлена на увеличение объёмов; уменьшение учтено в ведомости изменений.':''}</p>
   <p>3. Остальные условия контракта остаются без изменений.</p>
   <p style="margin-top:14pt"><b>Приложение 1. Ведомость изменений объёмов работ</b></p>
   <table><tr><th>№ поз.</th><th>Наименование работ</th><th>Ед.</th><th>По смете</th><th>Требуется</th><th>Изменение, руб.</th><th>Основание</th></tr>
   ${rows.map(({r})=>{const I=ksInfo(r.x);return `<tr><td>${r.x.n}</td><td>${esc(I.name||'')}</td><td>${esc(I.nat||'')}</td><td class="r">${fq(r.x.p.qty)}</td><td class="r">${fq(r.need)}</td><td class="r">${r.sum>0?'+':''}${fmt(r.sum)}</td><td>${esc(r.bas)}</td></tr>`}).join('')}
   <tr><td></td><td><b>Итого</b></td><td></td><td></td><td></td><td class="r"><b>${tot>0?'+':''}${fmt(tot)}</b></td><td></td></tr></table>
-  <p style="margin-top:18pt">Заказчик: ______________________ &nbsp; &nbsp; &nbsp; Подрядчик: ______________________ ${esc(q.sost||'')}</p></body></html>`;
+  <table style="margin-top:18pt;border:0"><tr><td style="border:0;width:50%"><b>Заказчик</b><br>${esc(P.zak||'')}<br><br>______________ ${esc(P.zakSign||'')}</td><td style="border:0"><b>Подрядчик</b><br>${esc(P.podr||'')}<br><br>______________ ${esc(P.podrSign||'')}</td></tr></table></body></html>`;
   dlBlob(new Blob(['﻿'+h],{type:'application/msword'}),`Проект допсоглашения ${C.num||''} ${S.name||''}.doc`.replace(/\s+/g,' '));toast('Проект допсоглашения выгружен в Word')}
 // допсмета: копия сметы в новой вкладке, только добавленные объёмы, без актов, контракта и ведомостей
 async function awMake(it){const R=awRows(it).filter(r=>r.d>0);if(!R.length)return toast('Нет добавленных объёмов');
+  if(it.made&&!confirm(`Допсмета по Доп. № ${it.num} уже сформирована ${dmy(it.made.slice(0,10))}. Сформировать ещё одну копию?`))return;
   const add=new Map(R.map(r=>[r.x.p.id,r.d])),src=JSON.parse(JSON.stringify(S)),pos=[];let sec=null;
   for(const p of src.pos){if(p.sec!==undefined){sec=p;continue}if(!add.has(p.id))continue;if(sec){pos.push(sec);sec=null}const n={...p,qty:add.get(p.id)};delete n.vor;pos.push(n)}
   const n={...src,pos,name:`Доп. № ${it.num}${it.name?' · '+it.name:''} к смете «${S.name||''}»`};for(const k of ['docId','created','acts','contract','addw','measure','remarks','vor'])delete n[k];
+  /* допсмета закрывается актами по ценам сметы контракта: тот же К, реквизиты контракта и ДС, ссылка на основную смету */
+  const C0=S.contract||{},K=awK(),sp=awSplit(it);n.addOf={doc:S.docId||null,name:S.name||'',aw:it.num,ds:it.dsNum||'',dsd:it.dsDate||''};
+  if(C0.price>0)n.contract={num:C0.num||'',date:C0.date||'',kind:C0.kind||'firm',price:sp.plus,nmck:null,stages:{},ksBy:C0.ksBy,fz44:C0.fz44};
   it.made=new Date().toISOString();commit();$('#dlgbg').classList.remove('on');if(tabBusy())tabNew();await loadDoc(n,true);saved=false;markDirty();setSaveChip();
   toast(`Допсмета собрана: позиций ${R.length}. Сохраните её и добавьте новые работы, которых нет в основной смете`)}
 /* ---------- сервис «Обоснование коэффициентов» (бэклог 89_, № 4; флаг SVC.coefs).
@@ -5360,7 +5449,8 @@ function ksHeadX(row,mg,L,form,okud,title1,title2,a,P,Q,stroykaOkpo){const last=
   q=row([[0,title2,5]],18);mg(0,last,q);row([])}
 function ks2Xlsx(j){const M=ks2Model(j);return xBook('КС-2',[6,9,50,18,10,11,13,15],(row,mg)=>{let q;
   ksHeadX(row,mg,8,'КС-2','0322005','АКТ','О ПРИЕМКЕ ВЫПОЛНЕННЫХ РАБОТ',M.a,M.P,M.Q,0);
-  q=row([[0,'Сметная (договорная) стоимость в соответствии с договором подряда (субподряда)',15],[5,M.dog,16],[7,'руб.',15]]);mg(0,4,q);mg(5,6,q);row([]);
+  q=row([[0,'Сметная (договорная) стоимость в соответствии с договором подряда (субподряда)',15],[5,M.dog,16],[7,'руб.',15]]);mg(0,4,q);mg(5,6,q);
+  if(M.on){q=row([[0,`Цены — по смете контракта (841/пр, прил. 2, п. 7): коэффициент к сметной стоимости ${k6(M.K)}`,15]]);mg(0,7,q)}row([]);
   const h1=row([[0,'Номер',4],[1,'',4],[2,'Наименование работ',4],[3,'Номер единичной расценки',4],[4,'Единица измерения',4],[5,'Выполнено работ',4],[6,'',4],[7,'',4]],16);
   const h2=row([[0,'по порядку',4],[1,'позиции по смете',4],[2,'',4],[3,'',4],[4,'',4],[5,'количество',4],[6,'цена за единицу, руб.',4],[7,'стоимость, руб.',4]],30);
   mg(0,1,h1);mg(5,7,h1);mg(2,2,h1,h2);mg(3,3,h1,h2);mg(4,4,h1,h2);const h3=row([0,1,2,3,4,5,6,7].map(i=>[i,i+1,4]));
@@ -5368,6 +5458,7 @@ function ks2Xlsx(j){const M=ks2Model(j);return xBook('КС-2',[6,9,50,18,10,11,1
     if(R.el){row([[0,'',1],[1,'',1],[2,R.el,R.sub?11:1],[3,'',1],[4,'',1],[5,'',1],[6,'',1],[7,R.cost,2]]);continue}
     if(R.res){const h=Math.ceil(R.name.length/56);row([[0,'',1],[1,'',1],[2,R.name,11],[3,R.code,11],[4,R.unit,14],[5,R.qty,3],[6,R.price,2],[7,R.cost,2]],h>1?h*12+2:null);continue}
     if(R.all){row([[0,'',12],[1,'',12],[2,'Всего по позиции',12],[3,'',12],[4,'',12],[5,'',12],[6,'',12],[7,R.cost,13]]);continue}
+    if(R.lim){row([[0,R.n,14],[1,'',14],[2,R.name,1],[3,R.code,1],[4,'',14],[5,'',3],[6,'',2],[7,R.cost,2]]);continue}
     const ht=Math.max(1,Math.ceil(R.name.length/56));row([[0,R.n,14],[1,R.pn,14],[2,R.name,1],[3,R.code,1],[4,R.unit,14],[5,R.qty,3],[6,R.price,2],[7,R.cost,2]],ht>1?ht*12+2:null)}
   const itg=(l,v)=>{q=row([[3,l,17],[4,'',17],[5,'',1],[6,'Х',14],[7,v,10]]);mg(3,4,q)};itg('Итого',M.sum);if(M.a.nds)itg(`НДС ${B.nds}%`,M.nds);itg('Всего по акту',M.all);row([]);
   for(const [l,v] of [['Сдал',M.P.sdal],['Принял',M.P.prin]]){q=row([[0,l,7],[1,'',7],[2,v,19],[3,'',19],[4,'',19],[5,'',19],[6,'',19],[7,'',19]],16);mg(0,1,q);mg(2,4,q);mg(5,7,q);
@@ -5382,7 +5473,8 @@ function ks3Xlsx(j){const M=ks3Model(j);return xBook('КС-3',[8,22,36,10,17,17,
   const L3=(a,b,c,v,st)=>{const q=row([[0,a,c?14:1],[1,b,st||1],[2,'',st||1],[3,'',1],[4,v?v.s:'',v?(st===9?10:2):1],[5,v?v.y:'',v?(st===9?10:2):1],[6,v?v.p:'',v?(st===9?10:2):1]],b.length>60?26:null);mg(1,2,q)};
   L3('','Всего работ и затрат, включаемых в стоимость работ',0,M.tot,9);L3('','в том числе:');L3('',`${M.Q.obj} (локальный сметный расчёт № ${M.Q.num})`,0,M.tot,9);
   M.rows.forEach((o,i)=>L3(i+1,o.name,1,o));
-  const it3=(l,v,st)=>{const q=row([[4,l,17],[5,'',17],[6,v,st||10]]);mg(4,5,q)};it3('Итого',M.tot.p);it3('Сумма НДС',M.a.nds?M.nds:'без НДС',M.a.nds?10:14);it3('Всего с учетом НДС',M.all);row([]);
+  const it3=(l,v,st)=>{const q=row([[4,l,17],[5,'',17],[6,v,st||10]]);mg(4,5,q)};it3('Итого',M.tot.p);it3('Сумма НДС',M.a.nds?M.nds:'без НДС',M.a.nds?10:14);it3('Всего с учетом НДС',M.all);
+  if(M.pay&&M.pay.on){if(M.pay.off)it3('Зачёт аванса',M.pay.off);if(M.pay.ret)it3(`Гарантийное удержание ${fq(M.pay.retP)}%`,M.pay.ret);it3('К оплате',M.pay.pay)}row([]);
   for(const [l,v] of [['Заказчик (Генподрядчик)',M.P.zakSign],['Подрядчик (Субподрядчик)',M.P.podrSign]]){q=row([[0,l,7],[1,'',7],[2,v,19],[3,'',19],[4,'',19],[5,'',19],[6,'',19]],16);mg(0,1,q);mg(2,4,q);mg(5,6,q);
     q=row([[2,'(должность, расшифровка подписи)',20],[5,'(подпись)',20]]);mg(2,4,q);mg(5,6,q);row([[0,'М.П.',15]]);row([])}
   return [h1,h3]},'portrait',`КС-3 № ${M.a.num}`)}
@@ -5405,10 +5497,11 @@ ${pr('Стройка',Q.stroyka,'(наименование, адрес)',form===
 function ks2Html(j){const M=ks2Model(j);
   const body=M.rows.map(R=>R.sec?`<tr class="sec"><td colspan="8">${esc(R.sec)}</td></tr>`:R.el?`<tr${R.sub?' class="i"':''}><td></td><td></td><td>${esc(R.el)}</td><td></td><td></td><td></td><td></td><td class="n">${fmt(R.cost)}</td></tr>`:
     R.res?`<tr class="i"><td></td><td></td><td>${esc(R.name)}</td><td>${esc(R.code)}</td><td class="c">${esc(R.unit)}</td><td class="n">${fq(R.qty)}</td><td class="n">${R.price==null?'':fmt(R.price)}</td><td class="n">${fmt(R.cost)}</td></tr>`:
-    R.all?`<tr class="b"><td></td><td></td><td>Всего по позиции</td><td></td><td></td><td></td><td></td><td class="n">${fmt(R.cost)}</td></tr>`:`<tr><td class="c">${R.n}</td><td class="c">${R.pn}</td><td>${esc(R.name)}</td><td>${esc(R.code)}</td><td class="c">${esc(R.unit)}</td><td class="n">${fq(R.qty)}</td><td class="n">${fmt(R.price)}</td><td class="n">${R.cost===''?'':fmt(R.cost)}</td></tr>`).join('');
+    R.all?`<tr class="b"><td></td><td></td><td>Всего по позиции</td><td></td><td></td><td></td><td></td><td class="n">${fmt(R.cost)}</td></tr>`:
+    R.lim?`<tr><td class="c">${R.n}</td><td></td><td>${esc(R.name)}</td><td>${esc(R.code||'')}</td><td></td><td></td><td></td><td class="n">${fmt(R.cost)}</td></tr>`:`<tr><td class="c">${R.n}</td><td class="c">${R.pn}</td><td>${esc(R.name)}</td><td>${esc(R.code)}</td><td class="c">${esc(R.unit)}</td><td class="n">${fq(R.qty)}</td><td class="n">${fmt(R.price)}</td><td class="n">${R.cost===''?'':fmt(R.cost)}</td></tr>`).join('');
   const it=(l,v)=>`<tr class="b"><td colspan="5" style="border:0;text-align:right">${l}</td><td></td><td class="c">Х</td><td class="n">${fmt(v)}</td></tr>`;
   return `<!doctype html><html lang="ru"><head><meta charset="utf-8"><title>КС-2 № ${esc(M.a.num)}</title><style>${KS_CSS}</style></head><body>${ksHeadH('КС-2','0322005','АКТ','О ПРИЕМКЕ ВЫПОЛНЕННЫХ РАБОТ',M.a,M.P,M.Q,1)}
-<p>Сметная (договорная) стоимость в соответствии с договором подряда (субподряда) <b>${fmt(M.dog)}</b> руб.</p>
+<p>Сметная (договорная) стоимость в соответствии с договором подряда (субподряда) <b>${fmt(M.dog)}</b> руб.</p>${M.on?`<p style="font-size:9pt">Цены — по смете контракта (841/пр, прил. 2, п. 7): коэффициент к сметной стоимости ${k6(M.K)}.</p>`:''}
 <table class="f"><colgroup><col style="width:5%"><col style="width:7%"><col style="width:39%"><col style="width:14%"><col style="width:8%"><col style="width:8%"><col style="width:9%"><col style="width:10%"></colgroup>
 <thead><tr><th colspan="2">Номер</th><th rowspan="2">Наименование работ</th><th rowspan="2">Номер единичной расценки</th><th rowspan="2">Единица измерения</th><th colspan="3">Выполнено работ</th></tr><tr><th>по порядку</th><th>позиции по смете</th><th>количество</th><th>цена за единицу, руб.</th><th>стоимость, руб.</th></tr><tr>${[1,2,3,4,5,6,7,8].map(i=>`<th>${i}</th>`).join('')}</tr></thead>
 <tbody>${body}${it('Итого',M.sum)}${M.a.nds?it(`НДС ${B.nds}%`,M.nds):''}${it('Всего по акту',M.all)}</tbody></table>
@@ -5419,15 +5512,18 @@ function ks3Html(j){const M=ks3Model(j),r=(n,l,v,b)=>`<tr${b?' class="b"':''}><t
 <table class="f"><colgroup><col style="width:7%"><col style="width:45%"><col style="width:7%"><col style="width:14%"><col style="width:13%"><col style="width:14%"></colgroup>
 <thead><tr><th rowspan="2">Номер по порядку</th><th rowspan="2">Наименование пусковых комплексов, этапов, объектов, видов выполненных работ, оборудования, затрат</th><th rowspan="2">Код</th><th colspan="3">Стоимость выполненных работ и затрат, руб.</th></tr><tr><th>с начала проведения работ</th><th>с начала года</th><th>в том числе за отчетный период</th></tr><tr>${[1,2,3,4,5,6].map(i=>`<th>${i}</th>`).join('')}</tr></thead>
 <tbody>${r('','Всего работ и затрат, включаемых в стоимость работ',M.tot,1)}${r('','в том числе:')}${r('',esc(`${M.Q.obj} (локальный сметный расчёт № ${M.Q.num})`),M.tot,1)}${M.rows.map((o,i)=>r(i+1,esc(o.name),o)).join('')}</tbody></table>
-<div class="it"><div style="text-align:right">Итого</div><div></div><div></div><div class="bx">${fmt(M.tot.p)}</div><div style="text-align:right">Сумма НДС</div><div></div><div></div><div class="bx">${M.a.nds?fmt(M.nds):'без НДС'}</div><div style="text-align:right">Всего с учетом НДС</div><div></div><div></div><div class="bx">${fmt(M.all)}</div></div>
+<div class="it"><div style="text-align:right">Итого</div><div></div><div></div><div class="bx">${fmt(M.tot.p)}</div><div style="text-align:right">Сумма НДС</div><div></div><div></div><div class="bx">${M.a.nds?fmt(M.nds):'без НДС'}</div><div style="text-align:right">Всего с учетом НДС</div><div></div><div></div><div class="bx">${fmt(M.all)}</div>${M.pay&&M.pay.on?`${M.pay.off?`<div style="text-align:right">Зачёт аванса</div><div></div><div></div><div class="bx">${fmt(M.pay.off)}</div>`:''}${M.pay.ret?`<div style="text-align:right">Гарантийное удержание ${fq(M.pay.retP)}%</div><div></div><div></div><div class="bx">${fmt(M.pay.ret)}</div>`:''}<div style="text-align:right">К оплате</div><div></div><div></div><div class="bx">${fmt(M.pay.pay)}</div>`:''}</div>
 <div class="sg"><b>Заказчик (Генподрядчик)</b><div class="v">${esc(M.P.zakSign)}</div><div class="v"></div><div></div><div class="h">(должность, расшифровка подписи)</div><div class="h">(подпись)</div><div>М.П.</div><div></div><div></div>
 <b>Подрядчик (Субподрядчик)</b><div class="v">${esc(M.P.podrSign)}</div><div class="v"></div><div></div><div class="h">(должность, расшифровка подписи)</div><div class="h">(подпись)</div><div>М.П.</div><div></div><div></div></div></body></html>`}
 function printDoc(h){const fr=document.createElement('iframe');fr.style.cssText='position:fixed;right:0;bottom:0;width:0;height:0;border:0';document.body.appendChild(fr);
   fr.srcdoc=h;fr.onload=()=>{fr.contentWindow.focus();fr.contentWindow.print();setTimeout(()=>fr.remove(),60000)}}
-function dlBlob(b,name){const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name.replace(/[\\/:*?"<>|]/g,'').slice(0,150);a.click()}
+function dlBlob(b,name){const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name.replace(/[\\/]/g,'-').replace(/[:*?"<>|]/g,'').slice(0,150);a.click()}
 /* ---------- окно «Акты КС-2 и КС-3» ---------- */
+/* статус акта: черновик → предъявлен → подписан → оплачен (частично) */
+function ksStatus(a){const p=num(a.paySum)||0;if(a.sig&&p>0){const pay=ksPay(S.acts.indexOf(a));return pay&&p+0.005<pay.pay?['part','Оплачен частично']:['paid','Оплачен']}
+  return a.sig?['sig','Подписан']:a.sent?['sent','Предъявлен заказчику']:['draft','Черновик']}
+/* этап 1 полировки: новый акт пустой (иначе в акт незаметно уходят 100 % работ); весь остаток — кнопкой */
 function ksNewAct(){const j=S.acts.length,prev=S.acts[j-1],done={};
-  for(const x of ksPos()){const rest=x.p.qty-(j?ksCum(x.p.id,j-1):0);if(rest>1e-9)done[x.p.id]=Math.round(rest*1e7)/1e7}
   const d=today();return {id:uid++,num:String(j+1),date:d,from:d.slice(0,8)+'01',to:d,nds:prev?prev.nds:true,done}}
 function ksSample(){const P=ksPos(),h=Math.ceil(P.length/2),a1={id:uid++,num:'1',date:'2026-09-30',from:'2026-09-01',to:'2026-09-30',nds:true,done:{}},a2={id:uid++,num:'2',date:'2026-10-31',from:'2026-10-01',to:'2026-10-31',nds:true,done:{}};
   P.forEach((x,i)=>{if(i<h)a1.done[x.p.id]=x.p.qty;else if(i===h){a1.done[x.p.id]=Math.round(x.p.qty/2*1e7)/1e7;a2.done[x.p.id]=Math.round((x.p.qty-a1.done[x.p.id])*1e7)/1e7}else a2.done[x.p.id]=x.p.qty});
@@ -5436,21 +5532,22 @@ function openActs(){if(S.mode)return toast('Акты КС-2 и КС-3 соста
 function renderActs(){const a=S.acts[ksI],P=party(),w=ksWarn(ksI),XP=ksPos(),T=totals(),LK=a.sig?' disabled':'';
   const tabs=[['vol','Выполненные объёмы'],['ks2','КС-2'],['ks3','КС-3'],['party','Стороны и подписи']];
   let body='';
-  if(ksTab==='vol'){let ls=0;body=`<div class="ksv"><table class="kvt"><thead><tr><th>№</th><th>Обоснование</th><th>Наименование</th><th>Ед.</th><th>По смете</th><th>Ранее</th><th>В этом акте</th><th>Остаток</th><th>Стоимость, ₽</th></tr></thead><tbody>${XP.map(x=>{const I=ksInfo(x),pr=ksI?ksCum(x.p.id,ksI-1):0,d=ksDone(a,x.p.id),rest=x.p.qty-pr-d;
+  if(ksTab==='vol'){let ls=0;body=`<div class="ksv"><table class="kvt kva"><thead><tr><th>№</th><th>Обоснование</th><th>Наименование</th><th>Ед.</th><th>По смете</th><th>Ранее</th><th>В этом акте</th><th>Остаток</th><th>Стоимость, ₽</th></tr></thead><tbody>${XP.map(x=>{const I=ksInfo(x),pr=ksI?ksCum(x.p.id,ksI-1):0,d=ksDone(a,x.p.id),rest=x.p.qty-pr-d;
       const s=x.si!==ls?(ls=x.si,`<tr class="ksec"><td colspan="9">Раздел ${x.si}. ${esc(x.sec)}</td></tr>`):'';
       return s+`<tr${rest<-1e-9?' class="bad"':''}><td>${x.n}</td><td class="mono">${esc(I.code)}</td><td>${esc(I.name.length>90?I.name.slice(0,88)+'…':I.name)}</td><td>${esc(I.nat)}</td><td class="n">${fq(x.p.qty)}</td><td class="n">${pr?fq(pr):''}</td>
       <td><input class="kin" data-kd="${x.p.id}" value="${d?fq(d):''}" inputmode="decimal"${LK}><button class="kall" data-kr="${x.p.id}" title="Весь остаток"${LK}>всё</button></td><td class="n">${fq(Math.round(rest*1e7)/1e7)}</td><td class="n">${fmt(ksCost(x,ksI))}</td></tr>`}).join('')}</tbody></table></div>
       <div class="fmb"><button class="btn" id="ksRest"${LK}>Весь остаток в этот акт</button><button class="btn" id="ksClr"${LK}>Очистить объёмы акта</button></div>`}
   else if(ksTab==='party'){body=`<div class="fmf ksp">${[['stroyka','Стройка (из выходных форм ЛСР)'],['obj','Объект']].map(([k,l])=>`<label>${l}<input data-rq="${k}" value="${esc(req()[k]||'')}"></label>`).join('')}${PARTY.map(([k,l,t])=>`<label>${l}<input data-pt="${k}" type="${t||'text'}" value="${esc(P[k]||'')}"></label>`).join('')}</div>`}
   else body=`<div class="fmb">${ksTab==='ks2'?`<label class="kchk">Вид акта <select id="ksView">${Object.entries(FV).filter(([k])=>k!=='grand').map(([k,[l]])=>`<option value="${k}"${fopt().ks===k?' selected':''}>${l.replace('позиции','работы')}</option>`).join('')}</select></label>`:''}<button class="btn pri" id="ksXls">${ic('xls')}${ksTab==='ks2'?'КС-2':'КС-3'} в Excel (.xlsx)</button><button class="btn" id="ksPrn">${ic('print')}Печать или PDF</button></div><iframe id="ksPrev" title="Предпросмотр"></iframe>`;
-  const doneAll=r2(XP.reduce((s,x)=>s+[...S.acts.keys()].filter(k=>k<=ksI).reduce((t,k)=>t+ksCost(x,k),0),0)),m2=ks2Model(ksI);
+  const doneAll=r2(XP.reduce((s,x)=>s+[...S.acts.keys()].filter(k=>k<=ksI).reduce((t,k)=>t+ksCost(x,k),0),0)+[...S.acts.keys()].filter(k=>k<=ksI).reduce((t,k)=>{const d=ksAddPart(XP,k);return t+(d?(d.V||0)+(d.W||0):0)},0)),m2=ks2Model(ksI),TB=XP.on?+S.contract.price:XP.base,pay=ksPay(ksI),stt=ksStatus(a);
   dlg(`<div class="kah"><div><h3>Акты КС-2 и справки КС-3</h3><div class="u">Унифицированные формы № КС-2 и № КС-3 (постановление Госкомстата России от 11.11.1999 № 100) по смете «${esc(S.name)}»</div></div><button class="vdel" id="ksX" style="font-size:22px">×</button></div>
-  <div class="ksa">${S.acts.map((x,i)=>`<button class="kact${i===ksI?' on':''}${x.sig?' sig':''}" data-ai="${i}">${x.sig?'🔒 ':''}Акт № ${esc(x.num||'?')}<small>${dmy(x.to)}${x.sig?' · подписан':''}</small></button>`).join('')}<button class="btn" id="ksAdd">+ Новый акт</button><button class="btn${a.sig?' dis':''}" id="ksDel"${a.sig?' title="Подписанный акт не удаляется: сначала снимите подпись" aria-disabled="true"':''}>Удалить акт</button>${a.sig?'<button class="btn" id="ksUnsig">Снять подпись</button>':'<button class="btn" id="ksSig">🔒 Акт подписан</button>'}<button class="btn" id="ksSmp">Учебный пример: 2 акта</button></div>
+  <div class="ksa">${S.acts.map((x,i)=>`<button class="kact${i===ksI?' on':''}${x.sig?' sig':''}" data-ai="${i}">${x.sig?'🔒 ':''}Акт № ${esc(x.num||'?')}<small>${dmy(x.to)}${x.sig?' · подписан':''}</small></button>`).join('')}<button class="btn" id="ksAdd">+ Новый акт</button><button class="btn${a.sig?' dis':''}" id="ksDel"${a.sig?' title="Подписанный акт не удаляется: сначала снимите подпись" aria-disabled="true"':''}>Удалить акт</button>${a.sig?'<button class="btn" id="ksUnsig">Снять подпись</button>':'<button class="btn" id="ksSig">🔒 Акт подписан</button>'}${S.acts.some(ksHasWork)?'':'<button class="btn" id="ksSmp">Учебный пример: 2 акта</button>'}</div>
   <div class="ksf"><label>Номер<input data-af="num" value="${esc(a.num||'')}"${LK}></label><label>Дата составления<input type="date" data-af="date" value="${a.date||''}"${LK}></label><label>Период с<input type="date" data-af="from" value="${a.from||''}"${LK}></label><label>по<input type="date" data-af="to" value="${a.to||''}"${LK}></label><label class="kchk"><input type="checkbox" data-af="nds"${a.nds?' checked':''}${LK}> НДС ${B.nds}%</label></div>
+  <div class="ksf ksst"><span class="kss ${stt[0]}">${stt[1]}</span><label>Предъявлен заказчику<input type="date" data-ap="sent" value="${a.sent||''}"></label><label>Подписан заказчиком<input type="date" data-ap="sigd" value="${a.sig?(a.sig.at||''):''}"${a.sig?'':' disabled title="Сначала отметьте акт подписанным"'}></label><label>Оплачено, ₽<input data-ap="paySum" inputmode="decimal" value="${a.paySum!=null&&a.paySum!==''?fq(a.paySum):''}" placeholder="${pay?'к оплате '+fmt(pay.pay):''}"></label><label>Дата оплаты<input type="date" data-ap="payDate" value="${a.payDate||''}"></label></div>
   ${a.sig?`<div class="kslk">🔒 Акт подписан, суммы зафиксированы ${dmy(a.sig.at)} по ценам «${esc(a.sig.lv)}». Пересчёт сметы в другой квартал и правка цен этот акт не меняют. Объёмы и реквизиты закрыты: чтобы исправить акт, снимите подпись.</div>`:''}
   ${w.length?`<div class="kaw">${w.map(x=>`<div>⚠ ${esc(x)}</div>`).join('')}</div>`:''}
   <div class="kstab">${tabs.map(([k,l])=>`<button data-kt2="${k}" class="${k===ksTab?'on':''}">${l}</button>`).join('')}</div>${body}
-  <div class="ksum">Акт № ${esc(a.num||'?')}: <b>${fmt(m2.sum)} ₽</b> без НДС${a.nds?`, с НДС ${fmt(m2.all)} ₽`:''} · выполнено с начала работ ${fmt(doneAll)} из ${fmt(T.total)} ₽${doneAll>T.total+0.005&&S.acts.slice(0,ksI+1).some(x=>x.sig)?`: подписанные акты в ценах на дату подписания, итог сметы в новых ценах${XP.some(x=>ksCum(x.p.id,ksI)>x.p.qty+1e-9)?'':'; объёмы не превышены'}`:` (${T.total?Math.round(doneAll/T.total*1000)/10:0}%)`}</div>`,true);
+  <div class="ksum">Акт № ${esc(a.num||'?')}: <b>${fmt(m2.sum)} ₽</b> без НДС${a.nds?`, с НДС ${fmt(m2.all)} ₽`:''}${m2.on?' по ценам сметы контракта':''}${pay&&pay.on?` · к оплате ${fmt(pay.pay)} ₽${pay.off?` (зачёт аванса ${fmt(pay.off)} ₽)`:''}${pay.ret?`, удержано ${fmt(pay.ret)} ₽`:''}`:''} · выполнено с начала работ ${fmt(doneAll)} из ${fmt(TB)} ₽${doneAll>TB+0.005&&S.acts.slice(0,ksI+1).some(x=>x.sig)?`: подписанные акты в ценах на дату подписания, итог сметы в новых ценах${XP.some(x=>ksCum(x.p.id,ksI)>x.p.qty+1e-9)?'':'; объёмы не превышены'}`:` (${fmt(TB?Math.round(doneAll/TB*1000)/10:0,1)} %)`}</div>`,true);
   const D=$('#dlg');
   $('#ksX').onclick=()=>$('#dlgbg').classList.remove('on');
   D.querySelectorAll('[data-ai]').forEach(b=>b.onclick=()=>{ksI=+b.dataset.ai;renderActs()});
@@ -5461,14 +5558,15 @@ function renderActs(){const a=S.acts[ksI],P=party(),w=ksWarn(ksI),XP=ksPos(),T=t
   $('#ksUnsig')&&($('#ksUnsig').onclick=()=>{if(!confirm(`Снять подпись с акта № ${a.num||'?'}?\n\nСуммы акта снова будут считаться по текущим ценам сметы и могут измениться. Делайте это, только если акт исправляют и подписывают заново.`))return;
     delete a.sig;commit();renderActs();toast(`С акта № ${a.num||'?'} снята подпись: суммы считаются по текущим ценам`)});
   $('#ksDel').onclick=()=>{if(a.sig)return toast('Подписанный акт не удаляется: сначала снимите подпись');if(!confirm(`Удалить акт № ${a.num}? Объёмы последующих актов не изменятся.`))return;S.acts.splice(ksI,1);ksI=Math.max(0,ksI-1);if(!S.acts.length)S.acts.push(ksNewAct());commit();renderActs()};
-  $('#ksSmp').onclick=()=>{if(S.acts.some(x=>x.sig))return toast('В смете есть подписанные акты: учебный пример их не заменит');if(S.acts.some(x=>Object.keys(x.done||{}).length)&&!confirm('Заменить акты учебным примером?'))return;ksSample();commit();renderActs()};
+  $('#ksSmp')&&($('#ksSmp').onclick=()=>{if(S.acts.some(x=>x.sig))return toast('В смете есть подписанные акты: учебный пример их не заменит');if(S.acts.some(x=>Object.keys(x.done||{}).length)&&!confirm('Заменить акты учебным примером?'))return;ksSample();commit();renderActs()});
+  D.querySelectorAll('[data-ap]').forEach(x=>x.onchange=()=>{const k=x.dataset.ap,v=x.value;if(k==='sigd'){if(a.sig){a.sig.at=v||a.sig.at}}else if(k==='paySum'){const s=String(v).trim().replace(/\s/g,'').replace(',','.');if(s===''){delete a.paySum}else if(isNaN(+s))return toast('Введите число');else a.paySum=+s}else{if(v)a[k]=v;else delete a[k]}commit();renderActs()});
   D.querySelectorAll('[data-af]').forEach(x=>x.onchange=()=>{if(a.sig)return renderActs();const k=x.dataset.af;a[k]=k==='nds'?x.checked:x.value;commit();renderActs()});
   D.querySelectorAll('[data-kd]').forEach(x=>{x.onchange=()=>{if(a.sig)return renderActs();const v=String(x.value).trim().replace(',','.');a.done=a.done||{};if(v===''||+v===0)delete a.done[x.dataset.kd];else if(isNaN(+v))return toast('Введите число');else a.done[x.dataset.kd]=+v;commit();renderActs()};x.onkeydown=e=>{if(e.key==='Enter')x.blur()}});
   const rest=x=>Math.round((x.p.qty-(ksI?ksCum(x.p.id,ksI-1):0))*1e7)/1e7;
   D.querySelectorAll('[data-kr]').forEach(b=>b.onclick=()=>{const x=XP.find(y=>String(y.p.id)===b.dataset.kr);const v=rest(x);a.done=a.done||{};if(v>0)a.done[x.p.id]=v;else delete a.done[x.p.id];commit();renderActs()});
   $('#ksRest')&&($('#ksRest').onclick=()=>{a.done={};for(const x of XP){const v=rest(x);if(v>0)a.done[x.p.id]=v}commit();renderActs()});
   $('#ksClr')&&($('#ksClr').onclick=()=>{a.done={};commit();renderActs()});
-  D.querySelectorAll('[data-pt]').forEach(x=>x.onchange=()=>{S.party={...party(),[x.dataset.pt]:x.value};commit()});
+  D.querySelectorAll('[data-pt]').forEach(x=>x.onchange=()=>{const k=x.dataset.pt;if(k==='dogNum'||k==='dogDate'){ctData()[k==='dogNum'?'num':'date']=x.value}S.party={...(S.party||{}),[k]:x.value};commit()});
   D.querySelectorAll('[data-rq]').forEach(x=>x.onchange=()=>{S.req={...req(),[x.dataset.rq]:x.value};commit()});
   if(ksTab==='ks2'||ksTab==='ks3'){const k2=ksTab==='ks2';$('#ksPrev').srcdoc=(k2?ks2Html(ksI):ks3Html(ksI)).replace('</style>','@media screen{body{min-width:'+(k2?1040:760)+'px;padding:14px}}</style>');
     $('#ksXls').onclick=()=>{dlBlob(k2?ks2Xlsx(ksI):ks3Xlsx(ksI),`${k2?'КС-2':'КС-3'} № ${a.num} от ${dmy(a.date)} ${req().obj}.xlsx`);toast((k2?'Акт КС-2':'Справка КС-3')+' выгружен(а) в Excel')};
@@ -7392,9 +7490,11 @@ if(splitX())splitX().list().then(a=>{for(const s of a)splitReg(s);if(a.length){r
 migrateOld();setSaveChip();{const last=lsGet(SKL);const shared=location.hash.startsWith(SHARE_PREFIX);(last&&location.hash!=='#sample'?openDoc(last,true):Promise.resolve()).finally(()=>{if(shared)takeShared();else if(location.hash.startsWith('#k1.'))takeKey();else if(location.hash.startsWith('#pf1.'))pfShowLink();else if(SVC.diy&&diyMode())setTimeout(()=>{if(!$('#dlgbg').classList.contains('on'))openDiy()},700);if(cloudKey())cloudSync();tabsRestore();setTimeout(cabStart,1500)})}
 render=calcScope(render);renderTable=calcScope(renderTable);renderInsp=calcScope(renderInsp);renderDock=calcScope(renderDock);totals=calcScope(totals);
 lsrModel=calcScope(lsrModel);lsrModelGrand=calcScope(lsrModelGrand);ks2Model=calcScope(ks2Model);osrModel=calcScope(osrModel);ssrModel=calcScope(ssrModel);checkSmeta=calcScope(checkSmeta);resModel=calcScope(resModel);davList=calcScope(davList);
-window.__app={PD_CUT,knDefRS,KN_V,prLoading,ctFixed,ctFixOk,pirKv,pirKIn,KN_W,knData,knItems,knTot,knGeo,knNorms,knOpen,renderKn,knImport,knFind,knBuy,knWord,rmQm,dpCalc,railSet,ensureTR,trSet,rcv,renderDiy,rmSplit,RM_T,req,party,today,palList,pfNpos,dyCur,cabStart,cabOn,cabCount,kvSync,fileSync,cloudSync,mg3,allZip,restOpen,obfGet,obfPut,msGet,cabH,get kvSt(){return kvSt},get fSt(){return fSt},ksSnap,ks3Model,ksHasWork,renderActs,obfEvents,openAnswers,ansAll,ansHarvest,ansMatch,ansHint,ansAiHint,ansSet,ansAddFiles,ansRows,ansRender,ansGet,ansKey,get ANF(){return ANF},openKpBase,kpbAdd,kpbAll,kpbHarvest,kpbMatch,kpbCand,kpbTake,kpbHint,kaNew,openKA,openObject,stDel,obfDelNote,obfDelFile,obfAdd,obfNote,obfEvents,obfData,obfZip,obfRender,get OBF(){return OBF},stroyList,docSetPlace,openExamples,exLoad,exRows,exTpl,exUse,exList,get EXF(){return EXF},get EXD(){return EXD},newDocRaw,openCabinet,meLoad,myHash,meApplyZone,defZone,reqMine,meLink,meInit,meAvatar,openSvc,svcApply,svcChoose,svcToggle,svcGrant,svcGate,svcAsk,svcNeedAsk,svcPal,svcFilePreview,SVC_DEF,SVC_SETS,SVC0,openDiy,dyParse,dyParseLine,dyAnalyze,dyNorms,dyData,dyNew,dyRun,dyWord,dyMsg,diyMode,diySetMode,dyMatch,DY_SAMPLE,dyN:()=>DYN,openPortfolio,pfData,pfInfo,pfPack,pfLink,pfHtml,pfShowLink,pfView,openFreelance,flData,flSum,flFormula,flExamples,flDoc,flKpi,openFeed,fdDocs,fdAffected,fdDetail,fdImpact,fdCopies,fdItems,fdNext,fdXlsx,fdData:()=>FD,openPriceHist,phSeries,phPrice,phAllRegions,phXlsx,phWatch,phData:()=>PH,openRequarter,rqRun,rqStats,rqRes,rqApply,rqXlsx,rqData:()=>RQ,openRemarks,rmParse,rmData,openMeasure,msParse,msData,openNonorm,nnData,nnCost,nnUnitTotal,nnText,nnPut,openCompare,cmpCalc,cmpDiff,cmpRows,cmpLoad,cmpXlsx,openCoefs,kdGroups,kdEffect,kdText,openAddwork,awData,awRows,awSum,awMake,awXlsx,awAgreement,msToVor,msWord,msFormula,msVal,openContract,renderContract,ctModel,ctXlsx,SVC,openActs,bimx,ncsCalc,ncsSample,pirCalc,pirHtml,pirXlsx,pirSample,openOsr,renderOsr,nmckCalc,rubWords,nmckXlsx,setLsrView,setLsrRes,openExpert,expx,openSplit,splitReg,useSplit,SPL,get split(){return splitX()},osSample,ST,lsrModel,lsrModelGrand,osrModel,ssrModel,resModel,checkSmeta,ks2Model,fopt,mrNew,eqNew,kaNew,makePR,ensurePR,setZone,setLevel,prKey,get S(){return S},get xml(){return xmlx()},totals,calc,sample,B,ensureReal,nrCode,nrFull,sampleLesson,loadDoc,setBase:v=>setBase(v),renderTable,renderInsp,renderDock,syncRibbon};
+window.__app={PD_CUT,awApply,awFromOver,awSplit,awSum,awData,openContract,ksPos,ksPay,ksStatus,ksNewAct,ksAddPart,knDefRS,KN_V,prLoading,ctFixed,ctFixOk,pirKv,pirKIn,KN_W,knData,knItems,knTot,knGeo,knNorms,knOpen,renderKn,knImport,knFind,knBuy,knWord,rmQm,dpCalc,railSet,ensureTR,trSet,rcv,renderDiy,rmSplit,RM_T,req,party,today,palList,pfNpos,dyCur,cabStart,cabOn,cabCount,kvSync,fileSync,cloudSync,mg3,allZip,restOpen,obfGet,obfPut,msGet,cabH,get kvSt(){return kvSt},get fSt(){return fSt},ksSnap,ks3Model,ksHasWork,renderActs,obfEvents,openAnswers,ansAll,ansHarvest,ansMatch,ansHint,ansAiHint,ansSet,ansAddFiles,ansRows,ansRender,ansGet,ansKey,get ANF(){return ANF},openKpBase,kpbAdd,kpbAll,kpbHarvest,kpbMatch,kpbCand,kpbTake,kpbHint,kaNew,openKA,openObject,stDel,obfDelNote,obfDelFile,obfAdd,obfNote,obfEvents,obfData,obfZip,obfRender,get OBF(){return OBF},stroyList,docSetPlace,openExamples,exLoad,exRows,exTpl,exUse,exList,get EXF(){return EXF},get EXD(){return EXD},newDocRaw,openCabinet,meLoad,myHash,meApplyZone,defZone,reqMine,meLink,meInit,meAvatar,openSvc,svcApply,svcChoose,svcToggle,svcGrant,svcGate,svcAsk,svcNeedAsk,svcPal,svcFilePreview,SVC_DEF,SVC_SETS,SVC0,openDiy,dyParse,dyParseLine,dyAnalyze,dyNorms,dyData,dyNew,dyRun,dyWord,dyMsg,diyMode,diySetMode,dyMatch,DY_SAMPLE,dyN:()=>DYN,openPortfolio,pfData,pfInfo,pfPack,pfLink,pfHtml,pfShowLink,pfView,openFreelance,flData,flSum,flFormula,flExamples,flDoc,flKpi,openFeed,fdDocs,fdAffected,fdDetail,fdImpact,fdCopies,fdItems,fdNext,fdXlsx,fdData:()=>FD,openPriceHist,phSeries,phPrice,phAllRegions,phXlsx,phWatch,phData:()=>PH,openRequarter,rqRun,rqStats,rqRes,rqApply,rqXlsx,rqData:()=>RQ,openRemarks,rmParse,rmData,openMeasure,msParse,msData,openNonorm,nnData,nnCost,nnUnitTotal,nnText,nnPut,openCompare,cmpCalc,cmpDiff,cmpRows,cmpLoad,cmpXlsx,openCoefs,kdGroups,kdEffect,kdText,openAddwork,awData,awRows,awSum,awMake,awXlsx,awAgreement,msToVor,msWord,msFormula,msVal,openContract,renderContract,ctModel,ctXlsx,SVC,openActs,bimx,ncsCalc,ncsSample,pirCalc,pirHtml,pirXlsx,pirSample,openOsr,renderOsr,nmckCalc,rubWords,nmckXlsx,setLsrView,setLsrRes,openExpert,expx,openSplit,splitReg,useSplit,SPL,get split(){return splitX()},osSample,ST,lsrModel,lsrModelGrand,osrModel,ssrModel,resModel,checkSmeta,ks2Model,fopt,mrNew,eqNew,kaNew,makePR,ensurePR,setZone,setLevel,prKey,get S(){return S},get xml(){return xmlx()},totals,calc,sample,B,ensureReal,nrCode,nrFull,sampleLesson,loadDoc,setBase:v=>setBase(v),renderTable,renderInsp,renderDock,syncRibbon};
 if(location.hash==='#sample')sample();
-try{const nt=!localStorage.getItem('rimora.tour')&&!location.hash;if(SVC_ASK)setTimeout(()=>svcAsk(()=>{if(nt)tour()}),700);else if(nt)setTimeout(tour,700)}catch(e){}
+/* этап 1 полировки: тур не перекрывает открытое окно или меню — ждёт, пока пользователь их закроет */
+const tourFree=()=>{if(localStorage.getItem('rimora.tour'))return;if($('#dlgbg').classList.contains('on')||openMenu||document.querySelector('.dd'))return setTimeout(tourFree,1500);tour()};
+try{const nt=!localStorage.getItem('rimora.tour')&&!location.hash;if(SVC_ASK)setTimeout(()=>svcAsk(()=>{if(nt)setTimeout(tourFree,400)}),700);else if(nt)setTimeout(tourFree,700)}catch(e){}
 })();
 </script>
 </body>
