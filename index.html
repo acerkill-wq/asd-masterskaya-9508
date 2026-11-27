@@ -375,7 +375,11 @@ table.lsrf tr.sel td{background:color-mix(in srgb,var(--brand) 12%,transparent)}
 .flf:not(.flcalc){grid-template-columns:110px 1fr}
 .flci{font:inherit;font-size:13px;min-width:0;padding:5px 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:inherit}
 .fltags{display:flex;gap:4px;flex-wrap:wrap}.fltags:empty{display:none}.fltag.flred{background:color-mix(in srgb,var(--nr) 15%,transparent);color:var(--nr)}.fltag.flwarn{background:var(--warn-bg);color:var(--warn)}
-.fltel{color:var(--brand);text-decoration:none;font-weight:600;margin-left:6px;white-space:nowrap}.flredt{color:var(--nr);font-weight:600}.flcl .fltel{display:block;margin-left:0;overflow:hidden;text-overflow:ellipsis}.flc.fllost{opacity:.7}
+.fltel{color:var(--brand);text-decoration:none;font-weight:600;margin-left:6px;white-space:nowrap}.flredt{color:var(--nr);font-weight:600}.flcl .fltel{display:block;margin-left:0;overflow:hidden;text-overflow:ellipsis}.flc.fllost{opacity:.7}.flc:hover>b,.flc.on>b{padding-right:52px}@media(max-width:1100px){.flg{grid-template-columns:1fr}}
+.fltkr{grid-template-columns:18px minmax(0,1fr) 20px!important}.fltki{font:inherit;font-size:13px;min-width:0;border:1px solid transparent;border-radius:6px;padding:3px 6px;background:transparent;color:inherit}.fltki:hover,.fltki:focus{border-color:var(--line);background:var(--surface)}
+.fltkd{display:flex;gap:4px;flex-wrap:wrap;align-items:center}.fltkd input{font:inherit;font-size:12px;padding:2px 6px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:inherit}.fltmv{font:inherit;font-size:11.5px;padding:2px 8px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:inherit;cursor:pointer}.fltmv:hover{border-color:var(--brand);color:var(--brand)}
+.flpy{display:grid;grid-template-columns:86px auto 1fr 20px}.fladd{flex-wrap:wrap}.fladd #flTkT,.flpya #flPyS{flex:1 1 100%;min-width:0}.flpya select{font:inherit;font-size:13px;min-width:0;padding:5px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:inherit;flex:1 1 130px}.fltag.flgot{background:color-mix(in srgb,var(--brand) 14%,transparent);color:var(--brand)}
+.flnt .vdel+.vdel{margin-right:4px}.flrem{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:900;background:var(--surface);border:1px solid var(--warn);box-shadow:0 8px 30px rgba(0,0,0,.18);border-radius:12px;padding:10px 14px;display:flex;gap:10px;align-items:center;max-width:calc(100vw - 32px);font-size:14px}.flrem .btn{width:auto}
 .flcon{display:flex;flex-direction:column;gap:3px}.flln{color:var(--brand);text-decoration:none;font-size:13px;font-weight:600}
 .fltd{border:1px solid var(--warn);background:var(--warn-bg);border-radius:10px;padding:8px 12px;display:flex;flex-direction:column;gap:5px;margin-bottom:6px}.fltdr{display:grid;grid-template-columns:18px 1fr;gap:8px;align-items:start;font-size:13px}.fltdr input{margin:2px 0 0}.fltdr a{color:var(--ink2)}
 .flfil{display:flex;gap:6px;flex-wrap:wrap;align-items:center}.flfil input{font:inherit;font-size:13px;flex:1 1 200px;min-width:0;padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:inherit}
@@ -389,7 +393,7 @@ table.lsrf tr.sel td{background:color-mix(in srgb,var(--brand) 12%,transparent)}
 .flcls{display:flex;flex-direction:column;gap:6px}.flcr{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1.2fr) auto 90px 110px;gap:8px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:8px 10px;cursor:pointer;font-size:13px}.flcr.on{border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-soft)}.flcr .flsm{text-align:right;font-weight:600}
 .flhd .flhb{order:1;flex-wrap:wrap;justify-content:flex-end}.flhd #flX{order:2}.flhb .btn{width:auto}
 @media(max-width:600px){.flhd{flex-wrap:wrap}.flhd>div:first-child{flex:1 1 calc(100% - 44px);min-width:0}.flhd .flcab{display:none}.flhd .flhb{order:3;flex:1 0 100%;justify-content:flex-start}.flb{grid-template-columns:1fr}.flkv{font-size:20px}
-  .flcr{grid-template-columns:minmax(0,1fr) auto}.flcr>span.u:nth-of-type(1){display:none}.fladd{flex-wrap:wrap}.fladd input:not([type=date]),.fladd textarea{flex:1 1 100%}.fladd input[type=date]{flex:1 1 130px}}.flsum{font-size:30px;font-weight:800}.flme summary{cursor:pointer;margin-top:6px}.flme .flf{grid-template-columns:110px 1fr;margin-top:6px}
+  .flcr{grid-template-columns:minmax(0,1fr) auto}.flcr>span.u:nth-of-type(1){display:none}.fladd{flex-wrap:wrap}.fladd input:not([type=date]):not([type=time]),.fladd textarea{flex:1 1 100%}.fladd input[type=date]{flex:1 1 130px}}.flsum{font-size:30px;font-weight:800}.flme summary{cursor:pointer;margin-top:6px}.flme .flf{grid-template-columns:110px 1fr;margin-top:6px}
 .pfg{display:grid;grid-template-columns:1fr 320px;gap:12px;margin-top:6px}@media(max-width:1000px){.pfg{grid-template-columns:1fr}}.pfg .btn{justify-content:center}
 .pfme{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}.pfme input{font:inherit;font-size:13px;min-width:0;padding:5px 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:inherit}.pfme input:nth-child(n+4){grid-column:span 3}
 .pfh{display:flex;gap:16px;align-items:center;margin:4px 0}.pfav{width:72px;height:72px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:26px;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--brand),var(--m))}.pfn{font-size:22px;font-weight:800}
@@ -4016,13 +4020,20 @@ function renderFeed(){const R=FD;if(!R)return;const It=fdItems(),seen=R.seen0,nw
    №29: клиент отдельной записью (контакты, откуда пришёл, все заказы и сумма), задачи-напоминалки со сроком, примечания с датой, файлы заказа,
    история событий, поиск и фильтры, отмена удаления, выгрузка в Excel. Хранится в rimora.freelance (файлы — в хранилище файлов объекта, ключи fl…),
    при входе по личному коду синхронизируется с личным кабинетом (№30); заказ можно связать со сметой из «Моих смет». ---------- */
-let FLsel=null,FLdone=false,FLq='',FLf='',FLview='board',FLcli=null,FLundo=null;const FL_K='rimora.freelance';
+let FLsel=null,FLdone=false,FLq='',FLf='',FLview='board',FLcli=null,FLundo=null,FLnte=null;const FL_K='rimora.freelance';
 const FL_ST=[['new','Новые'],['work','В работе'],['client','У клиента'],['pay','Оплата'],['done','Закрыты'],['lost','Отказ']],FL_ACT=4;
 const FL_SRC=['дефектная ведомость','проект PDF','ведомость объёмов','смета на проверку','фото и обмер','другое'];
 const FL_FROM=['сарафан, рекомендация','повторный клиент','Авито','Профи.ру','сайт или соцсети','чаты сметчиков','другое'];
 const FL_LOST=['дорого','пропал, не отвечает','ушёл к другому сметчику','объект отменили','другое'];
 const FL_MON=['январе','феврале','марте','апреле','мае','июне','июле','августе','сентябре','октябре','ноябре','декабре'];
 const flNorm=s=>String(s||'').trim().replace(/\s+/g,' ').toLowerCase(),flTel=p=>String(p||'').replace(/[^\d+]/g,'');
+/* этап 5б, п. 1: «8 917…», «+7 917…» и «917…» — один номер: сравниваем последние 10 цифр */
+const flP10=p=>{const d=String(p||'').replace(/\D/g,'');return d.length===11&&/^[78]/.test(d)?d.slice(1):d};
+const flPhHit=(p,qd)=>{if(!qd||qd.length<3)return false;const x=flP10(p);if(!x)return false;return x.includes(qd)||x.includes(flP10(qd))||(/^[78]/.test(qd)&&qd.length>=4&&x.startsWith(qd.slice(1)))};
+/* этап 5б, п. 10 (Ильдар 27.11 «Да, добавить»): у заказа несколько оплат; «Ждёт оплаты» — остаток, «Заработано» и средний чек — по полученным деньгам */
+const FL_HOW=['перевод на карту','СБП','расчётный счёт','наличные','другое'];
+const flM=v=>fmt(v,Math.abs(v%1)>0.004?2:0),flGot=o=>r2((o.pays||[]).reduce((s,p)=>s+(+p.sum||0),0)),flRest=o=>r2(flSum(o)-flGot(o));
+const flPrePct=me=>{const m=String(me.pay||'').match(/(\d+(?:[.,]\d+)?)\s*%\s*предоплат|предоплат\D{0,20}?(\d+(?:[.,]\d+)?)\s*%/i);return m?num(m[1]||m[2])||0:0};
 const flCliFind=(D,n)=>D.clients.find(c=>c.name&&flNorm(c.name)===flNorm(n))||null;
 const flCliNew=(D,o)=>{const c={id:sidNew('c'),name:'',person:'',phone:'',email:'',msg:'',city:'',from:'',...o};D.clients.push(c);return c};
 const flCli=(D,o)=>o&&o.cid&&D.clients.find(c=>c.id===o.cid)||null;
@@ -4032,6 +4043,7 @@ function flData(){let D=null;try{D=JSON.parse(lsGet(FL_K)||'null')}catch(e){}if(
   D.me={name:'',inn:'',tax:'без НДС',pay:'50 % предоплата, 50 % после сдачи сметы',contact:'',rate:150,trip:3000,urg:20,...D.me};D.n={kp:1,inv:1,act:1,...D.n};if(!Array.isArray(D.clients))D.clients=[];
   // старые заказы (клиент строкой) получают карточку клиента по имени; одинаковые имена — один клиент
   let mig=false;for(const o of D.orders){for(const k of ['notes','tasks','files','log'])if(!Array.isArray(o[k]))o[k]=[];
+    if(!Array.isArray(o.pays)){const s=r2(((+o.npos||0)*(+o.rate||0)+(+o.trip||0))*(o.urgOn?1+(+o.urg||0)/100:1)+(+o.exp||0));o.pays=o.status==='done'&&s>0?[{id:sidNew('p'),sum:s,date:o.paidAt||o.created||today(),how:''}]:[];mig=true}
     if(!o.cid&&String(o.client||'').trim()){const c=flCliFind(D,o.client)||flCliNew(D,{name:String(o.client).trim().replace(/\s+/g,' '),...(o.ex?{ex:1}:{})});o.cid=c.id;mig=true}
     const c=flCli(D,o);if(c&&c.name&&c.name!==o.client)o.client=c.name}
   if(mig)flSave(D);return D}
@@ -4044,16 +4056,16 @@ const flDm=d=>d?new Date(d+'T00:00:00').toLocaleDateString('ru-RU',{day:'numeric
 const flOpenSt=o=>o.status!=='done'&&o.status!=='lost';
 const flTasksDue=o=>flOpenSt(o)?(o.tasks||[]).filter(x=>!x.done&&x.due&&x.due<=today()):[];
 const flLate=o=>(o.status==='new'||o.status==='work')&&flDays(o.deadline)<0;
-function flNew(D,o){const me=D.me,x={id:newId(),title:'Новый заказ',client:'',cid:'',src:FL_SRC[0],npos:0,deadline:'',status:'new',progress:0,rate:me.rate,trip:0,urg:me.urg,urgOn:false,exp:0,docId:'',remarks:0,created:today(),notes:[],tasks:[],files:[],log:[],...o};
+function flNew(D,o){const me=D.me,x={id:newId(),title:'Новый заказ',client:'',cid:'',src:FL_SRC[0],npos:0,deadline:'',status:'new',progress:0,rate:me.rate,trip:0,urg:me.urg,urgOn:false,exp:0,docId:'',remarks:0,created:today(),notes:[],tasks:[],files:[],log:[],pays:[],...o};
   if(!x.log.length)flLog(x,'Заказ создан',x.created);D.orders.unshift(x);return x}
 /* смена этапа: даты и история. Повторная отправка клиенту — новый круг, дни считаются заново (прогон 27.11, ошибка 2) */
 function flStage(o,ns){const ps=o.status;if(!ns||ps===ns)return;o.status=ns;const t=today();
-  if(ps==='done'&&ns!=='done')delete o.paidAt;
+  if(!Array.isArray(o.pays))o.pays=[];if(ps==='done'&&ns!=='done'){delete o.paidAt;o.pays=o.pays.filter(p=>!p.auto)}
   if(ns==='client'){o.sentAt=t;o.round=(o.round||0)+1;flLog(o,o.round>1?`Отправлено клиенту, ${o.round}-й круг`:'Отправлено клиенту')}
   else if(ns==='work'&&ps==='client')flLog(o,'Клиент вернул на доработку');
   else if(ns==='pay'){o.payAt=t;flLog(o,'Сдано, ждём оплату')}
-  else if(ns==='done'){if(!o.paidAt)o.paidAt=t;flLog(o,'Оплачено: '+fmt(flSum(o),0)+' ₽')}
-  else if(ns==='lost'){o.lostAt=t;if(!o.lost)o.lost=FL_LOST[0];flLog(o,'Отказ: '+o.lost)}
+  else if(ns==='done'){if(!o.paidAt)o.paidAt=t;const rest=flRest(o);if(rest>0.004)o.pays.push({id:sidNew('p'),sum:rest,date:t,how:'',auto:1});flLog(o,'Оплачено: '+fmt(flGot(o),0)+' ₽')}
+  else if(ns==='lost'){o.lostAt=t;flLog(o,o.lost?'Отказ: '+o.lost:'Отказ')}
   else flLog(o,'Этап: '+(FL_ST.find(s=>s[0]===ns)||[0,ns])[1])}
 function flDocPos(id){if(!id)return null;try{const d=id===S.docId?S:JSON.parse(lsGet(SKD+id)||'null');return d?{name:d.name,n:d.pos.filter(p=>p.sec===undefined).length}:null}catch(e){return null}}
 function flExamples(){const D=flData(),t=today(),dd=(n,o)=>({...o,deadline:flAddD(t,n)});
@@ -4070,7 +4082,9 @@ function flExamples(){const D=flData(),t=today(),dd=(n,o)=>({...o,deadline:flAdd
     {title:'Склад: полы',client:'ООО «Логистик»',cl:{email:'zakaz@example.ru'},src:'дефектная ведомость',npos:75,status:'done',paidAt:t,urgOn:true},
     {title:'Баня, смета для банка',client:'Денис П.',cl:{phone:'+7 900 000-00-11',from:'Авито'},src:'проект PDF',npos:25,status:'lost',lost:'дорого',lostAt:t}];
   for(const e of E.reverse()){const {cl,tasks,notes,...o}=e,c=flCliFind(D,o.client)||flCliNew(D,{name:o.client,ex:1,...(cl||{})});
-    flNew(D,{...o,cid:c.id,ex:1,tasks:(tasks||[]).map(x=>({id:sidNew('t'),done:false,...x})),notes:(notes||[]).map(x=>({id:sidNew('n'),at:t,...x}))})}
+    const x=flNew(D,{...o,cid:c.id,ex:1,tasks:(tasks||[]).map(x=>({id:sidNew('t'),done:false,...x})),notes:(notes||[]).map(x=>({id:sidNew('n'),at:t,...x}))});
+    if(x.status==='done')x.pays=[{id:sidNew('p'),sum:flSum(x),date:x.paidAt||t,how:'перевод на карту'}];
+    else if(x.title==='Фасад магазина'||x.title==='Забор и ворота')x.pays=[{id:sidNew('p'),sum:r2(flSum(x)/2),date:flAddD(t,-12),how:'расчётный счёт'}]}
   flSave(D);FLsel=D.orders[0].id;FLview='board';renderFreelance()}
 function openFreelance(){if(!svcGate('freelance'))return;renderFreelance()}
 function flDoc(kind,o){const D=flData(),me=D.me,sum=flSum(o),dt=new Date().toLocaleDateString('ru-RU'),num=D.n[kind]++;
@@ -4095,15 +4109,15 @@ function flDoc(kind,o){const D=flData(),me=D.me,sum=flSum(o),dt=new Date().toLoc
     <p style="margin-top:18pt">Исполнитель: ______________________ &nbsp; &nbsp; Заказчик: ______________________</p></body></html>`;name=`Акт ${num} ${o.title}.doc`}
   dlBlob(new Blob(['﻿'+h],{type:'application/msword'}),name.replace(/[\\/:*?"<>|]+/g,' ').replace(/\s+/g,' '));toast((kind==='kp'?'КП':kind==='inv'?'Счёт':'Акт')+' выгружен в Word')}
 function flKpi(D){const O=D.orders,t=today(),m=t.slice(0,7),work=O.filter(o=>o.status==='work'),near=work.map(o=>o.deadline).filter(Boolean).sort()[0];
-  const done=O.filter(o=>o.status==='done'),paid=done.filter(o=>flSum(o)>0),dm=done.filter(o=>(o.paidAt||'').slice(0,7)===m),pay=O.filter(o=>o.status==='pay'),avg=paid.length?paid.reduce((s,o)=>s+flSum(o),0)/paid.length:0;
+  const paid=O.filter(o=>o.status==='done'&&flGot(o)>0),PM=O.flatMap(o=>(o.pays||[]).filter(p=>(p.date||'').slice(0,7)===m)),pay=O.filter(o=>o.status==='pay'),avg=paid.length?paid.reduce((s,o)=>s+flGot(o),0)/paid.length:0;
   const p7=pay.filter(o=>(flWait(o.payAt||o.sentAt)||0)>7).length;
   const k=(h,v,u,c,f)=>`<div class="flk${f?' flkb':''}"${f?` data-kf="${f}" title="Показать эти заказы"`:''}><div class="u rmh">${h}</div><div class="flkv${c?' '+c:''}">${v}</div><div class="u">${u}</div></div>`;
   return k('В работе',`${work.length} ${cmpPl(work.length,'заказ','заказа','заказов')}`,near?'ближайший срок: '+flDm(near):'сроков нет')
-    +k('Заработано в '+FL_MON[+m.slice(5)-1],fmt(dm.reduce((s,o)=>s+flSum(o),0),0)+' ₽',`${dm.length} ${cmpPl(dm.length,'закрытый заказ','закрытых заказа','закрытых заказов')}`,'flg')
-    +k('Ждёт оплаты',fmt(pay.reduce((s,o)=>s+flSum(o),0),0)+' ₽',pay.length?`${pay.length} ${cmpPl(pay.length,'заказ','заказа','заказов')}${p7?`, дольше 7 дней: ${p7}`:''}`:'долгов нет','',pay.length?'pay':'')
-    +k('Средний чек',fmt(avg,0)+' ₽',paid.length?'за смету, по оплаченным':'появится после первой оплаты')}
+    +k('Заработано в '+FL_MON[+m.slice(5)-1],fmt(PM.reduce((s,p)=>s+(+p.sum||0),0),0)+' ₽',PM.length?`${PM.length} ${cmpPl(PM.length,'оплата','оплаты','оплат')}, с предоплатами`:'оплат пока нет','flg')
+    +k('Ждёт оплаты',fmt(pay.reduce((s,o)=>s+Math.max(0,flRest(o)),0),0)+' ₽',pay.length?`${pay.length} ${cmpPl(pay.length,'заказ','заказа','заказов')}${p7?`, дольше 7 дней: ${p7}`:''}`:'долгов нет','',pay.length?'pay':'')
+    +k('Средний чек',fmt(avg,0)+' ₽',paid.length?'за смету, по полученным деньгам':'появится после первой оплаты')}
 function flHit(D,o){const q=flNorm(FLq);if(q){const c=flCli(D,o)||{},qd=q.replace(/[^\d]/g,'');
-    if(![o.title,o.client,c.person,c.email,c.msg,c.city].some(v=>flNorm(v).includes(q))&&!(qd.length>=3&&flTel(c.phone).includes(qd)))return false}
+    if(![o.title,o.client,c.person,c.email,c.msg,c.city].some(v=>flNorm(v).includes(q))&&!flPhHit(c.phone,qd))return false}
   if(FLf==='today')return flTasksDue(o).length>0;if(FLf==='late')return flLate(o)||flTasksDue(o).some(x=>x.due<today());if(FLf==='pay')return o.status==='pay';return true}
 function flLinks(c){if(!c)return '';const L=[];if(c.phone)L.push(`<a class="flln" href="tel:${esc(flTel(c.phone))}">Позвонить: ${esc(c.phone)}</a>`);
   if(c.email)L.push(`<a class="flln" href="mailto:${esc(c.email)}">Написать: ${esc(c.email)}</a>`);
@@ -4115,11 +4129,11 @@ function flCard(o,D){const st=o.status,dl=flDays(o.deadline),sum=flSum(o),i=FL_S
   if(st==='new')b=`<span class="u">≈ ${fq(+o.npos||0)} поз.${o.kpAt?' · КП '+flDm(o.kpAt):''}</span><span class="flch">${sum?fmt(sum,0)+' ₽':'посчитать цену'}</span>${dch}`;
   else if(st==='work')b=`<span class="u">${o.progress||0} %</span>${dch||'<span class="u">без срока</span>'}<div class="flpr"><i style="width:${o.progress||0}%"></i></div>`;
   else if(st==='client'){const d=flWait(o.sentAt);b=`<span class="u">${o.remarks?'замечания: '+o.remarks:'на проверке'}${(o.round||1)>1?' · '+o.round+'-й круг':''}</span>${o.remarks?'<span class="flch flred">ответить</span>':d?`<span class="flch">${d}-й день</span>`:''}`}
-  else if(st==='pay'){const d=flWait(o.payAt||o.sentAt);b=`<span class="u">${fmt(sum,0)} ₽</span><span class="flch ${d>7?'flred':'flwarn'}">${d?'ждёт '+d+'-й день':'ждёт'}</span>`}
+  else if(st==='pay'){const d=flWait(o.payAt||o.sentAt),g=flGot(o);b=`<span class="u">${g>0?`остаток ${fmt(flRest(o),0)} из ${fmt(sum,0)} ₽`:fmt(sum,0)+' ₽'}</span><span class="flch ${d>7?'flred':'flwarn'}">${d?'ждёт '+d+'-й день':'ждёт'}</span>`}
   else if(st==='lost')b=`<span class="u">отказ${o.lost?': '+esc(o.lost):''}${o.lostAt?' · '+flDm(o.lostAt):''}</span>`;
-  else b=`<span class="u">${fmt(sum,0)} ₽ · оплачен ${o.paidAt?flDm(o.paidAt):''}</span>`;
+  else b=`<span class="u">${fmt(flGot(o)||sum,0)} ₽ · оплачен ${o.paidAt?flDm(o.paidAt):''}</span>`;
   const tel=c&&c.phone?`<a class="fltel" href="tel:${esc(flTel(c.phone))}" title="Позвонить">${esc(c.phone)}</a>`:'';
-  return `<div class="flc${o.id===FLsel?' on':''}${st==='lost'?' fllost':''}" data-id="${o.id}"${flOpenSt(o)?' draggable="true"':''}><b>${esc(o.title)}</b><div class="fltags">${o.ex?'<span class="fltag">пример</span>':''}${td.length?`<span class="fltag ${td.some(x=>x.due<t)?'flred':'flwarn'}" title="${esc(td.map(x=>x.t).join('; '))}">⏰ ${td.length} ${cmpPl(td.length,'задача','задачи','задач')}</span>`:''}${o.files.length?`<span class="fltag" title="Файлов в заказе">файлов: ${o.files.length}</span>`:''}</div>
+  return `<div class="flc${o.id===FLsel?' on':''}${st==='lost'?' fllost':''}" data-id="${o.id}"${flOpenSt(o)?' draggable="true"':''}><b>${esc(o.title)}</b><div class="fltags">${o.ex?'<span class="fltag">пример</span>':''}${td.length?`<span class="fltag ${td.some(x=>x.due<t)?'flred':'flwarn'}" title="${esc(td.map(x=>x.t).join('; '))}">⏰ ${td.length} ${cmpPl(td.length,'задача','задачи','задач')}</span>`:''}${o.files.length?`<span class="fltag" title="Файлов в заказе">файлов: ${o.files.length}</span>`:''}${(st==='new'||st==='work'||st==='client')&&flGot(o)>0?`<span class="fltag flgot" title="Получено от клиента">получено ${fmt(flGot(o),0)} ₽</span>`:''}</div>
     <div class="flcl">${esc(o.client||'клиент не указан')}${tel}</div><div class="flcb">${b}</div>
     <div class="flmv">${i>0&&i<=FL_ACT?`<button data-mv="-1" title="На шаг назад">‹</button>`:''}${i<FL_ACT?`<button data-mv="1" title="Следующий этап: ${esc(FL_ST[i+1][1])}">›</button>`:''}</div></div>`}
 function flToday(D){const t=today(),L=[];for(const o of D.orders)for(const x of flTasksDue(o))L.push({o,x});const late=D.orders.filter(flLate);if(!L.length&&!late.length)return '';
@@ -4127,7 +4141,7 @@ function flToday(D){const t=today(),L=[];for(const o of D.orders)for(const x of 
   return `<div class="fltd"><div class="u rmh">Сегодня: ${L.length} ${cmpPl(L.length,'задача','задачи','задач')}${late.length?` · срок сдачи прошёл: ${late.length} ${cmpPl(late.length,'заказ','заказа','заказов')}`:''}</div>
     ${L.map(({o,x})=>{const c=flCli(D,o);return `<label class="fltdr"><input type="checkbox" data-tdo="${o.id}" data-tdx="${x.id}"><span><span class="${x.due<t?'flredt':''}">${x.due<t?'с '+flDm(x.due)+': ':''}${esc(x.t)}</span> · <a href="#" data-go="${o.id}">${esc(o.title)}</a>${c&&c.phone?`<a class="fltel" href="tel:${esc(flTel(c.phone))}">${esc(c.phone)}</a>`:''}</span></label>`}).join('')}
     ${late.map(o=>`<div class="fltdr"><span></span><span><span class="flredt">срок сдачи был ${flDm(o.deadline)}</span> · <a href="#" data-go="${o.id}">${esc(o.title)}</a></span></div>`).join('')}</div>`}
-function flCliStat(D,c){const O=D.orders.filter(o=>o.cid===c.id),paid=O.filter(o=>o.status==='done');return {O,sum:paid.reduce((s,o)=>s+flSum(o),0),last:O.map(o=>o.created||'').sort().pop()||''}}
+function flCliStat(D,c){const O=D.orders.filter(o=>o.cid===c.id);return {O,sum:O.reduce((s,o)=>s+flGot(o),0),last:O.map(o=>o.created||'').sort().pop()||''}}
 const flCi=(c,k,ph='',t='text')=>`<input class="flci" data-cid="${c.id}" data-k="${k}" type="${t}" value="${esc(c[k]||'')}" placeholder="${esc(ph)}">`;
 const flCiFrom=c=>`<select class="flci" data-cid="${c.id}" data-k="from"><option value="">не указано</option>${[...new Set([...FL_FROM,...(c.from?[c.from]:[])])].map(s=>`<option${s===c.from?' selected':''}>${esc(s)}</option>`).join('')}</select>`;
 const flCiForm=c=>`<label>Контактное лицо</label>${flCi(c,'person','кто принимает решение')}<label>Телефон</label>${flCi(c,'phone','+7 …','tel')}<label>Почта</label>${flCi(c,'email','','email')}
@@ -4140,22 +4154,35 @@ async function flAddFiles(oid,files){let ok=0,big=[],fail='';for(const f of file
 async function flOpenFile(oid,id){const o=flData().orders.find(x=>x.id===oid),f=o&&o.files.find(x=>x.id===id);if(!f)return;const view=f.kind==='pdf'||f.kind==='photo';
   const w=view?window.open('','_blank'):null;const b=await obfGet(id);if(!b){if(w)w.close();return toast('Файла нет в этом браузере: он загружен на другом устройстве или удалён')}
   if(view&&w){w.location.href=URL.createObjectURL(b);return}dlBlob(b,f.name)}
-function flXlsx(){const D=flData();return xBook('Заказы',[34,26,18,24,13,12,14,12,22,22],(row,mg)=>{const q=row([[0,'Мои заказы на '+new Date().toLocaleDateString('ru-RU'),9]],20);mg(0,9,q);row([]);
-  const h=row([[0,'Заказ',4],[1,'Клиент',4],[2,'Телефон',4],[3,'Почта',4],[4,'Этап',4],[5,'Срок',4],[6,'Цена, руб.',4],[7,'Оплачен',4],[8,'Откуда пришёл',4],[9,'Причина отказа',4]],24);
-  for(const o of D.orders){const c=flCli(D,o)||{};row([[0,o.title,1],[1,o.client||'',1],[2,c.phone||'',1],[3,c.email||'',1],[4,(FL_ST.find(s=>s[0]===o.status)||[0,''])[1],1],[5,dmy(o.deadline),1],[6,flSum(o),2],[7,dmy(o.paidAt),1],[8,c.from||'',1],[9,o.status==='lost'?o.lost||'':'',1]])}
-  return [h,h]})}
+function flXlsx(){const D=flData();return xBook('Заказы',[34,26,18,24,13,12,14,14,14,12,22,22],(row,mg)=>{const q=row([[0,'Мои заказы на '+new Date().toLocaleDateString('ru-RU'),9]],20);mg(0,11,q);row([]);
+  const h=row([[0,'Заказ',4],[1,'Клиент',4],[2,'Телефон',4],[3,'Почта',4],[4,'Этап',4],[5,'Срок',4],[6,'Цена, руб.',4],[7,'Получено, руб.',4],[8,'Остаток, руб.',4],[9,'Оплачен',4],[10,'Откуда пришёл',4],[11,'Причина отказа',4]],24);
+  for(const o of D.orders){const c=flCli(D,o)||{};row([[0,o.title,1],[1,o.client||'',1],[2,c.phone||'',1],[3,c.email||'',1],[4,(FL_ST.find(s=>s[0]===o.status)||[0,''])[1],1],[5,dmy(o.deadline),1],[6,flSum(o),2],[7,flGot(o),2],[8,o.status==='lost'?0:Math.max(0,flRest(o)),2],[9,dmy(o.paidAt),1],[10,c.from||'',1],[11,o.status==='lost'?[o.lost,o.lostNote].filter(Boolean).join(': '):'',1]])}
+  return [h,h]},'landscape')}
+/* этап 5б, п. 9: при запуске — «Сегодня N задач по заказам» с переходом в кабинет; задача со временем напоминает в своё время */
+let FLrem=new Set(),FLremTry=0;
+function flRemind(start){try{if(typeof SVC==='undefined'||!SVC||!SVC.freelance)return;const D=flData(),t=today(),n=new Date(),hm=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');
+  const L=[];for(const o of D.orders)if(!o.ex)for(const x of flTasksDue(o))L.push({o,x});if(!L.length)return 0;
+  if($('#dlgbg')&&$('#dlgbg').classList.contains('on')){if(start&&FLremTry++<6)setTimeout(()=>flRemind(true),5000);return 0}
+  let msg='';const fresh=L.filter(({x})=>x.due===t&&x.tm&&x.tm<=hm&&!FLrem.has(x.id));
+  if(start){msg=`Сегодня ${L.length} ${cmpPl(L.length,'задача','задачи','задач')} по заказам`;L.forEach(({x})=>{if(!x.tm||x.tm<=hm)FLrem.add(x.id)})}
+  else if(fresh.length){fresh.forEach(({x})=>FLrem.add(x.id));msg=`Пора: ${fresh[0].x.t} (${fresh[0].o.title})${fresh.length>1?` и ещё ${fresh.length-1}`:''}`}
+  if(!msg)return 0;let b=$('#flRem');if(!b){b=document.createElement('div');b.id='flRem';b.className='flrem';document.body.appendChild(b)}
+  b.innerHTML=`<span>⏰ ${esc(msg)}</span><button class="btn pri" id="flRemGo">Открыть кабинет</button><button class="vdel" id="flRemX" aria-label="Скрыть">×</button>`;
+  $('#flRemGo').onclick=()=>{b.remove();FLview='board';FLf='today';openFreelance()};$('#flRemX').onclick=()=>b.remove();return L.length}catch(e){return 0}}
+setTimeout(()=>flRemind(true),3000);setInterval(()=>flRemind(false),60000);
 function flUndoEnd(){if(!FLundo)return;clearTimeout(FLundo.tm);for(const f of FLundo.o.files||[])obfDelBlob(f.id);FLundo=null}
-function renderFreelance(){const D=flData(),O=D.orders,t=today();if(!O.some(o=>o.id===FLsel))FLsel=(O.find(flOpenSt)||O[0]||{}).id||null;const o=O.find(x=>x.id===FLsel),me=D.me,docs=docIndex(),dp=o?flDocPos(o.docId):null;
+function renderFreelance(){const D=flData(),O=D.orders,t=today();if(!O.some(o=>o.id===FLsel))FLsel=(O.find(flOpenSt)||O[0]||{}).id||null;let o=O.find(x=>x.id===FLsel);const me=D.me,docs=docIndex(),dp=o?flDocPos(o.docId):null;
   if(FLcli&&!D.clients.some(c=>c.id===FLcli))FLcli=null;
   const inp=(k,v,ty='number',x='')=>`<input class="flin" data-k="${k}" type="${ty}" value="${esc(v??'')}"${x}>`;
   const fil=`<div class="flfil"><input id="flQ" type="search" placeholder="${FLview==='board'?'Поиск: заказ, клиент, телефон':'Поиск клиента: имя, телефон, город'}" value="${esc(FLq)}">${FLview==='board'?[['','Все'],['today','Задачи на сегодня'],['late','Просрочено'],['pay','Ждут оплаты']].map(([k,n])=>`<button class="flfb${FLf===k?' on':''}" data-f="${k}">${n}</button>`).join(''):''}</div>`;
-  let left='',right='';
-  if(FLview==='board'){const H=O.filter(x=>flHit(D,x));
+  let left='',right='';const fq0=!!flNorm(FLq)||!!FLf;
+  if(FLview==='board'){const H=O.filter(x=>flHit(D,x));if(fq0&&o&&!H.includes(o))o=null;
     const cols=FL_ST.slice(0,FL_ACT).map(([k,n])=>{const L=H.filter(x=>x.status===k);return `<div class="flcol" data-st="${k}"><div class="flh"><span>${n}</span><span>${L.length}</span></div>${L.map(x=>flCard(x,D)).join('')||'<div class="u" style="padding:6px">пусто</div>'}</div>`}).join('');
-    const cl=H.filter(x=>!flOpenSt(x)),nl=cl.filter(x=>x.status==='lost').length;
+    const cl=H.filter(x=>!flOpenSt(x)),nl=cl.filter(x=>x.status==='lost').length,shCl=FLdone||(!!flNorm(FLq)&&cl.length>0);
     left=`${flToday(D)}<div class="u rmh">Заказы</div>${O.length?fil+`<div class="flb">${cols}</div>`:`<div class="u" style="padding:30px 0;text-align:center">Заказов пока нет. Добавьте первый или <button class="btn" id="flEx">посмотрите на примерах</button></div>`}
-     ${cl.length?`<button class="btn" id="flDn" style="align-self:flex-start">${FLdone?'Скрыть':'Показать'} закрытые: ${cl.length}${nl?`, из них отказов: ${nl}`:''}</button>${FLdone?`<div class="flb fldn">${cl.map(x=>flCard(x,D)).join('')}</div>`:''}`:''}${O.some(x=>x.ex)?'<button class="btn" id="flExDel" style="align-self:flex-start">Убрать примеры</button>':''}`;
-    if(o){const cli=flCli(D,o),cn=cli?flCliStat(D,cli).O.length:0,tk=[...o.tasks].sort((a,b)=>(a.done-b.done)||String(a.due||'9').localeCompare(String(b.due||'9')));
+     ${fq0&&!H.length?'<div class="u" style="padding:10px 0">Ничего не найдено. Проверьте запрос или нажмите «Все».</div>':''}
+     ${cl.length?`<button class="btn" id="flDn" style="align-self:flex-start">${shCl?'Скрыть':'Показать'} закрытые${fq0?' по поиску':''}: ${cl.length}${nl?`, из них отказов: ${nl}`:''}</button>${shCl?`<div class="flb fldn">${cl.map(x=>flCard(x,D)).join('')}</div>`:''}`:''}${O.some(x=>x.ex)?'<button class="btn" id="flExDel" style="align-self:flex-start">Убрать примеры</button>':''}`;
+    if(o){const cli=flCli(D,o),cn=cli?flCliStat(D,cli).O.length:0,tk=[...o.tasks].sort((a,b)=>(a.done-b.done)||String((a.due||'9')+(a.tm||'')).localeCompare(String((b.due||'9')+(b.tm||''))));
       right=`<div class="u rmh">Заказ</div>
      <div class="flf"><label>Заказ</label>${inp('title',o.title,'text')}<label>Клиент</label><input class="flin" id="flCliIn" type="text" list="flCliL" value="${esc(o.client||'')}" placeholder="имя или организация"><datalist id="flCliL">${D.clients.filter(c=>c.name).map(c=>`<option value="${esc(c.name)}">`).join('')}</datalist>
       ${cli?flCiForm(cli):''}</div>
@@ -4163,15 +4190,17 @@ function renderFreelance(){const D=flData(),O=D.orders,t=today();if(!O.some(o=>o
      <div class="flf"><label>Исходные данные</label><select class="flin" data-k="src">${FL_SRC.map(s=>`<option${s===o.src?' selected':''}>${esc(s)}</option>`).join('')}</select>
       <label>Срок сдачи</label>${inp('deadline',o.deadline,'date')}<label>Этап</label><select class="flin" data-k="status">${FL_ST.map(([k,n])=>`<option value="${k}"${k===o.status?' selected':''}>${n}</option>`).join('')}</select>
       ${o.status==='work'?`<label>Готовность, %</label>${inp('progress',o.progress||0,'range',' min="0" max="100" step="5"')}`:''}${o.status==='client'?`<label>Замечаний клиента</label>${inp('remarks',o.remarks||0)}`:''}
-      ${o.status==='lost'?`<label>Причина отказа</label><select class="flin" data-k="lost">${[...new Set([...FL_LOST,...(o.lost?[o.lost]:[])])].map(s=>`<option${s===o.lost?' selected':''}>${esc(s)}</option>`).join('')}</select>`:''}
+      ${o.status==='lost'?`<label>Причина отказа</label><select class="flin" data-k="lost"><option value=""${o.lost?'':' selected'}>выберите причину</option>${[...new Set([...FL_LOST,...(o.lost?[o.lost]:[])])].map(s=>`<option${s===o.lost?' selected':''}>${esc(s)}</option>`).join('')}</select>
+      <label>Подробнее</label>${inp('lostNote',o.lostNote||'','text',' placeholder="например, нашёл дешевле на Авито"')}`:''}
       <label>Смета</label><div class="flrow"><select class="flin" data-k="docId"><option value="">не связана</option>${docs.map(d=>`<option value="${esc(d.id)}"${d.id===o.docId?' selected':''}>${esc(d.name||'Смета')}</option>`).join('')}</select>${dp?'<button class="btn" id="flOpenDoc" title="Открыть смету в редакторе">Открыть</button>':''}</div></div>
      ${dp?`<div class="u">В смете «${esc(dp.name)}» ${dp.n?`${dp.n} ${cmpPl(dp.n,'позиция','позиции','позиций')} <button class="btn" id="flTake" style="height:24px;font-size:12px;width:auto">взять в цену</button>`:'пока нет позиций'}</div>`:''}
      <div class="u rmh">Задачи и напоминания</div>
-     <div class="fltk">${tk.map(x=>`<div class="fltkr${x.done?' dn':''}"><input type="checkbox" data-tk="${x.id}"${x.done?' checked':''}><span>${esc(x.t)}</span><span class="u${!x.done&&x.due&&x.due<t?' flredt':''}">${x.due?(x.due===t?'сегодня':flDm(x.due)):''}</span><button class="vdel" data-tkd="${x.id}" title="Удалить задачу">×</button></div>`).join('')}
-      <div class="fladd"><input id="flTkT" placeholder="Перезвонить, отправить КП…"><input id="flTkD" type="date" value="${flAddD(t,1)}"><button class="btn" id="flTkA" title="Добавить задачу">+</button></div></div>
+     <div class="fltk">${tk.map(x=>`<div class="fltkr${x.done?' dn':''}"><input type="checkbox" data-tk="${x.id}"${x.done?' checked':''} title="Сделано"><input class="fltki" data-tke="${x.id}" value="${esc(x.t)}" title="Текст задачи: можно исправить"><button class="vdel" data-tkd="${x.id}" title="Удалить задачу">×</button>
+        <span></span><div class="fltkd"><input type="date" data-tkdue="${x.id}" value="${esc(x.due||'')}" class="${!x.done&&x.due&&x.due<t?'flredt':''}" title="Срок"><input type="time" data-tktm="${x.id}" value="${esc(x.tm||'')}" title="Время напоминания">${x.done?'':`<button class="fltmv" data-tkmv="${x.id}" data-n="1" title="Перенести на завтра">завтра</button><button class="fltmv" data-tkmv="${x.id}" data-n="7" title="Перенести на неделю">+ неделя</button>`}</div><span></span></div>`).join('')}
+      <div class="fladd"><input id="flTkT" placeholder="Перезвонить, отправить КП…"><input id="flTkD" type="date" value="${flAddD(t,1)}"><input id="flTkM" type="time" title="Время напоминания (необязательно)"><button class="btn" id="flTkA" title="Добавить задачу">+</button></div></div>
      <div class="u rmh">Примечания</div>
      <div class="fladd"><textarea id="flNtT" rows="2" placeholder="Клиент просит смету с НДС 22 %…"></textarea><button class="btn" id="flNtA">Добавить</button></div>
-     ${o.notes.slice().reverse().map(n=>`<div class="flnt"><span class="u">${flDm(n.at)}</span> ${esc(n.t)}<button class="vdel" data-ntd="${n.id}" title="Удалить примечание">×</button></div>`).join('')}
+     ${o.notes.slice().reverse().map(n=>n.id===FLnte?`<div class="fladd"><textarea id="flNtE" rows="3">${esc(n.t)}</textarea><button class="btn" data-nts="${n.id}">Сохранить</button></div>`:`<div class="flnt"><span class="u">${flDm(n.at)}${n.ed?', исправлено':''}</span> ${esc(n.t)}<button class="vdel" data-ntd="${n.id}" title="Удалить примечание">×</button><button class="vdel" data-nte="${n.id}" title="Исправить примечание">✎</button></div>`).join('')}
      <div class="u rmh">Файлы заказа</div>
      ${o.files.map(f=>`<div class="flfl"><a href="#" data-fo="${f.id}">${esc(f.name)}</a><span class="u">${obfSize(f.size)}</span><button class="vdel" data-fd="${f.id}" title="Удалить файл">×</button></div>`).join('')}
      <label class="btn flup">Прикрепить файл: ТЗ, проект, фото<input type="file" id="flFile" multiple hidden></label>
@@ -4181,12 +4210,17 @@ function renderFreelance(){const D=flData(),O=D.orders,t=today();if(!O.some(o=>o
      <div class="u rmh">Цена для клиента</div><div class="flsum">${fmt(flSum(o),0)} ₽</div><div class="u mono">${esc(flFormula(o))}</div>
      <div class="rmb"><button class="btn pri" id="flKp">КП клиенту (Word)</button><button class="btn" id="flInv">Счёт</button><button class="btn" id="flAct">Акт</button>${o.status==='pay'?'<button class="btn pri" id="flPaid">Оплачено</button>':''}${flOpenSt(o)?'<button class="btn" id="flLost" title="Клиент отказался: заказ уйдёт в закрытые и не попадёт в заработок и средний чек">Отказ</button>':''}</div>
      <div class="u">${o.kpAt?`КП выгружено ${flDm(o.kpAt)}. `:''}Файл отправьте клиенту сами: отправка ссылкой пока не подключена.</div>
+     ${(()=>{const sum=flSum(o),got=flGot(o),rest=r2(sum-got),pp=flPrePct(me);return `<div class="u rmh">Оплаты</div>
+     ${o.pays.map(p=>`<div class="flfl flpy"><span>${dmy(p.date)}</span><b>${flM(p.sum)} ₽</b><span class="u">${esc(p.how||'')}</span><button class="vdel" data-pyd="${p.id}" title="Удалить оплату">×</button></div>`).join('')}
+     <div class="u">Получено ${flM(got)} из ${flM(sum)} ₽${rest>0.004?`, остаток <b>${flM(rest)} ₽</b>`:rest<-0.004?`, переплата ${flM(-rest)} ₽`:sum?', оплачено полностью':''}</div>
+     ${pp&&!o.pays.length&&sum&&o.status!=='lost'?`<button class="btn flup" id="flPre" data-v="${r2(sum*pp/100)}" title="Из условий оплаты в «Мои реквизиты и ставки»">Предоплата ${fq(pp)} %: ${flM(r2(sum*pp/100))} ₽</button>`:''}
+     <div class="fladd flpya"><input id="flPyS" type="number" step="0.01" min="0" placeholder="${rest>0.004?'остаток '+flM(rest):'сумма, ₽'}"><input id="flPyD" type="date" value="${t}"><select id="flPyH">${FL_HOW.map(h=>`<option>${h}</option>`).join('')}</select><button class="btn" id="flPyA" title="Записать оплату">+</button></div>`})()}
      <details class="flme"><summary class="u rmh">История заказа: ${o.log.length}</summary><div class="flf"><label>Создан</label>${inp('created',o.created,'date')}<label>КП выгружено</label>${inp('kpAt',o.kpAt,'date')}
       <label>Отправлено клиенту</label>${inp('sentAt',o.sentAt,'date')}<label>Сдано на оплату</label>${inp('payAt',o.payAt,'date')}<label>Оплачено</label>${inp('paidAt',o.paidAt,'date')}</div>
       ${o.log.slice().reverse().map(l=>`<div class="flnt"><span class="u">${flDm(l.at)}</span> ${esc(l.t)}</div>`).join('')}</details>
      <button class="vdel" id="flDel" style="align-self:flex-start;font-size:12px">Удалить заказ</button>`}
     else right='<div class="u">Выберите заказ или добавьте новый.</div>'}
-  else{const q=flNorm(FLq),qd=q.replace(/[^\d]/g,''),L=D.clients.filter(c=>!q||[c.name,c.person,c.email,c.msg,c.city].some(v=>flNorm(v).includes(q))||(qd.length>=3&&flTel(c.phone).includes(qd))).map(c=>({c,s:flCliStat(D,c)})).sort((a,b)=>b.s.last.localeCompare(a.s.last)||String(a.c.name).localeCompare(String(b.c.name),'ru'));
+  else{const q=flNorm(FLq),qd=q.replace(/[^\d]/g,''),L=D.clients.filter(c=>!q||[c.name,c.person,c.email,c.msg,c.city].some(v=>flNorm(v).includes(q))||flPhHit(c.phone,qd)).map(c=>({c,s:flCliStat(D,c)})).sort((a,b)=>b.s.last.localeCompare(a.s.last)||String(a.c.name).localeCompare(String(b.c.name),'ru'));
     if(!L.some(x=>x.c.id===FLcli))FLcli=L[0]?L[0].c.id:null;
     left=`<div class="u rmh">Клиенты</div>${D.clients.length?fil:''}<div class="flcls">${L.map(({c,s})=>`<div class="flcr${c.id===FLcli?' on':''}" data-c="${c.id}"><b>${esc(c.name||'без имени')}</b><span class="u">${esc([c.person,c.city].filter(Boolean).join(', '))}</span>${c.phone?`<a class="fltel" href="tel:${esc(flTel(c.phone))}">${esc(c.phone)}</a>`:'<span></span>'}<span class="u">${s.O.length} ${cmpPl(s.O.length,'заказ','заказа','заказов')}</span><span class="u flsm">${fmt(s.sum,0)} ₽</span></div>`).join('')||'<div class="u" style="padding:20px 0">Клиентов пока нет: они появляются, когда вы вписываете клиента в заказ.</div>'}</div>`;
     const c=D.clients.find(x=>x.id===FLcli);
@@ -4207,7 +4241,7 @@ function renderFreelance(){const D=flData(),O=D.orders,t=today();if(!O.some(o=>o
       <label>Условия оплаты</label><input class="flmi" data-k="pay" value="${esc(me.pay)}"><label>Ставка за позицию, ₽</label><input class="flmi" data-k="rate" type="number" value="${esc(me.rate)}">
       <label>Срочность, %</label><input class="flmi" data-k="urg" type="number" value="${esc(me.urg)}"></div></details></div></div>`,true);
   const Dl=$('#dlg');Dl.style.maxWidth='1440px';Dl.style.width='98vw';$('#flX').onclick=()=>$('#dlgbg').classList.remove('on');
-  const toForm=()=>{if(innerWidth<1000){const f=$('#flForm');if(f)f.scrollIntoView({block:'start'})}};
+  const toForm=()=>{if(innerWidth<1100){const f=$('#flForm');if(f)f.scrollIntoView({block:'start'})}};
   const updO=(id,f)=>{const D2=flData(),x=D2.orders.find(z=>z.id===id);if(!x)return;f(x,D2);flSave(D2);renderFreelance()},upd=f=>updO(FLsel,f);
   const go=id=>{FLsel=id;FLview='board';FLf='';FLq='';const D2=flData(),x=D2.orders.find(z=>z.id===id);if(x&&!flOpenSt(x))FLdone=true;renderFreelance();toForm()};
   $('#flAdd').onclick=()=>{const D2=flData(),x=flNew(D2,{});flSave(D2);FLsel=x.id;FLview='board';FLf='';FLq='';renderFreelance();toForm();setTimeout(()=>{const t=$('.flin[data-k="title"]');if(t){t.focus();t.select()}},0)};
@@ -4222,7 +4256,7 @@ function renderFreelance(){const D=flData(),O=D.orders,t=today();if(!O.some(o=>o
   Dl.querySelectorAll('[data-tdo]').forEach(cb=>cb.onchange=()=>updO(cb.dataset.tdo,x=>{const k=x.tasks.find(z=>z.id===cb.dataset.tdx);if(k){k.done=true;flLog(x,'Сделано: '+k.t)}}));
   const ex=$('#flEx');if(ex)ex.onclick=flExamples;
   const exd=$('#flExDel');if(exd)exd.onclick=()=>{const D2=flData();D2.orders=D2.orders.filter(z=>!z.ex);const used=new Set(D2.orders.map(z=>z.cid));D2.clients=D2.clients.filter(c=>!c.ex||used.has(c.id));flSave(D2);renderFreelance()};
-  const dn=$('#flDn');if(dn)dn.onclick=()=>{FLdone=!FLdone;renderFreelance()};
+  const dn=$('#flDn');if(dn)dn.onclick=()=>{FLdone=!(FLdone||(!!flNorm(FLq)&&$$('.fldn .flc').length>0));if(!FLdone&&flNorm(FLq))FLq='';renderFreelance()};
   Dl.querySelectorAll('.flc').forEach(c=>{c.onclick=e=>{if(e.target.closest('a'))return;const mv=e.target.closest('.flmv button');FLsel=c.dataset.id;
       if(mv){const D2=flData(),x=D2.orders.find(z=>z.id===FLsel),i=FL_ST.findIndex(s=>s[0]===x.status)+(+mv.dataset.mv);flStage(x,FL_ST[Math.max(0,Math.min(FL_ACT,i))][0]);flSave(D2);return renderFreelance()}
       renderFreelance();toForm()};
@@ -4231,18 +4265,37 @@ function renderFreelance(){const D=flData(),O=D.orders,t=today();if(!O.some(o=>o
     col.ondrop=e=>{e.preventDefault();const id=e.dataTransfer.getData('text/plain');if(!id)return;FLsel=id;updO(id,x=>flStage(x,col.dataset.st))}});
   Dl.querySelectorAll('.flcr').forEach(r=>r.onclick=e=>{if(e.target.closest('a'))return;FLcli=r.dataset.c;renderFreelance();toForm()});
   Dl.querySelectorAll('.flin').forEach(el=>el.onchange=()=>upd(x=>{const k=el.dataset.k,v=el.type==='checkbox'?el.checked:el.type==='number'||el.type==='range'?+el.value:el.value;
-    if(k==='status')return flStage(x,v);if(k==='lost'&&x.status==='lost')flLog(x,'Причина отказа: '+v);x[k]=v}));
+    if(k==='status')return flStage(x,v);
+    if(k==='lost'&&x.status==='lost'&&v!==x.lost){const L=x.log||[],i=L.length-1;if(i>=0&&/^Отказ(:|$)/.test(L[i].t))L[i].t=v?'Отказ: '+v:'Отказ';else flLog(x,'Причина отказа изменена: '+(v||'не указана'))}
+    x[k]=v}));
   const ci=$('#flCliIn');if(ci)ci.onchange=()=>upd((x,D2)=>{const v=ci.value.trim().replace(/\s+/g,' ');if(!v){x.cid='';x.client='';return}
     let c=flCliFind(D2,v);const cur=flCli(D2,x);if(!c&&cur&&D2.orders.filter(z=>z.cid===cur.id).length===1){cur.name=v;c=cur}
     if(!c){c=flCliNew(D2,{name:v});flLog(x,'Клиент: '+v)}x.cid=c.id;x.client=c.name});
   Dl.querySelectorAll('.flci').forEach(el=>el.onchange=()=>{const D2=flData(),c=D2.clients.find(z=>z.id===el.dataset.cid);if(!c)return;const k=el.dataset.k,v=el.value.trim();
     if(k==='name'){if(!v||D2.clients.some(z=>z!==c&&flNorm(z.name)===flNorm(v))){if(v)toast('Клиент с таким именем уже есть');return renderFreelance()}for(const z of D2.orders)if(z.cid===c.id)z.client=v;c.name=v;flSave(D2);return renderFreelance()}
-    c[k]=v;flSave(D2);const box=$('#flCon');if(box)box.innerHTML=flLinks(c)});
+    c[k]=v;flSave(D2);const box=$('#flCon');if(box)box.innerHTML=flLinks(c);
+    if(k==='phone'&&v){const dup=D2.clients.find(z=>z!==c&&z.phone&&flP10(z.phone)===flP10(v));if(!dup)return;
+      if(FLview==='board'){const x=D2.orders.find(z=>z.id===FLsel);if(x&&x.cid===c.id&&confirm(`Телефон ${v} уже записан у клиента «${dup.name}». Привязать заказ к нему?`)){
+        x.cid=dup.id;x.client=dup.name;flLog(x,'Клиент: '+dup.name);if(!D2.orders.some(z=>z.cid===c.id))D2.clients=D2.clients.filter(z=>z!==c);flSave(D2);renderFreelance()}}
+      else if(confirm(`Телефон ${v} уже записан у клиента «${dup.name}». Открыть его карточку?`)){FLcli=dup.id;renderFreelance()}}});
   Dl.querySelectorAll('.flmi').forEach(el=>el.onchange=()=>{const D2=flData();D2.me[el.dataset.k]=el.type==='number'?+el.value:el.value;flSave(D2)});
   const cno=$('#flCliNewO');if(cno)cno.onclick=()=>{const D2=flData(),c=D2.clients.find(z=>z.id===FLcli);if(!c)return;const x=flNew(D2,{cid:c.id,client:c.name});flSave(D2);go(x.id)};
   const cdl=$('#flCliDel');if(cdl)cdl.onclick=()=>{const D2=flData();D2.clients=D2.clients.filter(z=>z.id!==FLcli);flSave(D2);FLcli=null;renderFreelance()};
   if(!o||FLview!=='board')return;
-  const g=id=>$(id),tkAdd=()=>{const tt=g('#flTkT').value.trim();if(!tt)return g('#flTkT').focus();const due=g('#flTkD').value;upd(x=>{x.tasks.push({id:sidNew('t'),t:tt.slice(0,300),due,done:false});flLog(x,'Задача: '+tt.slice(0,80)+(due?' до '+flDm(due):''))})};
+  const g=id=>$(id),tkAdd=()=>{const tt=g('#flTkT').value.trim();if(!tt)return g('#flTkT').focus();const due=g('#flTkD').value,tm=g('#flTkM').value;upd(x=>{x.tasks.push({id:sidNew('t'),t:tt.slice(0,300),due,tm,done:false});flLog(x,'Задача: '+tt.slice(0,80)+(due?' до '+flDm(due)+(tm?' '+tm:''):''))})};
+  const tkSet=(id,f)=>upd(x=>{const k=x.tasks.find(z=>z.id===id);if(k)f(k,x)});
+  Dl.querySelectorAll('[data-tke]').forEach(el=>el.onchange=()=>{const v=el.value.trim();if(!v)return renderFreelance();tkSet(el.dataset.tke,k=>{k.t=v.slice(0,300)})});
+  Dl.querySelectorAll('[data-tkdue]').forEach(el=>el.onchange=()=>tkSet(el.dataset.tkdue,(k,x)=>{k.due=el.value;flLog(x,'Срок задачи «'+k.t.slice(0,60)+'»: '+(k.due?flDm(k.due):'без срока'))}));
+  Dl.querySelectorAll('[data-tktm]').forEach(el=>el.onchange=()=>tkSet(el.dataset.tktm,k=>{k.tm=el.value}));
+  Dl.querySelectorAll('[data-tkmv]').forEach(b=>b.onclick=()=>tkSet(b.dataset.tkmv,(k,x)=>{const n=+b.dataset.n;k.due=flAddD(n===1||!k.due||k.due<t?t:k.due,n);flLog(x,'Задача «'+k.t.slice(0,60)+'» перенесена на '+flDm(k.due))}));
+  Dl.querySelectorAll('[data-nte]').forEach(b=>b.onclick=()=>{FLnte=b.dataset.nte;renderFreelance();const e=$('#flNtE');if(e)e.focus()});
+  Dl.querySelectorAll('[data-nts]').forEach(b=>b.onclick=()=>{const v=($('#flNtE')||{}).value||'';FLnte=null;if(!v.trim())return renderFreelance();upd(x=>{const n=x.notes.find(z=>z.id===b.dataset.nts);if(n){n.t=v.trim().slice(0,2000);n.ed=today()}})});
+  const pyS=g('#flPyS'),pre=g('#flPre');if(pre)pre.onclick=()=>{pyS.value=pre.dataset.v;pyS.focus()};
+  const pyAdd=()=>{const s=r2(num(pyS.value)||0);if(!(s>0))return pyS.focus();const d=g('#flPyD').value||today(),how=g('#flPyH').value;
+    upd(x=>{x.pays.push({id:sidNew('p'),sum:s,date:d,how});flLog(x,'Оплата '+flM(s)+' ₽'+(how?', '+how:''),d);if(x.status==='pay'&&flRest(x)<=0.004)flStage(x,'done')});toast('Оплата записана: '+flM(s)+' ₽')};
+  g('#flPyA').onclick=pyAdd;pyS.onkeydown=e=>{if(e.key==='Enter')pyAdd()};
+  Dl.querySelectorAll('[data-pyd]').forEach(b=>b.onclick=()=>{const p=o.pays.find(z=>z.id===b.dataset.pyd);if(!p||!confirm(`Удалить оплату ${flM(p.sum)} ₽ от ${dmy(p.date)}?`))return;
+    upd(x=>{x.pays=x.pays.filter(z=>z.id!==p.id);flLog(x,'Оплата удалена: '+flM(p.sum)+' ₽');if(x.status==='done'&&flRest(x)>0.004){x.status='pay';delete x.paidAt;flLog(x,'Заказ снова ждёт оплаты')}})});
   g('#flTkA').onclick=tkAdd;g('#flTkT').onkeydown=e=>{if(e.key==='Enter')tkAdd()};
   Dl.querySelectorAll('[data-tk]').forEach(cb=>cb.onchange=()=>upd(x=>{const k=x.tasks.find(z=>z.id===cb.dataset.tk);if(!k)return;k.done=cb.checked;if(k.done)flLog(x,'Сделано: '+k.t)}));
   Dl.querySelectorAll('[data-tkd]').forEach(b=>b.onclick=()=>upd(x=>{x.tasks=x.tasks.filter(z=>z.id!==b.dataset.tkd)}));
@@ -4256,7 +4309,8 @@ function renderFreelance(){const D=flData(),O=D.orders,t=today();if(!O.some(o=>o
   g('#flKp').onclick=()=>{if(!flData().me.name&&!confirm('Ваши реквизиты не заполнены: в КП будет «Исполнитель: ____».\n\nОК — выгрузить так. Отмена — сначала заполнить «Мои реквизиты и ставки».')){const d=$('.flmy');if(d){d.open=true;d.scrollIntoView({block:'center'});const i=d.querySelector('input');if(i)i.focus()}return}
     flDoc('kp',{...o});renderFreelance()};
   g('#flInv').onclick=()=>flDoc('inv',o);g('#flAct').onclick=()=>flDoc('act',o);
-  const pd=g('#flPaid');if(pd)pd.onclick=()=>{if(!flSum(o)&&!confirm('Цена заказа 0 ₽. Всё равно отметить оплату?'))return;upd(x=>flStage(x,'done'))};
+  const pd=g('#flPaid');if(pd)pd.onclick=()=>{const rest=flRest(o);if(!flSum(o)&&!confirm('Цена заказа 0 ₽. Всё равно отметить оплату?'))return;
+    if(rest>0.004&&flGot(o)>0&&!confirm(`Остаток ${flM(rest)} ₽ будет записан оплатой сегодняшним числом. Продолжить?`))return;upd(x=>flStage(x,'done'))};
   const ls=g('#flLost');if(ls)ls.onclick=()=>upd(x=>flStage(x,'lost'));
   g('#flDel').onclick=()=>{flUndoEnd();const D2=flData(),i=D2.orders.findIndex(z=>z.id===o.id);if(i<0)return;const [x]=D2.orders.splice(i,1);flSave(D2);
     FLundo={o:x,i,tm:setTimeout(()=>{if(FLundo&&FLundo.o===x){flUndoEnd();if($('#flX'))renderFreelance()}},10000)};FLsel=null;renderFreelance()}}
@@ -5608,7 +5662,7 @@ function xBook(name,W,build,orient,title){const X=[],M=[];let r=0;
   const sheet=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
 <sheetPr><pageSetUpPr fitToPage="1"/></sheetPr><sheetViews><sheetView workbookViewId="0"/></sheetViews><sheetFormatPr defaultRowHeight="12"/>
 <cols>${W.map((w,i)=>`<col min="${i+1}" max="${i+1}" width="${w}" customWidth="1"/>`).join('')}</cols><sheetData>${X.join('')}</sheetData>${M.length?`<mergeCells count="${M.length}">${M.map(m=>`<mergeCell ref="${m}"/>`).join('')}</mergeCells>`:''}
-<pageMargins left="0.4" right="0.4" top="0.5" bottom="0.6" header="0.3" footer="0.3"/><pageSetup paperSize="9" orientation="${orient}" fitToWidth="1" fitToHeight="0"/><headerFooter><oddFooter>&amp;CСтраница &amp;P из &amp;N</oddFooter></headerFooter></worksheet>`;
+<pageMargins left="0.4" right="0.4" top="0.5" bottom="0.6" header="0.3" footer="0.3"/><pageSetup paperSize="9" orientation="${orient||'portrait'}" fitToWidth="1" fitToHeight="0"/><headerFooter><oddFooter>&amp;CСтраница &amp;P из &amp;N</oddFooter></headerFooter></worksheet>`;
   const wb=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="${xe(name)}" sheetId="1" r:id="rId1"/></sheets>${pt?`<definedNames><definedName name="_xlnm.Print_Titles" localSheetId="0">'${xe(name)}'!$${pt[0]}:$${pt[1]}</definedName></definedNames>`:''}</workbook>`;
   return zipStore([
     {name:'[Content_Types].xml',data:`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/><Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-properties+xml"/></Types>`},
@@ -7675,7 +7729,7 @@ if(splitX())splitX().list().then(a=>{for(const s of a)splitReg(s);if(a.length){r
 migrateOld();setSaveChip();{const last=lsGet(SKL);const shared=location.hash.startsWith(SHARE_PREFIX);(last&&location.hash!=='#sample'?openDoc(last,true):Promise.resolve()).finally(()=>{if(shared)takeShared();else if(location.hash.startsWith('#k1.'))takeKey();else if(location.hash.startsWith('#pf1.'))pfShowLink();else if(SVC.diy&&diyMode())setTimeout(()=>{if(!$('#dlgbg').classList.contains('on'))openDiy()},700);if(cloudKey())cloudSync();tabsRestore();setTimeout(cabStart,1500)})}
 render=calcScope(render);renderTable=calcScope(renderTable);renderInsp=calcScope(renderInsp);renderDock=calcScope(renderDock);totals=calcScope(totals);
 lsrModel=calcScope(lsrModel);lsrModelGrand=calcScope(lsrModelGrand);ks2Model=calcScope(ks2Model);osrModel=calcScope(osrModel);ssrModel=calcScope(ssrModel);checkSmeta=calcScope(checkSmeta);resModel=calcScope(resModel);davList=calcScope(davList);
-window.__app={PD_CUT,fixUid,awNew,get uid(){return uid},flStage,flHit,flCli,flCliFind,flAddFiles,flXlsx,flToday,flTasksDue,pdVal,pdBack,get FL(){return {sel:FLsel,view:FLview,undo:!!FLundo}},awApply,awFromOver,awSplit,awSum,awData,openContract,ksPos,ksPay,ksStatus,ksNewAct,ksAddPart,knDefRS,KN_V,prLoading,ctFixed,ctFixOk,pirKv,pirKIn,KN_W,knData,knItems,knTot,knGeo,knNorms,knOpen,renderKn,knImport,knFind,knBuy,knWord,rmQm,dpCalc,railSet,ensureTR,trSet,rcv,renderDiy,rmSplit,RM_T,req,party,today,palList,pfNpos,dyCur,cabStart,cabOn,cabCount,kvSync,fileSync,cloudSync,mg3,allZip,restOpen,obfGet,obfPut,msGet,cabH,get kvSt(){return kvSt},get fSt(){return fSt},ksSnap,ks3Model,ksHasWork,renderActs,obfEvents,openAnswers,ansAll,ansHarvest,ansMatch,ansHint,ansAiHint,ansSet,ansAddFiles,ansRows,ansRender,ansGet,ansKey,get ANF(){return ANF},openKpBase,kpbAdd,kpbAll,kpbHarvest,kpbMatch,kpbCand,kpbTake,kpbHint,kaNew,openKA,openObject,stDel,obfDelNote,obfDelFile,obfAdd,obfNote,obfEvents,obfData,obfZip,obfRender,get OBF(){return OBF},stroyList,docSetPlace,openExamples,exLoad,exRows,exTpl,exUse,exList,get EXF(){return EXF},get EXD(){return EXD},newDocRaw,openCabinet,meLoad,myHash,meApplyZone,defZone,reqMine,meLink,meInit,meAvatar,openSvc,svcApply,svcChoose,svcToggle,svcGrant,svcGate,svcAsk,svcNeedAsk,svcPal,svcFilePreview,SVC_DEF,SVC_SETS,SVC0,openDiy,dyParse,dyParseLine,dyAnalyze,dyNorms,dyData,dyNew,dyRun,dyWord,dyMsg,diyMode,diySetMode,dyMatch,DY_SAMPLE,dyN:()=>DYN,openPortfolio,pfData,pfInfo,pfPack,pfLink,pfHtml,pfShowLink,pfView,openFreelance,flData,flSum,flFormula,flExamples,flDoc,flKpi,openFeed,fdDocs,fdAffected,fdDetail,fdImpact,fdCopies,fdItems,fdNext,fdXlsx,fdData:()=>FD,openPriceHist,phSeries,phPrice,phAllRegions,phXlsx,phWatch,phData:()=>PH,openRequarter,rqRun,rqStats,rqRes,rqApply,rqXlsx,rqData:()=>RQ,openRemarks,rmParse,rmData,openMeasure,msParse,msData,openNonorm,nnData,nnCost,nnUnitTotal,nnText,nnPut,openCompare,cmpCalc,cmpDiff,cmpRows,cmpLoad,cmpXlsx,openCoefs,kdGroups,kdEffect,kdText,openAddwork,awData,awRows,awSum,awMake,awXlsx,awAgreement,msToVor,msWord,msFormula,msVal,openContract,renderContract,ctModel,ctXlsx,SVC,openActs,bimx,ncsCalc,ncsSample,pirCalc,pirHtml,pirXlsx,pirSample,openOsr,renderOsr,nmckCalc,rubWords,nmckXlsx,setLsrView,setLsrRes,openExpert,expx,openSplit,splitReg,useSplit,SPL,get split(){return splitX()},osSample,ST,lsrModel,lsrModelGrand,osrModel,ssrModel,resModel,checkSmeta,ks2Model,fopt,mrNew,eqNew,kaNew,makePR,ensurePR,setZone,setLevel,prKey,get S(){return S},get xml(){return xmlx()},totals,calc,sample,B,ensureReal,nrCode,nrFull,sampleLesson,loadDoc,setBase:v=>setBase(v),renderTable,renderInsp,renderDock,syncRibbon};
+window.__app={PD_CUT,flRemind,flAddD,flGot,flRest,flPrePct,flP10,flPhHit,fixUid,awNew,get uid(){return uid},flStage,flHit,flCli,flCliFind,flAddFiles,flXlsx,flToday,flTasksDue,pdVal,pdBack,get FL(){return {sel:FLsel,view:FLview,undo:!!FLundo}},awApply,awFromOver,awSplit,awSum,awData,openContract,ksPos,ksPay,ksStatus,ksNewAct,ksAddPart,knDefRS,KN_V,prLoading,ctFixed,ctFixOk,pirKv,pirKIn,KN_W,knData,knItems,knTot,knGeo,knNorms,knOpen,renderKn,knImport,knFind,knBuy,knWord,rmQm,dpCalc,railSet,ensureTR,trSet,rcv,renderDiy,rmSplit,RM_T,req,party,today,palList,pfNpos,dyCur,cabStart,cabOn,cabCount,kvSync,fileSync,cloudSync,mg3,allZip,restOpen,obfGet,obfPut,msGet,cabH,get kvSt(){return kvSt},get fSt(){return fSt},ksSnap,ks3Model,ksHasWork,renderActs,obfEvents,openAnswers,ansAll,ansHarvest,ansMatch,ansHint,ansAiHint,ansSet,ansAddFiles,ansRows,ansRender,ansGet,ansKey,get ANF(){return ANF},openKpBase,kpbAdd,kpbAll,kpbHarvest,kpbMatch,kpbCand,kpbTake,kpbHint,kaNew,openKA,openObject,stDel,obfDelNote,obfDelFile,obfAdd,obfNote,obfEvents,obfData,obfZip,obfRender,get OBF(){return OBF},stroyList,docSetPlace,openExamples,exLoad,exRows,exTpl,exUse,exList,get EXF(){return EXF},get EXD(){return EXD},newDocRaw,openCabinet,meLoad,myHash,meApplyZone,defZone,reqMine,meLink,meInit,meAvatar,openSvc,svcApply,svcChoose,svcToggle,svcGrant,svcGate,svcAsk,svcNeedAsk,svcPal,svcFilePreview,SVC_DEF,SVC_SETS,SVC0,openDiy,dyParse,dyParseLine,dyAnalyze,dyNorms,dyData,dyNew,dyRun,dyWord,dyMsg,diyMode,diySetMode,dyMatch,DY_SAMPLE,dyN:()=>DYN,openPortfolio,pfData,pfInfo,pfPack,pfLink,pfHtml,pfShowLink,pfView,openFreelance,flData,flSum,flFormula,flExamples,flDoc,flKpi,openFeed,fdDocs,fdAffected,fdDetail,fdImpact,fdCopies,fdItems,fdNext,fdXlsx,fdData:()=>FD,openPriceHist,phSeries,phPrice,phAllRegions,phXlsx,phWatch,phData:()=>PH,openRequarter,rqRun,rqStats,rqRes,rqApply,rqXlsx,rqData:()=>RQ,openRemarks,rmParse,rmData,openMeasure,msParse,msData,openNonorm,nnData,nnCost,nnUnitTotal,nnText,nnPut,openCompare,cmpCalc,cmpDiff,cmpRows,cmpLoad,cmpXlsx,openCoefs,kdGroups,kdEffect,kdText,openAddwork,awData,awRows,awSum,awMake,awXlsx,awAgreement,msToVor,msWord,msFormula,msVal,openContract,renderContract,ctModel,ctXlsx,SVC,openActs,bimx,ncsCalc,ncsSample,pirCalc,pirHtml,pirXlsx,pirSample,openOsr,renderOsr,nmckCalc,rubWords,nmckXlsx,setLsrView,setLsrRes,openExpert,expx,openSplit,splitReg,useSplit,SPL,get split(){return splitX()},osSample,ST,lsrModel,lsrModelGrand,osrModel,ssrModel,resModel,checkSmeta,ks2Model,fopt,mrNew,eqNew,kaNew,makePR,ensurePR,setZone,setLevel,prKey,get S(){return S},get xml(){return xmlx()},totals,calc,sample,B,ensureReal,nrCode,nrFull,sampleLesson,loadDoc,setBase:v=>setBase(v),renderTable,renderInsp,renderDock,syncRibbon};
 if(location.hash==='#sample')sample();
 /* этап 1 полировки: тур не перекрывает открытое окно или меню — ждёт, пока пользователь их закроет */
 const tourFree=()=>{if(localStorage.getItem('rimora.tour'))return;if($('#dlgbg').classList.contains('on')||openMenu||document.querySelector('.dd'))return setTimeout(tourFree,1500);tour()};
