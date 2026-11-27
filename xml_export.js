@@ -367,7 +367,7 @@ function xmlPZ(docs,F){sync();const Q=req(),st=ST(),pz=PZ(),M=ssrModel(),O=M.O,n
     st.vz.on?`Затраты на титульные временные здания и сооружения — ${pct(st.vz.pct)}% (${st.vz.osn||'обоснование не указано'}).`:'',
     st.win.on?`Дополнительные затраты при производстве работ в зимнее время — ${pct(st.win.pct)}% (${st.win.osn||'обоснование не указано'}).`:'',
     M.CH[13]?`Резерв средств на непредвиденные работы и затраты — ${pct(M.CH[13].pct)}% от итога глав 1–12 (п. 179 Методики 421/пр).`:'',
-    M.CH[14]?`Налог на добавленную стоимость — ${M.CH[14].pct}% (пп. 180–181 Методики 421/пр).`:''].filter(Boolean);
+    M.CH[14]?`Налог на добавленную стоимость — ${M.CH[14].pct}% (пп. 180–181 Методики 421/пр).`:'',...(A.kdPz?A.kdPz():[])].filter(Boolean);
   x.a.push('  '.repeat(x.d)+'<DesignerNote Title="Сведения о составлении сметной документации">');x.d++;for(const l of lines)x.el('Text',l);x.d--;x.a.push('  '.repeat(x.d)+'</DesignerNote>');
   x.el('ExportDateTime',stamp(now));x.close('Construction');return {xml:x.toString()+'\n'}}
 
