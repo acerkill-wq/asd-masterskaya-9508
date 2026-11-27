@@ -280,6 +280,7 @@ table.lsrf tr.sel td{background:color-mix(in srgb,var(--brand) 12%,transparent)}
 .grand .gl{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
 .grand .gv{font-size:30px;font-weight:700;letter-spacing:-.8px;font-variant-numeric:tabular-nums;line-height:1.1}
 .grand .gv small{font-size:16px;color:var(--muted);font-weight:600}
+.grand .gv .gload{font-size:18px;color:var(--muted);font-weight:600;letter-spacing:0}
 .grand .nds{display:flex;justify-content:space-between;align-items:center;color:var(--ink2);margin-top:2px;font-size:12px}
 
 /* палитра команд */
@@ -382,6 +383,21 @@ table.lsrf tr.sel td{background:color-mix(in srgb,var(--brand) 12%,transparent)}
 .pftg2{display:flex;justify-content:space-between;align-items:center;font-size:13px;padding:5px 0;border-bottom:1px solid var(--line2);cursor:pointer}.pftg2 input{display:none}.pftg2 i{width:34px;height:20px;border-radius:99px;background:var(--line);position:relative;flex:none;transition:.15s}.pftg2 i::after{content:'';position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:.15s}.pftg2 input:checked+i{background:var(--brand)}.pftg2 input:checked+i::after{left:16px}
 .pflk{display:flex;gap:10px;align-items:center}.pfqr{background:#fff;padding:4px;border-radius:8px;line-height:0;flex:none;width:110px}.pfqr svg{width:100%;height:auto}.pfurl{word-break:break-all}
 .dysw{display:flex;gap:2px;background:var(--surface2);border:1px solid var(--line);padding:3px;border-radius:12px;margin-left:auto;margin-right:10px}.dysw button{padding:5px 12px;border-radius:9px;font-weight:600;font-size:12.5px;color:var(--ink2)}.dysw button.on{background:var(--surface);color:var(--brand-ink);box-shadow:var(--shadow-s)}
+.kngrid{display:grid;grid-template-columns:250px minmax(0,1fr) 300px;gap:14px;align-items:start;margin-top:6px}.knc{border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:12px;min-width:0}
+#knMid{max-height:68vh;overflow:auto}.knh{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:2px 0 8px}
+.knlv{display:flex;flex-wrap:wrap;gap:6px}.knlv button{border:1px solid var(--line);border-radius:999px;padding:5px 11px;background:var(--surface);color:inherit;font-size:13px}.knlv button.on{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.knrm{display:flex;justify-content:space-between;align-items:center;gap:8px;width:100%;text-align:left;padding:8px 10px;border-radius:9px;border:1px solid transparent;background:none;color:inherit;margin-top:4px;font-size:13px}.knrm.on{background:var(--brand-soft);border-color:var(--brand)}.knrm .u{display:block;font-size:11px}
+.knadd{display:flex;gap:6px;margin-top:10px}.knadd select{flex:1;min-width:0}
+.knst{display:flex;justify-content:space-between;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--brand-ink);margin:14px 0 2px;border-bottom:1px solid var(--line);padding-bottom:4px}
+.knw{display:grid;grid-template-columns:22px minmax(0,1fr) 112px 104px;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid var(--line);font-size:13.5px}.knw.off{opacity:.55}.knw .u{font-size:11px}.knw .num{text-align:right}.knw input.q{width:64px;text-align:right;padding:3px 5px}
+.kngeo{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.kngeo label{font-size:11px;color:var(--muted);display:flex;flex-direction:column;gap:2px}.kngeo input,.kngeo select{width:100%;min-width:0;font-size:13.5px;padding:5px 7px;border:1px solid var(--line);border-radius:7px;background:var(--surface);color:var(--ink)}
+.knfind{margin-top:12px}.knfind input{width:100%;border:1px dashed var(--brand);border-radius:10px;padding:9px 11px}.knfi{display:block;width:100%;text-align:left;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:inherit;padding:6px 9px;margin-top:5px}.knfi .u{display:block;font-size:11px}
+.knbig{font-size:30px;font-weight:800;line-height:1.1}.knbar{display:flex;height:8px;border-radius:5px;overflow:hidden;margin:8px 0;background:var(--surface2)}.knbar i{display:block;height:100%}
+.kns{display:flex;justify-content:space-between;gap:8px;padding:5px 0;border-bottom:1px solid var(--line);font-size:13px}
+.knpay{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.knpay div{border:1px solid var(--line);border-radius:8px;padding:6px;font-size:11px;color:var(--muted)}.knpay b{display:block;font-size:13px;color:var(--ink)}
+.knbtns{display:flex;flex-direction:column;gap:6px;margin-top:12px}
+@media(max-width:1050px){.kngrid{grid-template-columns:1fr}#knMid{max-height:none}.kngeo{grid-template-columns:repeat(2,minmax(0,1fr))}.knw{grid-template-columns:22px minmax(0,1fr) 92px 92px}}
+@media(max-width:600px){.knw{grid-template-columns:22px minmax(0,1fr) 92px}.knw>div:nth-child(3){grid-column:2;text-align:left}.knw>div:nth-child(4){grid-column:3;grid-row:1/3}.knw input.q{width:72px}}
 .dyhome{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}.dycard{display:grid;grid-template-columns:44px 1fr;grid-template-rows:auto auto;column-gap:12px;text-align:left;padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:inherit}.dycard:hover{border-color:var(--brand)}.dycard b{font-size:15px}.dycard .u{grid-column:2}.dyic{grid-row:1/3;width:44px;height:44px;border-radius:10px;display:grid;place-items:center;background:var(--brand-soft);color:var(--brand-ink);font-weight:700}
 .dylist{display:flex;flex-direction:column;gap:6px}.dylw{position:relative}.dylw .dyli{width:100%;padding-right:40px}.dyx{position:absolute;top:6px;right:6px;width:28px;height:28px;border:0;border-radius:8px;background:transparent;color:var(--muted);font-size:18px;line-height:1;cursor:pointer}.dyx:hover{background:var(--line);color:var(--text)}.dyli{display:grid;grid-template-columns:1fr auto auto;gap:4px 12px;text-align:left;padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:inherit}.dyli .u{grid-column:1/4}
 .dyv{font-weight:700}.dyv.hi,.dyvc.hi .cmt{color:#c0264d}.dyv.ok,.dyvc.ok .cmt{color:#178a5b}.dyv.lo,.dyvc.lo .cmt{color:#b7791f}.dyvc.hi{background:rgba(253,226,225,.55)}
@@ -983,13 +999,42 @@ const RC={
  'Т1.7':{g:'Строительство',type:'prod',v:1.35,name:'Помещения и пространства высотой до 1,8 м',src:'табл. 1, п. 7'},
  'Т2.1':{g:'Строительство',type:'pay',v:1.10,name:'Вредные условия труда (без сокращённого времени)',src:'табл. 2, п. 1.1'},
  'Т2.2':{g:'Строительство',type:'pay',v:1.30,name:'Вредные условия, 36-часовая неделя',src:'табл. 2, п. 1.2'},
+ 'Т3.1.1':{g:'Реконструкция, техперевооружение',type:'prod',v:1.20,vm:1.20,vr:null,name:'Помещения эксплуатируемого объекта, загромождающих предметов нет',src:'табл. 3, п. 1.1'},
+ 'Т3.1.2':{g:'Реконструкция, техперевооружение',type:'prod',v:1.35,vm:1.35,vr:1.15,name:'То же, с транспортом, действующим оборудованием, мебелью',src:'табл. 3, п. 1.2'},
+ 'Т3.2':{g:'Реконструкция, техперевооружение',type:'prod',v:1.30,vm:1.30,vr:1.10,name:'С остановкой рабочего процесса, оборудование и мебель в зоне работ',src:'табл. 3, п. 2'},
+ 'Т3.3':{g:'Реконструкция, техперевооружение',type:'prod',v:1.15,name:'Территория предприятия: коммуникации, оборудование, транспорт',src:'табл. 3, п. 3'},
+ 'Т3.4':{g:'Реконструкция, техперевооружение',type:'prod',v:1.20,name:'Охранная зона ВЛ, вблизи объектов под напряжением',src:'табл. 3, п. 4'},
+ 'Т3.5':{g:'Реконструкция, техперевооружение',type:'prod',v:1.35,name:'Работающие подстанции, электропомещения под напряжением',src:'табл. 3, п. 5'},
+ 'Т3.6':{g:'Реконструкция, техперевооружение',type:'prod',v:1.10,name:'Закрытые сооружения с перекрытием ниже 3 м от земли',src:'табл. 3, п. 6'},
+ 'Т3.7':{g:'Реконструкция, техперевооружение',type:'prod',v:1.35,name:'Помещения и пространства высотой до 1,8 м',src:'табл. 3, п. 7'},
+ 'Т3.8':{g:'Реконструкция, техперевооружение',type:'prod',v:1.15,name:'Стеснённые условия населённых пунктов',src:'табл. 3, п. 8'},
+ 'Т3.9':{g:'Реконструкция, техперевооружение',type:'prod',v:1.20,name:'Склоны гор',src:'табл. 3, п. 9'},
+ 'Т3.10':{g:'Реконструкция, техперевооружение',type:'prod',v:1.15,name:'Режим секретности',src:'табл. 3, п. 10'},
  'Т5.1':{g:'Капремонт',type:'prod',v:1.20,name:'Ремонт в помещениях эксплуатируемого объекта (без оборудования, мебели)',src:'табл. 5, п. 1.1'},
  'Т5.2':{g:'Капремонт',type:'prod',v:1.35,name:'То же, с действующим оборудованием, мебелью',src:'табл. 5, п. 1.2'},
  'Т5.8':{g:'Капремонт',type:'prod',v:1.50,name:'Жилые помещения без расселения',src:'табл. 5, п. 8'},
  'Т5.9':{g:'Капремонт',type:'prod',v:1.15,name:'Стеснённые условия населённых пунктов',src:'табл. 5, п. 9.1'},
+ 'Т7.1':{g:'Пусконаладка (ГЭСНп)',type:'prod',v:1.20,only:'п',name:'Эксплуатируемый объект без остановки, с оборудованием, мебелью',src:'табл. 7, п. 1'},
+ 'Т7.2':{g:'Пусконаладка (ГЭСНп)',type:'prod',v:1.15,only:'п',name:'С остановкой рабочего процесса, оборудование в зоне работ',src:'табл. 7, п. 2'},
+ 'Т7.3':{g:'Пусконаладка (ГЭСНп)',type:'prod',v:1.20,only:'п',name:'Охранная зона ВЛ, вблизи объектов под напряжением',src:'табл. 7, п. 3'},
+ 'Т7.4':{g:'Пусконаладка (ГЭСНп)',type:'prod',v:1.30,only:'п',name:'Действующие электроустановки, с нарядом-допуском',src:'табл. 7, п. 4'},
+ 'Т7.5':{g:'Пусконаладка (ГЭСНп)',type:'prod',v:1.10,only:'п',name:'Защищённое электрооборудование',src:'табл. 7, п. 5'},
+ 'Т7.6':{g:'Пусконаладка (ГЭСНп)',type:'prod',v:1.25,only:'п',name:'Помещения категорий А и Б по взрывопожарной опасности',src:'табл. 7, п. 6'},
+ 'Т7.7':{g:'Пусконаладка (ГЭСНп)',type:'prod',v:1.15,only:'п',name:'Режим секретности',src:'табл. 7, п. 7'},
+ 'Т7.8':{g:'Пусконаладка (ГЭСНп)',type:'prod',v:1.10,only:'п',name:'Закрытые сооружения с перекрытием ниже 3 м от земли',src:'табл. 7, п. 8'},
+ 'Т7.9':{g:'Пусконаладка (ГЭСНп)',type:'prod',v:1.10,only:'п',name:'Температура воздуха в зоне работ ниже 0 °C',src:'табл. 7, п. 9'},
  'Г01-3.187':{g:'Земляные работы (ГЭСН сб. 01)',type:'lab',v:1.2,name:'Доработка вручную, зачистка дна и стенок с выкидкой грунта',src:'прил. 1.12, п. 3.187'},
  'П58':{g:'Капремонт',type:'rem',v:1,name:'Ремонт по нормам нового строительства: труд ×1,15, машины и ОТм ×1,25, НР ×0,9, СП ×0,85',src:'п. 58б; 812/пр п. 25; 774/пр п. 16'}
 };
+/* вид расценки для таблиц прил. 10: в табл. 3 свои колонки для ГЭСН, ГЭСНм и ГЭСНр (с ними ГЭСН 81-02-46), табл. 7 только к ГЭСНп.
+   rcv(id,code) — значение коэффициента к этой расценке, null — к такому виду расценок не применяется */
+const rcKind=code=>{code=String(code||'');return /^мр\d/.test(code)?'мр':/^м\d/.test(code)?'м':/^р\d/.test(code)?'р':/^п\d/.test(code)?'п':/^46-/.test(code)?'46':''};
+function rcv(id,code){const c=RC[id];if(!c)return null;const k=rcKind(code);if(c.only)return k===c.only?c.v:null;
+  if('vr' in c||'vm' in c){if(k==='мр'||k==='п')return null;if(k==='р'||k==='46')return 'vr' in c?c.vr:c.v;if(k==='м')return 'vm' in c?c.vm:c.v}return c.v}
+window.rcv=rcv;
+/* свой коэффициент: ОЗП и ЭМ больше нуля; МАТ может быть 0 (демонтаж без материалов, 571/пр табл. 2). x.p10 — коэффициент из прил. 10, табл. 1, 3, 5, 7: складывается с коэффициентами производительности (п. 52) */
+const kcV=v=>{const n=+v;return v===''||v==null||!isFinite(n)||n<0?1:n},kcO=x=>+x.ot>0?+x.ot:1,kcE=x=>+x.em>0?+x.em:1,kcM=x=>kcV(x.m);
+const kcP10=s=>/прил\S*\s*(?:№\s*)?10(?![\d,.])/i.test(s)&&/(?:табл\S*|т\.)\s*(?:№\s*)?[1357](?![\d,])/i.test(s);
 let PR=window.PRICES;
 /* регион и квартал цен ФГИС ЦС. S.zone — ценовая зона (по умолчанию 166, Волгоградская обл.); S.level — 'cur' (3 кв. 2026), 'q2025' (3 кв. 2025), 'p<код периода>' или 'base'.
    Волгоград 3 кв. 2026 и 3 кв. 2025 берутся из встроенных файлов prices_vgg_*, остальные зоны и кварталы — из data/prices/<период>/<зона>.js по требованию */
@@ -1023,6 +1068,8 @@ function ensurePR(k){if(REGPR[k]||!k)return Promise.resolve(REGPR[k]);if(useSpli
   PRL[k]=(window.RGROUPS&&window.RGROUPS[p]?Promise.resolve():loadJs('data/prices/'+p+'/g.js')).then(()=>loadJs('data/prices/'+p+'/'+z+'.js'))
    .then(()=>{REGPR[k]=makePR(k);render()}).catch(()=>{delete PRL[k];toast('Не удалось загрузить цены: '+lvName(lvOf(+p),+z)+'. Проверьте папку data/prices')});return PRL[k]}
 // пока цены зоны грузятся, расчёт идёт по встроенным ценам Волгограда, затем смета пересчитывается сама
+/* №49: цены зоны и квартала ещё догружаются — расчёт идёт по встроенным ценам, итог помечаем «загрузка цен…» */
+const prLoading=()=>{const k=prKey();return !!(k&&!useSplit(k)&&!builtinPR(k)&&!REGPR[k]&&PRL[k])};
 const syncPR=()=>{const k=prKey();if(!k)return PR=window.PRICES;if(useSplit(k))return PR=SPL[k].PR||(SPL[k].PR=makePR(k,SPL[k].D,SPL[k].G));const b=builtinPR(k);if(b)return PR=b;if(!REGPR[k])ensurePR(k);return PR=REGPR[k]||window.PRICES};
 const UCH=window.UCHEB||{norms:{}};
 const ucNorm=(code,rc,n)=>S.base==='ucheb'&&UCH.norms[code]&&UCH.norms[code][rc]!=null?UCH.norms[code][rc]:n;
@@ -1053,13 +1100,17 @@ window.ksOf=ksOf;window.kcOf=kcOf;
 function calcReal(p,R){
   // вид работ для НР и СП, выбранный сметчиком на позиции (как в ГРАНД-Смете): p.nk, p.sk — пункты таблиц 812/пр и 774/пр
   if(p.nk||p.sk)R={...R,nk:p.nk||R.nk,sk:p.sk||R.sk};
-  const q=p.qty/R.mult,kr=p.kr>0?+p.kr:1;let kprod=1,kpay=1,klab=1,rem=false;
-  for(const id of ksOf(p)){const c=RC[id];if(!c)continue;if(c.type==='prod')kprod+=c.v-1;else if(c.type==='pay')kpay*=c.v;else if(c.type==='lab')klab*=c.v;else rem=true}
-  kprod=Math.round(kprod*1e7)/1e7;kpay=Math.round(kpay*1e7)/1e7;
+  const q=p.qty/R.mult,kr=p.kr>0?+p.kr:1;let kprod=1,kpay=1,klab=1,rem=false;const kpa=[],kna=[];
+  for(const id of ksOf(p)){const c=RC[id];if(!c)continue;if(c.type==='rem'){rem=true;continue}const v=rcv(id,p.code);if(v==null){kna.push(id);continue}
+    if(c.type==='prod'){kprod+=v-1;kpa.push([id,v,v])}else if(c.type==='pay')kpay*=v;else if(c.type==='lab')klab*=v}
+  // п. 52 Методики 421/пр: коэффициенты снижения производительности (табл. 1, 3, 5, 7 прил. 10) складываются: К = Σ(К − 1) + 1.
+  // Свой коэффициент с отметкой «из прил. 10» входит в эту сумму (отдельно к труду и к машинам), остальные свои перемножаются
+  let kprodE=kprod;for(const x of kcOf(p))if(x.p10){const o=kcO(x),e=kcE(x);kprod+=o-1;kprodE+=e-1;kpa.push([x.n||x.j||'свой',o,e])}
+  kprod=Math.round(kprod*1e7)/1e7;kprodE=Math.round(kprodE*1e7)/1e7;kpay=Math.round(kpay*1e7)/1e7;
   // свои коэффициенты позиции, как в ГРАНД-Смете: p.kc=[{j:обоснование,n:название,ot:ОЗП и ТЗ,em:ЭМ, ЗПМ и ТЗМ,m:МАТ}], перемножаются с остальными
-  let kco=1,kce=1,kcm=1;for(const x of kcOf(p)){kco*=+x.ot||1;kce*=+x.em||1;kcm*=+x.m||1}
+  let kco=1,kce=1,kcm=1;for(const x of kcOf(p)){if(!x.p10){kco*=kcO(x);kce*=kcE(x)}kcm*=kcM(x)}
   const r7k=x=>Math.round(+(x*1e7).toPrecision(14))/1e7;// п. 56 Методики 421/пр: перемноженные коэффициенты округляются до семи знаков
-  const kl=r7k(kprod*klab*(rem?1.15:1)*kr*kco),km=r7k(kprod*(rem?1.25:1)*kr*kce),kmat=r7k(kr*kcm);
+  const kl=r7k(kprod*klab*(rem?1.15:1)*kr*kco),km=r7k(kprodE*(rem?1.25:1)*kr*kce),kmat=r7k(kr*kcm);
   let ot=0,otm=0,emN=0,mat=0,zt=0,ztm=0;const lines=[],warn=[];
   // в учебной базе состав и нормы расценок курса берутся из выгрузки ГРАНД-Сметы целиком; F0 — нормы ФСНБ для сравнения
   const COMP=S.base==='ucheb'&&UCH.comp&&UCH.comp[p.code]||R.comp,F0=COMP!==R.comp?new Map(R.comp):null;
@@ -1099,7 +1150,7 @@ function calcReal(p,R){
   // (кратность учитывается); из поправочных коэффициентов — только единый ко всем элементам прямых затрат и коэффициент демонтажа (п. 84 Методики 571/пр),
   // при обоих — их произведение до 7 знаков; остальные коэффициенты к ВНМ не применяются
   const vnp=/^мр\d/.test(p.code)?3:/^м\d/.test(p.code)?2:0;let vk=1;
-  if(vnp)for(const x of kcOf(p)){const o=+x.ot||1,e=+x.em||1,m=+x.m||1;if(o!==1&&o===e&&o===m)vk*=o;else if(o!==1&&/демонтаж|разборк/i.test((x.n||'')+' '+(x.j||'')))vk*=o}
+  if(vnp)for(const x of kcOf(p)){if(x.p10)continue;const o=kcO(x),e=kcE(x),m=kcM(x);if(o!==1&&o===e&&o===m)vk*=o;else if(o!==1&&/демонтаж|разборк/i.test((x.n||'')+' '+(x.j||'')))vk*=o}
   vk=Math.round(vk*1e7)/1e7;
   const vn=vnp&&!p.novn&&kl>0?r2(vnp/100*ot*kr*vk/(kl*kpay)):0;mat=r2(mat+vn);
   let per=0;const dpl=[];if(p.dp)for(const l of lines){if(l.t!=='М'||l.qty==null)continue;const d=p.dp[l.rc];if(!d)continue;const x=dpCalc(d,l.qty);
@@ -1109,7 +1160,8 @@ function calcReal(p,R){
   const NS=NRSET(),nv=NS.nr[R.nk],sv=NS.sp[R.sk];if(NS.meta&&NS.meta.fallback){if(NS.meta.fallback.includes('nr '+R.nk))warn.push('НР '+R.nk+': прежняя редакция не разобрана, взят действующий норматив');if(NS.meta.fallback.includes('sp '+R.sk))warn.push('СП '+R.sk+': прежняя редакция не разобрана, взят действующий норматив')}if(!nv)warn.push('не найдена строка норматива НР (Пр/812-'+R.nk+')');if(!sv)warn.push('не найдена строка норматива СП (Пр/774-'+R.sk+')');
   const nrp=nv?(nv[terrOf()[1]]!=null&&typeof nv[terrOf()[1]]==='number'?nv[terrOf()[1]]:nv[0]):0,spp=sv?sv[0]:0;
   const nr=r2(fot*nrp/100*(rem?0.9:1)),sp=r2(fot*spp/100*(rem?0.85:1));
-  return {R,q,vn,vnp,vk,kr,kl,km,kmat,kco,kce,kcm,kprod,kpay,klab,rem,I,ot,otm,emN,em,mat,per,dpm:per,dpl,direct,fot,nr,sp,total:r2(direct+nr+sp),nrp,spp,zt,ztm,lines,warn,off,nu,nrName:nv&&nv[nv.length-1],spName:sv&&sv[sv.length-1]};
+  if(kna.length)warn.push('коэффициент '+kna.join(', ')+' к этому виду расценок не применяется (прил. 10 к Методике 421/пр), в расчёт не взят');
+  return {R,q,vn,vnp,vk,kr,kl,km,kmat,kco,kce,kcm,kprod,kprodE,kpa,kpay,klab,rem,I,ot,otm,emN,em,mat,per,dpm:per,dpl,direct,fot,nr,sp,total:r2(direct+nr+sp),nrp,spp,zt,ztm,lines,warn,off,nu,nrName:nv&&nv[nv.length-1],spName:sv&&sv[sv.length-1]};
 }
 const nuNorm=v=>v==='П'||v==null||v===''?'П':(x=>isFinite(x)?x:'П')(parseFloat(String(v).replace(',','.')));
 
@@ -1918,7 +1970,7 @@ const AI_URL=AI_LOCAL?'http://127.0.0.1:8806/api/ai':'https://rimora.45-10-244-4
 const aiR=x=>x==null?null:Math.round(x*100)/100,aiQ=x=>x==null||x==='П'?x:Math.round(x*1e6)/1e6;
 function aiPosCtx(p){const c=calc(p),R=c.R,n=S.pos.filter(x=>x.sec===undefined).indexOf(p)+1;
   const o={позиция:n,шифр:R.real?'ГЭСН'+p.code:(R.disp||p.code),наименование:R.name,единица_нормы:pu(R.unit),объём_в_единицах_проекта:p.qty+' '+pu(R.nat||R.unit),объём_в_единицах_нормы:aiQ(c.q),база:baseTxt(),цены:basisTxt(),нормативы_НР_СП:nrspTxt(),
-    коэффициенты:ksOf(p).map(k=>RC[k]?{к:k,что:RC[k].g,значение:RC[k].v,тип:RC[k].type,основание:RC[k].src||''}:k),
+    коэффициенты:ksOf(p).map(k=>RC[k]?{к:k,что:RC[k].g,значение:RC[k].type==='rem'?RC[k].v:rcv(k,p.code),тип:RC[k].type,основание:RC[k].src||''}:k),
     ОТ:c.ot,ОТм:c.otm,ЭМ_всего:c.em,М:c.mat,прямые:c.direct,ФОТ:c.fot,НР_проц:c.nrp,НР:c.nr,СП_проц:c.spp,СП:c.sp,итого_по_позиции:c.total};
   if(R.real){o.НР_пункт='Пр/812-'+nrCode(R.nk)+nrSfx()+' '+(c.nrName||'');o.СП_пункт='Пр/774-'+nrCode(R.sk)+' '+(c.spName||'');o.ремонт_по_нормам_нового_строительства=!!c.rem;
     o.кратность=c.kr||1;o.коэф_снижения_производительности=c.kprod;o.коэф_к_затратам_труда_по_сборнику=c.klab;o.коэф_повышенной_оплаты=c.kpay;o.ЗТ_чел_ч=aiR(c.zt);o.ЗТм_чел_ч=aiR(c.ztm);
@@ -1928,7 +1980,7 @@ function aiSmetaCtx(){const T=totals();return {смета:S.name,база:baseTx
   итоги:{ОТ:T.ot,ЭМ:T.em,ОТм:T.otm,М:T.mat,оборудование:T.ob,перевозка:T.per,прямые:T.direct,ФОТ:T.fot,НР:T.nr,СП:T.sp,всего:T.total}}}
 // открытая смета для вопроса помощнику: позиции строками «№ | шифр | наименование | объём | ОТ | ЭМ | М | НР | СП | итого | К | !», до AI_LIM позиций
 const AI_LIM=400,aiN=x=>x==null?'':String(aiR(x)).replace('.',',');
-function aiRow(p,n,c){const R=c.R,k=ksOf(p).map(k=>RC[k]?RC[k].g+' '+String(RC[k].v).replace('.',','):k);if(c.kr&&c.kr!==1)k.unshift('кратность '+String(c.kr).replace('.',','));
+function aiRow(p,n,c){const R=c.R,k=ksOf(p).map(k=>RC[k]?RC[k].g+' '+String(RC[k].type==='rem'?'П58':rcv(k,p.code)??'не применяется').replace('.',','):k);if(c.kr&&c.kr!==1)k.unshift('кратность '+String(c.kr).replace('.',','));
   return [n,R.real?'ГЭСН'+p.code:(R.disp||p.code||''),String(R.name||'').slice(0,110),(typeof p.qty==='number'?String(aiQ(p.qty)):String(p.qty)).replace('.',',')+' '+pu(R.nat||R.unit||''),'ОТ '+aiN(c.ot),'ЭМ '+aiN(c.em),'М '+aiN(c.mat),c.ob?'оборудование '+aiN(c.ob):'',c.per?'перевозка '+aiN(c.per):'',
     'НР '+aiN(c.nrp)+'% '+aiN(c.nr),'СП '+aiN(c.spp)+'% '+aiN(c.sp),'итого '+aiN(c.total),k.length?'К: '+k.join('; '):'',c.warn&&c.warn.length?'! '+c.warn.join('; ').slice(0,220):''].filter(x=>x!=='').join(' | ')}
 let AIH=[],AIHK='';const aiHKey=()=>String(S.docId||'')+'|'+S.name;
@@ -2064,7 +2116,7 @@ function splitReg(set){if(!PIDX)return;SPL[set.key]=set;delete set.PR;let zi=ZIN
   if(!zi.z.p.includes(set.pid)){zi.z.p.push(set.pid);zi.z.p.sort((a,b)=>b-a)}
   if(!PIDX.periods[set.pid])PIDX.periods[set.pid]=set.meta.quarter;const ls=$('#lvlsel');if(ls)delete ls.dataset.z}
 function splitUnreg(k){const set=SPL[k];if(!set)return;delete SPL[k];const zi=ZINFO(set.zid);if(zi&&!OFF.has(k))zi.z.p=zi.z.p.filter(p=>p!==set.pid);const ls=$('#lvlsel');if(ls)delete ls.dataset.z}
-function splitApply(set){S.zone=set.zid;S.level=lvOf(set.pid);S.nrsp=set.pid<427?'old':'new';S.split=set.key;commit();render();toast('Цены сметы: '+PSET[S.level])}
+function splitApply(set){if(S.split!==set.key&&!ctFixOk('Переход на цены сплит-формы'))return false;S.zone=set.zid;S.level=lvOf(set.pid);S.nrsp=set.pid<427?'old':'new';S.split=set.key;commit();render();toast('Цены сметы: '+PSET[S.level])}
 const nfi=n=>Number(n||0).toLocaleString('ru-RU');
 function splitSummary(s){const c=s.cnt,ni=s.noIdx||{m:[],e:[]},cmp=s.cmp;
   const gl=a=>a.map(g=>`№ ${g.no??'?'} «${esc(g.name)}» (${nfi(g.count)})`).join('; ');
@@ -2160,7 +2212,7 @@ function buildRibbon(){
    <div class="ctl" title="Редакция приказов 812/пр и 774/пр"${NRSP_NEW_OFF?' style="display:none"':''}><span class="lb-l">НР и СП</span><span class="lb-s">НР/СП</span><select id="nrspsel"><option value="new">с 20.10.2026</option><option value="old">до 20.10.2026</option></select></div>
    <div class="ctl"><span class="switch" id="ndssw"><i></i>НДС ${B.nds}%</span></div>`;
   $$('.rb').forEach(el=>{const f=RIB.flat().find(x=>x[0]===el.dataset.r);el.onclick=f[2]});
-  $('#idxsel').onchange=e=>setIdx(e.target.value);$('#lvlsel').onchange=e=>setLevel(e.target.value);$('#zonesel').onchange=e=>setZone(+e.target.value);$('#basesel').onchange=e=>{if(e.target.value==='cfg'){e.target.value=S.base||'fsnb';return openBases()}setBase(e.target.value)};$('#nrspsel').onchange=e=>{S.nrsp=e.target.value;commit()};$('#edsel').onchange=e=>{S.ed=e.target.value;commit();toast('ФСНБ-2022 '+edName(S.ed)+' ('+edAct(S.ed)+')')};$('#terrsel').onchange=e=>{S.terr=e.target.value==='t'?undefined:e.target.value;commit();toast('НР по графе: '+terrOf()[0])};$('#ndssw').onclick=()=>setNds(!S.nds);
+  $('#idxsel').onchange=e=>setIdx(e.target.value);$('#lvlsel').onchange=e=>{if(!ctFixOk('Смена квартала цен')){e.target.value=S.level;return}setLevel(e.target.value)};$('#zonesel').onchange=e=>setZone(+e.target.value);$('#basesel').onchange=e=>{if(e.target.value==='cfg'){e.target.value=S.base||'fsnb';return openBases()}setBase(e.target.value)};$('#nrspsel').onchange=e=>{S.nrsp=e.target.value;commit()};$('#edsel').onchange=e=>{if(!ctFixOk('Смена редакции ФСНБ-2022')){e.target.value=edOfS();return}S.ed=e.target.value;commit();toast('ФСНБ-2022 '+edName(S.ed)+' ('+edAct(S.ed)+')')};$('#terrsel').onchange=e=>{S.terr=e.target.value==='t'?undefined:e.target.value;commit();toast('НР по графе: '+terrOf()[0])};$('#ndssw').onclick=()=>setNds(!S.nds);
 }
 
 /* ---------- отрисовка ---------- */
@@ -2488,10 +2540,10 @@ function xmlSmeta(txt){const d=new DOMParser().parseFromString(txt,'application/
   // коэффициенты позиции: «Кратность …» → кратность, остальные → свои коэффициенты (ОТ и ЗТ → ot, ЭМ → em, МАТ → m)
   const kofs=c=>{const K=kid(c,'Coefficients');if(!K)return null;let kr=0;const kc=[];
     for(const k of K.children){if(k.localName!=='Coefficient')continue;const V={},vs=kid(k,'Values');
-      if(vs)for(const v of vs.children){const tg=tx(v,'Target').toUpperCase(),cv=parseFloat(tx(v,'CoefValue').replace(',','.'));if(tg&&isFinite(cv)&&cv>0)V[tg]=cv}
+      if(vs)for(const v of vs.children){const tg=tx(v,'Target').toUpperCase(),cv=parseFloat(tx(v,'CoefValue').replace(',','.'));if(tg&&isFinite(cv)&&(cv>0||cv===0&&tg==='МАТ'))V[tg]=cv}
       const n=tx(k,'Name'),j=tx(k,'Reason');
       if(/^кратность/i.test(n)||/кратност/i.test(j)){const x=V['ОТ']||V['ЭМ']||V['МАТ']||V['ЗТ'];if(x)kr=(kr||1)*x;continue}
-      const ot=V['ОТ']??V['ЗТ']??1,em=V['ЭМ']??1,m=V['МАТ']??1;if(ot!==1||em!==1||m!==1)kc.push({j,n,ot,em,m})}
+      const ot=V['ОТ']??V['ЗТ']??1,em=V['ЭМ']??1,m=V['МАТ']??1;if(ot!==1||em!==1||m!==1)kc.push(kcP10(j+' '+n)?{j,n,ot,em,m,p10:1}:{j,n,ot,em,m})}
     return {kr,kc}};
   const items=its=>{for(const it of its.children){if(it.localName!=='Item')continue;
       const c=kid(it,'Cost');if(c){const row=[tx(c,'Num'),tx(c,'Prefix')+tx(c,'Code'),tx(c,'Name'),tx(c,'Unit'),tx(c,'Quantity')||tx(c,'QuantityTotal'),sumOf(it)],k=kofs(c);
@@ -2512,14 +2564,14 @@ function gsSmeta(d){const root=d.documentElement,kids=(el,n)=>el?[...el.children
   let name=ds?(ln&&!ds.includes(ln)?ln+' '+ds:ds):ln;if(name.length>150)name=name.slice(0,147).trim()+'…';
   // коэффициент ГРАНД-Сметы: PZ — ко всей позиции, OZ — к оплате труда, EM — к машинам, MT — к материалам; выключенные и в процентах не берём
   const kof=k=>{const o=' '+at(k,'Options')+' ';if(/ (Disabled|Percent) /.test(o))return null;const pz=num(at(k,'Value_PZ'))||1;
-    const r={j:at(k,'Code').trim(),n:at(k,'Caption').trim(),ot:pz*(num(at(k,'Value_OZ'))||1),em:pz*(num(at(k,'Value_EM'))||1),m:pz*(num(at(k,'Value_MT'))||1)};
+    const mt=num(at(k,'Value_MT')),r={j:at(k,'Code').trim(),n:at(k,'Caption').trim(),ot:pz*(num(at(k,'Value_OZ'))||1),em:pz*(num(at(k,'Value_EM'))||1),m:mt===0?0:pz*(mt||1)};if(kcP10(r.j+' '+r.n))r.p10=1;
     return r.ot===1&&r.em===1&&r.m===1?null:r};
   const ids=s=>new Set(String(s||'').replace(/[()\s]/g,'').split(',').filter(Boolean));
   // общие коэффициенты сметы: ко всем позициям или к видам работ и разделам из ссылок
   const glob=[];for(const k of kids(kid(root,'Koefficients'),'K')){const r=kof(k);if(!r)continue;
     glob.push({r,vr:at(k,'AllVidRabs')==='No'?ids(at(k,'VrsLinks')):null,ch:at(k,'AllChapters')==='No'?ids(at(k,'ChaptersLinks')):null})}
   const out=[],secs=new Set(),add=(row,ks)=>{let kr=0;const kc=[];
-    for(const x of ks){if(/кратн/i.test(x.n)&&x.ot===x.em&&x.em===x.m){kr=(kr||1)*x.ot;continue}kc.push({j:x.j,n:x.n,ot:x.ot,em:x.em,m:x.m})}
+    for(const x of ks){if(/кратн/i.test(x.n)&&x.ot===x.em&&x.em===x.m){kr=(kr||1)*x.ot;continue}kc.push(x.p10?{j:x.j,n:x.n,ot:x.ot,em:x.em,m:x.m,p10:1}:{j:x.j,n:x.n,ot:x.ot,em:x.em,m:x.m})}
     if(kr&&kr!==1)row.kr=kr;if(kc.length)row.kc=kc;out.push(row)};
   const total=p=>{let s='';for(const it of p.getElementsByTagName('Itog'))if(at(it,'DataType')==='TotalWithNP')s=at(it,'TotalCurr');
     if(!s)for(const it of p.getElementsByTagName('Itog'))if(at(it,'DataType')==='TotalPos')s=at(it,'TotalCurr');return s};
@@ -2618,7 +2670,8 @@ function renderInspReal(p,c){const el=$('#insp'),R=c.R,I=c.I;
   const line=(label,color,formula,val,big)=>`<div class="step ${big?'big':''}"><span class="d" style="background:${color}"></span><div><div class="l">${label}</div><div class="f">${formula}</div></div><div class="v num">${fmt(val)}</div></div>`;
   const groups={};for(const [id,v] of Object.entries(RC))(groups[v.g]=groups[v.g]||[]).push([id,v]);
   const sw=([id,v])=>`<div class="kr"><div class="kn"><b>${id} · ${esc(v.name)}</b><span>${v.type==='prod'?'снижение производительности ×'+fq(v.v)+' (труд, время машин)':v.type==='lab'?'затраты труда рабочих ×'+fq(v.v):v.type==='pay'?'повышенная оплата труда ×'+fq(v.v)+' (ОТ, ОТм)':'особый порядок'} · ${v.src}</span></div>${kallOn(p)&&(S.kall.ks||[]).includes(id)&&!(p.ks||[]).includes(id)?'<span class="kc" title="Включён в коэффициенты на всю смету">сметы</span>':''}<span class="switch ${(p.ks||[]).includes(id)?'on':''}" data-k="${id}" tabindex="0"><i></i></span></div>`;
-  const kinfo=c.kprod!==1||c.kpay!==1||c.rem?`<div class="conv num">Итоговые: производительность ×${fq(c.kprod)} (складываются дробные части), оплата труда ×${fq(c.kpay)}${c.rem?', ремонт по нормам нового строительства':''}</div>`:'';
+  const kpf=(i,k)=>c.kpa.length>1?c.kpa.map(a=>'('+fq(a[i])+' − 1)').join(' + ')+' + 1 = '+fq(k):fq(k);
+  const kinfo=c.kprod!==1||c.kprodE!==1||c.kpay!==1||c.rem?`<div class="conv num">Снижение производительности (п. 52, складываются): ${c.kprod===c.kprodE?'К = '+kpf(1,c.kprod):'к труду К = '+kpf(1,c.kprod)+'; к машинам К = '+kpf(2,c.kprodE)}${c.rem?`<br>С П58 (п. 56, перемножаются): труд ${fq(c.kprod)} × 1,15 = ${fq(Math.round(c.kprod*1.15*1e7)/1e7)}; машины ${fq(c.kprodE)} × 1,25 = ${fq(Math.round(c.kprodE*1.25*1e7)/1e7)}`:''}${c.kpay!==1?'<br>Оплата труда (перемножаются): ×'+fq(c.kpay):''}</div>`:'';
   const tip=R.mult>1?`Единица расценки — ${pu(R.unit)}. Поэтому ${fq(p.qty)} ${pu(R.nat)} превращаются в ${fq(c.q)}.`:'';
   el.innerHTML=`<div class="ih"><span class="mono chip" style="background:var(--surface2);color:var(--ink2)">ГЭСН${p.code}</span><h3>${esc(R.name)}</h3></div>
   <div class="sect"><h5>Объём</h5><div class="qrow"><input id="qside" value="${fq(p.qty)}" inputmode="decimal"><span class="u" style="font-size:13px">${pu(R.nat)}</span></div>
@@ -2654,20 +2707,22 @@ function renderInspReal(p,c){const el=$('#insp'),R=c.R,I=c.I;
 function nkHtml(p){const R0=B.rates[p.code];if(!R0||!R0.real)return '';const NS=NRSET(),d=R0.nk,cur=p.nk||d,nm=k=>{const v=NS.nr[k];return v?String(v[v.length-1]).replace(/:$/,''):''};
   return `<div class="sect"><h5>Вид работ для НР и СП</h5><select id="nksel" style="width:100%;font:inherit;padding:5px 6px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:inherit">${Object.keys(NS.nr).map(k=>`<option value="${k}"${k===cur?' selected':''}>${k} · ${esc(nm(k).slice(0,70))}${k===d?' (по ФСНБ)':''}</option>`).join('')}</select>${p.nk&&p.nk!==d?`<div class="u" style="margin-top:4px">Выбран сметчиком. По ФСНБ-2022: ${d} · ${esc(nm(d))}</div>`:''}</div>`}
 function nkBind(p){const e=$('#nksel');if(!e)return;e.onchange=()=>{const v=e.value,d=B.rates[p.code].nk;if(v===d){delete p.nk;delete p.sk}else{p.nk=v;p.sk=NRSET().sp[v]?v:undefined;if(!p.sk)delete p.sk}commit();toast('НР и СП позиции: пункт '+v)}}
-const kcParts=x=>{const a=[],ot=+x.ot||1,em=+x.em||1,m=+x.m||1;if(ot!==1)a.push(['ОЗП',ot,'','ОТ и ЗТ'],['ТЗ',ot]);if(em!==1)a.push(['ЭМ',em,' к расх.','ЭМ, ОТм и ЗТм'],['ЗПМ',em],['ТЗМ',em]);if(m!==1)a.push(['МАТ',m,' к расх.','М']);return a};
+const kcParts=x=>{const a=[],ot=kcO(x),em=kcE(x),m=kcM(x);if(ot!==1)a.push(['ОЗП',ot,'','ОТ и ЗТ'],['ТЗ',ot]);if(em!==1)a.push(['ЭМ',em,' к расх.','ЭМ, ОТм и ЗТм'],['ЗПМ',em],['ТЗМ',em]);if(m!==1)a.push(['МАТ',m,' к расх.','М']);return a};
 // текст коэффициента: g=1 — как в ГРАНД-Смете «ОЗП=1,1; ТЗ=1,1», иначе «ЗТ ×1,1; ЭМ ×1,2»
 function kallTxt(){const K=S.kall||{};return [...(K.ks||[]).map(id=>RC[id]?id+' · '+RC[id].name:id),...(K.kc||[]).map(x=>kcTxt(x))].join('; ')||'не заданы'}
-function kcTxt(x,g){const a=kcParts(x);return (x.n?x.n+(g?' ':': '):'')+(g?a.map(([k,v,s])=>k+'='+fq(v)+(s||'')).join('; '):a.filter(y=>y[3]).map(([,v,,t])=>t+' ×'+fq(v)).join('; '))}
+function kcTxt(x,g){const a=kcParts(x);return (x.n?x.n+(g?' ':': '):'')+(g?a.map(([k,v,s])=>k+'='+fq(v)+(s||'')).join('; '):a.filter(y=>y[3]).map(([,v,,t])=>t+' ×'+fq(v)).join('; ')+(x.p10?' (прил. 10, складывается)':''))}
 function kallHtml(p){if(!kallN()||p.ka||p.mr||p.tr)return '';return `<div class="sect"><h5>Коэффициенты на всю смету</h5><div class="kr"><div class="kn"><b>Применять к этой позиции</b><span>${esc(kallTxt())}</span></div><span class="switch ${p.nokall?'':'on'}" id="kallsw" tabindex="0"><i></i></span></div><div class="conv"><a href="#" id="kalled">Изменить коэффициенты сметы…</a></div></div>`}
 function kallBind(p){const e=$('#kallsw');if(!e)return;const t=()=>{p.nokall?delete p.nokall:p.nokall=1;commit();toast(p.nokall?'Коэффициенты сметы к позиции не применяются':'Коэффициенты сметы применяются к позиции')};e.onclick=t;e.onkeydown=x=>{if(x.key===' '||x.key==='Enter'){x.preventDefault();t()}};const a=$('#kalled');if(a)a.onclick=x=>{x.preventDefault();openKall()}}
 function kcHtml(p){const L=p.kc||[];return `<div class="sect"><h5>Свои коэффициенты</h5>${L.map((x,i)=>`<div class="kcrow"><div><div>${esc(kcTxt(x))}</div>${x.j?`<div class="u">${esc(x.j)}</div>`:''}</div><button class="btn sm" data-kcdel="${i}" aria-label="Убрать коэффициент">×</button></div>`).join('')}
-  <div class="kcadd"><input id="kcj" placeholder="Обоснование: прил. 9.3 п. 2"><input id="kcn" placeholder="Название"><label>ОЗП и ТЗ<input id="kcot" inputmode="decimal" placeholder="1"></label><label>ЭМ и ЗПМ<input id="kcem" inputmode="decimal" placeholder="1"></label><label>МАТ<input id="kcm" inputmode="decimal" placeholder="1"></label><button class="btn" id="kcok">Добавить</button></div>
-  <div class="conv">Для коэффициентов, которых нет в списке выше: из технической части сборника, общих положений, проекта. Значения перемножаются с остальными коэффициентами.</div></div>`}
+  <div class="kcadd"><input id="kcj" placeholder="Обоснование: прил. 9.3 п. 2"><input id="kcn" placeholder="Название"><label>ОЗП и ТЗ<input id="kcot" inputmode="decimal" placeholder="1"></label><label>ЭМ и ЗПМ<input id="kcem" inputmode="decimal" placeholder="1"></label><label>МАТ<input id="kcm" inputmode="decimal" placeholder="1"></label><button class="btn" id="kcok">Добавить</button>${KC_P10('kc')}</div>
+  <div class="conv">Для коэффициентов, которых нет в списке выше: из технической части сборника, общих положений, проекта. Такие коэффициенты перемножаются с остальными. Коэффициент из таблиц 1, 3, 5, 7 прил. 10 отметьте флажком: он складывается с коэффициентами производительности. МАТ = 0, если материалы не нужны (демонтаж).</div></div>`}
+// значение из поля ввода: пусто → 1; ОЗП и ЭМ больше нуля, МАТ от нуля (z)
+const kcIn=(id,z)=>{const t=$(id).value.trim();if(!t)return 1;const n=parseFloat(t.replace(/\s/g,'').replace(',','.'));return isFinite(n)&&(n>0||z&&n===0)?n:NaN};
+const KC_P10=pf=>`<label class="kcp" style="display:flex;gap:6px;align-items:center;font-size:12.5px;grid-column:1/-1"><input type="checkbox" id="${pf}p10"> Из прил. 10 к Методике 421/пр, табл. 1, 3, 5 или 7: складывать с коэффициентами производительности (п. 52)</label>`;
 function kcBind(p){$$('[data-kcdel]').forEach(b=>b.onclick=()=>{p.kc.splice(+b.dataset.kcdel,1);if(!p.kc.length)delete p.kc;commit()});
-  const ok=$('#kcok');if(!ok)return;ok.onclick=()=>{const v=id=>{const t=$(id).value.trim();if(!t)return 1;const n=parseFloat(t.replace(/\s/g,'').replace(',','.'));return isFinite(n)&&n>0?n:NaN};
-    const ot=v('#kcot'),em=v('#kcem'),m=v('#kcm');if([ot,em,m].some(isNaN))return toast('Коэффициент — число больше нуля, например 1,1');
-    if(ot===1&&em===1&&m===1)return toast('Укажите хотя бы одно значение, отличное от 1');
-    (p.kc=p.kc||[]).push({j:$('#kcj').value.trim(),n:$('#kcn').value.trim(),ot,em,m});commit()}}
+  const ok=$('#kcok');if(!ok)return;ok.onclick=()=>{const ot=kcIn('#kcot'),em=kcIn('#kcem'),m=kcIn('#kcm',1);if([ot,em,m].some(isNaN))return toast('Коэффициент — число больше нуля, например 1,1. МАТ может быть 0');
+    if(ot===1&&em===1&&m===1)return toast('Укажите хотя бы одно значение, отличное от 1');const j=$('#kcj').value.trim(),n=$('#kcn').value.trim(),x={j,n,ot,em,m};if($('#kcp10').checked)x.p10=1;
+    (p.kc=p.kc||[]).push(x);commit()}}
 function setKr(id,v){const p=S.pos.find(x=>x.id===id);if(!p)return;const n=parseFloat(String(v).replace(/\s/g,'').replace(',','.'));
   if(!isFinite(n)||n<=0){toast('Кратность — число больше нуля');return render()}
   if(n===1)delete p.kr;else p.kr=n;commit()}
@@ -2719,7 +2774,7 @@ function lsrModel(){const O=fopt();if(O.view==='grand')return lsrModelGrand(O);
     const R=c.R,KR=c.kr||1,kl=c.kl,km=c.km,KM=c.kmat||KR,kq=kk(Math.round(kl*1e7)/1e7);
     rows.push({k:'pos',c:[n,'ГЭСН'+p.code,R.name+(p.vor!=null?`\n(объём ${fq(p.qty)} ${pu(R.nat)} по ведомости объёмов, строка ${vorLbl(p.vor)})`:p.f?`\n(объём ${fq(p.qty)} ${pu(R.nat)} = ${p.f})`:R.mult>1?`\n(объём ${fq(p.qty)} ${pu(R.nat)})`:''),pu(R.unit),c.q,kq,kq?c.q*kl:c.q,'','',O.view==='short'&&c.q?c.total/c.q:'','',O.view==='short'?c.total:'']});
     if(KR!==1)rows.push({k:'note',c:['','Кратность',`Кратность ${fq(KR)} (норма применена ${fq(KR)} раза): ЗТ ×${fq(KR)}; ЭМ ×${fq(KR)}; ЗТм ×${fq(KR)}; М ×${fq(KR)}`,'','','','','','','','','']});
-    if(O.coef)for(const id of ksOf(p)){const K=RC[id];if(!K)continue;rows.push({k:'note',c:['',K.src||id,`${id} · ${K.name}: `+(K.type==='prod'?`ЗТ ×${fq(K.v)}; ЭМ ×${fq(K.v)}; ЗТм ×${fq(K.v)}`:K.type==='lab'?`ЗТ ×${fq(K.v)}`:K.type==='pay'?`ОТ ×${fq(K.v)}; ОТм ×${fq(K.v)}`:'ремонт по нормам нового строительства: ЗТ ×1,15; ЭМ ×1,25; НР ×0,9; СП ×0,85'),'','','','','','','','','']})}
+    if(O.coef)for(const id of ksOf(p)){const K0=RC[id];if(!K0)continue;const K={...K0,v:K0.type==='rem'?K0.v:rcv(id,p.code)};if(K.v==null)continue;rows.push({k:'note',c:['',K.src||id,`${id} · ${K.name}: `+(K.type==='prod'?`ЗТ ×${fq(K.v)}; ЭМ ×${fq(K.v)}; ЗТм ×${fq(K.v)}`:K.type==='lab'?`ЗТ ×${fq(K.v)}`:K.type==='pay'?`ОТ ×${fq(K.v)}; ОТм ×${fq(K.v)}`:'ремонт по нормам нового строительства: ЗТ ×1,15; ЭМ ×1,25; НР ×0,9; СП ×0,85'),'','','','','','','','','']})}
     if(O.coef)for(const x of kcOf(p))rows.push({k:'note',c:['',x.j||'Свой коэффициент',kcTxt(x),'','','','','','','','','']});
     if(O.view==='short')continue;const FULL=O.view==='full';
     const L=c.lines,OT=L.filter(l=>l.t==='ОТ'),EM=L.filter(l=>l.t==='ЭМ'),M=L.filter(l=>l.t==='М');
@@ -3023,6 +3078,12 @@ const ksSnap=calcScope(function(j){const a=S.acts[j],pos={},rows={};let sum=0;
   for(const V of ['short','groups','full'])rows[V]=ks2Live(j,V).rows;
   return {at:today(),lv:lvName(S.level,zoneOf())+', '+edName(edOfS()),pos,rows,sum:r2(sum)}});
 const ksHasWork=a=>Object.values(a.done||{}).some(v=>+v>0);
+/* №46а п. 17 (свод 5, Э11; проверка эксперта, п. 19): после договора смета контракта фиксирована. Перед сменой квартала, редакции,
+   сплит-формы и пересчётом — подтверждение. 604/пр упоминаем только для контракта «ПД и (или) изыскания + строительство» (флажок p604) */
+const ctFixed=()=>{const c=S.contract||{};return !!(c.num||c.date||c.price!=null)||(S.acts||[]).some(ksHasWork)};
+const ctFixTxt=()=>'Смета контракта фиксирована, изменения цены — по 841/пр прил. 2 пп. 8–12 (допсоглашением в случаях, установленных 44-ФЗ).'+((S.contract||{}).p604?' Контракт «проект и (или) изыскания + строительство»: цену контракта после экспертизы пересчитывают по 604/пр прил. 3 п. 4.':'');
+function ctFixOk(what){if(!ctFixed())return true;const c=S.contract||{},n=(S.acts||[]).filter(ksHasWork).length;
+  return confirm(`${what}. ${ctFixTxt()}\n\n${c.num?`Контракт № ${c.num}${c.date?' от '+dmy(c.date):''}. `:''}${n?`В смете ${n} ${cmpPl(n,'акт','акта','актов')} КС-2. `:''}Всё равно изменить цены сметы?`)}
 function ks3Model(j){const a=S.acts[j],y=(a.date||'').slice(0,4),secs=new Map(),XP=ksPos();
   const add=(si,sec,k,c)=>{if(!secs.has(si))secs.set(si,{name:`Раздел ${si}. ${sec}`,s:0,y:0,p:0});const o=secs.get(si);o.s+=c;if((S.acts[k].date||'').slice(0,4)===y)o.y+=c;if(k===j)o.p+=c};
   for(const x of XP)add(x.si,x.sec,j,0);
@@ -3039,9 +3100,14 @@ function ksWarn(j){const a=S.acts[j],w=[];if(!a.num)w.push('нет номера 
    коэффициент снижения = цена контракта / итог сметы, им умножаются суммы этапов и выполнения.
    Выполнение берётся из актов КС-2 (S.acts) нарастающим итогом, той же функцией ksCost, что и в актах. */
 let ctTab='st';
-const ctData=()=>S.contract||(S.contract={num:'',date:'',kind:'firm',price:null,stages:{}});
+const ctData=()=>S.contract||(S.contract={num:'',date:'',kind:'firm',price:null,nmck:null,stages:{}});
+const k6=v=>(Math.round(v*1e6)/1e6).toString().replace('.',',');
+/* НМЦК без НДС из расчёта НМЦК стройки (графа 6: с Кфакт и Кпрогн), если он открыт для этой сметы */
+function ctNmckAuto(){try{if(!S.stroy||!S.stroy.nmck)return null;const n=nmckCalc();return n&&n.T&&n.T.c6>0?n.T.c6:null}catch(e){return null}}
 function ctModel(){const C=ctData(),T=totals(),XP=ksPos(),last=(S.acts||[]).length-1,base=T.total||0;
   const price=C.price!=null&&C.price>0?+C.price:base,K=base?price/base:1;
+  // К сметной стоимости (K) распределяет цену по этапам; тендерный коэффициент считается от НМЦК: Ктенд = цена / НМЦК, НМЦК / итог сметы — пересчёт в прогнозные цены
+  const nmA=ctNmckAuto(),nmck=C.nmck>0?+C.nmck:nmA,KT=nmck?price/nmck:null,KI=nmck&&base?nmck/base:null;
   const st=[],by={};for(const x of XP){let s=by[x.si];if(!s){s=by[x.si]={si:x.si,sec:x.sec,name:(C.stages[x.si]||{}).name||x.sec,term:(C.stages[x.si]||{}).term||'',base:0,done:0,pos:[],over:[]};st.push(s)}
     const cum=last>=0?ksCum(x.p.id,last):0,dn=last>=0?r2([...S.acts.keys()].reduce((t,k)=>t+ksCost(x,k),0)):0,I=ksInfo(x);
     const vc=!x.p.qty?0:Math.abs(cum-x.p.qty)<1e-9?x.c.total:x.c.total*cum/x.p.qty;s.rn=(s.rn||0)+x.c.total-vc;
@@ -3050,7 +3116,7 @@ function ctModel(){const C=ctData(),T=totals(),XP=ksPos(),last=(S.acts||[]).leng
   const SG=(S.acts||[]).some(a=>a.sig);
   for(const s of st){s.base=r2(s.base);s.done=r2(s.done);s.ct=r2(s.base*K);s.ctDone=r2(s.done*K);s.rest=SG?r2(s.rn*K):r2(s.ct-s.ctDone);const all=SG?s.ctDone+s.rest:s.ct;s.pct=all?Math.min(100,s.ctDone/all*100):0}
   const done=r2(st.reduce((t,s)=>t+s.ctDone,0)),acts=(S.acts||[]).filter(a=>Object.values(a.done||{}).some(v=>+v>0));
-  return {C,T,K,SG,price:r2(price),base:r2(base),st,done,rest:SG?r2(st.reduce((t,s)=>t+s.rest,0)):r2(price-done),acts,lastAct:acts.length?acts[acts.length-1]:null}}
+  return {C,T,K,KT,KI,nmck:nmck?r2(nmck):null,nmA,SG,price:r2(price),base:r2(base),st,done,rest:SG?r2(st.reduce((t,s)=>t+s.rest,0)):r2(price-done),acts,lastAct:acts.length?acts[acts.length-1]:null}}
 function openContract(){if(!svcGate('contract'))return;if(S.mode)return toast('Смета контракта составляется по локальной смете');if(!S.pos.some(p=>p.sec===undefined))return toast('Смета пуста: добавьте позиции');if(!S.acts)S.acts=[];renderContract()}
 function renderContract(){const M=ctModel(),C=M.C,pc=v=>fmt(M.price?Math.round(v/M.price*1000)/10:0,1),bar=(p,w)=>`<div class="ctbar${w?' w':''}"><i style="width:${Math.max(0,Math.min(100,p)).toFixed(1)}%"></i></div>`;
   const over=M.st.flatMap(s=>s.over.map(r=>({s,r})));
@@ -3061,8 +3127,10 @@ function renderContract(){const M=ctModel(),C=M.C,pc=v=>fmt(M.price?Math.round(v
   else if(ctTab==='rest')body=`<div class="ksv"><table class="kvt"><thead><tr><th>№</th><th>Обоснование</th><th>Наименование</th><th>Ед.</th><th>По смете</th><th>Выполнено</th><th>Остаток</th><th>Остаток, ₽</th></tr></thead><tbody>${M.st.map(s=>`<tr class="ksec"><td colspan="8">Этап ${s.si}. ${esc(s.name)}</td></tr>`+s.pos.map(r=>{const rr=r2((M.SG?r.rn:r.x.c.total-r.dn)*M.K);return `<tr${r.rest<-1e-9?' class="bad"':''}><td>${r.x.n}</td><td class="mono">${esc(r.I.code)}</td><td>${esc(r.I.name.length>80?r.I.name.slice(0,78)+'…':r.I.name)}</td><td>${esc(r.I.nat)}</td><td class="n">${fq(r.x.p.qty)}</td><td class="n">${r.cum?fq(r.cum):''}</td><td class="n">${fq(r.rest)}</td><td class="n">${fmt(rr)}</td></tr>`}).join('')).join('')}</tbody></table></div>`;
   else body=`<div class="fmf ksp"><label>Номер контракта<input data-cf="num" value="${esc(C.num||'')}"></label><label>Дата контракта<input type="date" data-cf="date" value="${C.date||''}"></label>
     <label>Вид цены<select data-cf="kind"><option value="firm"${C.kind!=='approx'?' selected':''}>Твёрдая</option><option value="approx"${C.kind==='approx'?' selected':''}>Приблизительная</option></select></label>
-    <label>Цена контракта без НДС, ₽<input data-cf="price" inputmode="decimal" placeholder="${fmt(M.base)}" value="${C.price!=null?fq(C.price):''}"></label></div>
-    <div class="u" style="margin:6px 0 10px">Итог сметы без НДС ${fmt(M.base)} ₽. Коэффициент к сметной стоимости ${(Math.round(M.K*1e6)/1e6).toString().replace('.',',')}${Math.abs(M.K-1)>1e-9?' (снижение по торгам переносится на все этапы и выполнение)':''}. Пустое поле — цена равна итогу сметы.</div>
+    <label>Цена контракта без НДС, ₽<input data-cf="price" inputmode="decimal" placeholder="${fmt(M.base)}" value="${C.price!=null?fq(C.price):''}"></label>
+    <label>НМЦК без НДС, ₽<input data-cf="nmck" inputmode="decimal" placeholder="${M.nmA?fmt(M.nmA)+' (из расчёта НМЦК)':'из извещения о закупке'}" value="${C.nmck!=null?fq(C.nmck):''}"></label></div>
+    <label class="kchk" style="margin:6px 0 0"><input type="checkbox" id="ct604"${C.p604?' checked':''}> Контракт по 604/пр: проектная документация и (или) изыскания + строительство, реконструкция, капремонт</label>
+    <div class="u" style="margin:6px 0 10px">Итог сметы без НДС ${fmt(M.base)} ₽. Пустая цена — цена равна итогу сметы.${M.KT!=null?`<br><b>Тендерный коэффициент Ктенд = цена контракта / НМЦК = ${fmt(M.price)} / ${fmt(M.nmck)} = ${k6(M.KT)}</b> (841/пр, прил. 2, п. 10). НМЦК / итог сметы = ${k6(M.KI)}: это пересчёт в прогнозные цены (Кфакт × Кпрогн), в КС-2 индексы инфляции не применяют.`:'<br>Укажите НМЦК: тендерный коэффициент считают как цену контракта, делённую на НМЦК (841/пр, прил. 2, п. 10), а не на итог сметы.'}<br>Коэффициент к сметной стоимости для этапов и выполнения: цена / итог сметы = ${k6(M.K)}.</div>
     <div class="ksv"><table class="kvt"><thead><tr><th>№</th><th>Раздел сметы</th><th>Название этапа в смете контракта</th><th>Срок (месяц)</th></tr></thead><tbody>${M.st.map(s=>`<tr><td>${s.si}</td><td>${esc(s.sec)}</td><td><input class="kin" style="width:100%" data-cs="${s.si}" data-ck="name" value="${esc((C.stages[s.si]||{}).name||'')}" placeholder="${esc(s.sec)}"></td><td><input class="kin" style="width:130px" type="month" data-cs="${s.si}" data-ck="term" value="${esc((C.stages[s.si]||{}).term||'')}"></td></tr>`).join('')}</tbody></table></div>`;
   dlg(`<div class="kah"><div><h3>Смета контракта и учёт выполнения</h3><div class="u">По смете «${esc(S.name)}»${C.num?` · контракт № ${esc(C.num)}${C.date?' от '+dmy(C.date):''}`:''} · этапы — разделы сметы, выполнение — из актов КС-2</div></div><button class="vdel" id="ctX" style="font-size:22px">×</button></div>
   <div class="ctg">${card('Цена контракта',fmt(M.price)+' ₽',`${M.st.length} ${M.st.length%10===1&&M.st.length%100!==11?'этап':M.st.length%10>=2&&M.st.length%10<=4&&(M.st.length%100<10||M.st.length%100>=20)?'этапа':'этапов'}, ${C.kind==='approx'?'приблизительная':'твёрдая'} цена`)}
@@ -3074,7 +3142,8 @@ function renderContract(){const M=ctModel(),C=M.C,pc=v=>fmt(M.price?Math.round(v
   <div class="fmb"><button class="btn pri" id="ctActs">Акты КС-2 и КС-3…</button><button class="btn" id="ctXls">${ic('xls')}Смета контракта в Excel (.xlsx)</button></div>`,true);
   const D=$('#dlg');$('#ctX').onclick=()=>$('#dlgbg').classList.remove('on');
   D.querySelectorAll('[data-ct]').forEach(b=>b.onclick=()=>{ctTab=b.dataset.ct;renderContract()});
-  D.querySelectorAll('[data-cf]').forEach(x=>x.onchange=()=>{const k=x.dataset.cf;let v=x.value;if(k==='price'){v=String(v).replace(/\s/g,'').replace(',','.');if(v==='')v=null;else if(isNaN(+v)||+v<=0)return toast('Введите цену числом');else v=+v}C[k]=v;commit();renderContract()});
+  D.querySelectorAll('[data-cf]').forEach(x=>x.onchange=()=>{const k=x.dataset.cf;let v=x.value;if(k==='price'||k==='nmck'){v=String(v).replace(/\s/g,'').replace(',','.');if(v==='')v=null;else if(isNaN(+v)||+v<=0)return toast('Введите цену числом');else v=+v}C[k]=v;commit();renderContract()});
+  $('#ct604')&&($('#ct604').onchange=e=>{C.p604=e.target.checked;commit();renderContract()});
   D.querySelectorAll('[data-cs]').forEach(x=>x.onchange=()=>{const s=C.stages[x.dataset.cs]||(C.stages[x.dataset.cs]={});s[x.dataset.ck]=x.value.trim();commit();renderContract()});
   $('#ctActs').onclick=()=>openActs();
   $('#ctXls').onclick=()=>{dlBlob(ctXlsx(),`Смета контракта ${C.num||''} ${S.name||''}.xlsx`.replace(/\s+/g,' '));toast('Смета контракта выгружена в Excel')};
@@ -3082,7 +3151,7 @@ function renderContract(){const M=ctModel(),C=M.C,pc=v=>fmt(M.price?Math.round(v
 function ctXlsx(){const M=ctModel(),C=M.C;return xBook('Смета контракта',[6,52,12,17,17,17,10],(row,mg)=>{
   let q=row([[0,'Смета контракта (по этапам)',9]],20);mg(0,6,q);
   q=row([[0,`Контракт № ${C.num||'___'}${C.date?' от '+dmy(C.date):''} · ${C.kind==='approx'?'приблизительная':'твёрдая'} цена · смета «${S.name||''}»`,0]]);mg(0,6,q);
-  q=row([[0,`Цена контракта без НДС ${fmt(M.price)} ₽; итог сметы без НДС ${fmt(M.base)} ₽; коэффициент ${String(Math.round(M.K*1e6)/1e6).replace('.',',')}`,0]]);mg(0,6,q);row([]);
+  q=row([[0,`Цена контракта без НДС ${fmt(M.price)} ₽; итог сметы без НДС ${fmt(M.base)} ₽; коэффициент к сметной стоимости ${k6(M.K)}${M.KT!=null?`; НМЦК без НДС ${fmt(M.nmck)} ₽; тендерный коэффициент ${k6(M.KT)}`:''}`,0]]);mg(0,6,q);row([]);
   const h=row([[0,'№',4],[1,'Этап (раздел сметы)',4],[2,'Срок',4],[3,'По контракту, руб.',4],[4,'Выполнено, руб.',4],[5,'Остаток, руб.',4],[6,'Готовность, %',4]],30);
   for(const s of M.st)row([[0,s.si,1],[1,s.name,1],[2,s.term?s.term.split('-').reverse().join('.'):'',1],[3,s.ct,2],[4,s.ctDone,2],[5,s.rest,2],[6,Math.round(s.pct*10)/10,2]]);
   row([[0,'',9],[1,'Итого',9],[2,'',9],[3,M.price,10],[4,M.done,10],[5,M.rest,10],[6,M.price?Math.round(M.done/M.price*1000)/10:0,10]]);
@@ -3113,10 +3182,19 @@ const RM_NUM=/^\s*[«"]?(?:…|\.\.\.)?\s*(\d{1,3})\s*(?:[.)]\s+|\s*\|\s*)(.*)$/
 function rmSplit(text){const L=String(text||'').replace(/\r/g,'').split('\n'),items=[],numd=L.some(l=>RM_NUM.test(l));let cur=null;
   for(const l of L){const m=l.match(RM_NUM);if(m){cur={n:+m[1],text:m[2]};items.push(cur)}else if(l.trim()){if(cur)cur.text+=' '+l.trim();else if(!numd){cur={n:items.length+1,text:l.trim()};items.push(cur)}}}
   return items.map(x=>({...x,text:x.text.replace(/\s*\|\s*/g,' ').replace(/[»"]\s*$/,'').replace(/\s+/g,' ').trim()})).filter(x=>x.text)}
+/* квартал или год в тексте замечания против уровня цен сметы: «в замечании 3 кв. 2026, в смете 4 кв. 2026». Пусто — расхождения нет или квартал не назван */
+const RM_RQ={i:1,ii:2,iii:3,iv:4};
+function rmQm(text){if(!PR||!PR.meta||S.level==='base')return '';const sm=/^(\d) квартал (\d{4})/.exec(PR.meta.quarter||'');if(!sm)return '';const s=String(text||'').toLowerCase();
+  let m=/(?<![\d.])([1-4]|iv|i{1,3})[\s-]*(?:-?(?:й|го|ом))?\s*(?:кв\.?|квартал\S*)\s*(20\d\d)/i.exec(s);
+  if(m){const q=+m[1]||RM_RQ[m[1]],y=m[2];return q===+sm[1]&&y===sm[2]?'':`в замечании ${q} кв. ${y}, в смете ${sm[1]} кв. ${sm[2]}`}
+  m=/(?:цен\S*|уровн\S*)[^.]{0,30}?(20\d\d)\s*г/.exec(s);if(m&&m[1]!==sm[2])return `в замечании ${m[1]} год, в смете ${sm[1]} кв. ${sm[2]}`;return ''}
 function rmParse(){const R=rmData(),XP=ksPos(),byN=new Map(XP.map(x=>[x.n,x])),F=checkSmeta(),q=req(),old=new Map((R.items||[]).map(x=>[x.n+'|'+x.text,x]));
   R.items=rmSplit(R.text).map(x=>{const prev=old.get(x.n+'|'+x.text);if(prev)return prev;
     const pa=rmPosList(x.text),pos=pa.filter(n=>byN.has(n)),miss=pa.filter(n=>!byN.has(n)),T=RM_T.find(t=>t[0].test(x.text)),P=pa.length?' ('+rmPosTxt(pa)+')':'';
-    const quarter=PR&&PR.meta&&S.level!=='base'?PR.meta.quarter:'(укажите квартал)';
+    const quarter=PR&&PR.meta&&S.level!=='base'?PR.meta.quarter:'(укажите квартал)',qm=T&&T[1]==='Уровень цен'?rmQm(x.text):'';
+    // квартал в замечании другой: черновик не пишет, что смета пересчитана, а просит уточнить уровень цен
+    if(qm)return {n:x.n,text:x.text,pos,pa,miss,topic:T[1],st:'doc',act:'Уровень цен в замечании и в смете разный: '+qm+'. Проверьте, какой уровень цен требует заказчик.',
+      ans:`Смета составлена в уровне цен ${/\.$/.test(quarter)?quarter:quarter+'.'} В замечании указан другой уровень цен (${qm.replace(/^в замечании /,'').replace(/, в смете.*$/,'')}): просим подтвердить, в каком уровне цен заказчик принимает смету${P}.`};
     return {n:x.n,text:x.text,pos,pa,miss,topic:T?T[1]:'Прочее',st:T?T[2]:'new',act:T?T[3]:'Откройте позицию и проверьте по тексту замечания.',
       ans:(T?T[4]:'Замечание принято, смета исправлена{P}.').replace('{P}',P).replace('{квартал}',quarter).replace('{документом}','актом осмотра от ___').replace(/\.\.$/,'.')}});
   R.parsed=Date.now();commit()}
@@ -3131,7 +3209,7 @@ function renderRemarks(){const R=rmData(),XP=ksPos(),byN=new Map(XP.map(x=>[x.n,
     <div class="fmb"><button class="btn pri" id="rmGo">Разобрать</button><label class="btn" style="cursor:pointer">PDF, Word или фото<input type="file" id="rmFile" accept=".pdf,.docx,.txt,.jpg,.jpeg,.png,.webp,image/*" hidden></label></div>
     <div class="u" id="rmInfo">${R.items.length?`Распознано замечаний: <b>${R.items.length}</b>, с позициями сметы: ${R.items.filter(x=>x.pos.length).length}.`:''}${R.src?' Источник: '+esc(R.src)+'.':''}</div></div>
    <div class="rmc rmm"><div class="u rmh">Разбор замечаний</div>${R.items.length?R.items.map((x,i)=>{const ck=rmChecks(x.pos);return `<div class="rmi"><div class="rmt"><select data-rs="${i}" class="rms ${stc[x.st]||''}">${RM_ST.map(([k,l])=>`<option value="${k}"${x.st===k?' selected':''}>${l}</option>`).join('')}</select><span class="mono">№ ${x.n}${(x.pa||x.pos).length?' · '+rmPosTxt(x.pa||x.pos):' · вся смета'}</span>${x.miss&&x.miss.length?`<span class="rmmiss">${x.miss.length===1?'позиции':'позиций'} ${rmPosTxt(x.miss).slice(5)} в смете нет</span>`:''}<span class="u">${esc(x.topic)}</span></div>
-      <div class="rmq">${esc(x.text)}</div><div class="u">${esc(x.act)}</div>${ck.map(f=>`<div class="rmk">Проверка Риморы, поз. ${f.pn}: ${esc(f.t)}${f.ref?' ('+esc(f.ref)+')':''}</div>`).join('')}
+      <div class="rmq">${esc(x.text)}</div><div class="u">${esc(x.act)}</div>${x.topic==='Уровень цен'&&rmQm(x.text)?`<div class="rmk">⚠ ${esc(rmQm(x.text).replace(/^в/,'В'))}: проверьте, какой уровень цен требует заказчик</div>`:''}${ck.map(f=>`<div class="rmk">Проверка Риморы, поз. ${f.pn}: ${esc(f.t)}${f.ref?' ('+esc(f.ref)+')':''}</div>`).join('')}
       <div class="rmb">${x.pos.length?`<button class="btn" data-rgo="${x.pos[0]}">К позиции ${x.pos[0]}</button>`:''}<button class="btn" data-rai="${i}">${ic('ai')}Спросить ИИ</button></div>
       <label class="u">Ответ<textarea data-ra="${i}" rows="2">${esc(x.ans)}</textarea></label>${typeof ansHint==='function'?ansHint(x,i):''}</div>`}).join(''):'<div class="u">Вставьте замечания слева и нажмите «Разобрать».</div>'}</div>
    <div class="rmc"><div class="u rmh">Черновик ответа</div><pre class="rmd">${esc(R.items.length?rmAnswerText():'')}</pre>
@@ -3203,15 +3281,19 @@ function msBase(r,b){const L=msN(r.L),W=msN(r.W),H=msN(r.H),f=msF,ops=r.op||[];
     if(b==='walls')return H?`${f(L)}*${f(H)}${opA?'-'+opA:''}`:null;if(b==='plinth')return `${f(L)}${dW?'-'+(/\+/.test(dW)?'('+dW+')':dW):''}`;return null}
   if(!L||!W)return null;const P=`2*(${f(L)}+${f(W)})`;
   if(b==='floor'||b==='ceil')return `${f(L)}*${f(W)}`;if(b==='walls')return H?`${P}*${f(H)}${opA?'-'+opA:''}`:null;if(b==='plinth')return `${P}${dW?'-'+(/\+/.test(dW)?'('+dW+')':dW):''}`;return null}
-// формула работы: база × доля, своё число или штуки
-function msFormula(r,w){const sh=String(w.sh||'').trim().replace(/\s+/g,'');
+// формула работы: база × доля, своё число или штуки. Очистка от старой краски при отбивке штукатурки — на площадь стены минус площадь отбивки:
+// там, где штукатурку отбили, краски уже нет (эксперты, свод 2, Р14)
+function msFormula(r,w){const f=msFormula0(r,w);if(!f||w.k!=='paintOff'||/^\d+([.,]\d+)?$/.test(String(w.sh||'').trim().replace(/\s+/g,'')))return f;
+  const po=(r.works||[]).find(x=>x.k==='plOff'&&x.on!==false);if(!po)return f;const g=msFormula0(r,po);if(!g)return f;
+  return (/[+\-]/.test(f)?'('+f+')':f)+'-'+(/[+\-*/]/.test(g)?'('+g+')':g)}
+function msFormula0(r,w){const sh=String(w.sh||'').trim().replace(/\s+/g,'');
   if(w.b==='pcs')return sh&&/^\d+([.,]\d+)?$/.test(sh)?sh:'1';
   if(/^\d+([.,]\d+)?$/.test(sh))return sh;const base=msBase(r,w.b);if(!base)return null;
   let m;const wrap=/[+\-]/.test(base)?`(${base})`:base;
   if((m=/^(\d+)\/(\d+)$/.exec(sh)))return m[1]==='1'?`${wrap}/${m[2]}`:`${wrap}*${m[1]}/${m[2]}`;
   if((m=/^(\d+([.,]\d+)?)%$/.exec(sh)))return `${wrap}*${m[1]}/100`;return base}
 function msVal(r,w){const f=msFormula(r,w);if(!f)return null;try{return evalF(f)}catch(e){return null}}
-function msShare(c){let m;if(/две трети/.test(c))return '2/3';if(/три четверт/.test(c))return '3/4';if(/треть/.test(c))return '1/3';if(/половин/.test(c))return '1/2';if(/четверт/.test(c))return '1/4';
+function msShare(c){let m;if(/две трети/.test(c))return '2/3';if(/три четверт/.test(c))return '3/4';if(/трет[ьи](?![а-я])/.test(c))return '1/3';if(/половин/.test(c))return '1/2';if(/четверт/.test(c))return '1/4';
   if((m=/(\d+(?:,\d+)?)\s*(?:%|процент)/.exec(c)))return m[1]+'%';if((m=/(?:на|площадью|всего)\s*(\d+(?:,\d+)?)\s*(?:м2|кв|квадрат)/.exec(c)))return m[1];return ''}
 function msCount(c,re){const m=new RegExp('(\\d+)\\s*(?:шт[а-я]*\\s*)?'+re).exec(c)||new RegExp(re+'\\S*\\s*(\\d+)\\s*(?:шт|штук)?').exec(c);return m?m[1]:'1'}
 // разбор голоса или текста: размеры, проёмы, работы
@@ -3360,8 +3442,11 @@ async function msWord(){const M=msData(),q=req(),rows=[],pics=[];let n=0;
    «Сформировать допсмету» открывает новую вкладку: копия сметы только с добавленными объёмами; новые работы, которых нет в смете, добавляются там. ---------- */
 const awData=()=>{const A=S.addw&&typeof S.addw==='object'?S.addw:(S.addw={items:[],thr:10});A.items=A.items||[];if(A.thr==null)A.thr=10;return A};
 let awSel=null,awAll=false,awQ='',awQt=0;
-function awRows(it){const out=[];for(const x of ksPos()){const need=it.need[x.p.id];if(need==null||need==='')continue;const n=+String(need).replace(',','.');if(!isFinite(n))continue;
-    const d=Math.round((n-x.p.qty)*1e7)/1e7,unit=x.p.qty?x.c.total/x.p.qty:0;out.push({x,need:n,d,sum:r2(d*unit),bas:(it.bas||{})[x.p.id]||it.basis||''})}return out}
+/* 841/пр прил. 2 пп. 9, 10, 10.1: изменённые объёмы — по цене единицы сметы контракта, то есть цена единицы ЛСР × К (цена контракта / итог сметы);
+   для новых работ это то же, что × Кинф × Ктенд. Без цены контракта К = 1. sum0 — та же разница в ценах сметы */
+const awK=()=>{const C=S.contract,b=totals().total||0;return C&&C.price>0&&b?C.price/b:1};
+function awRows(it){const out=[],K=awK();for(const x of ksPos()){const need=it.need[x.p.id];if(need==null||need==='')continue;const n=+String(need).replace(',','.');if(!isFinite(n))continue;
+    const d=Math.round((n-x.p.qty)*1e7)/1e7,unit=x.p.qty?x.c.total/x.p.qty:0;out.push({x,need:n,d,sum0:r2(d*unit),sum:r2(d*unit*K),K,bas:(it.bas||{})[x.p.id]||it.basis||''})}return out}
 const awSum=it=>r2(awRows(it).reduce((s,r)=>s+r.sum,0));
 function openAddwork(){if(!svcGate('addwork'))return;if(S.mode)return toast('Дополнительные работы считаются в локальной смете');if(!S.pos.some(p=>p.sec===undefined))return toast('Смета пуста: добавьте позиции');
   const A=awData();if(!A.items.length){awNew(false)}if(!A.items.some(i=>i.id===awSel))awSel=A.items[0].id;renderAddwork()}
@@ -3381,10 +3466,10 @@ function renderAddwork(){const A=awData(),it=A.items.find(i=>i.id===awSel)||A.it
    <div class="rmc"><div class="u rmh">Ведомость изменений · Доп. № ${it.num} к смете «${esc(S.name)}»</div>
      <div class="awh"><label class="u">Название<input id="awName" value="${esc(it.name||'')}" placeholder="например, Кровля: утеплитель"></label><label class="u">Основание для всех строк<input id="awBas" value="${esc(it.basis||'')}" placeholder="Акт осмотра № 7 от …"></label><label class="u">Дата<input type="date" id="awDate" value="${esc(it.date||'')}"></label></div>
      <div class="fmb"><input id="awQ" placeholder="Найти позицию" value="${esc(awQ)}" style="flex:1;min-width:160px"><label class="u" style="display:flex;gap:4px;align-items:center"><input type="checkbox" id="awAll"${awAll?' checked':''}> все позиции сметы (${XP.length})</label></div>
-     <div class="awt"><table class="mst"><thead><tr><th>Позиция</th><th class="num" style="width:78px">В смете</th><th style="width:72px">Нужно</th><th class="num" style="width:64px">Разница</th><th class="num" style="width:96px">Сумма, ₽</th><th style="width:130px">Основание</th></tr></thead>
+     <div class="awt"><table class="mst"><thead><tr><th>Позиция</th><th class="num" style="width:78px">В смете</th><th style="width:72px">Нужно</th><th class="num" style="width:64px">Разница</th><th class="num" style="width:96px" title="Разница × цена единицы сметы контракта">Сумма, ₽</th><th style="width:130px">Основание</th></tr></thead>
        <tbody>${body||`<tr><td colspan="6" class="u">${awAll?'Ничего не нашлось':'Изменений пока нет. Отметьте «все позиции сметы» и впишите в колонку «Нужно» фактический объём.'}</td></tr>`}</tbody>
        ${R.length?`<tfoot><tr><td colspan="4"><b>Итого по Доп. № ${it.num}</b></td><td class="num"><b>${sum>0?'+':''}${fmt(sum)}</b></td><td></td></tr></tfoot>`:''}</table></div>
-     <div class="awn">Позиции связаны с основной сметой: объём «в смете» и цена единицы берутся из неё (всего по позиции с НР и СП / объём). Уровень цен как у основной сметы: ${esc(lvName(S.level,zoneOf()))}. Работ, которых нет в смете, здесь нет: добавьте их в сформированную допсмету.</div>
+     <div class="awn">Позиции связаны с основной сметой: объём «в смете» и цена единицы берутся из неё (всего по позиции с НР и СП / объём). Уровень цен как у основной сметы: ${esc(lvName(S.level,zoneOf()))}. ${Math.abs(M.K-1)>1e-9?`Сумма = разница × цена единицы × К ${k6(M.K)} (цена контракта / итог сметы): допработы и исключаемые работы оплачивают по ценам сметы контракта, с тем же снижением по торгам (841/пр, прил. 2, пп. 9, 10, 10.1).`:'Цена контракта не задана: К = 1, суммы в ценах сметы.'} Работ, которых нет в смете, здесь нет: добавьте их в сформированную допсмету.</div>
      <div class="fmb"><button class="btn pri" id="awMake"${R.some(r=>r.d>0)?'':' disabled'}>Сформировать допсмету</button><button class="btn" id="awXls"${R.length?'':' disabled'}>Ведомость изменений в Excel</button><button class="btn" id="awDel" style="margin-left:auto;color:var(--bad,#c0392b)">Удалить Доп. № ${it.num}</button></div></div>
    <div class="rmc"><div class="u rmh">Влияние на контракт</div>
      <div class="awk"><span class="u">${M.C.price!=null&&M.C.price>0?'Цена контракта':'Цена контракта не задана, берётся итог сметы'}</span><b>${fmt(M.price)} ₽</b></div>
@@ -3514,7 +3599,7 @@ function renderCoefs(G){G=G||kdGroups();const g=G.find(x=>x.k===kdSel)||G[0];kdS
    Позиции сопоставляются по шифру (по порядку внутри одинаковых шифров), различия: нет в А, нет в Б, объём, коэффициент, цена. ---------- */
 let CMP=null,cmpF='all';const cmpPl=(n,a,b,c)=>n%10===1&&n%100!==11?a:n%10>=2&&n%10<=4&&(n%100<12||n%100>14)?b:c;
 const cmpCode=c=>String(c||'').toUpperCase().replace(/\s+/g,'').replace(/^(ФЕР|ТЕР|ГЭСН)(?=\d)/,'ГЭСН');
-function cmpRows(){const out=[];for(const x of ksPos()){const I=ksInfo(x),ks=[...ksOf(x.p).map(k=>RC[k]?k+' ×'+kdF(RC[k].v):k),...kcOf(x.p).map(z=>(z.n||'свой')+' ('+[['ОТ',z.ot],['ЭМ',z.em],['М',z.m]].filter(v=>(+v[1]||1)!==1).map(v=>v[0]+' ×'+kdF(+v[1])).join(', ')+')')];
+function cmpRows(){const out=[];for(const x of ksPos()){const I=ksInfo(x),ks=[...ksOf(x.p).map(k=>RC[k]?k+' ×'+kdF(RC[k].type==='rem'?RC[k].v:rcv(k,x.p.code)??1):k),...kcOf(x.p).map(z=>(z.n||'свой')+' ('+[['ОТ',kcO(z)],['ЭМ',kcE(z)],['М',kcM(z)]].filter(v=>v[1]!==1).map(v=>v[0]+' ×'+kdF(v[1])).join(', ')+(z.p10?', прил. 10':'')+')')];
     out.push({n:x.n,sec:x.sec,code:I.code||'',key:cmpCode(I.code),name:I.name||'',unit:I.nat||I.unit||'',qty:x.p.qty,total:r2(x.c.total),up:x.p.qty?x.c.total/x.p.qty:0,ks:ks.sort().join('; ')})}
   return {name:S.name||'Смета',lv:lvName(S.level,zoneOf()),ed:S.ed,rows:out,total:r2(totals().total),n:out.length}}
 // расчёт другой сметы: подмена S на копию, загрузка её норм и цен, возврат
@@ -3610,7 +3695,8 @@ function renderRequarter(){const L=rqLevels(),R=RQ;if(!R)return;const A1=R.A,B1=
     <div class="rqtt"><div class="cmc"><span class="u rmh">Было</span><div class="cmt">${fmt(A1.total)} ₽</div></div><div class="cmc"><span class="u rmh">Станет</span><div class="cmt">${fmt(B1.total)} ₽</div><span class="${d>0?'awp':d<0?'awm':'u'}">${d>0?'+':''}${fmt(d)} ₽ · ${d>0?'+':''}${fmt(pct,1)} %</span></div></div>
     ${zero.length?`<div class="rmk">⚠ ${zero.length} ${cmpPl(zero.length,'ресурс','ресурса','ресурсов')} без цены в новом квартале или редакции: у них была бы цена 0. Замените ресурс в позиции или возьмите цену по КП.</div>`:''}
     ${gone.length?`<div class="u">Ресурсов, которых нет в новой редакции: ${gone.length}.</div>`:''}
-    ${(()=>{const W=(S.acts||[]).filter(ksHasWork),sg=W.filter(a=>a.sig).length,un=W.length-sg;return W.length?`<div class="rmk rqak">В смете ${W.length} ${cmpPl(W.length,'акт','акта','актов')} КС-2${sg?`, подписанных ${sg}`:''}. Подписанные останутся в своих суммах, пересчитается только остаток.${un?` Неподписанные (${un}) пересчитаются по новым ценам. Если заказчик их уже подписал, отметьте подписанными до пересчёта.<div><button class="btn" id="rqSig">🔒 Отметить подписанными (${un})</button></div>`:''}</div>`:''})()}
+    ${ctFixed()?`<div class="rmk rqak" id="rqFix">⚠ ${esc(ctFixTxt())}</div>`:''}
+    ${(()=>{const W=(S.acts||[]).filter(ksHasWork),sg=W.filter(a=>a.sig).length,un=W.length-sg;return W.length?`<div class="rmk rqak">В смете ${W.length} ${cmpPl(W.length,'акт','акта','актов')} КС-2${sg?`, подписанных ${sg}`:''}. Подписанные останутся в своих суммах.${un?` Неподписанные (${un}) пересчитаются по новым ценам. Если заказчик их уже подписал, отметьте подписанными до пересчёта.<div><button class="btn" id="rqSig">🔒 Отметить подписанными (${un})</button></div>`:''}</div>`:''})()}
     <button class="btn pri" id="rqGo"${same?' disabled':''}>${S.docId?'Пересчитать, сохранить старую версию':'Пересчитать смету'}</button><button class="btn" id="rqXls">Протокол изменений в Excel</button>
     ${S.docId?'':'<div class="u">Смета не сохранена: старая версия останется в отмене (Ctrl+Z).</div>'}</div>
    <div class="rmc"><div class="u rmh">Почему изменился итог</div>${same?'<div class="u">Выберите другой квартал или редакцию слева.</div>':rqWaterfall(A1,B1)}
@@ -3625,7 +3711,7 @@ function renderRequarter(){const L=rqLevels(),R=RQ;if(!R)return;const A1=R.A,B1=
    Копия «до пересчёта» хранит всё как было (старые суммы актов можно посмотреть), но помечена версией: в Папке объекта её акты и замечания не повторяются */
 const verCopy=n=>{for(const k of ['acts','contract','addw','remarks'])delete n[k];return n};
 const isVer=(n,m)=>!!(n&&n.ver)||/\(до пересчёта: /.test((m&&m.name)||(n&&n.name)||'');
-function rqApply(){const R=RQ;if(!R)return;const old=lvName(S.level,zoneOf())+', '+edName(edOfS());let kept='';const sg=(S.acts||[]).filter(a=>a.sig).length;
+function rqApply(){const R=RQ;if(!R)return;if(!ctFixOk('Пересчёт сметы в '+lvName(R.lv,zoneOf())+', '+edName(R.ed)))return;const old=lvName(S.level,zoneOf())+', '+edName(edOfS());let kept='';const sg=(S.acts||[]).filter(a=>a.sig).length;
   if(S.docId){try{const n=JSON.parse(snap());n.ver={of:S.docId,kind:'rq'};n.docId=newId();n.created=Date.now();n.name=`${S.name||'Смета'} (до пересчёта: ${old})`;
       const m={...(docIndex().find(x=>x.id===S.docId)||{}),id:n.docId,name:n.name,created:n.created,updated:Date.now()};lsSet(SKD+n.docId,JSON.stringify(n));lsSet(SK,JSON.stringify([m,...docIndex()]));cloudMark(n.docId);kept=n.name}
     catch(e){return toast('Не удалось сохранить старую версию: пересчёт не выполнен')}}
@@ -4122,20 +4208,425 @@ function dyFromMeasure(){const M=S.measure&&S.measure.rooms||[];if(!M.length)ret
 async function openDiy(view){if(!svcGate('diy'))return;if(S.mode)return toast('«Ремонт для себя» работает из локальной сметы: откройте или создайте её');DY=null;const D=dyData();D.view=view||'home';await dyNorms();renderDiy()}
 const dyReg=()=>`${zShort(zoneOf())} · цены ${qShort(lvName(S.level,zoneOf()).split(', ').pop())}`;
 function dyHead(t,sub){return `<div class="kah dyhd"><div><h3>${t}</h3><div class="u">${sub}</div></div><div class="dysw"><button data-dym="pro">Я сметчик</button><button class="on" data-dym="diy">Ремонт для себя</button></div><button class="vdel" id="dyX" style="font-size:22px">×</button></div>`}
-function renderDiy(){const D=dyData();if(D.view==='chk')return renderDyCheck();if(D.view==='cmp')return renderDyCmp();if(D.view==='acc')return renderDyAcc();
+function renderDiy(){const D=dyData();if(D.view==='rep')return KNN.k?renderKn():knOpen();if(D.view==='chk')return renderDyCheck();if(D.view==='cmp')return renderDyCmp();if(D.view==='acc')return renderDyAcc();
   const L=D.checks;dlg(dyHead('Ремонт для себя','Простые слова вместо шифров. Расчёт под ними тот же, что у сметчика.')+`
   <div class="dyhome">${[['chk','₽','Проверить смету подрядчика','фото, PDF, Word или Excel: дорого, норм или дёшево, ошибки в рублях, вопросы подрядчику'],
-    ['own','м²','Посчитать ремонт сам','обмерить комнаты телефоном, получить объёмы и смету'],
+    ['own','м²','Посчитать ремонт сам','квартира по комнатам: все работы по нормам ФСНБ, закупка и оплата по этапам'],
     ['cmp','2+','Сравнить подрядчиков','2–3 сметы рядом: кто дороже и кто что не включил'],
     ['acc','✓','Принять работу','что сделано, сколько оплачено и сколько осталось']].map(x=>`<button class="dycard" data-go="${x[0]}"><span class="dyic">${x[1]}</span><b>${x[2]}</b><span class="u">${x[3]}</span></button>`).join('')}</div>
   ${L.length?`<div class="u rmh" style="margin-top:12px">Мои проверки</div><div class="dylist">${L.map(c=>{const A=dyAnalyze(c);return `<div class="dylw"><button class="dyli" data-open="${c.id}"><b>${esc(c.title)}</b><span>${fmt(A.sum,0)} ₽</span><span class="dyv ${A.v.c}">${A.v.t}</span><span class="u">${A.nErr?`ошибок ${A.nErr} на ${fmt(A.E,0)} ₽`:'ошибок нет'}${A.nMiss?` · пропусков ${A.nMiss}`:''}</span></button><button class="dyx" data-dydel="${c.id}" title="Удалить проверку" aria-label="Удалить проверку">×</button></div>`}).join('')}</div>`:''}
   <div class="u" style="margin-top:10px">Регион: ${esc(dyReg())}. Регион и квартал берутся из открытой сметы.</div>`,true);
   const X=$('#dlg');X.style.maxWidth='980px';X.style.width='96vw';dyWire();
-  $$('#dlg [data-go]').forEach(b=>b.onclick=()=>{const g=b.dataset.go;if(g==='own'){$('#dlgbg').classList.remove('on');toast('Обмерьте комнаты: размеры, проёмы, фото и голос');return openMeasure()}
+  $$('#dlg [data-go]').forEach(b=>b.onclick=()=>{const g=b.dataset.go;if(g==='own')return knOpen();
     if(g==='chk'){dyNew('',true);D.view='chk'}else D.view=g;renderDiy()});
   $$('#dlg [data-open]').forEach(b=>b.onclick=()=>{D.cur=b.dataset.open;D.view='chk';renderDiy()});
   $$('#dlg [data-dydel]').forEach(b=>b.onclick=e=>{e.stopPropagation();const c=D.checks.find(x=>x.id===b.dataset.dydel);if(!c||!confirm(`Удалить проверку «${c.title}»?`))return;D.checks=D.checks.filter(x=>x!==c);if(D.cur===c.id)D.cur=null;dySave();renderDiy();toast('Проверка удалена')})}
 function dyWire(){$('#dyX').onclick=()=>$('#dlgbg').classList.remove('on');$$('#dlg [data-dym]').forEach(b=>b.onclick=()=>{if(b.dataset.dym==='pro')diySetMode(false);else if(!diyMode())diySetMode(true)})}
+/* ---------- №43 Конструктор ремонта квартиры: квартира → комнаты → уровень ремонта → работы с ценой по нормам ФСНБ ----------
+   Каталог работ и шифры — 89_Бэклог_сервисов/07_Ремонт_квартиры_полный_состав.md и 07b_Ремонт_расценки_ФСНБ.md (подбор эксперта, 27.11.2026).
+   KN_W: [№, раздел, работа, единица, [[шифр, количество на 1 ед. в натуральных единицах расценки]], норма нового строительства (п. 58б), база объёма, этап оплаты, [закупка, ед., запас]].
+   Работы без нормы в ФСНБ считаются по цене, которую впишет пользователь. Проект хранится в rimora.diy (rep), синхронизируется с кабинетом вместе с «Ремонтом для себя». */
+const KN_W=[
+ [1,1,"Защита окон, дверей, пола плёнкой и картоном","м²",[["р62-04-013-01",1.0]],0,"f",1],
+ [2,1,"Защита мест общего пользования (лифт, лестница)","компл",[],0,"n",1],
+ [3,1,"Сбор мусора в мешки","т",[["р69-01-015-01",1.0]],0,"n",4],
+ [4,1,"Сгребание и вынос мусора до 20 м, подметание","т",[["р69-01-009-01",1.0]],0,"n",4],
+ [5,1,"Вывоз мусора (машина, контейнер)","т",[],0,"n",4],
+ [6,1,"Подъём материалов на этаж","т",[],0,"n",4],
+ [7,1,"Уборка после ремонта (клининг)","м²",[],0,"f",4],
+ [8,2,"Снятие обоев","м²",[["р63-02-001-01",1.0]],0,"w",1],
+ [9,2,"Снятие краски со стен","м²",[],0,"w",1],
+ [10,2,"Отбивка штукатурки со стен","м²",[["46-02-009-02",1.0]],0,"w",1],
+ [11,2,"Демонтаж плитки со стен","м²",[["р63-03-001-05",1.0]],0,"n",1],
+ [12,2,"Демонтаж плитки с пола","м²",[["р57-01-002-03",1.0]],0,"f",1],
+ [13,2,"Демонтаж линолеума","м²",[["р57-01-002-01",1.0]],0,"f",1],
+ [14,2,"Демонтаж ламината","м²",[["р57-01-002-07",1.0]],0,"f",1],
+ [15,2,"Демонтаж паркета","м²",[["46-04-010-03",1.0]],0,"f",1],
+ [16,2,"Демонтаж ковролина","м²",[["р57-01-002-01",1.0]],0,"f",1],
+ [17,2,"Демонтаж стяжки","м²",[["р57-01-021-02",1.0],["р57-01-021-05",6.0]],0,"f",1],
+ [18,2,"Демонтаж плинтуса","м",[["р57-01-003-01",1.0]],0,"pl",1],
+ [19,2,"Демонтаж потолка из ГКЛ","м²",[["р63-03-004-02",1.0]],0,"c",1],
+ [20,2,"Демонтаж натяжного потолка","м²",[],0,"c",1],
+ [21,2,"Снятие побелки с потолка","м²",[],0,"c",1],
+ [22,2,"Демонтаж кирпичной перегородки ½ кирпича","м²",[["р55-01-005-01",0.12]],0,"n",1],
+ [23,2,"Демонтаж перегородки из пазогребня","м²",[["р55-01-009-01",1.0]],0,"n",1],
+ [24,2,"Демонтаж перегородки из ГКЛ","м²",[["р63-03-004-01",1.0]],0,"n",1],
+ [25,2,"Демонтаж межкомнатной двери с коробкой","шт",[["р56-01-010-01",1.6],["р56-01-009-01",1.0],["р56-01-011-01",10.0]],0,"d",1],
+ [26,2,"Демонтаж окна (деревянного или ПВХ) с подоконником","шт",[["46-04-012-01",1.8]],0,"o",1],
+ [27,2,"Демонтаж подоконника ПВХ","шт",[["р56-01-003-04",0.3]],0,"o",1],
+ [28,2,"Демонтаж ванны","шт",[["р65-01-004-04",1.0]],0,"n",1],
+ [29,2,"Демонтаж унитаза со смывным бачком","шт",[["р65-01-004-13",1.0]],0,"n",1],
+ [30,2,"Демонтаж раковины","шт",[["р65-01-004-01",1.0]],0,"n",1],
+ [31,2,"Снятие смесителя","шт",[["р65-01-003-07",1.0]],0,"n",1],
+ [32,2,"Демонтаж полотенцесушителя","шт",[["р65-02-008-01",1.0]],0,"n",1],
+ [33,2,"Демонтаж радиатора","шт",[["р65-02-008-01",1.0]],0,"n",1],
+ [34,2,"Демонтаж труб водоснабжения","м",[["р65-01-001-01",1.0]],0,"n",1],
+ [35,2,"Демонтаж труб канализации","м",[["р65-01-002-02",1.0]],0,"n",1],
+ [36,2,"Демонтаж скрытой электропроводки","м",[["р67-01-001-01",1.0]],0,"n",1],
+ [37,2,"Демонтаж розеток и выключателей","шт",[["р67-01-004-01",1.0]],0,"n",1],
+ [38,2,"Демонтаж светильников, люстр","шт",[["р67-01-004-03",1.0]],0,"n",1],
+ [39,2,"Демонтаж щитка","шт",[],0,"n",1],
+ [40,2,"Демонтаж встроенных шкафов, антресолей, кухни","шт",[],0,"n",1],
+ [41,3,"Перегородка из пазогребня 80 мм","м²",[["р55-01-004-05",1.0]],0,"n",2],
+ [42,3,"Перегородка из газобетона 100 мм","м²",[["08-04-003-01",1.0]],1,"n",2],
+ [43,3,"Перегородка из кирпича ½ кирпича армированная","м²",[["08-02-002-03",1.0]],1,"n",2],
+ [44,3,"Перегородка из ГКЛ на одинарном каркасе, однослойная обшивка, с минватой","м²",[["10-05-001-01",1.0]],1,"n",2],
+ [45,3,"Устройство проёма в перегородке","шт",[["р55-01-006-02",1.8]],0,"n",2],
+ [46,3,"Устройство проёма в несущей стене","шт",[["46-03-007-02",0.3]],0,"n",2],
+ [47,3,"Перемычка металлическая над проёмом","шт",[["р53-01-024-01",0.02]],0,"n",2],
+ [48,3,"Короб из ГКЛ под трубы и стояки","м",[["10-05-012-01",0.6]],1,"n",2],
+ [49,3,"Ниши, полки из ГКЛ","шт",[],0,"n",2],
+ [50,4,"Штробление бетонной стены штроборезом","м",[["46-03-015-05",1.0]],0,"n",1],
+ [51,4,"Заделка штроб в бетонной стене","м",[["46-03-017-15",1.0]],0,"n",1],
+ [52,4,"Прокладка кабеля в штробе под штукатурку","м",[["м08-02-403-03",1.0]],0,"n",1,["Кабель ВВГнг(А)-LS 3×2,5 и 3×1,5","м",0.1]],
+ [53,4,"Прокладка гофры с затягиванием провода","м",[["м08-02-409-09",1.0],["м08-02-412-03",1.0]],0,"n",1,["Кабель ВВГнг(А)-LS 3×2,5 и 3×1,5","м",0.1]],
+ [55,4,"Щиток квартирный в нише","шт",[["м08-03-599-01",1.0]],0,"n",1,["Щиток квартирный","шт",0]],
+ [56,4,"Автомат, УЗО, дифавтомат в щитке","модуль",[["м08-03-526-01",1.0]],0,"n",1,["Автоматы, УЗО, дифавтоматы","модуль",0]],
+ [57,4,"Розетка скрытой проводки","шт",[["м08-03-591-09",1.0]],0,"n",4,["Розетка с рамкой","шт",0]],
+ [58,4,"Выключатель одноклавишный","шт",[["м08-03-591-02",1.0]],0,"n",4,["Выключатель с рамкой","шт",0]],
+ [59,4,"Розетка силовая (плита, духовка)","шт",[["м08-03-591-11",1.0]],0,"n",4,["Силовая розетка","шт",0]],
+ [60,4,"Отдельная линия (плита, духовка, стиральная, ПММ, кондиционер, тёплый пол)","линия",[["м08-02-403-03",15.0],["м08-03-591-09",1.0]],0,"n",1,["Кабель ВВГнг(А)-LS 3×2,5 (3×6 для плиты)","м",0.1,15]],
+ [61,4,"Люстра","шт",[["м08-03-593-11",1.0]],0,"n",4,["Люстра","шт",0]],
+ [62,4,"Точечные светильники в натяжном или ГКЛ-потолке","шт",[["м08-03-593-19",1.0]],0,"n",4,["Точечный светильник","шт",0]],
+ [63,4,"Трековые светильники","м",[],0,"n",4],
+ [64,4,"LED-лента, подсветка","м",[],0,"n",4],
+ [65,4,"Тёплый пол электрический (мат)","м²",[["11-01-051-02",1.0]],1,"n",1,["Нагревательный мат","м²",0]],
+ [66,4,"Терморегулятор тёплого пола","шт",[["м08-03-591-09",1.0]],0,"n",4],
+ [67,4,"Интернет и ТВ: кабель и розетка","точка",[["м10-01-055-03",10.0],["м08-03-591-09",1.0]],0,"n",1,["Кабель витая пара или телевизионный","м",0.1,10]],
+ [68,4,"Домофон (трубка в квартире)","шт",[],0,"n",4],
+ [69,4,"Звонок с кнопкой","шт",[["м08-03-604-01",1.0]],0,"n",4],
+ [70,4,"Уравнивание потенциалов в ванной","компл",[["р65-05-010-01",1.0]],0,"n",1],
+ [71,5,"Водопровод ППР 20 мм","м",[["16-04-005-01",1.0],["16-04-006-01",1.0]],1,"n",1],
+ [72,5,"Водопровод из сшитого полиэтилена 16 мм","м",[["16-04-007-01",1.0],["16-04-008-01",1.0]],1,"n",1],
+ [73,5,"Точка водоснабжения (ППР)","точка",[["16-04-005-01",3.0],["16-04-006-01",4.0]],1,"n",1],
+ [74,5,"Коллектор","шт",[["16-08-002-01",1.0]],1,"n",1],
+ [75,5,"Канализация ПП 50 мм","м",[["р65-01-008-01",1.0]],0,"n",1],
+ [76,5,"Замена участка стояка канализации 110 мм","м",[["р65-01-008-02",1.0]],0,"n",1],
+ [77,5,"Кран шаровой до 20 мм","шт",[["р65-01-005-01",1.0]],0,"n",1],
+ [78,5,"Фильтр","шт",[["18-06-007-01",1.0]],1,"n",1],
+ [79,5,"Счётчик воды","шт",[["16-06-006-01",1.0]],1,"n",1],
+ [80,5,"Редуктор давления","шт",[["16-05-005-01",1.0]],1,"n",1],
+ [81,5,"Защита от протечек","компл",[],0,"n",1],
+ [82,5,"Опрессовка водопровода","компл",[["16-07-005-01",20.0]],1,"n",1],
+ [83,5,"Пролив канализации","компл",[],0,"n",1],
+ [84,5,"Инсталляция с подвесным унитазом","шт",[["17-01-009-01",1.0]],1,"n",4,["Инсталляция и подвесной унитаз","шт",0]],
+ [85,5,"Унитаз напольный «компакт»","шт",[["р65-01-006-12",1.0]],0,"n",4,["Унитаз","шт",0]],
+ [86,5,"Ванна акриловая","шт",[["17-01-001-04",1.0]],1,"n",4,["Ванна","шт",0]],
+ [87,5,"Ванна стальная или чугунная (замена)","шт",[["р65-01-006-18",1.0]],0,"n",4,["Ванна","шт",0]],
+ [88,5,"Экран под ванну","шт",[["17-01-010-03",1.0]],1,"n",4,["Экран под ванну","шт",0]],
+ [89,5,"Душевой поддон","шт",[["17-01-001-18",1.0]],1,"n",4,["Душевой поддон","шт",0]],
+ [90,5,"Трап","шт",[["р65-01-006-01",1.0]],0,"n",4,["Трап","шт",0]],
+ [91,5,"Стеклянная душевая перегородка или шторка","шт",[["17-01-001-26",1.0]],1,"n",4,["Душевая перегородка или шторка","шт",0]],
+ [92,5,"Раковина (умывальник)","шт",[["р65-01-006-24",1.0]],0,"n",4,["Раковина","шт",0]],
+ [93,5,"Тумба под раковину","шт",[],0,"n",4,["Тумба под раковину","шт",0]],
+ [94,5,"Смеситель","шт",[["р65-01-005-07",1.0]],0,"n",4,["Смеситель","шт",0]],
+ [95,5,"Гигиенический душ","шт",[["17-01-002-03",1.0]],1,"n",4,["Гигиенический душ","шт",0]],
+ [96,5,"Мойка кухонная","шт",[["р65-01-006-15",1.0]],0,"n",4,["Мойка","шт",0]],
+ [97,5,"Подключение посудомоечной или стиральной машины","шт",[["р65-01-006-10",2.0],["р65-01-006-08",1.0]],0,"n",4],
+ [98,5,"Полотенцесушитель водяной","шт",[["17-01-002-07",1.0]],1,"n",4,["Полотенцесушитель","шт",0]],
+ [99,5,"Ревизионный люк","шт",[["17-01-010-02",1.0]],1,"n",4,["Ревизионный люк","шт",0]],
+ [100,5,"Бойлер 50–100 л","шт",[["18-02-004-02",1.0]],1,"n",4,["Бойлер","шт",0]],
+ [101,5,"Радиатор биметаллический 4–10 секций","шт",[["18-03-006-02",1.0]],1,"n",4,["Радиатор","шт",0]],
+ [102,5,"Терморегулятор радиатора","шт",[["18-03-005-01",1.0]],1,"n",4],
+ [103,5,"Вентилятор в санузле","шт",[["20-03-005-01",1.0]],1,"n",4,["Вентилятор","шт",0]],
+ [104,5,"Обратный клапан вентиляции","шт",[["20-02-002-08",1.0]],1,"n",4],
+ [105,5,"Трасса кондиционера","м",[["20-06-021-01",1.0]],1,"n",1],
+ [106,6,"Грунтовка стен (в т. ч. бетоноконтакт)","м²",[["15-04-006-03",1.0]],1,"w",2],
+ [107,6,"Штукатурка гипсовая по маякам (машинная)","м²",[["15-02-027-01",1.0]],1,"w",2],
+ [108,6,"Штукатурка по маякам 30 мм (машинная)","м²",[["15-02-027-01",1.0],["15-02-027-05",10.0]],1,"w",2],
+ [109,6,"Штукатурка цементная ручная (сухие смеси)","м²",[["15-02-019-03",1.0],["15-02-019-07",10.0]],1,"w",2],
+ [110,6,"Выравнивание стен до 10 мм (ремонт)","м²",[["р61-01-001-09",1.0]],0,"w",2],
+ [111,6,"Ремонт штукатурки отдельными местами, слой до 20 мм","м²",[["р61-01-002-09",1.0]],0,"n",2],
+ [112,6,"Армирование стеклосеткой","м²",[["р61-04-006-01",1.0]],0,"w",2],
+ [113,6,"Заделка трещин в кирпичных стенах","м",[["р53-01-013-01",1.0]],0,"n",2],
+ [114,6,"Откос окна или двери: штукатурка","м",[["р61-01-007-01",0.25]],0,"so",3],
+ [115,6,"Откос из ГКЛ","м",[["10-05-013-01",0.25]],1,"so",3],
+ [116,6,"Откос из ПВХ-панелей","м",[["15-01-050-04",0.25]],1,"so",3],
+ [117,6,"Уголок на откос","м",[["10-01-036-01",1.0]],1,"so",3],
+ [118,6,"Гидроизоляция стен в зоне душа","м²",[["11-01-004-05",1.0],["11-01-004-06",1.0]],1,"n",2],
+ [119,7,"Грунтовка потолка","м²",[["15-04-006-01",1.0]],1,"c",2],
+ [120,7,"Выравнивание потолка до 10 мм","м²",[["р61-01-001-10",1.0]],0,"c",2],
+ [121,7,"Штукатурка потолка","м²",[["15-02-019-04",1.0],["15-02-019-08",5.0]],1,"c",2],
+ [122,7,"Подвесной потолок ГКЛ одноуровневый","м²",[["10-05-011-02",1.0]],1,"c",2],
+ [123,7,"Натяжной потолок","м²",[["15-01-051-02",1.0]],1,"c",4],
+ [124,7,"Отверстие в натяжном потолке (светильник, труба)","шт",[["15-01-052-01",1.0]],1,"n",4],
+ [125,7,"Шпатлёвка и покраска потолка (высококачественная)","м²",[["15-04-007-06",1.0]],1,"c",4],
+ [126,7,"Потолочный плинтус (молдинг)","м",[["15-07-021-01",1.0]],1,"p",4,["Потолочный плинтус","м",0.1]],
+ [127,8,"Гидроизоляция пола обмазочная с заходом на стены","м²",[["11-01-004-05",1.0]],1,"wp",2],
+ [128,8,"Звукоизоляция пола рулонная","м²",[["11-01-009-03",1.0]],1,"f",2],
+ [129,8,"Утепление пола лоджии ЭППС","м²",[["11-01-009-08",1.0]],1,"f",2],
+ [130,8,"Стяжка цементная","м²",[["11-01-011-01",1.0],["11-01-011-02",6.0]],1,"f",2],
+ [131,8,"Стяжка полусухая","м²",[["11-01-011-12",1.0],["11-01-011-13",4.0]],1,"f",2],
+ [132,8,"Наливной пол финишный","м²",[["11-01-011-09",1.0],["11-01-011-11",2.0]],1,"f",2],
+ [133,8,"Армирование стяжки сеткой","м²",[["11-01-060-01",1.0]],1,"f",2],
+ [134,8,"Тёплый пол водяной","м²",[["16-04-007-01",5.0],["11-01-051-04",1.0]],1,"f",2],
+ [135,8,"Подложка","м²",[["11-01-050-01",1.0]],1,"f",4,["Подложка","м²",0.05]],
+ [136,8,"Ламинат","м²",[["11-01-034-04",1.0]],1,"f",4,["Ламинат","м²",0.07]],
+ [137,8,"Кварцвинил клеевой","м²",[["11-01-038-02",1.0]],1,"f",4,["Кварцвинил","м²",0.07]],
+ [138,8,"Паркетная доска","м²",[["11-01-034-01",1.0]],1,"f",4,["Паркетная доска","м²",0.07]],
+ [139,8,"Паркет штучный","м²",[["11-01-034-03",1.0]],1,"f",4,["Паркет","м²",0.1]],
+ [140,8,"Линолеум","м²",[["11-01-036-01",1.0]],1,"f",4,["Линолеум","м²",0.1]],
+ [141,8,"Ковролин","м²",[["11-01-037-05",1.0]],1,"f",4,["Ковролин","м²",0.1]],
+ [142,8,"Плитка на пол","м²",[["11-01-027-06",1.0]],1,"f",4,["Плитка на пол","м²",0.1]],
+ [143,8,"Керамогранит 60×60 на пол","м²",[["11-01-047-02",1.0]],1,"f",4,["Керамогранит на пол","м²",0.1]],
+ [144,8,"Порожек, стыковочный профиль","шт",[["11-01-049-01",0.9]],1,"d",4],
+ [145,8,"Плинтус МДФ или деревянный","м",[["11-01-039-05",1.0]],1,"pl",4,["Плинтус","м",0.1]],
+ [146,8,"Плинтус пластиковый","м",[["11-01-040-03",1.0]],1,"pl",4,["Плинтус пластиковый","м",0.1]],
+ [147,9,"Шпатлёвка, грунтовка и покраска стен (высококачественная, 2 слоя)","м²",[["15-04-007-05",1.0]],1,"w",4],
+ [148,9,"Покраска стен улучшенная","м²",[["15-04-007-01",1.0]],1,"w",4],
+ [149,9,"Покраска ранее окрашенных стен водоэмульсионной краской (косметика)","м²",[["р62-01-016-06",1.0]],0,"w",4],
+ [150,9,"Шпатлёвка стен под обои (2 слоя)","м²",[["15-04-027-05",2.0]],1,"w",3],
+ [151,9,"Грунтовка стен в 2 раза","м²",[["15-04-006-04",1.0]],1,"w",3],
+ [152,9,"Обои флизелиновые или виниловые","м²",[["15-06-001-02",1.0]],1,"w",4,["Обои","м²",0.15]],
+ [153,9,"Смена обоев (снять и поклеить)","м²",[["р63-02-002-02",1.0]],0,"w",4],
+ [154,9,"Обои под покраску с окраской в 2 слоя","м²",[["15-06-001-02",1.0],["15-06-008-01",1.0],["15-06-008-02",1.0]],1,"w",4,["Обои под покраску","м²",0.15]],
+ [155,9,"Стеклообои с окраской","м²",[["15-06-007-01",1.0]],1,"w",4,["Стеклообои","м²",0.15]],
+ [156,9,"Плитка на стены и фартук","м²",[["15-01-019-05",1.0]],1,"n",4,["Плитка на стены","м²",0.1]],
+ [157,9,"Затирка швов отдельно","м шва",[["15-01-027-01",1.0]],1,"n",4],
+ [158,9,"Раскладка (уголок) для плитки","м",[["15-07-020-01",1.0]],1,"n",4],
+ [159,9,"Запил плитки под 45°","м",[],0,"n",4],
+ [160,9,"Декоративная штукатурка","м²",[["15-04-049-05",1.0]],1,"n",4],
+ [161,9,"Декоративные стеновые панели","м²",[["15-01-099-01",1.0]],1,"n",4],
+ [162,10,"Межкомнатная дверь в перегородке (блок, наличники, фурнитура)","шт",[["10-01-039-06",1.9]],1,"d",4,["Дверной блок с наличниками","шт",0]],
+ [163,10,"Межкомнатная дверь в каменной стене","шт",[["10-01-039-01",1.9],["10-01-060-01",10.0]],1,"d",4,["Дверной блок с наличниками","шт",0]],
+ [164,10,"Добор дверной","шт",[["10-01-048-01",1.0]],1,"d",4],
+ [165,10,"Врезной замок с ручками","шт",[["10-01-049-03",1.0]],1,"d",4],
+ [166,10,"Входная металлическая дверь","шт",[["09-04-012-01",1.9]],1,"n",4,["Входная дверь","шт",0]],
+ [167,10,"Окно ПВХ двухстворчатое","шт",[["10-01-034-06",2.1]],1,"o",3,["Окно ПВХ","шт",0]],
+ [168,10,"Подоконник ПВХ","шт",[["10-01-035-01",1.2]],1,"o",3,["Подоконник","шт",0]],
+ [169,10,"Отлив оконный","шт",[["12-01-008-02",0.3]],1,"o",3],
+ [170,10,"Остекление балкона или лоджии","м²",[["10-01-034-06",1.0]],1,"n",3],
+ [171,10,"Отделка стен балкона панелями","м²",[["15-01-050-01",1.0]],1,"n",4],
+ [172,10,"Балкон «под ключ»","компл",[],0,"n",4],
+ [173,11,"Сборка и установка кухни, столешница, вырезы","компл",[],0,"n",4],
+ [174,11,"Подключение электроплиты или духового шкафа","шт",[["м08-03-602-02",1.0]],0,"n",4],
+ [175,11,"Подключение вытяжки","шт",[["20-03-005-01",1.0]],1,"n",4],
+ [176,11,"Шкаф-купе, гардероб","шт",[],0,"n",4],
+ [177,11,"Карниз, рулонные шторы, жалюзи","шт",[["15-07-023-01",1.0]],1,"o",4],
+ [178,11,"Аксессуары в санузле (крючки, держатели, поручни)","шт",[["17-01-002-04",1.0]],1,"n",4],
+ [179,11,"Зеркало, полка в санузле","шт",[["17-01-002-05",1.0]],1,"n",4],
+ [180,7,"Покраска потолка по старой краске (косметика)","м²",[["р62-01-017-05",1.0]],0,"c",4],
+ [181,8,"Плинтус из плитки","м",[["11-01-039-04",1.0]],1,"pl",4,["Плинтус керамический","м",0.1]]];
+const KN_WM=Object.fromEntries(KN_W.map(w=>[w[0],w]));
+const KN_SEC=['','Подготовка, мусор, уборка','Демонтаж','Перегородки и проёмы','Электрика','Сантехника и отопление','Черновая отделка стен','Потолки','Полы','Чистовая отделка стен','Двери, окна, лоджия','Кухня и встроенное'];
+const KN_ST=['','демонтаж и черновая инженерия','черновая отделка','предчистовая','чистовая и финал'];
+const KN_LV=[['c','Косметический'],['k','Капитальный'],['n','С нуля'],['w','White box']];
+const KN_RT={all:'Квартира целиком',live:'Жилая комната',kitchen:'Кухня',bath:'Санузел совмещённый',wc:'Туалет',hall:'Коридор',balc:'Балкон или лоджия',ward:'Гардероб'};
+/* шаблоны комнат: [№ работы, количество или база объёма (0 — база работы), уровни]. Строчные буквы: работа включена на этом уровне,
+   заглавные: показана выключенной (по желанию). c — косметический, k — капитальный, n — с нуля (новостройка без отделки), w — white box → чистовая */
+const KN_T={
+ all:[[1,0,'ckn'],[2,1,'KN'],[3,'dt','cknw'],[4,'dt','cknw'],[5,'dt','cknw'],[6,1,'CKNW'],[7,'f','cknw'],[55,1,'kn'],[56,10,'kn'],[77,2,'kn'],[78,1,'kn'],[79,2,'kn'],[80,1,'KN'],[81,1,'KN'],[82,1,'kn'],[166,1,'KN'],[68,1,'kn'],[69,1,'kn']],
+ live:[[8,0,'k'],[13,0,'k'],[17,0,'k'],[18,0,'k'],[37,6,'k'],[38,1,'k'],[25,0,'k'],[50,'sb','kn'],[51,'sb','kn'],[52,'cb','kn'],[57,5,'knw'],[58,1,'knw'],[61,1,'cknw'],[62,4,'KNW'],[101,1,'KN'],
+  [106,0,'kn'],[107,0,'kn'],[114,0,'kn'],[117,0,'kn'],[150,0,'knw'],[152,0,'knw'],[153,0,'c'],[147,0,'KNW'],[123,0,'knw'],[124,1,'knw'],[180,0,'c'],[130,0,'kn'],[135,0,'knw'],[136,0,'knw'],[144,0,'knw'],[145,0,'knw'],[162,0,'knw'],[177,0,'KNW']],
+ kitchen:[[11,3,'k'],[12,0,'k'],[17,0,'k'],[37,10,'k'],[38,1,'k'],[30,1,'k'],[31,1,'k'],[40,1,'k'],[25,0,'k'],[50,'sb','kn'],[51,'sb','kn'],[52,'cb','kn'],[57,10,'knw'],[58,1,'knw'],[59,1,'knw'],[60,2,'kn'],[61,1,'cknw'],
+  [73,2,'kn'],[75,3,'kn'],[106,0,'kn'],[107,0,'kn'],[114,0,'kn'],[117,0,'kn'],[147,0,'knw'],[149,0,'c'],[156,3,'knw'],[123,0,'knw'],[124,1,'knw'],[180,0,'c'],[130,0,'kn'],[142,0,'knw'],[181,0,'knw'],[144,0,'knw'],
+  [96,1,'knw'],[94,1,'knw'],[97,1,'knw'],[174,1,'knw'],[175,1,'knw'],[173,1,'knw'],[162,0,'KNW'],[177,0,'KNW']],
+ bath:[[11,'w','k'],[12,0,'k'],[17,0,'k'],[28,1,'k'],[29,1,'k'],[30,1,'k'],[31,2,'k'],[32,1,'k'],[34,9,'k'],[35,4,'k'],[37,2,'k'],[38,1,'k'],[25,0,'k'],[73,5,'kn'],[75,4,'kn'],[70,1,'kn'],[50,'sb','kn'],[51,'sb','kn'],[52,'cb','kn'],[57,2,'knw'],[58,1,'knw'],[103,1,'knw'],
+  [106,0,'kn'],[109,0,'kn'],[118,3.6,'kn'],[127,0,'kn'],[130,0,'kn'],[156,'w','knw'],[142,0,'knw'],[123,0,'knw'],[124,2,'knw'],[180,0,'c'],[84,1,'knw'],[86,1,'knw'],[88,1,'knw'],[92,1,'knw'],[94,2,'cknw'],[98,1,'knw'],[99,1,'knw'],[162,0,'knw'],
+  [65,'f','KN'],[66,1,'KN'],[89,1,'KNW'],[91,1,'KNW'],[95,1,'KNW'],[178,3,'KNW']],
+ wc:[[11,'w','k'],[12,0,'k'],[17,0,'k'],[29,1,'k'],[34,3,'k'],[35,2,'k'],[25,0,'k'],[73,2,'kn'],[75,2,'kn'],[50,'sb','kn'],[51,'sb','kn'],[52,'cb','kn'],[58,1,'knw'],[103,1,'knw'],[106,0,'kn'],[109,0,'kn'],[127,0,'kn'],[130,0,'kn'],[156,'w','knw'],[142,0,'knw'],
+  [123,0,'knw'],[124,1,'knw'],[84,1,'knw'],[99,1,'knw'],[162,0,'knw'],[95,1,'KNW']],
+ hall:[[8,0,'k'],[13,0,'k'],[17,0,'k'],[18,0,'k'],[37,4,'k'],[38,1,'k'],[50,'sb','kn'],[51,'sb','kn'],[52,'cb','kn'],[57,2,'knw'],[58,2,'knw'],[61,1,'cknw'],[106,0,'kn'],[107,0,'kn'],[147,0,'knw'],[149,0,'c'],
+  [123,0,'knw'],[124,1,'knw'],[180,0,'c'],[130,0,'kn'],[135,0,'knw'],[136,0,'knw'],[145,0,'knw']],
+ balc:[[50,'sb','kn'],[51,'sb','kn'],[52,'cb','kn'],[57,1,'knw'],[61,1,'knw'],[170,'bw','kn'],[129,0,'kn'],[171,'w','kn'],[137,0,'KNW'],[172,1,'KN']],
+ ward:[[17,0,'k'],[50,'sb','kn'],[51,'sb','kn'],[52,'cb','kn'],[61,1,'knw'],[57,1,'KNW'],[106,0,'kn'],[107,0,'kn'],[150,0,'knw'],[152,0,'knw'],[123,0,'knw'],[124,1,'knw'],[130,0,'kn'],[135,0,'knw'],[136,0,'knw'],[145,0,'knw'],[176,1,'KNW']]};
+const KN_DT={c:.02,k:.1,n:.03,w:.015};// запасной ориентир мусора, т на 1 м² пола: пока не загружены нормы. Основной расчёт — knDebris (№43б)
+/* №43б (проверка эксперта 27.11.2026, 21_Проверка_эксперта_конструктор_43.md). Варианты норм с диапазонами: выбор строки таблицы по параметру.
+   o: [подпись, коды или функция (r,g) → коды]; d: вариант по умолчанию (r,g,P) → индекс; pre: шифры для предзагрузки, если коды считаются функцией */
+const KN_TH=(l,base,b0,add,step,ts,def)=>({l,o:ts.map(x=>[x+' мм',[[base,1],...(x!==b0?[[add,(x-b0)/step]]:[])]]),d:()=>Math.max(0,ts.indexOf(def))});
+/* нормы «смена» уже включают снятие старого прибора: на косметике (отдельного демонтажа нет) — «смена», на капитальном, с нуля и white box — установка ГЭСН */
+const KN_RS=(a,b)=>({l:'Работа',o:[['замена: снять старое и поставить',[[a,1]]],['установка нового',[[b,1]]]],d:(r,g,P)=>P.lv==='c'?0:1});
+const KN_V={
+ 17:KN_TH('Толщина','р57-01-021-02',20,'р57-01-021-05',5,[30,40,50,60,70,80],50),
+ 107:KN_TH('Толщина','15-02-027-01',20,'15-02-027-05',1,[15,20,30,40,50],20),
+ 109:KN_TH('Толщина','15-02-019-03',10,'15-02-019-07',1,[10,15,20,30],20),
+ 121:KN_TH('Толщина','15-02-019-04',10,'15-02-019-08',1,[10,15,20],15),
+ 130:KN_TH('Толщина','11-01-011-01',20,'11-01-011-02',5,[30,40,50,60,70,80],50),
+ 131:KN_TH('Толщина','11-01-011-12',50,'11-01-011-13',5,[50,60,70,80,100],70),
+ 132:KN_TH('Толщина','11-01-011-09',3,'11-01-011-11',1,[3,5,7,10],5),
+ 123:{l:'Площадь комнаты',o:[['до 10 м²',[['15-01-051-01',1]]],['10–50 м²',[['15-01-051-02',1]]],['более 50 м²',[['15-01-051-03',1]]]],d:(r,g)=>g.c<=10?0:g.c<=50?1:2},
+ 111:{l:'Площадь одного места',o:[['до 1 м²',[['р61-01-002-07',1]]],['до 10 м²',[['р61-01-002-09',1]]],['более 10 м²',[['р61-01-002-11',1]]]],d:()=>1},
+ 149:{l:'Расчистка старой краски',o:[['до 10 %',[['р62-01-016-04',1]]],['10–35 %',[['р62-01-016-05',1]]],['более 35 %',[['р62-01-016-06',1]]]],d:()=>1},
+ 53:{l:'Кабель',o:[['3×1,5 (свет)',[['м08-02-409-09',1],['м08-02-412-02',1]]],['3×2,5 (розетки)',[['м08-02-409-09',1],['м08-02-412-03',1]]],['3×6 (плита)',[['м08-02-409-09',1],['м08-02-412-04',1]]]],d:()=>1},
+ 56:{l:'Ток автомата',o:[['до 25 А',[['м08-03-526-01',1]]],['до 100 А',[['м08-03-526-02',1]]]],d:()=>0},
+ 25:{l:'Стена',o:[['перегородка',[['р56-01-010-01',1.6],['р56-01-009-04',1],['р56-01-011-01',10]]],['каменная стена',[['р56-01-010-01',1.6],['р56-01-009-01',1],['р56-01-011-01',10]]]],d:()=>0},
+ 162:{l:'Проём',o:[['до 3 м²',[['10-01-039-06',1.9]]],['двустворчатая, более 3 м²',[['10-01-039-07',3.6]]]],d:()=>0},
+ 163:{l:'Проём',o:[['до 3 м²',[['10-01-039-01',1.9],['10-01-060-01',10]]],['двустворчатая, более 3 м²',[['10-01-039-02',3.6],['10-01-060-01',14]]]],d:()=>0},
+ 167:{l:'Окно',o:[['по площади окна',(r,g)=>{const a=g.o?r2(Math.max(0.5,(r.wA!=null?dyNum(r.wA)||0:g.o*2.1)/g.o)):2.1;return [[a<=2?'10-01-034-05':'10-01-034-06',a]]}]],d:()=>0,pre:['10-01-034-05','10-01-034-06']},
+ 92:KN_RS('р65-01-006-24','17-01-005-04'),94:KN_RS('р65-01-005-07','17-01-002-03'),96:KN_RS('р65-01-006-15','17-01-005-01'),75:KN_RS('р65-01-008-01','16-04-004-01'),90:KN_RS('р65-01-006-01','17-01-001-22'),
+ 114:{l:'Откосы',o:[['ремонт штукатурки',[['р61-01-007-01',0.25]]],['новая штукатурка',[['15-02-019-05',0.25]]]],d:(r,g,P)=>P.lv==='n'||P.lv==='w'?1:0}};
+/* чистовые материалы, которые покупает заказчик (строка закупки w[8]): из цены нормы исключаются, в том числе учтённая плитка 11-01-027-06 (двойной счёт) */
+const KN_HX={65:/Мат нагрев/,84:/Унитаз/,86:/Ванн/,88:/Экран/,90:/Трап/,92:/Умывальн|Раковин/,94:/Смесител/,96:/Мойк/,98:/Полотенцесуш/,99:/Люк/,101:/Радиатор/,126:/Плинтус/,135:/Подложк/,136:/ламинат/i,137:/винил/i,
+ 138:/паркетн/i,139:/Паркет/,140:/Линолеум/,141:/Ковров/,142:/Плитк/,143:/керамогранит/i,145:/Плинтус/,146:/Плинтус/,152:/^Обои/,153:/^Обои/,154:/^Обои/,155:/Стеклообои/,156:/Плитк/,161:/Панели/,
+ 162:/Блоки дверн|Наличник|Скобян/,163:/Блоки дверн|Наличник|Скобян/,166:/Блоки дверн|Скобян/,167:/Блоки оконн/,168:/подоконн/i,170:/Блоки оконн/,181:/Плитк/};
+/* расход «П» (по проекту) в норме: ориентир разработки на 1 ед. измерителя нормы в единицах графы «Н» (уточнить у эксперта) */
+const KN_PQ={'15-02-019-03':{'04.3.02.09':1.5,'14.4.01.21':0.02},'15-02-019-04':{'04.3.02.09':1.5,'14.4.01.21':0.02},'15-02-019-07':{'04.3.02.09':0.15},'15-02-019-08':{'04.3.02.09':0.15},
+ '15-02-019-05':{'04.3.02.09':1.5,'14.4.01.21':0.02},'11-01-011-11':{'04.3.02.01':0.15}};
+/* «П» на всю комнату: полотно натяжного потолка = площадь, багет и вставка = периметр */
+const KN_PI={123:[[/Полотно/,(it,g)=>it.q],[/Багет|Вставка/,(it,g)=>g.p]]};
+const KN_PTS=[57,58,59,61,62,66];// точки электрики: кабель = 4 м на точку + периметр комнаты, штроба 0,7 от кабеля
+const KN_H={3:'ориентир по площади пола, уточните у бригады',4:'ориентир по площади пола, уточните у бригады',5:'ориентир по площади пола, уточните у бригады',
+ 50:'0,7 от длины кабеля — ориентир, уточните у электрика',51:'0,7 от длины кабеля — ориентир, уточните у электрика',52:'4 м на точку + периметр комнаты — ориентир, уточните у электрика',73:'на точку 3 м трубы и 4 соединения — ориентир',82:'20 м трубопровода — ориентир'};
+const KN_GEO={f:'пол',c:'потолок',w:'стены',p:'периметр',pl:'плинтус',d:'двери',o:'окна',so:'откосы окон',wp:'пол с заходом на стены',bw:'остекление',dt:'мусор'};
+const KN_SZ={live:['4','3,5'],kitchen:['3,4','2,9'],bath:['2,1','1,7'],wc:['1,2','0,9'],hall:['5','1,4'],balc:['3','1,2'],ward:['2','1,5']};// размеры новой комнаты по умолчанию
+let KNN={},KNX={},KNC={};
+function knData(){const D=dyData();if(!D.rep||!Array.isArray(D.rep.rooms))D.rep={lv:'k',res:15,p58:0,rooms:[]};const P=D.rep;if(!P.rooms.some(r=>r.t==='all'))P.rooms.unshift(knRoom('all'));if(!P.rooms.some(r=>r.id===P.cur))P.cur=(P.rooms[1]||P.rooms[0]).id;return P}
+function knRoom(t,o){o=o||{};return {id:newId(),name:o.name||KN_RT[t],t,L:o.L??'',W:o.W??'',H:o.H??(t==='all'?'':'2,7'),dn:o.dn??(t==='all'||t==='hall'||t==='balc'?0:1),wn:o.wn??(t==='live'||t==='kitchen'?1:0),
+  dA:o.dA,dW:o.dW,wA:o.wA,wS:o.wS,w:{},add:[],x:[],pr:{}}}
+function knType(name){const s=String(name||'').toLowerCase();return /кухн/.test(s)?'kitchen':/сан\s*у|санузел|ванн/.test(s)?'bath':/туалет|уборн|wc/.test(s)?'wc':/корид|прихож|холл/.test(s)?'hall':/балк|лодж/.test(s)?'balc':/гардер/.test(s)?'ward':'live'}
+function knGeo(r,P){const n=v=>{const x=dyNum(v);return x&&x>0?x:0};
+  if(r.t==='all'){const f=r2(P.rooms.filter(x=>x.t!=='all').reduce((a,x)=>a+knGeo(x,P).f,0));return {f,c:f,w:0,p:0,pl:0,d:0,o:0,so:0,wp:f,bw:0,dt:KNC.k?knDebris(P,f):r2(f*(KN_DT[P.lv]||.05))}}
+  const L=n(r.L),W=n(r.W),H=n(r.H),dn=n(r.dn),wn=n(r.wn),f=r2(L*W),p=r2(2*(L+W)),dA=r.dA!=null?n(r.dA):dn*1.9,wA=r.wA!=null?n(r.wA):wn*2.1,dW=r.dW!=null?n(r.dW):dn*0.9,so=r.wS!=null?n(r.wS):wn*4.3;
+  return {f,c:f,p,w:r2(Math.max(0,p*H-dA-wA)),pl:r2(Math.max(0,p-dW)),d:dn,o:wn,so:r2(so),wp:r2(f+p*0.2),bw:r2(Math.max(L,W)*Math.max(0,H-1.05)),dt:0}}
+/* №43б: мусор = «Строительный мусор» графы «Н» включённых норм (демонтаж, вскрытие) + 0,015 т на 1 м² пола на обрезки и упаковку новых работ */
+function knDebris(P,f){let t=0;for(const r of P.rooms){if(r.t==='all')continue;for(const it of knItems(r,P))if(it.on&&it.sec!==1&&it.q&&it.dt)t+=it.q*it.dt}return r2(t+0.015*f)}
+const knLv=(m,lv)=>m.includes(lv)?1:m.includes(lv.toUpperCase())?0:null;
+function knItems(r,P){const g=knGeo(r,P),out=[],seen=new Set();
+  const qOf=(w,tq)=>{const b=typeof tq==='string'?tq:(tq?null:w[6]);return b==='cb'||b==='sb'?0:b&&b!=='n'?(g[b]||0):(tq||1)};
+  for(const [n,tq,m] of KN_T[r.t]||[]){const d=knLv(m,P.lv);if(d==null&&!(r.w[n]&&r.w[n].on))continue;const w=KN_WM[n];if(!w)continue;seen.add(n);
+    const u=r.w[n]||{},q=u.q!=null&&u.q!==''?dyNum(u.q)||0:qOf(w,tq);out.push(knPrice({n,w,on:u.on!=null?!!u.on:!!d,q,tq,auto:u.q==null||u.q==='',r,g,P,hint:KN_H[n]}))}
+  for(const n of r.add||[]){if(seen.has(n))continue;const w=KN_WM[n];if(!w)continue;seen.add(n);const u=r.w[n]||{},q=u.q!=null&&u.q!==''?dyNum(u.q)||0:qOf(w,0);out.push(knPrice({n,w,on:u.on!=null?!!u.on:true,q,auto:u.q==null||u.q==='',r,g,P,added:1,hint:KN_H[n]}))}
+  /* №43б: кабель = 4 м на точку (розетки, выключатели, светильники) + периметр комнаты на групповую линию, штроба = 0,7 длины кабеля */
+  {const pts=out.filter(i=>i.on&&KN_PTS.includes(i.n)).reduce((a,i)=>a+i.q,0),cb=r2(pts*4+g.p);
+   for(const i of out)if(i.auto&&(i.tq==='cb'||i.tq==='sb')){i.q=i.tq==='cb'?cb:r2(cb*0.7);knPrice(i)}}
+  (r.x||[]).forEach((x,i)=>{const p=KNX[x.c],q=dyNum(x.q)||0;out.push({fx:i,x,on:x.on!==0,q,st:+x.st||4,sec:+x.sec||0,name:x.n,unit:(B.rates[x.c]&&B.rates[x.c].nat)||x.u,codes:[[x.c,1]],up:p?p.w+p.m:null,uw:p?p.w:0,um:p?p.m:0,
+    sw:p?r2(q*p.w):0,sm:p?r2(q*p.m):0,miss:!p})});
+  return out.sort((a,b)=>a.st-b.st||(a.n||1e4)-(b.n||1e4))}
+/* вариант нормы пункта: выбор пользователя r.w[n].v или по умолчанию (площадь комнаты, уровень ремонта) */
+function knVar(n,r,g,P){const V=KN_V[n];if(!V)return null;const u=r.w[n]||{},d=Math.min(V.o.length-1,Math.max(0,V.d(r,g,P)||0)),vi=u.v!=null&&V.o[u.v]?+u.v:d,c=V.o[vi][1];return {vi,d,codes:typeof c==='function'?c(r,g):c}}
+function knPrice(o){const w=o.w,q=o.q,P=o.P||knData(),g=o.g||knGeo(o.r,P);o.st=w[7];o.sec=w[1];o.name=w[2];o.unit=w[3];const V=knVar(o.n,o.r,g,P);o.codes=V?V.codes:w[4];o.vi=V?V.vi:null;o.vd=V?V.d:null;
+  o.hb=[];o.dt=0;o.nu=0;
+  if(!o.codes.length){const p=dyNum(o.r.pr&&o.r.pr[o.n]);o.own=1;o.up=p;o.uw=p||0;o.um=0;o.sw=p?r2(q*p):0;o.sm=0;return o}
+  const hx=KN_HX[o.n],pi=KN_PI[o.n]||[];let uw=0,um=0,ex=0;
+  for(const [c,kq] of o.codes){const K=(P.p58&&w[5]&&KNC[c+'|58'])||KNC[c];if(!K){o.miss=1;o.up=null;o.uw=o.um=o.sw=o.sm=0;o.hb=[];return o}
+    uw+=kq*K.w;let m=K.m;for(const l of K.L){if(hx&&hx.test(l.nm+' '+l.rn)){m-=l.s;continue}if(l.h)o.hb.push({n:l.rn,u:l.u,q:kq*l.q*q})}um+=kq*m;o.dt+=kq*K.dt;o.nu+=K.nu;
+    for(const l of K.P){if(hx&&hx.test(l.nm+' '+l.rn))continue;const f=pi.find(([re])=>re.test(l.nm));if(!f)continue;const qt=f[1](o,g)||0;ex+=r2(qt*l.pr);o.hb.push({n:l.rn,u:l.u,q:qt})}}
+  o.miss=0;o.uw=r2(uw);o.sw=r2(q*uw);o.sm=r2(q*um+ex);o.um=q?r2(o.sm/q):r2(um);o.up=r2(o.uw+o.um);return o}
+/* №43б: единица ресурса «100 м2» → [100, 'м2']; переход т ↔ кг */
+const knU=u=>{const m=/^\s*(\d+(?:[.,]\d+)?)\s+(.+)$/.exec(String(u||''));return m?[+m[1].replace(',','.'),m[2].trim().toLowerCase()]:[1,String(u||'').trim().toLowerCase()]};
+const knUF=(a,b)=>{const n=s=>s.replace('²','2').replace('³','3').replace(/\.$/,'').replace(/^п\.м$/,'м');a=n(a);b=n(b);return a===b?1:a==='т'&&b==='кг'?1000:a==='кг'&&b==='т'?0.001:null};
+/* материал ФСБЦ по умолчанию для неучтённого ресурса графы «Н»: ресурсы его технологической группы (доп. № 20, data/kn_tg.js), медиана сметной цены в уровне цен сметы */
+function knDefRS(c,pk){const R=B.rates[c],T=window.KN_TG,rs={};if(!R||!T)return rs;const L=T.w[c]||[];
+  for(const [g,nm,un,nv] of R.abs||[]){if(/^999-99/.test(g))continue;const e=L.find(x=>x[0]===g&&x[2]===nm)||L.find(x=>x[0]===g);if(!e)continue;
+    const nn=nuNorm(nv),pq=(KN_PQ[c]||{})[g],base=typeof nn==='number'?nn:pq,[m0,b0]=knU(un),C=[];
+    for(const rc of T.t[e[1]]||[]){const rec=T.r[rc];if(!rec)continue;if(!B.res[rc]){const k=fsbcKey(rc),F=window.FSBC_CH=window.FSBC_CH||{};(F[k]=F[k]||{})[rc]=rec;regRes(rc)}const rs0=B.res[rc];if(!rs0)continue;
+      const [m1,b1]=knU(rs0.unit),f=knUF(b0,b1);if(f==null)continue;const pr=rp(rc).price;if(!(pr>0))continue;const kk=m0*f/m1;C.push({rc,kk,u:pr*kk})}
+    if(!C.length)continue;C.sort((a,b)=>a.u-b.u);const x=C[(C.length-1)>>1];
+    /* одна группа графы «Н» может стоять в норме несколько раз (полотно, багет, вставка): цена — по своей строке, в расчёт нормы идёт первая */
+    if(pk)pk.push({g,nm,un,rc:x.rc,rn:B.res[x.rc].name,pu:x.u,p:base==null});if(!rs[g])rs[g]=base!=null?{to:x.rc,n:Math.round(base*x.kk*1e7)/1e7}:{to:x.rc}}
+  return rs}
+async function knNorms(force){const P=knData(),k=zoneOf()+'|'+S.level+'|'+edOfS()+'|'+(P.p58?1:0);if(KNN.k===k&&!force)return KNN;
+  const xs=P.rooms.flatMap(r=>(r.x||[]).map(x=>x.c)),vc=Object.values(KN_V).flatMap(V=>[...(V.pre||[]),...V.o.flatMap(o=>typeof o[1]==='function'?[]:o[1].map(c=>c[0]))]),
+    codes=[...new Set(KN_W.flatMap(w=>w[4].map(c=>c[0])).concat(vc,xs))],c58=new Set(KN_W.filter(w=>w[5]).flatMap(w=>w[4].map(c=>c[0])).concat(Object.entries(KN_V).filter(([n])=>KN_WM[n]&&KN_WM[n][5]).flatMap(([,V])=>[...(V.pre||[]),...V.o.flatMap(o=>typeof o[1]==='function'?[]:o[1].map(c=>c[0]))])));
+  try{await ensureReal(codes)}catch(e){}try{const pk=prKey();if(pk)await ensurePR(pk)}catch(e){}try{if(!window.KN_TG)await loadJs('data/kn_tg.js')}catch(e){}
+  /* цены считаются на 100 единиц и делятся: строки ресурсов округляются до копеек, на одной единице округление искажает цену */
+  const C={k},Q=100;for(const c of codes){if(!B.rates[c]||!B.rates[c].real)continue;let rs={};const pk=[];try{rs=knDefRS(c,pk)}catch(e){}
+    for(const f58 of P.p58&&c58.has(c)?[0,1]:[0]){try{const x=calc({id:-1,code:c,qty:Q,ks:f58?['П58']:[],rs});const M=(x.lines||[]).filter(l=>l.t==='М');
+      C[c+(f58?'|58':'')]={w:(x.total-(x.mat||0))/Q,m:(x.mat||0)/Q,L:M.filter(l=>l.sum).map(l=>({nm:l.gname||l.name,rn:l.name,u:l.unit,q:l.qty/Q,s:l.sum/Q,h:l.mod==='выбран'?1:0})),
+        P:pk.filter(x=>x.p).map(x=>({nm:x.nm,rn:x.rn,u:x.un,pr:x.pu})),dt:(x.nu||[]).filter(l=>/^999-99/.test(l.rc)).reduce((a,l)=>a+(+l.qty||0),0)/Q,nu:(x.nu||[]).filter(l=>!/^999-99/.test(l.rc)).length}}catch(e){}}}
+  KNC=C;const out={k};for(const w of KN_W){if(w[4].length&&w[4].every(([c])=>KNC[c]))out[w[0]]=1}
+  KNX={};for(const c of new Set(xs)){if(!B.rates[c]||!B.rates[c].real)continue;try{const x=calc({id:-1,code:c,qty:1,ks:[]});KNX[c]={w:r2(x.total-(x.mat||0)),m:r2(x.mat||0)}}catch(e){}}
+  KNN=out;return out}
+function knTot(P){const T={w:0,m:0,sec:Array(12).fill(0),st:Array(5).fill(0),room:{},own:0,miss:0};
+  for(const r of P.rooms){let s=0;for(const it of knItems(r,P)){if(!it.on)continue;if(it.miss){T.miss++;continue}if(it.own&&it.up==null){T.own++;continue}
+    const v=it.sw+it.sm;T.w+=it.sw;T.m+=it.sm;T.sec[it.sec]+=v;T.st[it.st]+=v;s+=v}T.room[r.id]=r2(s)}
+  T.w=r2(T.w);T.m=r2(T.m);T.base=r2(T.w+T.m);T.res=r2(T.base*(+P.res||0)/100);T.all=r2(T.base+T.res);return T}
+const knK=v=>v>=1000?fmt(Math.round(v/1000),0)+' тыс.':fmt(v,0);
+const knQ=v=>fq(r2(v));
+function knBuy(P,h){const M=new Map(),add=(n,u,z,q,room)=>{if(!(q>0))return;const k=n+'|'+u,o=M.get(k)||{n,u,z,q:0,rooms:new Set()};o.q+=q;o.rooms.add(room);M.set(k,o)};
+  for(const r of P.rooms)for(const it of knItems(r,P)){if(!it.on||!it.q)continue;if(h){for(const b of it.hb||[])add(b.n,b.u,0,b.q,r.name)}else if(it.w&&it.w[8]){const [n,u,z,f]=it.w[8];add(n,u,z,it.q*(f||1),r.name)}}
+  const pc=u=>/^(шт|компл|модуль|\d+ шт|1000 шт)$/.test(u);
+  return [...M.values()].map(o=>({...o,buy:pc(o.u)?Math.ceil(o.q-1e-6):Math.ceil(o.q*(1+o.z)*(h?1000:10)-1e-6)/(h?1000:10),rooms:[...o.rooms].join(', ')}))}
+function knImport(P){const M=(S.measure&&S.measure.rooms||[]).filter(r=>r.kind!=='wall'&&msN(r.L)&&msN(r.W));if(!M.length)return 0;
+  P.rooms=P.rooms.filter(r=>r.t==='all');for(const m of M){const ops=m.op||[],ok=o=>msN(o.w)&&msN(o.h),cnt=t=>ops.filter(o=>o.t===t).reduce((a,o)=>a+(+o.n||1),0),
+    sum=(t,fn)=>r2(ops.filter(o=>o.t===t&&ok(o)).reduce((a,o)=>a+fn(o)*(+o.n||1),0));
+    P.rooms.push(knRoom(knType(m.name),{name:m.name,L:m.L,W:m.W,H:m.H||'2,7',dn:cnt('дверь'),wn:cnt('окно'),dA:ops.some(o=>o.t==='дверь'&&ok(o))?sum('дверь',o=>msN(o.w)*msN(o.h)):undefined,
+      dW:ops.some(o=>o.t==='дверь'&&ok(o))?sum('дверь',o=>msN(o.w)):undefined,wA:ops.some(o=>o.t==='окно'&&ok(o))?sum('окно',o=>msN(o.w)*msN(o.h)):undefined,wS:ops.some(o=>o.t==='окно'&&ok(o))?sum('окно',o=>msN(o.w)+2*msN(o.h)):undefined}))}
+  P.cur=(P.rooms[1]||P.rooms[0]).id;return M.length}
+function knFind(qs,r){const t=String(qs||'').toLowerCase().replace(/ё/g,'е').split(/[^а-яa-z0-9-]+/).filter(x=>x.length>1);if(!t.length)return {cat:[],fx:[]};
+  const has=new Set(knItems(r,knData()).filter(i=>i.n).map(i=>i.n)),nm=s=>String(s).toLowerCase().replace(/ё/g,'е');
+  const cat=KN_W.filter(w=>!has.has(w[0])&&t.every(x=>nm(w[2]).includes(x))).slice(0,8);
+  const RI=window.REAL_IDX,fx=[];if(RI&&RI.r)for(const z of RI.r){const g=String(RI.g[z[2]]||''),s=nm(g+' '+z[3]+' '+z[0]);if(t.every(x=>s.includes(x))){fx.push({c:z[0],n:(g&&!String(z[3]).startsWith(g)?g+' ':'')+z[3],u:z[4]});if(fx.length>=8)break}}
+  return {cat,fx}}
+function knWord(P,T){const R=P.rooms,lv=(KN_LV.find(x=>x[0]===P.lv)||[])[1]||'';
+  const tbl=r=>{const it=knItems(r,P).filter(i=>i.on&&!i.miss&&i.q);if(!it.length)return '';return `<h3>${esc(r.name)}${r.t!=='all'?` (${esc(String(r.L))} × ${esc(String(r.W))} м)`:''}</h3><table><tr><th>№</th><th>Работа</th><th>Ед.</th><th>Кол-во</th><th>Цена за ед., руб.</th><th>Сумма, руб.</th><th>Норма ФСНБ</th></tr>
+    ${it.map((i,k)=>`<tr><td>${k+1}</td><td>${esc(i.name)}</td><td>${esc(i.unit)}</td><td>${knQ(i.q)}</td><td>${i.up!=null?fmt(i.up):''}</td><td>${fmt(i.sw+i.sm)}</td><td>${i.own?'цена заказчика':esc(i.codes.map(c=>c[0]).join(', '))}</td></tr>`).join('')}
+    <tr><td></td><td colspan="4"><b>Итого по помещению</b></td><td><b>${fmt(T.room[r.id]||0)}</b></td><td></td></tr></table>`};
+  const B_=knBuy(P),h=`<html><head><meta charset="utf-8"><style>body{font:11pt "Times New Roman"}h2{font-size:14pt}h3{font-size:12pt;margin:14pt 0 4pt}td,th{border:1px solid #999;padding:3px 6px;font-size:10pt;vertical-align:top}table{border-collapse:collapse;width:100%}</style></head><body>
+  <h2>Смета на ремонт квартиры для бригады</h2><p>Ремонт: ${esc(lv.toLowerCase())}. Площадь пола ${fmt(knGeo(R[0],P).f,1)} м². Цены по нормам ФСНБ-2022 (${esc(edName(edOfS()))}), ${esc(dyReg())}. Дата: ${dmy(today())}.</p>
+  ${R.map(tbl).join('')}
+  <h3>Итог</h3><table><tr><td>Работы</td><td>${fmt(T.w)}</td></tr><tr><td>Материалы по нормам (с черновыми по средней цене группы)</td><td>${fmt(T.m)}</td></tr><tr><td>Резерв ${fq(+P.res||0)} %</td><td>${fmt(T.res)}</td></tr><tr><td><b>Всего</b></td><td><b>${fmt(T.all)}</b></td></tr></table>
+  <h3>Оплата по этапам</h3><table>${[1,2,3,4].map(s=>`<tr><td>${s}. ${KN_ST[s]}</td><td>${fmt(T.st[s])}</td></tr>`).join('')}</table>
+  ${(()=>{const H=knBuy(P,1);return H.length?`<h3>Черновые материалы по нормам (в цене, без запаса)</h3><table><tr><th>Материал</th><th>Количество</th><th>Где</th></tr>${H.map(b=>`<tr><td>${esc(b.n)}</td><td>${knQ(b.buy)} ${esc(b.u)}</td><td>${esc(b.rooms)}</td></tr>`).join('')}</table>`:''})()}
+  ${B_.length?`<h3>Закупка чистовых материалов и оборудования (не входят в цену норм)</h3><table><tr><th>Что</th><th>Нужно</th><th>Купить с запасом</th><th>Где</th></tr>${B_.map(b=>`<tr><td>${esc(b.n)}</td><td>${knQ(r2(b.q))} ${b.u}</td><td>${knQ(b.buy)} ${b.u}${b.z?` (запас ${Math.round(b.z*100)} %)`:''}</td><td>${esc(b.rooms)}</td></tr>`).join('')}</table>`:''}
+  <p>Цены посчитаны по сметным нормам ФСНБ-2022 для вашего региона и квартала. Это ориентир для разговора с бригадой: рыночные цены мастеров в программе не хранятся.</p></body></html>`;
+  return new Blob(['﻿'+h],{type:'application/msword'})}
+function knOpen(){const D=dyData();D.view='rep';const P=knData();if(P.rooms.length===1){if(knImport(P))toast('Комнаты и размеры взяты из обмера');else{P.rooms.push(knRoom('live',{L:'4',W:'3,5'}));P.cur=P.rooms[1].id}}dySave();
+  dlg(dyHead('Конструктор ремонта','Загружаю нормы ФСНБ для вашего региона…')+'<p class="u">Подбираю цены по нормам…</p>',true);return knNorms().then(()=>renderKn())}
+function renderKn(){const D=dyData(),P=knData(),T=knTot(P),r=P.rooms.find(x=>x.id===P.cur)||P.rooms[0],g=knGeo(r,P),its=knItems(r,P),tot=P.rooms.filter(x=>x.t!=='all');
+  const sc=$('#knMid')?$('#knMid').scrollTop:0,fa=g.f?fmt(g.f,1):'0';
+  const row=i=>{const id=i.fx!=null?'x'+i.fx:i.n,sub=i.miss?'нет в выбранной редакции ФСНБ: подберите другую норму':i.own?'нормы в ФСНБ нет: впишите цену за единицу':'по нормам: '+i.codes.map(c=>c[0]+(c[1]!==1?' ×'+fq(c[1]):'')).join(' + ')+(i.w&&i.w[5]&&P.p58?' · п. 58б':'');
+    const V=i.n&&KN_V[i.n],vs=V&&V.o.length>1?` <select class="knv" data-knv="${i.n}" aria-label="${esc(V.l)}">${V.o.map((o,k)=>`<option value="${k}"${k===i.vi?' selected':''}>${esc(V.l)}: ${esc(o[0])}${k===i.vd?' (по умолчанию)':''}</option>`).join('')}</select>`:'';
+    return `<div class="knw${i.on?'':' off'}"><input type="checkbox" data-knw="${id}"${i.on?' checked':''} aria-label="Учитывать: ${esc(i.name)}"><div><div>${esc(i.name)}${vs}</div><div class="u">${esc(sub)}${i.hint?' · '+esc(i.hint):''}${i.added||i.fx!=null?` · <a href="#" data-kndel="${id}">убрать</a>`:''}</div></div>
+    <div class="num"><input class="q" data-knq="${id}" value="${knQ(i.q)}" inputmode="decimal" aria-label="Количество"> <span class="u">${esc(i.unit)}</span></div>
+    <div class="num">${i.own?`<input class="q" data-knp="${i.n}" value="${i.up!=null?knQ(i.up):''}" placeholder="₽ за ед." inputmode="decimal" aria-label="Цена за единицу"><div class="u">${i.up!=null?fmt(i.sw,0)+' ₽':''}</div>`:i.miss?'<span class="u">—</span>':`<b>${fmt(i.sw+i.sm,0)} ₽</b>${i.on?'':''}<div class="u">${fmt(i.up,0)} ₽ за ед.</div>`}</div></div>`};
+  const st=[1,2,3,4].map(s=>{const L=its.filter(i=>i.st===s);if(!L.length)return '';const sum=L.reduce((a,i)=>a+(i.on?i.sw+i.sm:0),0);return `<div class="knst"><span>${s} · ${KN_ST[s]}</span><span>${fmt(sum,0)} ₽</span></div>${L.map(row).join('')}`}).join('');
+  const lvb=KN_LV.map(([k,t])=>`<button data-knlv="${k}" class="${P.lv===k?'on':''}">${t}</button>`).join('');
+  const rooms=P.rooms.map(x=>{const gx=knGeo(x,P);return `<button class="knrm${x.id===r.id?' on':''}" data-knr="${x.id}"><span><b>${esc(x.name)}</b><span class="u">${x.t==='all'?`пол ${fmt(gx.f,1)} м² · щиток, вода, мусор`:`${esc(String(x.L||'?'))} × ${esc(String(x.W||'?'))} · стены ${fmt(gx.w,1)} м²`}</span></span><b>${knK(T.room[x.id]||0)}</b></button>`}).join('');
+  const geo=r.t==='all'?`<p class="u">Общие работы на всю квартиру: защита, мусор, щиток, счётчики, уборка. Площадь пола складывается из комнат: ${fa} м².</p>`:
+   `<div class="kngeo"><label>Название<input data-knf="name" value="${esc(r.name)}"></label><label>Тип<select data-knf="t">${Object.entries(KN_RT).filter(([k])=>k!=='all').map(([k,t])=>`<option value="${k}"${r.t===k?' selected':''}>${t}</option>`).join('')}</select></label>
+    <label>Длина, м<input data-knf="L" value="${esc(String(r.L??''))}" inputmode="decimal"></label><label>Ширина, м<input data-knf="W" value="${esc(String(r.W??''))}" inputmode="decimal"></label>
+    <label>Высота, м<input data-knf="H" value="${esc(String(r.H??''))}" inputmode="decimal"></label><label>Дверей<input data-knf="dn" value="${esc(String(r.dn??0))}" inputmode="numeric"></label><label>Окон<input data-knf="wn" value="${esc(String(r.wn??0))}" inputmode="numeric"></label>
+    <label>&nbsp;<button class="btn ghost" data-kndr="${r.id}" style="width:100%">Удалить</button></label></div>
+    <p class="u" style="margin:6px 0 0">пол ${fa} м² · стены ${fmt(g.w,1)} м² за вычетом проёмов · потолок ${fa} м² · плинтус ${fmt(g.pl,1)} м${g.so?` · откосы ${fmt(g.so,1)} м`:''}${r.dA!=null||r.wA!=null?' · проёмы из обмера':''}</p>`;
+  const secs=KN_SEC.map((s,i)=>i&&T.sec[i]?`<div class="kns"><span>${s}</span><b>${fmt(T.sec[i],0)} ₽</b></div>`:'').join('');
+  const bar=T.base?`<div class="knbar"><i style="width:${T.w/T.all*100}%;background:var(--brand)"></i><i style="width:${T.m/T.all*100}%;background:#7c6cf0"></i><i style="width:${T.res/T.all*100}%;background:#f0a83a"></i></div>`:'';
+  dlg(dyHead('Конструктор ремонта',`${tot.length} ${tot.length===1?'помещение':tot.length<5?'помещения':'помещений'}, ${fa!=='0'?fmt(knGeo(P.rooms[0],P).f,1):'0'} м² · ${esc(dyReg())} · цены по нормам ФСНБ (${esc(edName(edOfS()))})`)+`<div class="kngrid">
+  <div class="knc"><div class="knh">Уровень ремонта</div><div class="knlv">${lvb}</div>
+   <div class="knh" style="margin-top:14px">Комнаты</div>${rooms}
+   <div class="knadd"><select id="knAddT">${Object.entries(KN_RT).filter(([k])=>k!=='all').map(([k,t])=>`<option value="${k}">${t}</option>`).join('')}</select><button class="btn" id="knAdd">+ Комната</button></div>
+   <p class="u" style="margin-top:10px">${(S.measure&&S.measure.rooms||[]).length?'<a href="#" id="knImp">Взять комнаты и размеры из обмера</a> · ':''}<a href="#" id="knMs">Обмерить телефоном</a></p></div>
+  <div class="knc" id="knMid"><div class="knh">${esc(KN_RT[r.t])}</div>${geo}${st||'<p class="u">На этом уровне ремонта работ в этом помещении нет. Добавьте нужные ниже.</p>'}
+   <div class="knfind"><input id="knQ" placeholder="Добавить любую работу: «трап», «бойлер», «шторка»… ищет по каталогу и по базе ФСНБ" value="${esc(P.q||'')}"><div id="knRes"></div></div></div>
+  <div class="knc"><div class="knh">Квартира целиком</div><div class="knbig num">${fmt(T.all,0)} ₽</div>
+   <div class="u">работы ${fmt(T.w,0)} · материалы по нормам ${fmt(T.m,0)} · резерв <select id="knRes_" aria-label="Резерв">${[0,10,15,20].map(v=>`<option value="${v}"${+P.res===v?' selected':''}>${v} %</option>`).join('')}</select> ${fmt(T.res,0)}</div>${bar}
+   ${T.own||T.miss?`<p class="u" style="color:var(--warn)">${T.own?`Нет цены у работ без нормы в ФСНБ (${T.own}): впишите цену за единицу, иначе они не входят в итог. `:''}${T.miss?`Нет в выбранной редакции ФСНБ: ${T.miss}.`:''}</p>`:''}
+   <div style="margin-top:8px">${secs}</div>
+   <div class="knh" style="margin-top:14px">Оплата по этапам</div><div class="knpay">${[1,2,3,4].map(s=>`<div><b>${knK(T.st[s])}</b>${KN_ST[s]}</div>`).join('')}</div>
+   <div class="knbtns"><button class="btn primary" id="knWord">Смета для бригады (Word)</button><button class="btn" id="knBuyB">Список закупки</button><button class="btn" id="knCmp">Сравнить со сметой бригады</button></div>
+   <label class="u" style="display:block;margin-top:10px"><input type="checkbox" id="kn58"${P.p58?' checked':''}> Коэффициенты п. 58б Методики 421/пр (1,15 к труду, 1,25 к машинам; вместе с ними НР ×0,9 и СП ×0,85 — 812/пр п. 25, 774/пр п. 16) к нормам нового строительства</label>
+   <p class="u">Цены считаются по сметным нормам ФСНБ-2022 с материалами нормы. Черновые материалы, которые норма оставляет «по проекту» (смеси, раствор, клей, грунтовка, краска, ГКЛ, профиль, трубы, полотно потолка), взяты по средней сметной цене своей технологической группы (доп. № 20). Чистовые материалы и оборудование (плитка, ламинат, обои, сантехника, кабель) в цену не входят: они в списке закупки. Проект сохраняется в «Ремонте для себя» и в личном кабинете.</p></div></div>
+  <div id="knBuyBox"></div><button class="btn" id="dyBk">← Ремонт для себя</button>`,true);
+  const X=$('#dlg');X.style.maxWidth='1360px';X.style.width='98vw';dyWire();if($('#knMid'))$('#knMid').scrollTop=sc;
+  const save=(re)=>{dySave();if(re)return knNorms().then(renderKn);renderKn()};
+  $('#dyBk').onclick=()=>{D.view='home';renderDiy()};
+  $$('#dlg [data-knlv]').forEach(b=>b.onclick=()=>{P.lv=b.dataset.knlv;for(const x of P.rooms)for(const k in x.w){delete x.w[k].on;delete x.w[k].v}save()});
+  $$('#dlg [data-knv]').forEach(s=>s.onchange=()=>{const n=+s.dataset.knv;(r.w[n]=r.w[n]||{}).v=+s.value;save()});
+  $$('#dlg [data-knr]').forEach(b=>b.onclick=()=>{P.cur=b.dataset.knr;P.q='';save()});
+  $('#knAdd').onclick=()=>{const t=$('#knAddT').value,n=P.rooms.filter(x=>x.t===t).length,z=KN_SZ[t]||['3','3'],x=knRoom(t,{name:KN_RT[t]+(n?' '+(n+1):''),L:z[0],W:z[1]});P.rooms.push(x);P.cur=x.id;save();toast('Добавлено: '+x.name+'. Впишите размеры')};
+  if($('#knImp'))$('#knImp').onclick=e=>{e.preventDefault();if(P.rooms.length>1&&!confirm('Заменить комнаты конструктора комнатами из обмера? Отметки и цены в комнатах сбросятся'))return;const n=knImport(P);save();toast(n?`Из обмера: ${n} помещ.`:'В обмере нет комнат с размерами')};
+  $('#knMs').onclick=e=>{e.preventDefault();$('#dlgbg').classList.remove('on');openMeasure()};
+  $$('#dlg [data-knf]').forEach(x=>x.onchange=()=>{const k=x.dataset.knf;r[k]=x.value;if(k==='dn'){delete r.dA;delete r.dW}if(k==='wn'){delete r.wA;delete r.wS}if(k==='t'){r.w={};r.add=[]}save()});
+  $$('#dlg [data-kndr]').forEach(b=>b.onclick=()=>{if(!confirm(`Удалить помещение «${r.name}» из конструктора?`))return;P.rooms=P.rooms.filter(x=>x!==r);P.cur=null;knData();save()});
+  const itm=id=>String(id)[0]==='x'?{x:r.x[+String(id).slice(1)]}:{n:+id};
+  $$('#dlg [data-knw]').forEach(c=>c.onchange=()=>{const o=itm(c.dataset.knw);if(o.x)o.x.on=c.checked?1:0;else{(r.w[o.n]=r.w[o.n]||{}).on=c.checked?1:0}save()});
+  $$('#dlg [data-knq]').forEach(c=>c.onchange=()=>{const o=itm(c.dataset.knq),v=c.value.trim();if(o.x)o.x.q=v;else{const u=r.w[o.n]=r.w[o.n]||{};if(v==='')delete u.q;else u.q=v}save()});
+  $$('#dlg [data-knp]').forEach(c=>c.onchange=()=>{r.pr=r.pr||{};const v=c.value.trim();if(v)r.pr[c.dataset.knp]=v;else delete r.pr[c.dataset.knp];save()});
+  $$('#dlg [data-kndel]').forEach(a=>a.onclick=e=>{e.preventDefault();const o=itm(a.dataset.kndel);if(o.x)r.x.splice(r.x.indexOf(o.x),1);else{r.add=(r.add||[]).filter(n=>n!==o.n);delete r.w[o.n]}save()});
+  $('#knRes_').onchange=e=>{P.res=+e.target.value;save()};$('#kn58').onchange=e=>{P.p58=e.target.checked?1:0;save(true)};
+  $('#knCmp').onclick=()=>{dyNew('',true);D.view='chk';renderDiy()};
+  $('#knWord').onclick=()=>{dlBlob(knWord(P,T),'Смета ремонта для бригады.doc');toast('Смета для бригады сохранена в Word')};
+  $('#knBuyB').onclick=()=>{const L=knBuy(P),bx=$('#knBuyBox');if(bx.innerHTML){bx.innerHTML='';return}
+    const H=knBuy(P,1);
+    bx.innerHTML=`<div class="knc" style="margin-top:12px"><div class="knh">Список закупки: чистовые материалы и оборудование (в цену не входят)</div>${L.length?`<div class="awt"><table class="mst"><thead><tr><th>Что</th><th class="num">Нужно</th><th class="num">Купить с запасом</th><th>Где</th></tr></thead><tbody>${L.map(b=>`<tr><td>${esc(b.n)}</td><td class="num">${knQ(r2(b.q))} ${b.u}</td><td class="num"><b>${knQ(b.buy)} ${b.u}</b>${b.z?` <span class="u">+${Math.round(b.z*100)} %</span>`:''}</td><td class="u">${esc(b.rooms)}</td></tr>`).join('')}</tbody></table></div><p class="u">Запас на подрезку и бой: плитка и керамогранит 10 %, ламинат и кварцвинил 7 %, обои 15 %, кабель 10 %.</p>`:'<p class="u">Отметьте чистовые работы: покрытие пола, плитку, обои, сантехнику.</p>'}</div>
+     ${H.length?`<div class="knc" style="margin-top:12px"><div class="knh">Черновые материалы по нормам (уже в цене)</div><div class="awt"><table class="mst"><thead><tr><th>Материал по умолчанию (средняя цена группы)</th><th class="num">Количество по норме</th><th>Где</th></tr></thead><tbody>${H.map(b=>`<tr><td>${esc(b.n)}</td><td class="num">${knQ(b.buy)} ${esc(b.u)}</td><td class="u">${esc(b.rooms)}</td></tr>`).join('')}</tbody></table></div><p class="u">Количество — по расходу в нормах ФСНБ, без запаса. Марку и производителя выбирает бригада: цена в смете — средняя сметная по технологической группе ресурса (доп. № 20 к ФСНБ-2022).</p></div>`:''}`;bx.scrollIntoView({block:'nearest'})};
+  const q=$('#knQ'),res=$('#knRes');let tm=0;const find=()=>{P.q=q.value;const F=knFind(q.value,r);res.innerHTML=!q.value.trim()?'':(F.cat.length||F.fx.length)?
+    F.cat.map(w=>`<button class="knfi" data-knadd="${w[0]}"><b>+ ${esc(w[2])}</b><span class="u">${esc(KN_SEC[w[1]])} · ${esc(w[3])}${w[4].length?' · '+esc(w[4].map(c=>c[0]).join(', ')):''}</span></button>`).join('')+
+    F.fx.map(x=>`<button class="knfi" data-knfx="${esc(x.c)}"><b>+ ${esc(x.c)}</b><span class="u">${esc(x.n.slice(0,140))} · ${esc(x.u)}</span></button>`).join(''):'<p class="u">Ничего не нашлось: попробуйте другое слово или шифр расценки</p>';
+    $$('#knRes [data-knadd]').forEach(b=>b.onclick=()=>{const n=+b.dataset.knadd;r.add=[...(r.add||[]),n];(r.w[n]=r.w[n]||{}).on=1;P.q='';save();toast('Работа добавлена')});
+    $$('#knRes [data-knfx]').forEach(b=>b.onclick=async()=>{const c=b.dataset.knfx,F2=F.fx.find(x=>x.c===c);r.x=r.x||[];r.x.push({c,n:F2.n,u:F2.u,q:'1',st:4});P.q='';dySave();await knNorms(true);renderKn();toast('Расценка добавлена: впишите количество в единицах расценки')})};
+  q.oninput=()=>{clearTimeout(tm);tm=setTimeout(find,200)};if(P.q)find()}
+
 function dyQuestions(A){return A.F.map(f=>f.qs)}
 function dyChanges(c,A){const pv=c.ver&&c.ver[c.ver.length-1];if(!pv)return '';const key=n=>String(n).toLowerCase().replace(/[^а-яёa-z0-9]/g,'');const P=new Map(pv.rows.map(r=>[key(r.n),r])),Cn=new Map(A.rows.map(r=>[key(r.n),r]));
   const add=A.rows.filter(r=>!P.has(key(r.n))),del=pv.rows.filter(r=>!Cn.has(key(r.n))),chg=A.rows.filter(r=>P.has(key(r.n))&&Math.abs((P.get(key(r.n)).s||0)-(r.s||0))>0.5);
@@ -5016,7 +5507,7 @@ function osrModel(){const st=ST(),Q=req(),T=totals(),cur=S.level!=='base',W=[];c
   let it=rows.reduce((a,r)=>gadd(a,r),g0());const steps=[{k:'it',it:{...it}}];
   for(const [key,name] of [['vz','Затраты на строительство титульных временных зданий и сооружений'],['win','Дополнительные затраты при производстве работ в зимнее время']]){const z=st[key];if(!z.on)continue;const p=num(z.pct);
     if(!p)W.push(name+': не указан норматив, %');if(!z.osn)W.push(name+': не указано обоснование');
-    const r={k:'add',n:'',osn:z.osn+(p?` (${fq(p)}%)`:''),name,b:n2(it.b*p/100),m:n2(it.m*p/100),e:0,o:0};steps.push(r);it=gadd({...it},r);steps.push({k:'it',it:{...it}})}
+    const r={k:'add',n:'',osn:z.osn+(p?` (${fq(p)}%)`:''),name,b:n2(it.b*p/100),m:n2(it.m*p/100),e:0,o:0};if(key==='vz')r.vz=1;steps.push(r);it=gadd({...it},r);steps.push({k:'it',it:{...it}})}
   const all={...it},izm=num(st.izmQ),tot=gsum(all);
   const det=[['ОТ',k2(T.ot)],['ЭМ',k2(T.em)],['ОТм',k2(T.otm)],['М',k2(T.mat)],['Перевозка',0],['НР',k2(T.nr)],['СП',k2(T.sp)],['оборудование',all.e],['прочие затраты',all.o]];
   if(!cur)W.push('при ресурсно-индексном методе ОСР составляется в текущем уровне цен (п. 131): переключите цены на текущие');
@@ -5024,7 +5515,12 @@ function osrModel(){const st=ST(),Q=req(),T=totals(),cur=S.level!=='base',W=[];c
   if(st.vz.on||st.win.on)W.push('разбивка «в том числе» приведена без учёта ВЗиС и зимнего удорожания (примечание 2 к прил. 5)');
   return {st,Q,cur,rows,steps,all,tot,det,izm,unitCost:izm?Math.round(tot/izm*100)/100:0,W}}
 function ssrModel(){const st=ST(),O=osrModel(),cur=O.cur,W=[...O.W.filter(x=>!x.startsWith('разбивка')&&!x.startsWith('в строках'))];const out=[];const chRows=Array.from({length:13},()=>[]);
-  chRows[st.ch].push({osn:st.osrNum,name:`${O.Q.obj} (объектный сметный расчёт № ${st.osrNum})`,...O.all});
+  /* ВЗиС (421/пр пп. 153–154, 332/пр): в ОСР строка остаётся, в ССРСС объект идёт в свою главу без неё, а ВЗиС — строкой главы 8.
+     Новое строительство — от итога глав 1–7 графы 4–5 (332/пр п. 23 «а»), реконструкция — норматив × 0,8 (п. 25), выборочный капремонт — от итога ОСР (п. 24 «б») */
+  const vzR=O.steps.find(s=>s.vz),obj={...O.all};if(vzR){obj.b=n2(obj.b-vzR.b);obj.m=n2(obj.m-vzR.m)}
+  chRows[st.ch].push({osn:st.osrNum,name:`${O.Q.obj} (объектный сметный расчёт № ${st.osrNum})`,...obj});
+  if(st.vz.on&&st.rows.some(r=>(+r.ch===8||+r.ch===9)&&/временн\S*\s+(?:здан|сооруж)|ВЗиС/i.test(r.name||'')))W.push('ВЗиС введены и процентом, и строкой главы 8 или 9: двойной учёт');
+  if(!st.vz.on&&st.rows.some(r=>+r.ch===9&&/временн\S*\s+(?:здан|сооруж)|ВЗиС/i.test(r.name||'')))W.push('строка ВЗиС в главе 9: титульные временные здания и сооружения относят к главе 8 (421/пр п. 153)');
   const X0=xmlx(),TM=timCalc(st,X0?X0.PZ().duration:'');if(TM){W.push(...TM.W);
     chRows[9].push({osn:'Методика 421/пр, гл. XIII, пп. 207–213, формулы (7)–(12)',name:'Затраты, связанные с применением технологий информационного моделирования при строительстве, реконструкции объекта капитального строительства',b:0,m:0,e:0,o:k2(TM.STIM),tim:1});
     if(TM.sat)chRows[9].push({osn:'Методика 421/пр, п. 214'+(st.tim.satOsn?', '+st.tim.satOsn:''),name:'Затраты на использование спутниковой сети связи для применения ТИМ',b:0,m:0,e:0,o:k2(TM.sat),tim:1})}
@@ -5032,7 +5528,10 @@ function ssrModel(){const st=ST(),O=osrModel(),cur=O.cur,W=[...O.W.filter(x=>!x.
   let acc=g0();const CH={};const add=(ch)=>{if(!chRows[ch].length)return;out.push({k:'ch',t:`Глава ${ch}. ${SSR_CH[ch-1]}`});let s=g0();
     chRows[ch].forEach(r=>{out.push({k:'row',...r});s=gadd(s,r)});out.push({k:'tot',name:`Итого по главе ${ch}`,...s});acc=gadd(acc,s);CH[ch]={rows:chRows[ch],sum:{...s},acc:{...acc}}};
   const itog=t=>out.push({k:'tot2',name:t,...acc});
-  for(let c=1;c<=7;c++)add(c);itog('Итого по главам 1–7');add(8);itog('Итого по главам 1–8');add(9);itog('Итого по главам 1–9');
+  for(let c=1;c<=7;c++)add(c);itog('Итого по главам 1–7');
+  if(st.vz.on&&num(st.vz.pct)){const kind=st.vz.kind||'new',pv=num(st.vz.pct)*(kind==='rek'?0.8:1),base=kind==='kr'?obj:acc;
+    chRows[8].unshift({osn:(st.vz.osn||'приказ Минстроя России № 332/пр')+` (${fq(num(st.vz.pct))}%${kind==='rek'?' × 0,8':''} от ${kind==='kr'?'итога ОСР':'итога глав 1–7'}, графы 4–5)`,name:'Средства на строительство и разборку титульных временных зданий и сооружений',b:n2(base.b*pv/100),m:n2(base.m*pv/100),e:0,o:0,vz:1})}
+  add(8);itog('Итого по главам 1–8');add(9);itog('Итого по главам 1–9');
   const PIR=pirCalc({...acc},cur);if(st.pir.lines.length)W.push(...PIR.W);
   if(st.pir.to12&&PIR.T){chRows[12].push({osn:'Методика 707/пр, смета № '+st.pir.num,name:`Проектные работы (смета на проектные работы № ${st.pir.num})`,b:0,m:0,e:0,o:k2(PIR.T),pir:1});
     if(st.rows.some(r=>+r.ch===12&&/проектн/i.test(r.name||'')))W.push('проектные работы введены и строкой главы 12, и сметой на проектные работы: двойной учёт')}
@@ -5246,6 +5745,12 @@ function pirRow(l,X){const s=window.PIR_DB&&PIR_DB[l.src],t=s&&s.tables.find(x=>
   return {r,mn,mx,u:r[4],txt:`${s.short}, таблица ${t.code}, п. ${r[0]} «${r[1]}»${iv?', '+iv.trim()+' ('+r[4]+')':''}: a = ${fq(r[5])}, b = ${fq(r[6])} тыс. руб., уровень цен 01.01.${s.lvl}`}}
 function pirKOpts(l){const x=[],s=window.PIR_DB&&PIR_DB[l.src];if(l.src==='nz848'&&s)x.push(['Стеснённая территория или зона охраны ОКН (п. 17 НЗ 848/пр)','1,1',1]);
     if(s&&s.ks)for(const k of s.ks)if(!/^3\.\d+\.1$/.test(k[0])||(l.tab&&k[0]===l.tab+'.1'))x.push([`${k[1]} (табл. ${k[0]} ${s.short}${k[3]?': '+k[3].replace(/^К параметрам цены проектных работ /,'к ').slice(0,60):''})`,k[2],0]);return [...x,...PIR_KP]}
+/* №46а п. 16 (свод 4, П1): коэффициент ПИР. «111,02%» → 1,1102; значение больше 3 без подтверждения (kb) не умножается, а даёт вопрос «это процент?» */
+function pirKv(k){const s=String(k&&k.k!=null?k.k:'').trim(),x=num(s.replace('%',''));return /%/.test(s)?Math.round(x*100)/10000:x}
+function pirKIn(path,v){const out=[[path,v]];if(!/^pir\..*ks\.\d+\.k$/.test(path))return out;const s=String(v||'').trim(),x=num(s.replace('%',''));if(!s||!x)return out;
+  if(/%/.test(s)){const k=Math.round(x*100)/10000;toast(`${s} переведено в коэффициент ${fq(k)}`);return [[path,fq(k)],[path+'b',false]]}
+  if(x>3){const k=Math.round(x*100)/10000;if(confirm(`Коэффициент ${s} больше 3. Это процент? ${fq(x)} % = ${fq(k)}.\n\nОК — записать ${fq(k)}. Отмена — оставить ${s} как коэффициент`))return [[path,fq(k)],[path+'b',false]];return [[path,v],[path+'b',true]]}
+  return [[path,v],[path+'b',false]]}
 function pirCalc(acc,cur){const st=ST(),P=st.pir,W=[],L=[];const ist=num(P.ist)||1,kl=P.klOn?num(P.kl):0,DB=window.PIR_DB||null,IQ=DB?DB.idx[+P.idxQ||0]:null;
   const iprOf=l=>{const s=DB&&DB[l.src];if(s&&IQ&&IQ.v[s.lvl]!=null){const v=IQ.v[s.lvl];return {v,txt:`Ипр = ${fq(v)} (${IQ.osn}, ${IQ.q}, к уровню цен 01.01.${s.lvl})`}}const v=num(P.ipr)||1;if(s&&IQ){const w=`${s.short}: индекса Минстроя к уровню цен 01.01.${s.lvl} в программе нет, взят Ипр из поля «Ипр» (${fq(v)}) — введите его по письму Минстроя`;if(!W.includes(w))W.push(w)}return {v,txt:`Ипр = ${fq(v)}${P.iprOsn?' ('+P.iprOsn+')':''}`}};
   const NC=st.ncs&&st.ncs.toPir?ncsCalc():null,byN=!!(NC&&NC.T0),Sb=byN?n2(NC.T0*1000):n2((acc.b+acc.m+acc.e)*1000),Sstr=n2(Sb/ist),smr=byN?100:acc.b+acc.m+acc.e?(acc.b+acc.m)/(acc.b+acc.m+acc.e)*100:0,
@@ -5253,11 +5758,12 @@ function pirCalc(acc,cur){const st=ST(),P=st.pir,W=[],L=[];const ist=num(P.ist)|
   if(byN&&P.lines.some(l=>l.m==='pct'))W.push('смета ПИР: Сстр взята по НЦС — показатели НЦС уже включают ПИР, экспертизу, строительный контроль и резерв; на этапе проекта уточнить по итогу глав 1–9 ССР');
   if(P.lines.some(l=>(l.m==='nat'||l.m==='pct')&&!l.src)&&!num(P.ipr))W.push('смета на проектные работы: не указан индекс изменения сметной стоимости проектных работ Ипр (письмо Минстроя на квартал, к уровню цен НЗ), принят 1');
   if(P.klOn&&!kl)W.push('смета на проектные работы: включён районный коэффициент (п. 168), но Кл не указан');
-  const kp=(l,noUf,nm)=>{let uf=0,pr=1,uft=[],prt=[];for(const k of l.ks||[]){const v=num(k.k);if(!v)continue;
+  const kp=(l,noUf,nm)=>{let uf=0,pr=1,uft=[],prt=[];for(const k of l.ks||[]){const v=pirKv(k);if(!v)continue;
+      if(v>3&&!k.kb){W.push(`${nm}: коэффициент «${k.n||'без названия'}» = ${fq(v)} больше 3 и не учтён. Это процент? ${fq(v)} % = ${fq(Math.round(v*100)/10000)}: впишите ${fq(Math.round(v*100)/10000)} или «${fq(v)}%». Если это коэффициент, введите значение ещё раз и подтвердите`);continue}
       if(k.uf){if(noUf){W.push(`${nm}: усложняющие факторы табл. 5.1 при расчёте процентом от стоимости строительства не применяются (п. 142): «${k.n||fq(v)}» не учтён`);continue}
         if(v<1)W.push(`${nm}: коэффициент на усложняющий фактор меньше 1 (п. 167): «${k.n||fq(v)}»`);uf+=v-1;uft.push(fq(v))}else{pr*=v;prt.push(fq(v))}}
     const K=r3((1+uf)*pr);const t=[];if(uft.length)t.push(uft.length>1?`(1 + ${uft.map(x=>`(${x} − 1)`).join(' + ')})`:uft[0]);t.push(...prt);
-    return {K,txt:t.join(' × '),list:(l.ks||[]).filter(k=>num(k.k)&&!(noUf&&k.uf)).map(k=>`${k.n||'коэффициент'} — ${fq(num(k.k))}`)}};
+    return {K,txt:t.join(' × '),list:(l.ks||[]).filter(k=>{const v=pirKv(k);return v&&!(v>3&&!k.kb)&&!(noUf&&k.uf)}).map(k=>`${k.n||'коэффициент'} — ${fq(pirKv(k))}`)}};
   const rayon=(C,how)=>kl?{C:C*0.3161+C*0.6839*kl,how:`${how}; с районным коэффициентом (9.1): С × 0,3161 + С × 0,6839 × ${fq(kl)}`}:{C,how};
   let base=0;
   P.lines.forEach((l,i)=>{const nm=`строка ${i+1} сметы ПИР`,s0=DB&&DB[l.src],sp=s0&&(l.m==='nat'||l.m==='pct')&&l.stg&&l.stg!=='pr'?(pirSt(s0,l)??100):100,sh=(num(l.share)?num(l.share)/100:1)*sp/100,
@@ -5410,7 +5916,7 @@ function pirTreeClick(e){const r=e.target.closest('[data-pa]');if(!r)return;cons
 function pirBind(D){const st=ST(),P=st.pir;
   const setP=(path,v)=>{const ks=path.split('.');let o=st;for(let i=0;i<ks.length-1;i++){if(o[ks[i]]==null||typeof o[ks[i]]!=='object')o[ks[i]]={};o=o[ks[i]]}o[ks.at(-1)]=v};
   /* после пересчёта фокус возвращается в поле, куда перешёл пользователь (Tab) */
-  D.querySelectorAll('[data-sp]').forEach(x=>x.onchange=()=>{setP(x.dataset.sp,x.type==='checkbox'?x.checked:x.value);
+  D.querySelectorAll('[data-sp]').forEach(x=>x.onchange=()=>{for(const [k,v] of pirKIn(x.dataset.sp,x.type==='checkbox'?x.checked:x.value))setP(k,v);
     setTimeout(()=>{const a=document.activeElement,k=a&&a.dataset&&a.dataset.sp;commit();if(k){const n=document.querySelector(`[data-sp="${k}"]`);if(n){n.focus();if(n.select&&n.tagName==='INPUT'&&n.type!=='checkbox')n.select()}}},0)});
   D.querySelectorAll('[data-padd]').forEach(b=>b.onclick=()=>{P.lines.push(pirLine(b.dataset.padd));pirSel=P.lines.length-1;commit()});
   D.querySelectorAll('[data-pdel]').forEach(b=>b.onclick=()=>{pirSel=+b.dataset.pdel;pirDel()});
@@ -5686,7 +6192,8 @@ function renderOsr(){const st=ST(),X=xmlx(),pz=X?X.PZ():{},O=osrModel(),M=ssrMod
   if(osTab==='set')body=`<div class="osw">
    <section><h4>Объектный сметный расчёт (прил. 5)</h4><div class="ksf"><label>Номер ОСР${inp('osrNum',st.osrNum,'','110px')}</label><label>Расчётный измеритель, количество${inp('izmQ',st.izmQ,'например 36','110px')}</label><label>единица${inp('izmU',st.izmU,'','170px')}</label></div>
    <p class="u">Первая строка ОСР: эта смета «${esc(req().num)}», ${fmt(totals().total)} ₽ (строительные работы). Другие локальные расчёты объекта:</p>${money(st.lsr,'lsr')}
-   <div class="ost2">${chk('vz.on',st.vz.on,'Титульные временные здания и сооружения (п. 154)')} %${inp('vz.pct',st.vz.pct,'%','60px')} обоснование ${inp('vz.osn',st.vz.osn,'приказ Минстроя № 332/пр, пункт таблицы','340px')}</div>
+   <div class="ost2">${chk('vz.on',st.vz.on,'Титульные временные здания и сооружения (п. 154)')} %${inp('vz.pct',st.vz.pct,'%','60px')} обоснование ${inp('vz.osn',st.vz.osn,'приказ Минстроя № 332/пр, пункт таблицы','340px')} ${sel('vz.kind',st.vz.kind||'new',[['new','строительство: от итога глав 1–7 ССРСС'],['rek','реконструкция: норматив × 0,8'],['kr','выборочный капремонт: от итога ОСР']])}</div>
+   ${st.vz.on?'<p class="u" style="margin:2px 0 8px">В ОСР строка ВЗиС показана для расчёта зимнего удорожания (база с ВЗиС, 325/пр п. 18). В ССРСС объект идёт в свою главу без ВЗиС, а ВЗиС — отдельной строкой главы 8 (421/пр пп. 153–154, 332/пр пп. 23–25).</p>':''}
    <div class="ost2">${chk('win.on',st.win.on,'Зимнее удорожание')} %${inp('win.pct',st.win.pct,'%','60px')} обоснование ${inp('win.osn',st.win.osn,'приказ Минстроя № 325/пр, зона и вид объекта','340px')}</div></section>
    <section><h4>Сводный сметный расчёт (прил. 6)</h4><div class="ksf"><label>Номер ССРСС${inp('ssrNum',st.ssrNum,'','110px')}</label><label>Объект в главе<select data-sp="ch">${SSR_CH.slice(0,7).map((c,j)=>`<option value="${j+1}"${+st.ch===j+1?' selected':''}>${j+1}. ${c.slice(0,40)}</option>`).join('')}</select></label><label>Заказчик${inp('zakOrg',st.zakOrg,'','220px')}</label><label>Утверждён${inp('utv',st.utv,'дата и документ','200px')}</label></div>
    <p class="u">Прочие строки ССР по главам (главы 1, 3–9, 11, 12):</p>${money(st.rows,'rows')}
@@ -5714,7 +6221,7 @@ function renderOsr(){const st=ST(),X=xmlx(),pz=X?X.PZ():{},O=osrModel(),M=ssrMod
   const pk=$('#osPack');if(pk)pk.onclick=()=>{commit();X.exportPack()};
   $('#osSmp').onclick=()=>{if((st.lsr.length||st.rows.length)&&!confirm('Заменить данные стройки учебным примером?'))return;osSample();commit();renderOsr()};
   const setP=(path,v)=>{const ks=path.split('.');let o=st;for(let i=0;i<ks.length-1;i++){if(o[ks[i]]==null||typeof o[ks[i]]!=='object')o[ks[i]]={};o=o[ks[i]]}o[ks.at(-1)]=v};
-  D.querySelectorAll('[data-sp]').forEach(x=>x.onchange=()=>{setP(x.dataset.sp,x.type==='checkbox'?x.checked:x.value);commit();renderOsr()});
+  D.querySelectorAll('[data-sp]').forEach(x=>x.onchange=()=>{for(const [k,v] of pirKIn(x.dataset.sp,x.type==='checkbox'?x.checked:x.value))setP(k,v);commit();renderOsr()});
   D.querySelectorAll('[data-sadd]').forEach(b=>b.onclick=()=>{const k=b.dataset.sadd;st[k].push(k==='rows'?{ch:9,osn:'',name:'',b:'',m:'',e:'',o:''}:{num:'',name:'',b:'',m:'',e:'',o:''});commit();renderOsr()});
   D.querySelectorAll('[data-sdel]').forEach(b=>b.onclick=()=>{const [k,i]=b.dataset.sdel.split('.');st[k].splice(+i,1);commit();renderOsr()});
   if(osTab==='ncs'){const N=st.ncs,re=()=>{commit();renderOsr()};
@@ -5757,18 +6264,22 @@ function trRules(p,c,pn,pv,add){const N=splNotes(),has=re=>N.some(n=>re.test(n))
     add(w?'w':'i',p,pn,`В перевозку добавлены погрузка и разгрузка${w?': по примечаниям к ценам региона — только при обосновании':''}. Их учитывают, если они есть в условиях поставки или в проекте`,'пп. 63, 91')}
   if(p.ka){const rc=String(p.ka.rescode||'').replace(/^ТЦ_/,'').trim(),h=fgisHas(rc);
     if(h)add('w',p,pn,`Ресурс ${rc} есть в ФГИС ЦС этой зоны и квартала (${h}). Конъюнктурный анализ применяют, только если данных в ФГИС ЦС нет. Если по проекту нужен другой материал, укажите его код или оставьте графу 2 пустой`,'пп. 13, 89–90')}
-  if(p.tr&&!p.tr.mode&&pv&&pv.mr){const h=fgisHas(pv.mr.rc),km=c.km||Math.round(+p.tr.km||0);
-    if(h&&km){if(km<=30)add('e',p,pn,`Перевозка на ${km} км стоит сразу после материала ${pv.mr.rc} со сметной ценой ФГИС ЦС. Сметная цена уже учитывает перевозку на 30 км: отдельная строка её задваивает`,'п. 63');
+  if(p.tr&&!p.tr.mode&&pv&&pv.mr){const h=fgisHas(pv.mr.rc),km=c.km||Math.round(+p.tr.km||0);let rail=false;for(let j=S.pos.indexOf(p)+1;j<S.pos.length&&S.pos[j].tr;j++)if(S.pos[j].tr.mode==='rail')rail=true;
+    if(h&&km&&rail)add('i',p,pn,`Смешанная схема перевозки ${pv.mr.rc} (авто, ж/д, авто): 30 км, учтённые сметной ценой материала, исключают один раз, каждое плечо считают по своей цене. Проверьте строку «минус 30 км». Удобнее задать плечи в карточке материала: «Перевозка сверх 30 км…» → «По плечам»`,'п. 63');
+    else if(h&&km){if(km<=30)add('e',p,pn,`Перевозка на ${km} км стоит сразу после материала ${pv.mr.rc} со сметной ценой ФГИС ЦС. Сметная цена уже учитывает перевозку на 30 км: отдельная строка её задваивает`,'п. 63');
       else add('w',p,pn,`Перевозка на ${km} км после материала ${pv.mr.rc} со сметной ценой ФГИС ЦС: в цене уже учтены 30 км, в смету идёт только перевозка сверх учтённого. Удалите эту строку и откройте в карточке материала «Перевозка сверх 30 км…»: Римора вычтет 30 км сама`,'п. 63')}}}
 function checkSmeta(){const F=[],cur=S.level!=='base';let n=0,si=0,secOpen=null,secCnt=0;const codes=new Map();let byIdx=0,zas=0,raz=0;
   // материалы, вынесенные отдельными позициями сразу после расценки (ФСБЦ или КА, как подпозиции «2.1» в ГРАНД-Смете): группа считается выбранной
   const subM=new Map();{let last=null;for(const p of S.pos){if(p.sec!==undefined){last=null;continue}if(p.mr||p.ka){if(last){const rc=p.mr?p.mr.rc:String(p.ka.rescode||'').replace(/^ТЦ_/,'');if(rc)subM.get(last).push(rc)}}else if(!p.tr){last=p.id;subM.set(last,[])}}}
   const add=(lv,p,pn,t,ref)=>F.push({lv,id:p?p.id:null,pn,code:p?(p.ka?'КА':p.code):'',t,ref:ref||''});
+  for(const x of (S.kall&&S.kall.kc)||[])if(/МДС\s*81-35/i.test((x.j||'')+' '+(x.n||'')))add('e',null,'',`Обоснование коэффициента сметы «${x.n||x.j}» ссылается на МДС 81-35.2004. Она отменена с 05.10.2020 и заменена Методикой 421/пр: укажите пункт Методики, ТЧ сборника или проект`,'421/пр');
   let prevP=null;const closeSec=()=>{if(secOpen!==null&&!secCnt)add('w',null,'',`Раздел «${secOpen}» пустой: удалите его или добавьте позиции`)};
   for(const p of S.pos){
     if(p.sec!==undefined){closeSec();secOpen=p.sec;secCnt=0;si++;prevP=null;continue}
     n++;secCnt++;const c=calc(p),R=c.R,pn=n,pv=prevP;prevP=p;trRules(p,c,pn,pv,add);
-    if(!(+p.qty>0))add('e',p,pn,`Объём «${p.qty??''}» не указан или не больше нуля: позиция не войдёт в стоимость`);
+    /* №46а п. 15 (свод 3, Б7): отрицательный объём итог вычитает — пишем, на сколько он уменьшает итог; правило ждёт решения Экспертного совета */
+    if(+p.qty<0)add('w',p,pn,`Объём ${fq(+p.qty)}: позиция уменьшает итог на ${fmt(Math.abs(c.total||0))} ₽. Для норм «добавлять/исключать» проверьте, что основная позиция не ушла в минус`);
+    else if(!(+p.qty>0))add('e',p,pn,`Объём «${p.qty??''}» не указан или равен нулю: позиция не войдёт в стоимость`);
     if(p.ka){if(!p.ka.offers.some(o=>+o.price>0)){add('e',p,pn,'Карточка конъюнктурного анализа не заполнена: нет ни одного предложения с ценой, материал стоит 0 ₽. Откройте карточку и внесите не менее 3 предложений','пп. 13, 90');continue}
       for(const [,t] of kaChecks(p.ka))add('w',p,pn,'Конъюнктурный анализ: '+t);continue}
     if(p.mr){for(const w of c.warn)add('w',p,pn,(R.ob?'Оборудование: ':'Материал: ')+w);continue}
@@ -5778,7 +6289,7 @@ function checkSmeta(){const F=[],cur=S.level!=='base';let n=0,si=0,secOpen=null,
     if(c.off&&c.off.length)add('i',p,pn,`Исключены ресурсы: ${c.off.map(l=>l.rc).join(', ')}. Проверьте, что это обосновано проектом`);
     if(!R.real){if(c.warn&&c.warn.length)for(const w of c.warn)add('e',p,pn,w.charAt(0).toUpperCase()+w.slice(1),'ФРСН');else add('i',p,pn,'Учебная расценка УЧ: в настоящей смете используйте ГЭСН из ФСНБ-2022');continue}
     const k=p.code;codes.set(k,[...(codes.get(k)||[]),{p,pn}]);
-    if(ksOf(p).includes('П58')&&/^(?:мр|м|р|п)\d/.test(p.code))add('e',p,pn,'Коэффициенты 1,15 и 1,25 (ремонт по нормам нового строительства) к ГЭСНм, ГЭСНмр, ГЭСНр и ГЭСНп не применяются: снимите коэффициент','п. 59');
+    if(ksOf(p).includes('П58')&&/^(?:мр|м|рр|р|п)\d|^46-/.test(p.code))add('e',p,pn,/^46-/.test(p.code)?'Коэффициенты 1,15 и 1,25 (ремонт по нормам нового строительства) к ГЭСН 81-02-46 «Работы при реконструкции» не применяются: снимите коэффициент':'Коэффициенты 1,15 и 1,25 (ремонт по нормам нового строительства) к ГЭСНм, ГЭСНмр, ГЭСНр, ГЭСНрр и ГЭСНп не применяются: снимите коэффициент',/^46-/.test(p.code)?'п. 59 «а»':'п. 59 «б»');
     for(const w of c.warn){
       if(w.startsWith('нет цены'))add('e',p,pn,`Нет цены ресурса (${w.replace(/^[^:]+:\s*/,'')}): стоимость позиции занижена. Нужен конъюнктурный анализ`,'пп. 13, 90');
       else if(w.startsWith('расход «П»'))add('w',p,pn,`Материал с расходом «П» (${w.replace(/^[^:]+:\s*/,'')}): добавьте его отдельной строкой с расходом и ценой по проекту`,'пп. 85–86');
@@ -5787,12 +6298,20 @@ function checkSmeta(){const F=[],cur=S.level!=='base';let n=0,si=0,secOpen=null,
     {const R0=B.rates[p.code];if(p.nk&&R0&&R0.nk&&p.nk!==R0.nk)add('w',p,pn,`Вид работ для НР и СП изменён: пункт ${p.nk} вместо пункта ${R0.nk}, к которому норму относит ФСНБ-2022. Норматив выбирают по виду работ, приложите обоснование`,'812/пр пп. 20–21')}
     if(cur){const nb=c.lines.filter(l=>l.src==='базис, индекса нет');if(nb.length)add('e',p,pn,`В регионе нет ни цены, ни индекса группы, в смете 0 ₽: ${nb.slice(0,3).map(l=>l.rc+' '+l.name.slice(0,40)).join('; ')}${nb.length>3?` и ещё ${nb.length-3}`:''}. Цену нужно определить конъюнктурным анализом и добавить отдельной позицией`,'пп. 13, 90, 97');
       byIdx+=c.lines.filter(l=>l.src==='базис × индекс').length}
-    const ks=ksOf(p),t1=ks.filter(x=>x.startsWith('Т1.')),t5=ks.filter(x=>x.startsWith('Т5.')),rem=ks.includes('П58');
+    const ks=ksOf(p),t1=ks.filter(x=>x.startsWith('Т1.')),t5=ks.filter(x=>x.startsWith('Т5.')),t3=ks.filter(x=>x.startsWith('Т3.')),rem=ks.includes('П58');
+    if(t3.length&&(t1.length||t5.length))add('e',p,pn,`Коэффициенты реконструкции (${t3.join(', ')}) вместе с коэффициентами ${[...t1,...t5].join(', ')}: выберите одну таблицу прил. 10 по виду работ`,'пп. 52–61, прил. 10');
     if(t1.length&&t5.length)add('e',p,pn,`Коэффициенты для строительства (${t1.join(', ')}) и капремонта (${t5.join(', ')}) в одной позиции: выберите одну таблицу`,'пп. 52–61, прил. 10');
-    if(t5.length&&!rem)add('w',p,pn,`Коэффициент капремонта (${t5.join(', ')}) к норме нового строительства: при ремонте по ГЭСН нужен и коэффициент п. 58б (П58). Проверьте вид работ`,'п. 58б');
+    const dmN=/разборк|демонтаж/i.test(R.name)&&!/(?:установк|монтаж|устройств|сборк)\S*\s+и\s+(?:разборк|демонтаж)/i.test(R.name),dmK=kcOf(p).some(x=>/демонтаж|разборк/i.test((x.n||'')+' '+(x.j||''))||kcM(x)===0&&kcO(x)<1);
+    if(rem&&!dmN&&!dmK&&!/^(?:мр|м|рр|р|п)\d|^46-/.test(p.code))add('i',p,pn,'П58 (1,15 и 1,25) применяют, если в ГЭСНр нет нормы, технология как в новом строительстве и выполнены условия п. 60: схемы производства работ ГЭСН применить нельзя, работы идут малыми участками. Укажите документ, где это обосновано (ПОС, дефектная ведомость, акт обследования)','пп. 58б, 59 «е», 60');
+    {const md=kcOf(p).filter(x=>!x.all&&/МДС\s*81-35/i.test((x.j||'')+' '+(x.n||'')));if(md.length)add('e',p,pn,`Обоснование коэффициента «${md.map(x=>x.n||x.j).join('», «')}» ссылается на МДС 81-35.2004. Она отменена с 05.10.2020 и заменена Методикой 421/пр: укажите пункт Методики, ТЧ сборника или проект`,'421/пр')}
+    {const np=kcOf(p).filter(x=>!x.all&&!x.p10&&kcP10((x.j||'')+' '+(x.n||'')));if(np.length)add('i',p,pn,`Свой коэффициент «${np.map(x=>x.n||x.j).join('», «')}» взят из таблиц прил. 10, но перемножается. По п. 52 он складывается с коэффициентами производительности: удалите его и добавьте заново с отметкой «Из прил. 10»`,'п. 52')}
+    {const L=(c.lines||[]).filter(l=>l.mod==='замена'||l.mod==='норма');const z=L.filter(l=>l.mod==='замена'),nn=L.filter(l=>l.mod==='норма');
+      if(z.length)add('w',p,pn,`Заменён учтённый ресурс нормы: ${z.map(l=>l.from+' → '+l.rc+(l.t==='ЭМ'?' (машина)':'')).join('; ')}. Сметные нормы не корректируют: замена допустима, когда её требует проект, сошлитесь на проект, ДВ или ВОР. Иначе посчитайте ресурс по конъюнктурному анализу или подберите другую норму`,'571/пр пп. 5, 7, 11, 22');
+      if(nn.length)add('w',p,pn,`Изменён расход учтённого ресурса: ${nn.map(l=>l.rc+' '+(l.orig==='П'?'П':fq(l.orig))+' → '+(l.norm==='П'?'П':fq(l.norm))).join('; ')}. Расход учтённых ресурсов в сметной норме не меняют: если по проекту нужен другой расход, подберите другую норму или сошлитесь на проект`,'571/пр пп. 5, 7, 11, 22')}
+    {const nt=kcOf(p).filter(x=>/ноч|сверхуроч|выходн|праздн|многосмен/i.test((x.n||'')+' '+(x.j||'')));if(nt.length)add('w',p,pn,`Свой коэффициент «${nt.map(x=>x.n||x.j).join('», «')}»: доплаты за работу ночью, сверхурочно, в выходные и праздники и многосменный режим уже входят в сметную цену труда рабочего (534/пр, прил. 3, п. 1 «б»). Отдельный коэффициент их задваивает`,'534/пр прил. 3 п. 1 «б»')}
     if(rem&&t1.length)add('w',p,pn,`П58 (ремонт) вместе с коэффициентом строительства ${t1.join(', ')}: для ремонта берут таблицу 5`,'п. 58б, прил. 10');
-    if(rem&&/разборк|демонтаж/i.test(R.name))add('e',p,pn,'Коэффициент п. 58б не применяют к нормам на разборку и демонтаж','п. 59');
-    if(t1.length>1||t5.length>1)add('i',p,pn,`Несколько коэффициентов снижения производительности из одной таблицы (${(t1.length>1?t1:t5).join(', ')}) не перемножаются, а складываются: К = ${fq(c.kprod)}`,'пп. 52–61');
+    if(rem&&!/^(?:мр|м|рр|р|п)\d|^46-/.test(p.code)&&(dmN||dmK))add('e',p,pn,dmN?'Коэффициент п. 58б не применяют к нормам на разборку и демонтаж':'Коэффициент п. 58б не применяют к демонтажу по норме на устройство (монтаж) с понижающим коэффициентом: снимите П58 или демонтажный коэффициент',dmN?'п. 59 «в»':'п. 59 «г»');
+    if(c.kpa.length>1)add('i',p,pn,`Несколько коэффициентов снижения производительности (${c.kpa.map(a=>a[0]).join(', ')}) не перемножаются, а складываются: К = ${c.kpa.map(a=>'('+fq(a[1])+' − 1)').join(' + ')} + 1 = ${fq(c.kprod)}`,'п. 52');
     if(/на каждые.*(добавлять|исключать)/i.test(R.name)&&!(p.kr>0&&p.kr!==1))add('i',p,pn,'Расценка «на каждые … добавлять или исключать» применена 1 раз. Если изменение толщины (расстояния) больше одного шага, задайте кратность в карточке позиции');
     if(c.q>0&&c.q<0.001)add('w',p,pn,`Объём в единицах расценки очень мал: ${fq(c.q)} × ${pu(R.unit)}. Проверьте, в каких единицах введён объём`);
     if(c.q>10000)add('w',p,pn,`Объём в единицах расценки очень велик: ${fq(c.q)} × ${pu(R.unit)}. Проверьте, в каких единицах введён объём`);
@@ -5831,7 +6350,7 @@ function openKall(){const K=S.kall?JSON.parse(JSON.stringify(S.kall)):{ks:[],kc:
   dlg(`<div class="dch"><h3>Коэффициенты на всю смету</h3><button class="x" id="kax" aria-label="Закрыть">×</button></div>
   <div class="conv">Действуют на все позиции по расценкам ФСНБ (${on.length-off} из ${on.length}${off?`, ${off} отключены в карточке позиции`:''}). К перевозке, материалам отдельной позицией и конъюнктурному анализу не применяются. Складываются и перемножаются с коэффициентами позиции так же, как её собственные.</div>
   <div class="sect"><h5>Свои коэффициенты сметы</h5>${(K.kc||[]).map((x,i)=>`<div class="kcrow"><div><div>${esc(kcTxt(x))}</div>${x.j?`<div class="u">${esc(x.j)}</div>`:'<div class="u" style="color:var(--warn)">Нет обоснования</div>'}</div><button class="btn sm" data-kadel="${i}" aria-label="Убрать коэффициент">×</button></div>`).join('')||'<div class="conv">Пока нет.</div>'}
-  <div class="kcadd"><input id="kaj" placeholder="Обоснование: МДС 81-35.2004, прил. 1 п. 4.2"><input id="kan" placeholder="Название"><label>ОЗП и ТЗ<input id="kaot" inputmode="decimal" placeholder="1"></label><label>ЭМ и ЗПМ<input id="kaem" inputmode="decimal" placeholder="1"></label><label>МАТ<input id="kam" inputmode="decimal" placeholder="1"></label><button class="btn" id="kaok">Добавить</button></div></div>
+  <div class="kcadd"><input id="kaj" placeholder="Обоснование: пункт Методики 421/пр, ТЧ сборника, проект"><input id="kan" placeholder="Название"><label>ОЗП и ТЗ<input id="kaot" inputmode="decimal" placeholder="1"></label><label>ЭМ и ЗПМ<input id="kaem" inputmode="decimal" placeholder="1"></label><label>МАТ<input id="kam" inputmode="decimal" placeholder="1"></label><button class="btn" id="kaok">Добавить</button>${KC_P10('ka')}</div></div>
   <div class="sect"><h5>Коэффициенты из таблиц Методики (421/пр, прил. 10)</h5>${Object.entries(groups).map(([g,L])=>`<div class="u" style="margin:8px 0 2px">${esc(g)}</div>`+L.map(sw).join('')).join('')}</div>
   <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px"><button class="btn" id="kaclr" ${kallN()?'':'disabled'}>Снять все</button><button class="btn pri" id="kadone">Готово</button></div>`,true);
   const save=()=>{if(!(K.ks||[]).length&&!(K.kc||[]).length)delete S.kall;else S.kall={ks:K.ks||[],kc:K.kc||[]};commit();openKall()};
@@ -5839,10 +6358,9 @@ function openKall(){const K=S.kall?JSON.parse(JSON.stringify(S.kall)):{ks:[],kc:
   $('#kaclr').onclick=()=>{K.ks=[];K.kc=[];save();toast('Коэффициенты сметы сняты')};
   $$('[data-ka]').forEach(b=>{const t=()=>{const id=b.dataset.ka;K.ks=K.ks||[];const i=K.ks.indexOf(id);i>=0?K.ks.splice(i,1):K.ks.push(id);save()};b.onclick=t;b.onkeydown=e=>{if(e.key===' '||e.key==='Enter'){e.preventDefault();t()}}});
   $$('[data-kadel]').forEach(b=>b.onclick=()=>{K.kc.splice(+b.dataset.kadel,1);save()});
-  $('#kaok').onclick=()=>{const v=id=>{const t=$(id).value.trim();if(!t)return 1;const n=parseFloat(t.replace(/\s/g,'').replace(',','.'));return isFinite(n)&&n>0?n:NaN};
-    const ot=v('#kaot'),em=v('#kaem'),m=v('#kam');if([ot,em,m].some(isNaN))return toast('Коэффициент — число больше нуля, например 1,15');
-    if(ot===1&&em===1&&m===1)return toast('Укажите хотя бы одно значение, отличное от 1');
-    (K.kc=K.kc||[]).push({j:$('#kaj').value.trim(),n:$('#kan').value.trim(),ot,em,m});save()}}
+  $('#kaok').onclick=()=>{const ot=kcIn('#kaot'),em=kcIn('#kaem'),m=kcIn('#kam',1);if([ot,em,m].some(isNaN))return toast('Коэффициент — число больше нуля, например 1,15. МАТ может быть 0');
+    if(ot===1&&em===1&&m===1)return toast('Укажите хотя бы одно значение, отличное от 1');const x={j:$('#kaj').value.trim(),n:$('#kan').value.trim(),ot,em,m};if($('#kap10').checked)x.p10=1;
+    (K.kc=K.kc||[]).push(x);save()}}
 function openCheck(){if(PM())return pirCheck();if(NM())return ncsCheck();if(!S.pos.some(p=>p.sec===undefined))return toast('Смета пуста: проверять нечего');renderCheck()}
 function renderCheck(){const F=checkSmeta(),cnt=k=>F.filter(x=>x.lv===k).length,V=ckF==='all'?F:F.filter(x=>x.lv===ckF);
   const verdict=cnt('e')?`Найдено ошибок: ${cnt('e')}. Исправьте их до сдачи сметы.`:cnt('w')?'Ошибок нет, но есть предупреждения: проверьте их.':'Замечаний по правилам проверки нет.';
@@ -6080,40 +6598,74 @@ function calcTR(p){if(p.tr.mode==='load')return calcTRload(p);if(p.tr.mode==='ra
     q:mass,ot:0,otm:0,emN:0,em:0,mat:0,per,direct:per,fot:0,nr:0,sp:0,total:per,nrp:0,spp:0,zt:0,ztm:0,lines:[],warn,pt,code,km,T,rows}}
 /* перевозка материала сверх 30 км: сметная цена ФГИС ЦС уже включает перевозку на 30 км, поэтому вычитаем её и прибавляем
    перевозку на фактическое расстояние (строки «ФСБЦ-…_02-15-…-0030» с минусом и «…-00NN» в ГРАНД-Смете). Масса единицы — из проекта или справочника. */
+/* смешанная схема (п. 63): 30 км, учтённые сметной ценой, исключаются один раз, затем каждое плечо своей строкой и своей ценой:
+   авто по цене на длину плеча, ж/д по цене ФГИС ЦС на тарифное расстояние. d.legs=[{mode:'auto',road,km}|{mode:'rail',rg,km}] */
+function dpLegs(d,T,mass,m,full){const cl=+d.cls||1,c30=T.combos.find(x=>x.road===2&&x.veh===d.veh&&x.cap===d.cap);
+  if(!c30)return {err:`для машины «${d.veh} ${d.cap}» нет цен по дорогам с усовершенствованным покрытием: не из чего исключить 30 км`};
+  const p30=c30.p[29][cl-1];if(p30==null)return {err:'нет цены на 30 км'};
+  const rows=[{code:trCode(c30,cl,30),pt:p30,qty:mass,sum:-r2(mass*p30),km:30,road:2,name:trNm(cl,d.veh,d.cap,2,30)}];let km=0;
+  for(const [i,l] of d.legs.entries()){const lk=Math.max(0,Math.round(+l.km||0));if(!lk)continue;km+=lk;
+    if(l.mode==='rail'){const X=railPrice(l.rg,lk);if(X.err)return {err:'плечо '+(i+1)+' (ж/д): '+X.err};
+      rows.push({code:X.code,pt:X.pt,qty:mass,sum:r2(X.pt*mass),km:lk,mode:'rail',name:`Перевозка грузов железнодорожным транспортом: ${X.name}, тарифное расстояние ${lk} км (плечо ${i+1})`});continue}
+    const c=T.combos.find(x=>x.road===+l.road&&x.veh===d.veh&&x.cap===d.cap);if(!c)return {err:`плечо ${i+1}: для машины «${d.veh} ${d.cap}» нет цен ${ROADN(+l.road)}`};
+    if(lk>c.p.length)return {err:`плечо ${i+1}: цены есть до ${c.p.length} км`};const pt=c.p[lk-1][cl-1];if(pt==null)return {err:`плечо ${i+1}: нет цен для ${ROMAN[cl-1]} класса груза`};
+    rows.push({code:trCode(c,cl,lk),pt,qty:mass,sum:r2(pt*mass),km:lk,road:+l.road,name:trNm(cl,d.veh,d.cap,+l.road,lk)+` (плечо ${i+1})`})}
+  if(rows.length<2)return {err:'не указано расстояние плеч'};
+  return {mass,km,cl,veh:d.veh,cap:d.cap,m,full,legs:1,rows,sum:r2(rows.reduce((a,r)=>a+r.sum,0))}}
 function dpCalc(d,qty){if(S.level==='base')return {err:'в базисном уровне не считается'};const T=trSet();if(!T)return {err:'цены перевозки загружаются'};
+  /* п. 67 Методики 421/пр: оборачиваемые ресурсы (леса, опалубка) везут комплектом целиком, а не долей в норме: d.full — масса комплекта, т */
+  const m=+d.m||0,full=+d.full>0?+d.full:0;if(!full&&!(m>0))return {err:'не указана масса единицы, т'};
+  if(d.legs&&d.legs.length)return dpLegs(d,T,full?r7(full):r7(qty*m),m,full);
   const X=trRoute(d,T);if(X.err)return X;if(X.km<=30)return {err:'до 30 км перевозка уже входит в сметную цену ФГИС ЦС'};
-  const m=+d.m||0;if(!(m>0))return {err:'не указана масса единицы, т'};
   /* п. 63 Методики 421/пр: исключается перевозка, учтённая сметной ценой, — 30 км по дорогам с усовершенствованным покрытием, какой бы ни был маршрут */
-  const mass=r7(qty*m),c30=T.combos.find(x=>x.road===2&&x.veh===d.veh&&x.cap===d.cap);if(!c30)return {err:`для машины «${d.veh} ${d.cap}» нет цен по дорогам с усовершенствованным покрытием: не из чего исключить 30 км`};
+  const mass=full?r7(full):r7(qty*m),c30=T.combos.find(x=>x.road===2&&x.veh===d.veh&&x.cap===d.cap);if(!c30)return {err:`для машины «${d.veh} ${d.cap}» нет цен по дорогам с усовершенствованным покрытием: не из чего исключить 30 км`};
   const p30=c30.p[29][X.cl-1];if(p30==null)return {err:'нет цены на 30 км'};
   const minus={code:trCode(c30,X.cl,30),pt:p30,qty:mass,sum:-r2(mass*p30),km:30,road:2,name:trNm(X.cl,d.veh,d.cap,2,30)};
   const plus=X.rows.map(r=>{const q=X.rows.length>1?r7(mass*r.share):mass;return {code:r.code,pt:r.pt,qty:q,sum:r2(r.pt*q),km:X.km,road:r.road,name:r.name}});
-  return {mass,km:X.km,cl:X.cl,veh:d.veh,cap:d.cap,m,rows:[minus,...plus],sum:r2(minus.sum+plus.reduce((a,r)=>a+r.sum,0))}}
+  return {mass,km:X.km,cl:X.cl,veh:d.veh,cap:d.cap,m,full,rows:[minus,...plus],sum:r2(minus.sum+plus.reduce((a,r)=>a+r.sum,0))}}
+const DP_LEGS0=()=>[{mode:'auto',road:2,km:''},{mode:'rail',rg:'',km:''},{mode:'auto',road:2,km:''}];
+function dpLegsHtml(d,T){const RS=railSet(),G=RS.T?RS.T.g:[];
+  return d.legs.map((l,i)=>`<div style="display:flex;gap:6px;margin:4px 0;align-items:center"><span class="u" style="width:14px">${i+1}</span><select data-li="${i}" data-lk="mode" style="width:84px"><option value="auto" ${l.mode!=='rail'?'selected':''}>Авто</option><option value="rail" ${l.mode==='rail'?'selected':''}>Ж/д</option></select>${l.mode==='rail'?`<input data-li="${i}" data-lk="rg" list="dprgl" value="${esc((G.find(g=>g[1]===l.rg)||[''])[0])}" placeholder="${G.length?'группа груза: щебень, цемент…':'загружаю перечень…'}" style="flex:1;min-width:0">`:`<select data-li="${i}" data-lk="road" style="flex:1;min-width:0">${T.roads.map((n,k)=>`<option value="${k}" ${k===+l.road?'selected':''}>${esc(n)}</option>`).join('')}</select>`}<input data-li="${i}" data-lk="km" value="${esc(l.km)}" inputmode="numeric" style="width:64px" placeholder="км">${d.legs.length>1?`<button class="btn" data-ldel="${i}" title="Убрать плечо">×</button>`:''}</div>`).join('')+`<datalist id="dprgl">${G.map(g=>`<option value="${esc(g[0])}">`).join('')}</datalist>`}
 function dpQty(p,rc){const c=calc(p);if(p.mr)return c.q;const l=(c.lines||[]).find(l=>l.rc===rc&&l.t==='М');return l?l.qty:0}
 function dpOpen(p,rc){const r=B.res[rc];if(!r)return;if(!trSet()){ensureTR().then(()=>dpOpen(p,rc));return toast('Загружаю цены перевозки…')}
   const T=trSet(),d0=(p.dp&&p.dp[rc])||{veh:'Автомобили-самосвалы',cap:'до 15 т',cls:1,road:2,km:'',m:''},d=JSON.parse(JSON.stringify(d0));
-  if(!d.seg||!d.seg.length)d.seg=[{road:d.road,km:d.km}];const qty=dpQty(p,rc);
+  if(!d.seg||!d.seg.length)d.seg=[{road:d.road,km:d.km}];if(d.legs)railSet();const qty=dpQty(p,rc);
   const vcs=[...new Set(T.combos.map(x=>x.veh+'|'+x.cap))];
   const draw=()=>{const x=dpCalc(d,qty);
-    $('#dpseg').innerHTML=d.seg.map((s,i)=>`<div style="display:flex;gap:6px;margin:4px 0"><select data-si="${i}" data-sk="road" style="flex:1">${T.roads.map((n,k)=>`<option value="${k}" ${k===+s.road?'selected':''}>${esc(n)}</option>`).join('')}</select><input data-si="${i}" data-sk="km" value="${esc(s.km)}" inputmode="numeric" style="width:70px" placeholder="км">${d.seg.length>1?`<button class="btn" data-sdel="${i}" title="Убрать участок">×</button>`:''}</div>`).join('');
-    $('#dpv').innerHTML=x.err?`<span class="wn">⚠ ${esc(x.err)}</span>`:`<table class="rs"><tbody>${x.rows.map(r=>`<tr><td class="mono">ФСБЦ-${esc(rc)}_${esc(r.code)}</td><td>${esc(r.name)}</td><td class="r num">${fq(r.qty)} т</td><td class="r num">${fmt(r.pt)}</td><td class="r num">${r.sum<0?'× −1 ':''}</td><td class="r num"><b>${fmt(r.sum)}</b></td></tr>`).join('')}</tbody></table><div class="conv num">Масса: ${fq(qty)} ${esc(pu(r.unit))} × ${fq(x.m)} т = ${fq(x.mass)} т · итого перевозка сверх 30 км: <b>${fmt(x.sum)}</b> ₽</div>`;
+    $('#dpseg').innerHTML=d.legs?dpLegsHtml(d,T):d.seg.map((s,i)=>`<div style="display:flex;gap:6px;margin:4px 0"><select data-si="${i}" data-sk="road" style="flex:1">${T.roads.map((n,k)=>`<option value="${k}" ${k===+s.road?'selected':''}>${esc(n)}</option>`).join('')}</select><input data-si="${i}" data-sk="km" value="${esc(s.km)}" inputmode="numeric" style="width:70px" placeholder="км">${d.seg.length>1?`<button class="btn" data-sdel="${i}" title="Убрать участок">×</button>`:''}</div>`).join('');
+    $('#dpv').innerHTML=x.err?`<span class="wn">⚠ ${esc(x.err)}</span>`:`<table class="rs"><tbody>${x.rows.map(r=>`<tr><td class="mono">ФСБЦ-${esc(rc)}_${esc(r.code)}</td><td>${esc(r.name)}</td><td class="r num">${fq(r.qty)} т</td><td class="r num">${fmt(r.pt)}</td><td class="r num">${r.sum<0?'× −1 ':''}</td><td class="r num"><b>${fmt(r.sum)}</b></td></tr>`).join('')}</tbody></table><div class="conv num">${x.full?`Масса комплекта целиком: ${fq(x.mass)} т (п. 67)`:`Масса: ${fq(qty)} ${esc(pu(r.unit))} × ${fq(x.m)} т = ${fq(x.mass)} т`} · итого перевозка сверх 30 км${x.legs?' по плечам':''}: <b>${fmt(x.sum)}</b> ₽</div>`;
     $$('#dpseg [data-si]').forEach(e=>e.onchange=()=>{const s=d.seg[+e.dataset.si];s[e.dataset.sk]=e.dataset.sk==='road'?+e.value:Math.max(0,Math.round(+String(e.value).replace(',','.')||0));draw()});
-    $$('#dpseg [data-sdel]').forEach(e=>e.onclick=()=>{d.seg.splice(+e.dataset.sdel,1);draw()})};
+    $$('#dpseg [data-sdel]').forEach(e=>e.onclick=()=>{d.seg.splice(+e.dataset.sdel,1);draw()});
+    $$('#dpseg [data-li]').forEach(e=>e.onchange=()=>{const l=d.legs[+e.dataset.li],k=e.dataset.lk;
+      if(k==='mode'){l.mode=e.value;if(l.mode==='rail'){delete l.road;l.rg=l.rg||''}else{l.road=2;delete l.rg}}else if(k==='road')l.road=+e.value;
+      else if(k==='km')l.km=Math.max(0,Math.round(+String(e.value).replace(',','.')||0));
+      else{const v=e.value.trim().toLowerCase(),G=(railSet().T||{g:[]}).g,g=G.find(g=>g[0].toLowerCase()===v)||G.find(g=>g[0].toLowerCase().includes(v));if(!g)toast('Такой группы груза нет в перечне ФГИС ЦС');else l.rg=g[1]}draw()});
+    $$('#dpseg [data-ldel]').forEach(e=>e.onclick=()=>{d.legs.splice(+e.dataset.ldel,1);draw()})};
   dlg(`<div class="dch"><h3>${ic('bolt')} Перевозка сверх 30 км</h3><button class="x" onclick="document.getElementById('dlgbg').classList.remove('on')" aria-label="Закрыть">×</button></div>
    <p class="u"><span class="mono">${esc(rc)}</span> ${esc(r.name)}. В сметной цене ФГИС ЦС уже учтена перевозка на 30 км. Программа вычтет её и прибавит перевозку на фактическое расстояние, как строки «ФСБЦ-…_02-15-…» в ГРАНД-Смете. Цены: ${esc(T.meta.subject)}, ${esc(T.meta.quarter)}.</p>
    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
     <label class="ctl">Масса ${esc(pu(r.unit))}, т<input id="dpm" value="${d.m?fq(d.m):''}" inputmode="decimal" placeholder="песок 1,5; щебень 1,4"></label>
     <label class="ctl">Класс груза<select id="dpcls">${ROMAN.map((x,i)=>`<option value="${i+1}" ${i+1===+d.cls?'selected':''}>${x} класс</option>`).join('')}</select></label>
-    <label class="ctl" style="grid-column:1/3">Машина<select id="dpvc">${vcs.map(v=>`<option value="${esc(v)}" ${v===d.veh+'|'+d.cap?'selected':''}>${esc(v.replace('|',' '))}</option>`).join('')}</select></label></div>
-   <h5 style="margin:10px 0 2px">Маршрут: тип дороги и расстояние, км</h5><div id="dpseg"></div>
-   <p style="margin:4px 0"><button class="btn" id="dpadd">+ участок другой дороги</button> <span class="u">Цена каждого типа дороги берётся на всё расстояние, масса делится по долям участков.</span></p>
+    <label class="ctl" style="grid-column:1/3">Машина<select id="dpvc">${vcs.map(v=>`<option value="${esc(v)}" ${v===d.veh+'|'+d.cap?'selected':''}>${esc(v.replace('|',' '))}</option>`).join('')}</select></label>
+    <label class="ctl" style="grid-column:1/3">Масса комплекта целиком, т (если везут весь комплект)<input id="dpfull" value="${d.full?fq(d.full):''}" inputmode="decimal" placeholder="пусто: масса единицы × количество"></label></div>
+   ${/^08-07-00[12]/.test(p.code||'')?'<p class="u" style="margin:6px 0 0">Леса: в норме стоит доля ресурса с учётом оборачиваемости (сталь ÷60, щиты ÷4,3). Везут весь комплект, это не задвоение: укажите массу комплекта целиком (п. 67 Методики 421/пр, ТЧ ГЭСН08 п. 1.8.16).</p>':''}
+   <label style="display:flex;gap:6px;align-items:center;margin:10px 0 2px"><input type="checkbox" id="dpmix" ${d.legs?'checked':''}> По плечам: авто, железная дорога, авто (смешанная схема)</label>
+   <h5 style="margin:6px 0 2px">${d.legs?'Плечи маршрута: вид транспорта и расстояние, км':'Маршрут: тип дороги и расстояние, км'}</h5><div id="dpseg"></div>
+   <p style="margin:4px 0"><button class="btn" id="dpadd">${d.legs?'+ плечо':'+ участок другой дороги'}</button> <span class="u">${d.legs?'30 км, учтённые в сметной цене, вычитаются один раз. Каждое плечо считается по своей цене: авто на длину плеча, ж/д на тарифное расстояние (п. 63).':'Цена каждого типа дороги берётся на всё расстояние, масса делится по долям участков.'}</span></p>
    <div id="dpv" style="margin-top:8px"></div>
    <div class="rpfoot">${p.dp&&p.dp[rc]?'<button class="btn" id="dpdel">Убрать перевозку</button>':''}<span style="flex:1"></span><button class="btn" onclick="document.getElementById('dlgbg').classList.remove('on')">Отмена</button><button class="btn pri" id="dpok">Сохранить</button></div>`,true);
   $('#dpm').oninput=e=>{d.m=parseFloat(String(e.target.value).replace(/\s/g,'').replace(',','.'))||0;draw()};
   $('#dpcls').onchange=e=>{d.cls=+e.target.value;draw()};$('#dpvc').onchange=e=>{const [v,cp]=e.target.value.split('|');d.veh=v;d.cap=cp;draw()};
-  $('#dpadd').onclick=()=>{d.seg.push({road:+d.seg[0].road===2?1:2,km:''});draw()};
-  $('#dpok').onclick=()=>{const seg=d.seg.map(s=>({road:+s.road,km:Math.round(+s.km||0)})).filter(s=>s.km>0);if(!seg.length)return toast('Укажите расстояние');if(!(+d.m>0))return toast('Укажите массу единицы, т');
-    const o={veh:d.veh,cap:d.cap,cls:+d.cls||1,m:+d.m,road:seg[0].road,km:seg.reduce((a,s)=>a+s.km,0)};if(seg.length>1)o.seg=seg;
+  $('#dpadd').onclick=()=>{if(d.legs)d.legs.push({mode:'auto',road:2,km:''});else d.seg.push({road:+d.seg[0].road===2?1:2,km:''});draw()};
+  $('#dpfull').oninput=e=>{d.full=parseFloat(String(e.target.value).replace(/\s/g,'').replace(',','.'))||0;draw()};
+  $('#dpmix').onchange=e=>{if(e.target.checked)d.legs=d.legs0||DP_LEGS0();else{d.legs0=d.legs;delete d.legs}p.dp=p.dp||{};const keep=p.dp[rc];p.dp[rc]=d;dpOpen(p,rc);if(keep)p.dp[rc]=keep;else{delete p.dp[rc];if(!Object.keys(p.dp).length)delete p.dp}};
+  $('#dpok').onclick=()=>{const full=+d.full>0?+d.full:0;if(!(+d.m>0)&&!full)return toast('Укажите массу единицы или массу комплекта, т');let o;
+    if(d.legs){const L=d.legs.map(l=>l.mode==='rail'?{mode:'rail',rg:l.rg||'',km:Math.round(+l.km||0)}:{mode:'auto',road:+l.road,km:Math.round(+l.km||0)}).filter(l=>l.km>0);
+      if(!L.length)return toast('Укажите расстояние плеч');if(L.some(l=>l.mode==='rail'&&!l.rg))return toast('Выберите группу груза для плеча по железной дороге');
+      o={veh:d.veh,cap:d.cap,cls:+d.cls||1,m:+d.m||0,road:2,km:L.reduce((a,l)=>a+l.km,0),legs:L}}
+    else{const seg=d.seg.map(s=>({road:+s.road,km:Math.round(+s.km||0)})).filter(s=>s.km>0);if(!seg.length)return toast('Укажите расстояние');
+      o={veh:d.veh,cap:d.cap,cls:+d.cls||1,m:+d.m||0,road:seg[0].road,km:seg.reduce((a,s)=>a+s.km,0)};if(seg.length>1)o.seg=seg}
+    if(full)o.full=full;
     p.dp=p.dp||{};p.dp[rc]=o;$('#dlgbg').classList.remove('on');commit();toast('Перевозка сверх 30 км добавлена')};
   const dl=$('#dpdel');if(dl)dl.onclick=()=>{delete p.dp[rc];if(!Object.keys(p.dp).length)delete p.dp;$('#dlgbg').classList.remove('on');commit()};
   draw()}
@@ -6712,7 +7264,9 @@ function renderDock(){
   const seg=[['ОТ',T.ot,'var(--ot)'],['ЭМ',T.em,'var(--em)'],['М',T.mat,'var(--m)'],['Оборудование',T.ob||0,'var(--nr)'],['Перевозка',T.per||0,'var(--brand)'],['НР',T.nr,'var(--nr)'],['СП',T.sp,'var(--sp)']];
   $('#stack').innerHTML=seg.map(([l,v,c])=>`<i title="${l}: ${fmt(v)} ₽" style="width:${T.total?v/T.total*100:0}%;background:${c}"></i>`).join('')||'';
   if(!T.total)$('#stack').innerHTML='';
-  tween($('#gtot'),S.nds?T.all:T.total,'g',' <small>₽</small>');
+  if(prLoading()&&T.total){shown.g=0;$('#gtot').innerHTML='<span class="gload">загрузка цен…</span>';$('#gtot').title='Цены квартала догружаются, итог появится через несколько секунд';
+    $('#ndslabel').textContent='итог появится после загрузки цен квартала';$('#ndsv').textContent='';return}
+  $('#gtot').title='';tween($('#gtot'),S.nds?T.all:T.total,'g',' <small>₽</small>');
   $('#ndslabel').textContent=(S.nds?`без НДС ${fmt(T.total)} ₽`:'без НДС')+(T.mka?` · в т. ч. материалы по КА ${fmt(T.mka)} ₽`:'');
   $('#ndsv').textContent=S.nds?`НДС ${B.nds}%: ${fmt(T.nds)} ₽`:'';
 }
@@ -6838,7 +7392,7 @@ if(splitX())splitX().list().then(a=>{for(const s of a)splitReg(s);if(a.length){r
 migrateOld();setSaveChip();{const last=lsGet(SKL);const shared=location.hash.startsWith(SHARE_PREFIX);(last&&location.hash!=='#sample'?openDoc(last,true):Promise.resolve()).finally(()=>{if(shared)takeShared();else if(location.hash.startsWith('#k1.'))takeKey();else if(location.hash.startsWith('#pf1.'))pfShowLink();else if(SVC.diy&&diyMode())setTimeout(()=>{if(!$('#dlgbg').classList.contains('on'))openDiy()},700);if(cloudKey())cloudSync();tabsRestore();setTimeout(cabStart,1500)})}
 render=calcScope(render);renderTable=calcScope(renderTable);renderInsp=calcScope(renderInsp);renderDock=calcScope(renderDock);totals=calcScope(totals);
 lsrModel=calcScope(lsrModel);lsrModelGrand=calcScope(lsrModelGrand);ks2Model=calcScope(ks2Model);osrModel=calcScope(osrModel);ssrModel=calcScope(ssrModel);checkSmeta=calcScope(checkSmeta);resModel=calcScope(resModel);davList=calcScope(davList);
-window.__app={PD_CUT,renderDiy,rmSplit,RM_T,req,party,today,palList,pfNpos,dyCur,cabStart,cabOn,cabCount,kvSync,fileSync,cloudSync,mg3,allZip,restOpen,obfGet,obfPut,msGet,cabH,get kvSt(){return kvSt},get fSt(){return fSt},ksSnap,ks3Model,ksHasWork,renderActs,obfEvents,openAnswers,ansAll,ansHarvest,ansMatch,ansHint,ansAiHint,ansSet,ansAddFiles,ansRows,ansRender,ansGet,ansKey,get ANF(){return ANF},openKpBase,kpbAdd,kpbAll,kpbHarvest,kpbMatch,kpbCand,kpbTake,kpbHint,kaNew,openKA,openObject,stDel,obfDelNote,obfDelFile,obfAdd,obfNote,obfEvents,obfData,obfZip,obfRender,get OBF(){return OBF},stroyList,docSetPlace,openExamples,exLoad,exRows,exTpl,exUse,exList,get EXF(){return EXF},get EXD(){return EXD},newDocRaw,openCabinet,meLoad,myHash,meApplyZone,defZone,reqMine,meLink,meInit,meAvatar,openSvc,svcApply,svcChoose,svcToggle,svcGrant,svcGate,svcAsk,svcNeedAsk,svcPal,svcFilePreview,SVC_DEF,SVC_SETS,SVC0,openDiy,dyParse,dyParseLine,dyAnalyze,dyNorms,dyData,dyNew,dyRun,dyWord,dyMsg,diyMode,diySetMode,dyMatch,DY_SAMPLE,dyN:()=>DYN,openPortfolio,pfData,pfInfo,pfPack,pfLink,pfHtml,pfShowLink,pfView,openFreelance,flData,flSum,flFormula,flExamples,flDoc,flKpi,openFeed,fdDocs,fdAffected,fdDetail,fdImpact,fdCopies,fdItems,fdNext,fdXlsx,fdData:()=>FD,openPriceHist,phSeries,phPrice,phAllRegions,phXlsx,phWatch,phData:()=>PH,openRequarter,rqRun,rqStats,rqRes,rqApply,rqXlsx,rqData:()=>RQ,openRemarks,rmParse,rmData,openMeasure,msParse,msData,openNonorm,nnData,nnCost,nnUnitTotal,nnText,nnPut,openCompare,cmpCalc,cmpDiff,cmpRows,cmpLoad,cmpXlsx,openCoefs,kdGroups,kdEffect,kdText,openAddwork,awData,awRows,awSum,awMake,awXlsx,awAgreement,msToVor,msWord,msFormula,msVal,openContract,renderContract,ctModel,ctXlsx,SVC,openActs,bimx,ncsCalc,ncsSample,pirCalc,pirHtml,pirXlsx,pirSample,openOsr,renderOsr,nmckCalc,rubWords,nmckXlsx,setLsrView,setLsrRes,openExpert,expx,openSplit,splitReg,useSplit,SPL,get split(){return splitX()},osSample,ST,lsrModel,lsrModelGrand,osrModel,ssrModel,resModel,checkSmeta,ks2Model,fopt,mrNew,eqNew,kaNew,makePR,ensurePR,setZone,setLevel,prKey,get S(){return S},get xml(){return xmlx()},totals,calc,sample,B,ensureReal,nrCode,nrFull,sampleLesson,loadDoc,setBase:v=>setBase(v),renderTable,renderInsp,renderDock,syncRibbon};
+window.__app={PD_CUT,knDefRS,KN_V,prLoading,ctFixed,ctFixOk,pirKv,pirKIn,KN_W,knData,knItems,knTot,knGeo,knNorms,knOpen,renderKn,knImport,knFind,knBuy,knWord,rmQm,dpCalc,railSet,ensureTR,trSet,rcv,renderDiy,rmSplit,RM_T,req,party,today,palList,pfNpos,dyCur,cabStart,cabOn,cabCount,kvSync,fileSync,cloudSync,mg3,allZip,restOpen,obfGet,obfPut,msGet,cabH,get kvSt(){return kvSt},get fSt(){return fSt},ksSnap,ks3Model,ksHasWork,renderActs,obfEvents,openAnswers,ansAll,ansHarvest,ansMatch,ansHint,ansAiHint,ansSet,ansAddFiles,ansRows,ansRender,ansGet,ansKey,get ANF(){return ANF},openKpBase,kpbAdd,kpbAll,kpbHarvest,kpbMatch,kpbCand,kpbTake,kpbHint,kaNew,openKA,openObject,stDel,obfDelNote,obfDelFile,obfAdd,obfNote,obfEvents,obfData,obfZip,obfRender,get OBF(){return OBF},stroyList,docSetPlace,openExamples,exLoad,exRows,exTpl,exUse,exList,get EXF(){return EXF},get EXD(){return EXD},newDocRaw,openCabinet,meLoad,myHash,meApplyZone,defZone,reqMine,meLink,meInit,meAvatar,openSvc,svcApply,svcChoose,svcToggle,svcGrant,svcGate,svcAsk,svcNeedAsk,svcPal,svcFilePreview,SVC_DEF,SVC_SETS,SVC0,openDiy,dyParse,dyParseLine,dyAnalyze,dyNorms,dyData,dyNew,dyRun,dyWord,dyMsg,diyMode,diySetMode,dyMatch,DY_SAMPLE,dyN:()=>DYN,openPortfolio,pfData,pfInfo,pfPack,pfLink,pfHtml,pfShowLink,pfView,openFreelance,flData,flSum,flFormula,flExamples,flDoc,flKpi,openFeed,fdDocs,fdAffected,fdDetail,fdImpact,fdCopies,fdItems,fdNext,fdXlsx,fdData:()=>FD,openPriceHist,phSeries,phPrice,phAllRegions,phXlsx,phWatch,phData:()=>PH,openRequarter,rqRun,rqStats,rqRes,rqApply,rqXlsx,rqData:()=>RQ,openRemarks,rmParse,rmData,openMeasure,msParse,msData,openNonorm,nnData,nnCost,nnUnitTotal,nnText,nnPut,openCompare,cmpCalc,cmpDiff,cmpRows,cmpLoad,cmpXlsx,openCoefs,kdGroups,kdEffect,kdText,openAddwork,awData,awRows,awSum,awMake,awXlsx,awAgreement,msToVor,msWord,msFormula,msVal,openContract,renderContract,ctModel,ctXlsx,SVC,openActs,bimx,ncsCalc,ncsSample,pirCalc,pirHtml,pirXlsx,pirSample,openOsr,renderOsr,nmckCalc,rubWords,nmckXlsx,setLsrView,setLsrRes,openExpert,expx,openSplit,splitReg,useSplit,SPL,get split(){return splitX()},osSample,ST,lsrModel,lsrModelGrand,osrModel,ssrModel,resModel,checkSmeta,ks2Model,fopt,mrNew,eqNew,kaNew,makePR,ensurePR,setZone,setLevel,prKey,get S(){return S},get xml(){return xmlx()},totals,calc,sample,B,ensureReal,nrCode,nrFull,sampleLesson,loadDoc,setBase:v=>setBase(v),renderTable,renderInsp,renderDock,syncRibbon};
 if(location.hash==='#sample')sample();
 try{const nt=!localStorage.getItem('rimora.tour')&&!location.hash;if(SVC_ASK)setTimeout(()=>svcAsk(()=>{if(nt)tour()}),700);else if(nt)setTimeout(tour,700)}catch(e){}
 })();
