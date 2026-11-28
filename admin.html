@@ -127,7 +127,10 @@ dialog::backdrop{background:rgba(18,26,36,.35)}
 
 <script>
 (() => {
-const API = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) ? 'http://127.0.0.1:8794' : 'https://rimora.45-10-244-45.sslip.io';
+// адрес сервера: ?api=адрес (только локальный стенд) или sm_cloud_url, как у программы; иначе локальный или боевой
+const API = (() => { const L = /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
+  try { const q = new URLSearchParams(location.search).get('api'); if (L && q) localStorage.setItem('sm_cloud_url', q.replace(/\/+$/, '')); if (!L) localStorage.removeItem('sm_cloud_url'); const u = L ? localStorage.getItem('sm_cloud_url') : ''; if (u) return u; } catch (e) {}
+  return L ? 'http://127.0.0.1:8794' : 'https://rimora.45-10-244-45.sslip.io'; })();
 const SITE = 'https://acerkill-wq.github.io/rimora-9508/';
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
